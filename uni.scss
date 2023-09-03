@@ -1,0 +1,220 @@
+$FILE_BASE_URL:'https://file.aikbao.com';
+
+//公用样式
+page{
+	height: 100%;
+	background-color: #F7F7F7;
+}
+.overflow2{
+	//两行省略号
+	word-break: break-all;
+	text-overflow: -o-ellipsis-lastline;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+.overflow1{
+	overflow: hidden;/*超出部分隐藏*/
+	white-space: nowrap;/*不换行*/
+	text-overflow:ellipsis;/*超出部分文字以...显示*/
+}
+.overflow3{
+	//3行省略号
+	word-break: break-all;
+	text-overflow: -o-ellipsis-lastline;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	line-clamp: 3;
+	-webkit-box-orient: vertical;
+}
+.mask{
+	background-color: rgba(0,0,0,.6);
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top:0;
+	left:0;
+	z-index: 999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.centerAll{/*上下左右都居中*/
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+	
+@mixin dflex($justify,$align) {    //继承
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin dw($pos,$top,$right,$bottom,$left) {    //继承
+  position: $pos;
+  left: $left;
+  right: $right;
+  top: $top;
+  bottom: $bottom;
+}
+
+%psa5 {    //使用% 声明的代码块，如果不被@extend调用的话就不会被编译。编译出来的代码会将相同的代码合并在一起
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.ag{   //举例
+  @extend %psa5;
+  @include dflex(center,center);
+  // @include dw($pos,$top,$right,$bottom,$left);
+}
+
+::-webkit-scrollbar {  //scroll-view 隐藏滚动条
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.allBg{
+	height: 100%;
+	background-color: #F7F7F7;
+}
+.bgBox{
+	height: 100%;
+	background: #fff;
+}
+
+.bg{
+  background: #F7F7F7;
+  width: 100%;
+  height: 100%;
+  //position: absolute;
+  position: fixed;
+}
+
+.whiteBg{ 
+	background: #fff;
+}
+
+.w100{ width: 100%; }
+
+.flex{display: flex;}
+
+.img28{
+	width:28upx;
+	height: 28upx;
+	vertical-align: middle;
+	margin-right: 6upx;
+	margin-top: -4upx;
+}
+.icon28{
+	width: auto;
+	height: 28upx;
+	vertical-align: middle;
+	margin-right: 6upx;
+	margin-top: -4upx;
+}
+
+.mt20{
+	margin-top: 20upx;
+}
+.mb20{
+	margin-bottom: 20upx;
+}
+
+.goTop{  //返回顶部
+	border-radius: 100%;
+	@include dw(fixed,null,28upx,186upx,null);
+	z-index: 9;
+	width: 80upx;
+	height: 80upx;
+	.goTop-img{
+		width: 100%;
+		height: 100%;
+	}
+}
+
+//scroll-view自适应页面剩余高度
+.flexBox{
+	display: flex;
+  flex-direction:column;
+  height:100%;     /*高度必须指定*/
+  overflow:hidden;
+}
+.boxScroll {
+ flex: 1;
+ overflow: scroll;   /*必须写这一条*/
+ height: 1px;
+}
+
+.blackBg{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,.4);
+	z-index: 199;
+}
+
+
+// 商品列表
+.goodsItem{
+		@include dflex(flex-start,center);
+		margin-bottom: 16upx;
+		.goodsImg{
+			width: 240upx;
+			height: 240upx;
+			margin-right: 24upx;
+			border-radius: 10upx;
+		}
+		.goodsMsg{
+			@include dflex(space-between,null);
+			flex-direction: column;
+			flex: 1;
+			height: 240upx;
+			padding: 10upx 0;
+			box-sizing: border-box;
+			.goodsMsg-top{
+				h2{
+					font-size: 32upx;
+					font-weight: bold;
+					margin-bottom: 6upx;
+				}
+				.goods-sal{
+					font-size: 24upx;
+					color: #666;
+				}
+			}
+			
+			.goodsMsg-foot{
+				@include dflex(space-between,center);
+				.foot-lf{
+					font-size: 26upx;
+					color: #FF3445;
+					.big{
+						font-size: 40upx;
+					}
+					.gray{
+						color: #999;
+						text-decoration: line-through;
+						margin-left: 2upx
+					}
+				}
+				.foot-rf{
+					width: 60upx;
+					height: 60upx;
+				}
+					
+			}
+		}
+	}

@@ -1,0 +1,39 @@
+
+.containBox{
+	padding: 24upx 24upx 0;
+	.menu{
+		@include dflex(space-around,center);
+		background: #FFD3C9;
+		padding: 20upx 0;
+		margin-bottom: 20upx;
+		border-radius: 12upx;
+		.item{
+			@include dflex(center,center);
+			flex-direction: column;
+			font-size: 26upx;
+			color: #3e3e3e;
+			.itemImg{
+				width: 80upx;
+				height: 80upx;
+				margin-bottom: 10upx;
+			}		  		
+		}
+	}
+	
+	.tZan{
+			color:#333333;
+			font-size: 34upx;
+			font-weight: bold;
+			@include dflex(center,center);
+			margin: 20upx 0 35upx;
+			.icon{
+				width: 38upx;
+				height: 36upx;
+				margin-right: 12upx;
+			}
+	}
+	
+}
+
+
+
