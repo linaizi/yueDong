@@ -1,3 +1,141 @@
 .myCart-top{
+	@include dflex(space-between,center);
+	height: 70upx;
+	padding: 0 20upx;
 	font-size: 26upx;
+	color:#999;
+	background: #fff;
+	margin-bottom: 20upx;
+	p{
+		font-size: 28upx;
+		color:#333;
+		padding: 15upx;
+	}
 }
+
+.noGood{
+	position: fixed;
+	top:50%;
+	left: 50%;
+	transform: translate(-50%,-80%);
+	.noGood-img{
+		width: 334upx;
+		height: 147upx;
+	}
+	p{
+		font-size: 30upx;
+		color:#333333;
+		text-align: center;
+		margin-top: 15upx;
+	}
+}
+
+.myCartList{
+	background: #fff;
+	.myCartItem{
+		@include dflex(null,center);
+		padding-left: 20upx;	
+		.itemRt{
+			@include dflex(null,null);
+			margin-left: 22upx;
+			flex: 1;
+			border-bottom: 2upx solid #E2E2E2;
+			padding: 28upx 0;
+			.rt-Img{
+				width: 160upx;
+				height: 160upx;
+				border-radius: 8upx;
+			}
+			.rt-mid{
+				height: 160upx;
+				margin-left: 28upx;
+				flex:1;
+				@include dflex(space-between,null)
+				flex-direction: column;
+				.mid-name{
+					font-size: 28upx;
+					color:#333;
+					width: 370upx;
+				}
+				.mid-gz{
+					flex:1;
+					margin-top: 12upx;
+					font-size: 24upx;
+					color:#999;
+				}
+				.mid-price{
+					@include dflex(space-between,center);
+					padding-right:28upx;
+					
+				}
+			}
+		}
+		&:last-child{
+			.itemRt{
+				border: none;
+			}
+		}
+	}
+}
+
+.circle{
+	width: 38upx;
+	height: 38upx;
+	border-radius: 50%;
+	border: 2upx solid #8f8f8f;
+}
+
+.myCart-foot{
+	position: fixed;
+	left: 0;
+	bottom: 100upx;
+	width: 100%;
+	box-sizing: border-box;
+	background: #fff;
+	@include dflex(space-between,center);
+	height: 110upx;
+	padding: 0 30upx 0 50upx;
+	border-top: 2upx solid #E2E2E2;
+	box-shadow: 0 0 2upx #E2E2E2;
+	.foot-lt{
+		@include dflex(null,center);
+		.lt-span{
+			font-size: 24upx;
+			color:#333333;
+			margin-left: 8upx;
+		}
+		.red{
+			font-size: 28upx;
+			color:#FF4544;
+			margin-left: 20upx;
+		}
+	}
+	
+	.foot-rt{
+		background: #989898;
+		width: 250upx;
+		height: 80upx;
+		text-align: center;
+		line-height: 80upx;
+		color:#fff;
+		font-size: 30upx;
+		border-radius: 100upx;
+	}
+	.foot-rt-act{
+		background: #FF4544;
+	}
+}
+
+ // <view class="myCart-foot">
+	// 	<view class="foot-lt">
+	// 		<view class="circle"></view>全选
+	// 		<span>总计：￥{{totalMoney}}</span>
+	// 	</view>
+	// 	<view class="foot-rt">去结算</view>
+ // </view>
+
+// /deep/.uniNum{
+// 	.uni-numbox-btns{
+// 		background: red!important;
+// 	}
+// }

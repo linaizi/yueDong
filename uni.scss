@@ -187,11 +187,11 @@ page{
 			.goodsMsg-top{
 				h2{
 					font-size: 32upx;
-					font-weight: bold;
+					font-weight: normal;
 					margin-bottom: 6upx;
 				}
 				.goods-sal{
-					font-size: 24upx;
+					font-size: 22upx;
 					color: #666;
 				}
 			}
@@ -199,10 +199,10 @@ page{
 			.goodsMsg-foot{
 				@include dflex(space-between,center);
 				.foot-lf{
-					font-size: 26upx;
+					font-size: 24upx;
 					color: #FF3445;
 					.big{
-						font-size: 40upx;
+						font-size: 38upx;
 					}
 					.gray{
 						color: #999;
