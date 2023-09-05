@@ -143,6 +143,14 @@ page{
 	}
 }
 
+// 导航栏
+.uni-navbar--border /deep/{
+	border:none!important;
+}
+.uni-nav-bar-text /deep/{
+	font-size: 32upx!important;
+}
+
 //scroll-view自适应页面剩余高度
 .flexBox{
 	display: flex;

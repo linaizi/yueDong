@@ -85,7 +85,7 @@
       height: 50upx;
    }
    .item-txt{
-		 font-size: 24upx;
+		 font-size: 22upx;
 		 color:#000000;
 	 }
 	 .item-txt-act{

@@ -1,0 +1,32 @@
+.mineBox{
+	background: #F7F7F7 url("../../static/img/mime1.jpg") no-repeat fixed;
+	background-size: 100%;
+	height: 100%;
+	
+	.top{
+		padding: 36upx 0 0 24upx;
+		@include dflex(space-between,center);
+		.top-lt{
+			@include dflex(null,center);
+			.headImg{
+				width: 120upx;
+				height: 120upx;
+			}
+			p{
+				font-size: 30upx;
+				color:#fff;
+				border-radius: 100upx;
+				border:2upx solid #fff;
+				padding: 10upx 25upx;
+				margin-left: 20upx;
+			}
+		}
+	}
+	// <view class="top">  20  15
+	// 	<view class="top-lt">
+	// 		<image class="headImg" :src="UserInfo.avatar ? UserInfo.avatar : '../../static/img/logo.jpg'"></image>
+	// 		 <p>立即登录</p>
+	// 	</view>
+	// 	<view class="top-rt">设置</view>
+	// </view>
+}

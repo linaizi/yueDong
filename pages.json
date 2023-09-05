@@ -31,9 +31,9 @@
 			"path": "pages/mine/mine",
 			"style": {
 				"enablePullDownRefresh": true,
-				"navigationStyle":"custom",   //新版小程序支持
+				"navigationStyle":"custom",  
 				"app-plus":{
-					"titleView":false  //app和h5配置
+					"titleView":false 
 				}
 			}
 		}

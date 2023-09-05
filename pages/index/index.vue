@@ -14,10 +14,10 @@
 						</view>
 					</view>
 					
-					<image src="../../static/index/index1.png" mode="widthFix" class="w100"></image>
+					<image src="../../static/img/index1.png" mode="widthFix" class="w100"></image>
 					
 					<view class="tZan">
-						<image class="icon" src="../../static/index/zan.png"></image>
+						<image class="icon" src="../../static/img/zan.png"></image>
 						<view>热门推荐</view>
 					</view>
 					
@@ -69,15 +69,15 @@
 		data() {
 			return {
 				swpArr: [
-					"../../static/index/swiper1.jpg",
-					"../../static/index/swiper2.jpg",
-					"../../static/index/swiper3.png",
+					"../../static/img/swiper1.jpg",
+					"../../static/img/swiper2.jpg",
+					"../../static/img/swiper3.png",
 				],
 				menuArr: [
-					{name:"门店列表", img:"../../static/index/menu1.png"},
-					{name:"使用帮助", img:"../../static/index/menu2.png"},
-					{name:"关于我们", img:"../../static/index/menu3.png"},
-					{name:"联系客服", img:"../../static/index/menu4.png"},
+					{name:"门店列表", img:"../../static/img/menu1.png"},
+					{name:"使用帮助", img:"../../static/img/menu2.png"},
+					{name:"关于我们", img:"../../static/img/menu3.png"},
+					{name:"联系客服", img:"../../static/img/menu4.png"},
 				],
 				
 				goodParams:{
@@ -85,10 +85,10 @@
 					pageSize:10
 				},
 				recommendArr:[
-					{name:"普通鞋类精选1双", img:"../../static/index/swiper1.jpg",newprice:19.9,oldprice:49.4,sales:129,qg:1},
-					{name:"高级鞋类精选三双", img:"../../static/index/swiper2.jpg",newprice:20,oldprice:76,sales:29,qg:3},
-					{name:"中级鞋类精选2双", img:"../../static/index/logo.jpg",newprice:13.9,oldprice:49,sales:89,qg:2},
-					{name:"中级鞋类修复", img:"../../static/index/swiper3.png",newprice:13.9,oldprice:49,sales:89,qg:1},
+					{name:"普通鞋类精选1双", img:"../../static/img/swiper1.jpg",newprice:19.9,oldprice:49.4,sales:129,qg:1},
+					{name:"高级鞋类精选三双", img:"../../static/img/swiper2.jpg",newprice:20,oldprice:76,sales:29,qg:3},
+					{name:"中级鞋类精选2双", img:"../../static/img/logo.jpg",newprice:13.9,oldprice:49,sales:89,qg:2},
+					{name:"中级鞋类修复", img:"../../static/img/swiper3.png",newprice:13.9,oldprice:49,sales:89,qg:1},
 				],
 				flag:false,
 				
