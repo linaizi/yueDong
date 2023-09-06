@@ -36,6 +36,16 @@
 					"titleView":false 
 				}
 			}
+		},
+		{
+			"path": "pages/personData/personData",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationStyle":"custom",  
+				"app-plus":{
+					"titleView":false 
+				}
+			}
 		}
 	],
 	"globalStyle": {

@@ -33,6 +33,18 @@
 				}
 				.goodsMsg{
 					height: 200upx;
+					.goodsMsg-top{
+						h2{
+							font-size: 28upx;
+						}
+					}
+					.goodsMsg-foot{
+						.foot-lf{
+							.big{
+								font-size: 30upx;
+							}
+						}
+					}
 				}
 			}
 		}

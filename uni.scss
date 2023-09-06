@@ -130,6 +130,7 @@ page{
 .mb20{
 	margin-bottom: 20upx;
 }
+.ml10{ margin-left: 10upx;}
 
 .goTop{  //返回顶部
 	border-radius: 100%;
@@ -148,7 +149,7 @@ page{
 	border:none!important;
 }
 .uni-nav-bar-text /deep/{
-	font-size: 32upx!important;
+	font-size: 30upx!important;
 }
 
 //scroll-view自适应页面剩余高度

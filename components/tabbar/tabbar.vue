@@ -21,10 +21,10 @@
          return {
             paddingBottomHeight: 0, //苹果X以上手机底部适配高度
             list: [
-							{ id:1, name:'首页', img1:"../../static/img/tab1.png", img2:"../../static/img/tab1-1.png", path: "/pages/index/index"},
-							{ id:2, name:'分类', img1:"../../static/img/tab2.png", img2:"../../static/img/tab2-1.png", path: "/pages/sort/sort"},
-							{ id:3, name:'购物车', img1:"../../static/img/tab3.png", img2:"../../static/img/tab3-1.png", path: "/pages/myCart/myCart"},
-							{ id:4, name:'我的', img1:"../../static/img/tab4.png", img2:"../../static/img/tab4-1.png", path: "/pages/mine/mine"},
+							{ id:1, name:'首页', img1:"../../static/img/tab1.jpg", img2:"../../static/img/tab1-1.jpg", path: "/pages/index/index"},
+							{ id:2, name:'分类', img1:"../../static/img/tab2.jpg", img2:"../../static/img/tab2-1.jpg", path: "/pages/sort/sort"},
+							{ id:3, name:'购物车', img1:"../../static/img/tab3.jpg", img2:"../../static/img/tab3-1.jpg", path: "/pages/myCart/myCart"},
+							{ id:4, name:'我的', img1:"../../static/img/tab4.jpg", img2:"../../static/img/tab4-1.jpg", path: "/pages/mine/mine"},
 						],
          };
       },
