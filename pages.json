@@ -46,6 +46,16 @@
 					"titleView":false 
 				}
 			}
+		},
+		{
+			"path": "pages/myOrder/myOrder",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationStyle":"custom",  
+				"app-plus":{
+					"titleView":false 
+				}
+			}
 		}
 	],
 	"globalStyle": {

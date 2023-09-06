@@ -1,5 +1,5 @@
 <template>
-	<view class="">
+	<view class="allBg">
 		
 	</view>
 </template>
