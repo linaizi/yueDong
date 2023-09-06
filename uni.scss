@@ -83,6 +83,10 @@ page{
     height: 0;
     color: transparent;
 }
+/* .class类名(view)::-webkit-scrollbar {
+	display: none;//去掉滚动条，不能滚动了；
+	width: 0;//可以滚动，且滚动条不显示；
+} */
 
 .allBg{
 	height: 100%;

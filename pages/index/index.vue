@@ -90,8 +90,8 @@
 					{name:"中级鞋类精选2双", img:"../../static/img/logo.jpg",newprice:13.9,oldprice:49,sales:89,qg:2},
 					{name:"中级鞋类修复", img:"../../static/img/swiper3.png",newprice:13.9,oldprice:49,sales:89,qg:1},
 				],
-				flag:false,
 				
+				flag:false,
 				contentText:{
 					contentdown: "上拉显示更多",
 					contentrefresh: "加载中...",

@@ -1,38 +1,15 @@
-	.pdlist-Box{
-		margin-top: -15upx;
-		border-radius: 20upx 20upx 0 0;
-		padding:30upx 25upx 20upx;
-		background: #fff;
+.order-top{
 		position: relative;
-	
+		display: flex;
 		.top-left{
-			height: 56upx;
 			white-space: nowrap;
 			width: 100%;
-			.top-left-span{
-				font-size: 28upx;
-				color: #333;
-				height: 56upx;
-				line-height: 56upx;
-				padding: 0 32upx;
-				display: inline-block;
-			}
-			.p-active{
-				background: #FF3445;
-				border-radius: 100upx;
-				color: #fff!important;
-			}
 		}
-}
-		
-	.order-top{
-		display: grid;
-		grid-template-columns: repeat(7,1fr);
-		overflow-x: scroll;
 		.topItem{
 			height: 90upx;
 			text-align: center;
 			width: 140upx;
+			display: inline-block;
 			span{
 				display: inline-block;
 				color: #333333;
@@ -55,7 +32,81 @@
 			}
 			
 		}
-		
 	}
+
+.ordre-main{
+	margin: 28upx;
+	background: #fff;
+	border-radius: 12upx;
+	box-shadow: 0 2upx 2upx rgba(153, 153, 153, .3);
+	padding: 0 28upx 28upx;
+	.main-top{
+		@include dflex(space-between,center);
+		border-bottom: 2upx solid #E5E5E5;
+		height: 70upx;
+		.top-lt,.top-rt{
+			color:#333;
+			font-size: 26upx
+		}
+	}
+	
+	.main-item{
+		@include dflex(space-between,null);
+		margin-top: 30upx;
+		.main-lt{
+			width: 160upx;
+			height: 160upx;
+		}
+		.item-mid{
+			flex:1;
+			margin-left: 20upx;
+			p{
+				color:#999;
+				font-size: 26upx;
+			}
+			.mid-p{
+				font-size: 28upx;
+				color:#333;
+				width: 320upx;
+				line-height: 1.8;
+			}
+		}
+		.main-rt{
+			margin-top: 70upx;
+			font-size: 24upx;
+			color:#333;
+		}
+	}
+	
+	.main-price{
+		font-size: 30upx;
+		color:#333;
+		text-align: right;
+		span{
+			font-size: 24upx;
+			color:#999;
+		}
+	}
+	
+	.mian-pay{
+		@include dflex(flex-end,null);
+		margin-top: 30upx;
+		.pay-btn{
+			@include dflex(center,center);
+			width: 120upx;
+			height: 60upx;
+			font-size: 28upx;
+			color:#333;
+			border:2upx solid #E2E2E2;
+			border-radius: 100upx;
+			margin-left: 20upx;
+			box-sizing: border-box;
+		}
+		.pay-fk{
+			background: linear-gradient(270deg, #FF3445 0%, #FD4903 100%);
+			color:#fff;
+		}
+	}
+}
 
 

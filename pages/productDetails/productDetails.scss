@@ -1,0 +1,307 @@
+page{
+	background-color: #F7F7F7;
+}
+
+.contentBox{
+	background-color: #F7F7F7;
+	.scrollBox{
+		position: fixed;
+		bottom: 250upx;
+		right:29upx;
+		width: 80upx;
+		height: 80upx;
+	}
+	.flex{
+		display: flex;
+	}
+	.overflow2{
+		//两行
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	.uni-padding-wrap{
+		width:100%;
+		height: 750upx;
+		position: relative;
+		.swiper{
+			height: 100%;
+			
+			.swiperBox{
+				width: 100%;
+				height: 100%;
+				.bannerImg{
+					width: 100%;
+					height: 100%;
+				}
+			}
+		}
+		.swiperMsg{
+			z-index: 9;
+			position: absolute;
+			bottom:29upx;
+			left:0;
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			padding:0 24upx;
+			box-sizing: border-box;
+			.numbox{
+				width: 74upx;
+				height: 42upx;
+				background: url($FILE_BASE_URL + '/20211227173311704');
+				background-size: 100% 100%;
+				text-align: center;
+				line-height: 42upx;
+				font-size: 24upx;
+				color:#fff
+			}
+			.picDowload{
+				width: 109upx;
+				height: 52upx;
+			}
+		}
+	}
+	.pd-Details{
+		// margin: 24upx;
+		box-sizing: border-box;
+		.goodsMsgBox{
+			background: #fff;
+			border-radius: 10upx;
+			padding: 20upx 20upx 30upx 24upx;
+			box-sizing: border-box;
+			.priceTop{
+				font-size: 24upx;
+				color: #F92E4F;
+			}
+			.priceBox{
+				justify-content: space-between;
+				align-items: flex-end;
+				font-size: 28upx;
+				color: #999;
+				margin-bottom: 15upx;
+				.leftPrice{
+					align-items: flex-end;
+					.icon{
+						font-size: 36upx;
+						color:#F92D4F;
+						line-height: 36upx;
+					}
+					.nowPrice{
+						font-size: 60upx;
+						font-weight: 800;
+						color:#F92D4F;
+						line-height: 60upx;
+					}
+					.couponIcon{
+						width: 72upx;
+						height:32upx;
+						margin:0 17upx 
+					}
+					.oldPrice{
+						margin-left: 10upx;
+						text-decoration: line-through;
+					}
+				}
+			}
+			.commission{
+				padding:10upx 20upx;
+				box-sizing: border-box;
+				background: #F8E1CE linear-gradient(90deg, #F9EADB 0%, #F8DFCB 100%);
+				font-size: 24upx;
+				color: #A34E2A;
+			}
+			.productNameBox{
+				margin:18upx 0;
+				font-size: 28upx;
+				color:#333;
+			}
+			.couponBox{
+				width: 700upx;
+				height: 140upx;
+				background: url($FILE_BASE_URL + '/20221231142031112') no-repeat;
+				background-size: 100% 100%;
+				padding:29upx 0 0 77upx;
+				box-sizing: border-box;
+				color: #A34E2A;
+				font-size: 20upx;
+				.couponMoney{
+					font-size: 28upx;
+					font-weight: 500;
+					align-items: flex-end;
+					.money{
+						font-size: 48upx;
+						line-height: 48upx;
+						margin:0 7upx 0 0upx
+					}
+				}
+			}
+		}
+		.shopBox{
+			background: #fff;
+			height: 98upx;
+			border-radius: 10upx;
+			font-size: 32upx;
+			color: #333;
+			font-weight: 600;
+			align-items: center;
+			padding-left: 20upx;
+			box-sizing: border-box;
+			margin:24upx 0;
+			.shopIcon{
+				width: 40upx;
+				height: 39upx;
+				margin-right: 19upx;
+			}
+		}
+		.pictureBox{
+			padding-bottom: 162upx;
+			.titleBox{
+				background: #fff;
+				padding:39upx 30upx 24upx 33upx;
+				box-sizing: border-box;
+				border-radius: 10upx 10upx 0 0;
+				justify-content: space-between;
+				.title{
+					font-size: 32upx;
+					color:#333;
+					font-weight: 600;
+				}
+				.rightBox{
+					font-size: 24upx;
+					color: #666;
+					align-items: center;
+					.upBtn{
+						width: 21upx;
+						height: 12upx;
+						margin-left: 7upx;
+					}
+					.upBtn-active{
+						transform: rotate(-180deg); 
+						-webkit-transform: rotate(-180deg);
+					}
+				}
+			}
+			.pictureList{
+				.picture{
+					width: 100%;
+				}
+			}
+		}
+	}
+	.btnBox{
+		position: fixed;
+		left:0;
+		bottom: 0;
+		width: 100%;
+		height: 108upx;
+		background: #fff;
+		padding: 0 20upx;
+		box-sizing: border-box;
+		
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		.btn-lbox{
+			font-size: 24upx;
+			color: #4B4B4B;
+			text-align: center;
+			line-height: 1;
+			width: 80upx;
+			&:first-child{ width: 64upx;}
+			.btnIcon{
+				width: 50upx;
+				height: 50upx;
+			}
+		}
+		.bottomBtnBox{
+			width: 270upx;
+			height: 88upx;
+			text-align: center;
+			line-height: 87upx;
+			font-size: 32upx;
+			color: #fff;
+			background: linear-gradient(290deg, #FF1B38 0%, #FF5900 100%);
+			border-radius: 200upx;
+		}
+		.bottomBtnBox1{
+			width: 540upx;
+			margin-left: 50upx;
+		}
+		.leftBtnBox{
+			background: #FFD45E;
+			position: relative;
+			color: #000000;
+			.leftBtnBox-btn{
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				opacity: 0;
+			}
+		}
+		.rightBtnBox{
+			width: 345upx;
+			background: linear-gradient(270deg, #FF9003 0%, #FF6A00 100%);
+		}
+	}
+	.btnBox1{
+		justify-content: flex-end;
+	}
+	
+	.pdt-foot{
+		width: 730upx;
+		position: fixed;
+		bottom: 0;
+		left: 10upx;
+		box-shadow: 0 0 8upx 0 rgba(0,0,0,0.23);
+		border-radius: 18upx 18upx 0 0;
+		background: #fff;
+		padding: 53upx 0 30upx;
+		z-index: 9;
+		.pdt-img{
+			position: absolute;
+			top: 13upx;
+			right: 10upx;
+			width: 50upx;
+			height: 50upx;
+		}
+		.pdt-hua{
+			margin: 0 auto;
+			width: 70%;
+			border-bottom: 2upx solid #F0F0F0;
+			font-size: 32upx;
+			color: #999;
+			padding: 0 0 22upx 25upx;
+			.hua-img{
+				width: 85upx;
+				height: 97upx;
+				vertical-align: middle;
+			}
+		}
+		.pdt-btm{
+			display: flex;
+			justify-content: center;
+			.btn-a{
+				width: 330upx;
+				height: 80upx;
+				text-align: center;
+				line-height: 79upx;
+				font-size: 28upx;
+				color: #fff;
+				border-radius: 200upx;
+				background: linear-gradient(270deg, #FF3445 0%, #FD4903 100%);
+				margin: 0 13upx;
+			}
+			.btn-r{
+				background: linear-gradient(270deg, #FF5000 0%, #FF9000 100%);
+			}
+		}
+	}
+
+}

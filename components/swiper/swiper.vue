@@ -8,7 +8,8 @@
 		indicator-color="rgba(255,255,255,0.67)" 
 		indicator-active-color="#FFFFFF" 
 		:duration="duration" 
-		circular="true">
+		circular="true"
+		>
 				<swiper-item v-for="(item,index) in dataInfo" :key="index" >
 						<image :src="item" mode="widthFix"></image>
 				</swiper-item>
