@@ -14,7 +14,7 @@
 			:refresher-enabled="isOpenRefresh" :refresher-triggered="triggered" @refresherpulling="onPulling"
 			@refresherrefresh="onRefresh"	@refresherrestore="onRestore" @refresherabort="onAbort" > 
 			
-				<view class="ordre-main" v-for="(i,index) in 10" :key="index">
+				<view class="ordre-main" v-for="(item,index) in 10" :key="index" @click="toOrderDetail(item)">
 					<view class="main-top">
 						<view class="top-lt">订单号：222222222222222222</view>
 						<view class="top-rt">已取消</view>
@@ -117,6 +117,12 @@
 							 this.listArr[i].width = data[i].width; //  scroll-view 子元素组件宽度
 					 }
 			  }).exec()
+			},
+			
+			toOrderDetail(){
+				uni.navigateTo({
+				    url: '/pages/orderDetail/orderDetail'
+				});
 			},
 			
 			listClick(i){

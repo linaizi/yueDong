@@ -38,24 +38,31 @@
 			}
 		},
 		{
-			"path": "pages/personData/personData",
-			"style": {
-				"enablePullDownRefresh": true,
-				"navigationStyle":"custom",  
-				"app-plus":{
-					"titleView":false 
-				}
-			}
+		 	"path": "pages/personData/personData",
+		 	"style" : {
+		 		"navigationBarTitleText": "个人资料",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
 		},
 		{
-			"path": "pages/myOrder/myOrder",
-			"style": {
-				"enablePullDownRefresh": true,
-				"navigationStyle":"custom",  
-				"app-plus":{
-					"titleView":false 
-				}
-			}
+		 	"path": "pages/myOrder/myOrder",
+		 	"style" : {
+		 		"navigationBarTitleText": "我的订单",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
+		},
+		{
+		 	"path": "pages/orderDetail/orderDetail",
+		 	"style" : {
+		 		"navigationBarTitleText": "订单详情",
+				"navigationBarBackgroundColor": "#FD444C",
+				"navigationBarTextStyle": "white",
+				"backgroundColor": "#ffffff"
+		 	}
 		}
 	],
 	"globalStyle": {
