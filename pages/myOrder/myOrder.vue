@@ -19,7 +19,7 @@
 						<view class="top-lt">订单号：222222222222222222</view>
 						<view class="top-rt">已取消</view>
 					</view>
-					<view class="main-item">
+					<view class="ordre-item">
 						<image src="../../static/img/good1.png" class="main-lt"></image>
 						<view class="item-mid">
 							<p class="mid-p overflow1">高级鞋类精选三双</p>
@@ -28,7 +28,7 @@
 						</view>
 						<view class="main-rt">￥81.90</view>
 					</view>
-					<view class="main-item">
+					<view class="ordre-item">
 						<image src="../../static/img/good1.png" class="main-lt"></image>
 						<view class="item-mid">
 							<p class="mid-p overflow1">高级鞋类精选三双</p>

@@ -50,33 +50,6 @@
 		}
 	}
 	
-	.main-item{
-		@include dflex(space-between,null);
-		margin-top: 30upx;
-		.main-lt{
-			width: 160upx;
-			height: 160upx;
-		}
-		.item-mid{
-			flex:1;
-			margin-left: 20upx;
-			p{
-				color:#999;
-				font-size: 26upx;
-			}
-			.mid-p{
-				font-size: 28upx;
-				color:#333;
-				width: 320upx;
-				line-height: 1.8;
-			}
-		}
-		.main-rt{
-			margin-top: 70upx;
-			font-size: 24upx;
-			color:#333;
-		}
-	}
 	
 	.main-price{
 		font-size: 30upx;
