@@ -38,6 +38,16 @@
 			}
 		},
 		{
+			"path" : "pages/productDetails/productDetails",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationStyle":"custom",   
+					"app-plus":{
+						"titleView":false  
+					}
+			}
+		},
+		{
 		 	"path": "pages/personData/personData",
 		 	"style" : {
 		 		"navigationBarTitleText": "个人资料",

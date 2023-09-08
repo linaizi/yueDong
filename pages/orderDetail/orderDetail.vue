@@ -80,12 +80,7 @@
 						<view class="qtBox">
 							<view class="qtBox-tt">图片上传：</view>
 							<view class="image-grid">
-							  <image src="../../static/img/good1.png" mode="widthFix" class="image"></image>
-							  <image src="../../static/img/swiper1.jpg" mode="widthFix" class="image"></image>
-							  <image src="../../static/img/index1.png" mode="widthFix" class="image"></image>
-							  <image src="../../static/img/good1.png" mode="widthFix" class="image"></image>
-							  <image src="../../static/img/swiper1.jpg" mode="widthFix" class="image"></image>
-							  <image src="../../static/img/index1.png" mode="widthFix" class="image"></image>
+							  <image v-for="(i,ind) in imgArr" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(index)"></image>
 							</view>
 						</view>
 					</view>
@@ -106,7 +101,14 @@
 		},
 		data() {
 			return {
-				
+				imgArr:[
+					"../../static/img/good1.png",
+					"../../static/img/swiper1.jpg",
+					"../../static/img/index1.png",
+					"../../static/img/good1.png",
+					"../../static/img/swiper1.jpg",
+					"../../static/img/index1.png"
+				]
 			}
 		},
 		onReady() {
@@ -127,6 +129,22 @@
 					}
 				});
 			},
+			
+			getImgIndex(index) { //图片预览
+				console.log(index);
+				//准备一个装图片路径的  数组imgs
+				let imgs = this.dataList.goods_gallery_urls.map(item => {
+					//只返回图片路径
+					return item
+				})
+				// console.log(imgs);
+				//调用预览图片的方法
+				uni.previewImage({
+					urls: imgs,
+					current: index
+				})
+			},
+			
 		}
 	}
 </script>

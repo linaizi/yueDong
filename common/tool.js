@@ -23,20 +23,6 @@ export function ToMini(wxMini) {
 	})
 }
 
-//返回平台logo Icon
-export function imgPlate(type) {
-	let obj = {
-		1:'../../static/icon/tbIcon.png',
-		2:'../../static/icon/jdLogo.png',
-		3:'../../static/icon/pddLogo.png',
-		4:'../../static/icon/mtLogo.png',
-		5:'../../static/icon/wphIcon.png',
-		6:'../../static/icon/elmIcon.png',
-		9:'../../static/icon/dyIcon.png',
-	}
-	
-	return obj[type]
-}
 			
 //下载图片
 import { debounce } from "@/common/throttle.js"; //引入防抖节流函数
