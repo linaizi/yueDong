@@ -30,16 +30,19 @@
 			</view>
 		</view>
 		
-		
 		<Tabbar :id="4"></Tabbar>
+		<Ppkefu ref="kfchild"></Ppkefu>
+		
 	</view>
 </template>
 
 <script>
 	import Tabbar from "@/components/tabbar/tabbar.vue"
+	import Ppkefu from "@/components/ppkefu/ppkefu.vue"
 	export default {
 		components: {
 			Tabbar,
+			Ppkefu,
 		},
 		data() {
 			return {
@@ -73,14 +76,14 @@
 				  case 0:
 				    url='/pages/myOrder/myOrder'
 				    break;
+					case 1:
+						url='/pages/coupon/coupon'
+						break;
 					case 2:
 					  url='/packageA/activeChain/activeChain'
 					  break;
 					case 3:
-					  url='/packageA/browseRecords/browseRecords'
-					  break;
-					case 4:
-					  url='/packageA/teacherOrService/teacherOrService?type=1'
+					  this.$refs.kfchild.$refs.kfPopup.open();
 					  break;
 				} 	
 				

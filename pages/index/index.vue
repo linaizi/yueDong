@@ -8,7 +8,7 @@
 			
 				<view class="containBox">
 					<view class="menu">
-						<view class="item" v-for="(item,index) in menuArr" :key="index">
+						<view class="item" v-for="(item,index) in menuArr" :key="index" @click="menuClick(index)">
 							<image :src="item.img" mode="widthFix" class="itemImg"></image>
 							{{item.name}}
 						</view>
@@ -52,6 +52,8 @@
 			
 		 <Tabbar :id="1"></Tabbar>
 		 <Ppcar :ppCarData="ppCarData" ref="child"></Ppcar>
+		 <Ppkefu ref="kfchild"></Ppkefu>
+		 
 	</view>
 </template>
 
@@ -59,12 +61,14 @@
 	import Swiper from "@/components/swiper/swiper.vue"
 	import Tabbar from "@/components/tabbar/tabbar.vue"
 	import Ppcar from "@/components/ppcar/ppcar.vue"
+	import Ppkefu from "@/components/ppkefu/ppkefu.vue"
 	import { priceHander } from '@/common/tool.js'
 	export default {
 		components: {
 			Swiper,
 			Tabbar,
-			Ppcar
+			Ppcar,
+			Ppkefu,
 		},
 		data() {
 			return {
@@ -109,7 +113,6 @@
 			}
 		},
 		onReady() {
-			
 			this.initData()
 			this.initGoods()
 		},
@@ -118,11 +121,25 @@
 			
 			initGoods(){},
 			
+			menuClick(i){
+				switch(i) {
+				  case 0:
+				    break;
+					case 1:
+					  break;
+					case 2:
+					  break;
+					case 3:
+					  this.$refs.kfchild.$refs.kfPopup.open();
+					  break;
+				} 
+			},
+			
 			openCar(i){
 				this.ppCarData = i;
 				this.ppCarData.numberValue=i.qg;
 				this.ppCarData.minSale=i.qg;	
-				this.$refs.child.$refs.popup.open('bottom')
+				this.$refs.child.$refs.popup.open()
 			},
 			
 			priceHander,

@@ -57,10 +57,10 @@
 				actNum:0,
 				
 				recommendArr:[
-					{name:"普通鞋类精选1双", img:"../../static/index/swiper1.jpg",newprice:19.9,oldprice:49.4,sales:129,qg:1},
-					{name:"高级鞋类精选三双", img:"../../static/index/swiper2.jpg",newprice:20,oldprice:76,sales:29,qg:3},
-					{name:"中级鞋类精选2双", img:"../../static/index/logo.jpg",newprice:13.9,oldprice:49,sales:89,qg:2},
-					{name:"中级鞋类修复中级鞋类修复中级鞋类修复中级鞋类修复", img:"../../static/index/swiper3.png",newprice:13.9,oldprice:49,sales:89,qg:1},
+					{name:"普通鞋类精选1双", img:"../../static/img/swiper1.jpg",newprice:19.9,oldprice:49.4,sales:129,qg:1},
+					{name:"高级鞋类精选三双", img:"../../static/img/swiper2.jpg",newprice:20,oldprice:76,sales:29,qg:3},
+					{name:"中级鞋类精选2双", img:"../../static/img/logo.jpg",newprice:13.9,oldprice:49,sales:89,qg:2},
+					{name:"中级鞋类修复中级鞋类修复中级鞋类修复中级鞋类修复", img:"../../static/img/swiper3.png",newprice:13.9,oldprice:49,sales:89,qg:1},
 				],
 				
 				//scroll-view

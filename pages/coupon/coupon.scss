@@ -1,0 +1,47 @@
+.cpon-top{
+	@include dflex(space-around,center);
+	box-shadow: 0 2upx 6upx rgba(0, 0, 0, .1);
+	background: #fff;
+	.top-item{
+		width: 170upx;
+		height: 90upx;
+		@include dflex(center,center);
+		font-size: 30upx;
+		color:#333;
+	}
+	.top-red{
+		color:#FD444C;
+		position: relative;
+		&:before{
+			content:"";
+			position:absolute;
+			background:#FF3445;
+			height:4upx;
+			width:100%;
+			left:0;
+			bottom: 0;
+		}
+	}
+}
+
+.aetBox{
+	margin: 0 28upx;
+	
+	.pjItem{
+		padding: 20upx;
+		border-radius: 12upx;
+		background: #fff;
+		margin-top: 20upx;
+		.item-sj{
+			background: #F7F7F7;
+			border-radius: 6upx;
+			margin-top: 10upx;
+			padding: 20upx 26upx;
+			font-size: 28upx;
+			color:#666666;
+			span{
+				color:#FD444C;
+			}
+		}
+	}
+}

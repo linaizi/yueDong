@@ -1,10 +1,11 @@
 <template>
 	<view class="allBg">
 		<view :style="{ height: iStatusBarHeight + 'px'}"></view>
+		
+		<image src="../../static/img/back.png" class="back" @click="back_"></image>
+		
 		<!-- <商品轮播图 -->
 		<view class="uni-padding-wrap">
-			<image src="../../static/img/back.png" class="back"></image>
-			
 			<swiper class="swiper" autoplay="true" interval="3000" circular="true" @change='swiperChange'>
 				<block v-for="(item,index) in swpArr" :key="index">
 					<swiper-item>
@@ -27,7 +28,7 @@
 		</view>
 		
 		<view class="pdBox">
-			<view class="pd-title">商品评价(2) <span>查看全部 ></span></view>
+			<view class="pd-title">商品评价(2) <span @click="toPj">查看全部 ></span></view>
 			<view class="pjItem">
 				<view class="item-top">
 					<image src="../../static/img/logo.jpg" class="top-img"></image>
@@ -101,9 +102,9 @@
 		
 		<uni-popup ref="hbPopup" >
 			<view class="hb-pp">
-				<view class="hb-img"><image src="https://file.aikbao.com/2023070714050925" class="w100" mode="widthFix"></image></view>
+				<view class="hb-img"><image src="https://file.aikbao.com/2023070714050925" :show-menu-by-longpress="true" class="w100" mode="widthFix"></image></view>
 				<uni-icons type="close" size="33" color="#fff" @click="closeHb" class="hbClose"></uni-icons>
-				<view class="hbtxt" click="preservationImg(0,'https://file.aikbao.com/2023070714050925')">保存图片</view>
+				<view class="hbtxt" @click="preservationImg(0,'https://file.aikbao.com/2023070714050925')">保存图片</view>
 			</view>
 		</uni-popup>
 		
@@ -150,6 +151,12 @@
 			priceHander,
 			preservationImg,
 			
+			back_(){
+				uni.navigateBack({
+					delta:1
+				});
+			},
+			
 			swiperChange(e) {
 				this.swiperIndex = e.target.current
 			},
@@ -158,10 +165,16 @@
 				this.isShowImgBox = !this.isShowImgBox
 			},
 			
-			// 跳到主页
+			// 跳到主页  
 			goHomePage() {
 				uni.reLaunch({
 					url: '/pages/index/index'
+				});
+			},
+			
+			toPj(){
+				uni.navigateTo({
+				    url: '/pages/allEvaluations/allEvaluations'
 				});
 			},
 			

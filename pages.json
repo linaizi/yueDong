@@ -73,6 +73,24 @@
 				"navigationBarTextStyle": "white",
 				"backgroundColor": "#ffffff"
 		 	}
+		},
+		{
+		 	"path": "pages/allEvaluations/allEvaluations",
+		 	"style" : {
+		 		"navigationBarTitleText": "全部评价",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
+		},
+		{
+		 	"path": "pages/coupon/coupon",
+		 	"style" : {
+		 		"navigationBarTitleText": "我的优惠券",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
 		}
 	],
 	"globalStyle": {

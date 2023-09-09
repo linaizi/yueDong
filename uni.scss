@@ -271,3 +271,40 @@ page{
 	width: 100%;
 	height: auto;
 }
+
+
+// 商品详情-评价样式  全部评价
+.pjItem{
+	margin-top: 46upx;
+	.item-top{
+		@include dflex(space-between,center);
+		.top-img{
+			width: 60upx;
+			height: 60upx;
+			border-radius: 50%;
+		}
+		p{
+			font-size: 26upx;
+			color:#999;
+			margin-left: 26upx;
+		}
+		.top-p{ 
+			font-size: 28upx;
+			color:#666; 
+			flex:1; 
+		}
+	}
+	.item-txt{
+		font-size: 28upx;
+		color:#333;
+		margin: 26upx 0;
+	}
+	.item-gray{
+		margin-top: 26upx;
+		font-size: 26upx;
+		color:#999;
+	}
+}
+
+
+

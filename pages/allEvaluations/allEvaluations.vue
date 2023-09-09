@@ -1,6 +1,8 @@
 <template>
 	<view class="allBg flexBox">
-		 <view class="myCart-top">商品库存有限，请尽快下单  <p>编辑</p></view>
+		 <view class="aet-top">
+			 <span v-for="(i,index) in topArr" :key="index" :class="{'top-red':index==topId}" @click="topClick(index)">{{i.name}}({{i.num}})</span>
+		 </view>
 		 
 		 <scroll-view scroll-y="true" lower-threshold="50"
 		 	@scrolltolower="scrollLower" 
@@ -13,22 +15,31 @@
 		 	@refresherrefresh="onRefresh"
 		 	@refresherrestore="onRestore"
 		 	@refresherabort="onAbort" >
-				<view class="myCartList">
-					<view class="myCartItem" v-for="(item,index) in recommendArr" :key="index" >
-						<view class="circle"></view>
-						<view class="itemRt">
-							<image :src="item.img" class="rt-Img"></image>
-							<view class="rt-mid">
-								<view class="mid-name overflow2">{{item.name}}</view>
-								<view class="mid-gz">规格：默认</view>
-								<view class="mid-price">
-									{{item.newprice}}
-									<uni-number-box :value="numberValue" @change="change" background="#fff" class="uniNum" />
-								</view>
-							</view>
-							
+				
+				<view class="aetBox">
+					<view class="pjItem">
+						<view class="item-top">
+							<image src="../../static/img/logo.jpg" class="top-img"></image>
+							<p class="top-p">匿名用户</p>
+							<p>2023-08-09</p>
 						</view>
+						<view class="item-txt">阿斯顿发送到发是发</view>
+						<view class="image-grid" v-if="imgArr.length>0">
+						  <image v-for="(i,ind) in imgArr" :key="ind" :src="i" mode="widthFix" class="image"></image>
+						</view>
+						<view class="item-gray">规格：默认</view>
 					</view>
+					<view class="pjItem" v-for="(i,ind) in 10" :key="ind">
+						<view class="item-top">
+							<image src="../../static/img/logo.jpg" class="top-img"></image>
+							<p class="top-p">匿名用户</p>
+							<p>2023-08-09</p>
+						</view>
+						<view class="item-txt">阿斯顿发送到发是发</view>
+						<view class="item-gray">规格：默认</view>
+						<view class="item-sj"><span>商家：</span>阿斯顿发送到发是发阿斯顿发送到发是发阿斯顿发送到发是发阿斯顿发送到发是发阿斯顿发送到发是发</view>
+					</view>
+					
 				</view>
 				
 				<view v-show="isLoadMore" class="more_loading">  
@@ -36,47 +47,31 @@
 				</view>
 		 </scroll-view>
 		 
-		 <view class="noGood" v-if="noGshow">
-				<image src="../../static/img/myCart1.jpg" mode="widthFix" class="noGood-img"></image>
-				<p>购物车还是空的哦</p>
-		 </view>
-		 
-		 <view class="myCart-foot">
-				<view class="foot-lt">
-					<view class="circle"></view>
-					<span class="lt-span">全选</span>
-					<span class="red">总计: ￥{{totalMoney}}</span>
-				</view>
-				<view class="foot-rt foot-rt-act">去结算</view>
-		 </view>
-		 
 		 <view class="goTop" @click="toTop" v-if="flag">
 		 		<image src="../../static/img/gotop.png" mode="aspectFit" class="goTop-img"></image>
 		 </view>
 		 
-		  <Tabbar :id="3"></Tabbar>
-		
 	</view>
 </template>
 
 <script>
-	import Tabbar from "@/components/tabbar/tabbar.vue"
 	export default {
-		components: {
-			Tabbar,
-		},
+		
 		data() {
 			return {
-				recommendArr:[
-					{name:"普通鞋类精选1双", img:"../../static/img/swiper1.jpg",newprice:19.9,oldprice:49.4,sales:129,qg:1},
-					{name:"高级鞋类精选三双", img:"../../static/img/swiper2.jpg",newprice:20,oldprice:76,sales:29,qg:3},
-					{name:"中级鞋类精选2双", img:"../../static/img/logo.jpg",newprice:13.9,oldprice:49,sales:89,qg:2},
-					{name:"中级鞋类修复", img:"../../static/img/swiper3.png",newprice:13.9,oldprice:49,sales:89,qg:1},
+				topArr:[
+					{name:'全部', num:2},
+					{name:'图片', num:2},
+					{name:'好评', num:2},
+					{name:'中评', num:2},
+					{name:'差评', num:2}
 				],
-				noGshow:false,
-				totalMoney:0.00,
-				numberValue:1,
+				imgArr:[
+					"../../static/img/good1.png",
+					"../../static/img/index1.png",
+				],
 				
+				topId:0,
 				
 				flag:false,
 				contentText:{
@@ -97,6 +92,9 @@
 		
 		},
 		methods: {
+			topClick(i){
+				this.topId = i;
+			},
 			
 			scrollLower(){
 				if(!this.isLoadMore){  //此处判断，上锁，防止重复请求
@@ -152,5 +150,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'myCart.scss'
+	@import 'allEvaluations.scss'
 </style>
