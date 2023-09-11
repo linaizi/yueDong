@@ -16,13 +16,17 @@
 		 	@refresherrestore="onRestore"
 		 	@refresherabort="onAbort" >
 				
-				<view class="cponBox">
+				<view :class="['cponBox',{'cponItem-no':topId !== 0}]" >
 					<view class="cponItem">
 						<view class="item-lt">
 							<p class="lt-p">￥<span>15</span> </p>
 							<p>满65元可用</p>
 						</view>
-						<view class="item-md"></view>
+						<view class="item-md">
+							<view class="md-t">15元券 <span>代金券</span></view>
+							<view class="md-p">适用商品：普通鞋类</view>
+							<view class="md-p">有效期至：2023-12-09 14:40</view>
+						</view>
 						<view class="item-rt">去使用</view>
 					</view>
 				</view>

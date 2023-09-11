@@ -24,24 +24,68 @@
 	}
 }
 
-.aetBox{
-	margin: 0 28upx;
-	
-	.pjItem{
-		padding: 20upx;
+.cponBox{
+	margin: 0 24upx;
+	.cponItem{		 
+		height: 200upx;
 		border-radius: 12upx;
-		background: #fff;
-		margin-top: 20upx;
-		.item-sj{
-			background: #F7F7F7;
-			border-radius: 6upx;
-			margin-top: 10upx;
-			padding: 20upx 26upx;
-			font-size: 28upx;
-			color:#666666;
-			span{
-				color:#FD444C;
+		margin-top: 24upx;
+		border:2upx solid #E9BACA;
+		background: #FEEEF1;
+		@include dflex(center,center);
+		.item-lt{
+			border-right: 2upx solid #B39A8B;
+			padding-right: 35upx;
+			p{
+				font-size: 22upx;
+				color:#333;
+				text-align: center;
 			}
+			.lt-p{
+				font-weight: bold;
+				font-size: 40upx;
+				span{
+					font-size: 54upx;
+				}
+			}
+		}
+		.item-md{
+			margin: 0 22upx;
+			.md-t{
+				font-size: 30upx;
+				font-weight: bold;
+				color:#622740;
+				span{
+					background: #FD7492;
+					padding: 2upx 10upx;
+					font-weight: normal;
+					font-size: 22upx;
+					color:#fff;
+					border-radius: 100upx;
+					margin-left: 10upx;
+				}
+			}
+			.md-p{
+				font-size: 22upx;
+				color:#622740;
+				margin-top: 10upx;
+			}
+		}
+		.item-rt{
+			@include dflex(center,center);
+			width: 160upx;
+			height: 60upx;
+			font-size: 28upx;
+			color:#fff;
+			background:#FE5349;
+			border-radius: 100upx;
 		}
 	}
 }
+
+.cponItem-no{
+	.cponItem{
+		filter: grayscale(100%);
+	}
+}
+
