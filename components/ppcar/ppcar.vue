@@ -24,7 +24,7 @@
 				 </view>
 				 <view class="ppFoot">
 						<view class="ppFoot-btn">加入购物车</view>
-						<view class="ppFoot-btn ppFoot-btn-rt">立即购买</view>
+						<view class="ppFoot-btn ppFoot-btn-rt" @click="goBuy">立即购买</view>
 				 </view>
 			 </view>
 		</uni-popup>
@@ -47,6 +47,12 @@
 			
 			change(value) {
 				this.ppCarData.numberValue = value
+			},
+			
+			goBuy(){
+				uni.navigateTo({
+				    url: '/pages/buy/buy'
+				});
 			},
 		},
 	

@@ -91,6 +91,15 @@
 				"navigationBarTextStyle": "black",
 				"backgroundColor": "#ffffff"
 		 	}
+		},
+		{
+		 	"path": "pages/buy/buy",
+		 	"style" : {
+		 		"navigationBarTitleText": "结算",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
 		}
 	],
 	"globalStyle": {

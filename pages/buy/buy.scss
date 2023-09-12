@@ -1,0 +1,247 @@
+.topBox{
+	background: linear-gradient(180deg, #FC474E 0%, #F7F7F7 100%);
+	height: 310upx;
+	box-sizing: border-box;
+	padding: 22upx 22upx 0;
+	
+	.tab-t{
+		@include dflex(center,flex-end);
+		.t-item{
+			width: 50%;
+			background: #FFECED;
+			@include dflex(center,center);
+			color:#333;
+			font-size: 28upx;
+			border-radius: 12upx 0 0 0;
+			height: 66upx;
+			.t-img{
+				width: 38upx;
+				height: 36upx;
+				margin-right: 8upx;
+			}
+			&:last-child{
+				border-radius: 0 12upx 0 0;
+			}
+		}
+		.t-item-lt,.t-item-rt{
+			position: relative;
+			height: 90upx;
+			background: #fff;
+			&::after{
+				content: "";
+				position: absolute;
+				bottom: 0;
+				width: 0;
+				height: 0;
+			}
+		}
+		.t-item-lt{
+			border-radius: 16upx 20upx 0 0;
+			&::after{
+				right: -39upx;
+				border-left: 40upx solid #fff;
+				border-top: 78upx solid transparent;
+			}
+		}
+		.t-item-rt{
+			border-radius: 20upx 16upx 0 0!important;
+			&::after{
+				left: -39upx;
+				border-right: 40upx solid #fff;
+				border-top: 78upx solid transparent;
+			}
+		}
+	}
+	
+	.tab-form{
+		background: #fff;
+		padding: 0 24upx;
+		height: 190upx;
+		border-radius: 0 0 18upx 18upx;
+		/deep/.uni-forms-item--border{
+			padding: 14upx 0;
+		}
+		/deep/.uni-forms-item__label{
+			font-size: 30upx;
+			color:#333;
+			padding-left: 16upx;
+		}
+		/deep/.uni-forms-item__content{
+			@include dflex(center,flex-end);
+		}
+		.tab-ipt{
+			text-align: right;
+		}
+		
+		.form-noadr{
+			font-size: 30upx;
+			color:#666;
+			width: 100%;
+			height: 100%;
+			@include dflex(center,center);
+			span{ font-size: 38upx;}
+		}
+		.form-adr{
+			@include dflex(space-between,null);
+			padding-top: 38upx;
+			.adr-lt{
+				flex: 1;
+				.lt-t{
+					@include dflex(space-between,center);
+					font-size: 30upx;
+					color:#333;
+					span,p{
+						font-size: 28upx;
+						color:#999;
+					}
+					span{
+						flex: 1;
+						margin-left: 20upx;
+					}
+				}
+				.lt-b{
+					margin-top: 15upx;
+					font-size: 30upx;
+					color:#333;
+				}
+			}
+		}
+	}
+}
+
+.buyBox{
+	background: #fff;
+	border-radius: 12upx;
+	margin: 22upx; 
+	.title{
+		font-size: 30upx;
+		color:#333;
+		font-weight: bold;
+		height: 90upx;
+		padding-left: 36upx;
+		line-height: 90upx;
+		border-bottom: 2upx solid #E2E2E2;
+	}
+	
+	.dsdBox{
+		.dsd-adr{
+			border-bottom: 2upx solid #E2E2E2;
+			padding:20upx 30upx 30upx;
+			.adr-t{
+				@include dflex(space-between,center);
+				.t-l{
+					font-weight: bold;
+					font-size: 28upx;
+					color:#333;
+				}
+				.t-r{
+					font-size: 26upx;
+					color:#333;
+					@include dflex(null,flex-end);
+				}
+			}
+			.adr-b{
+				margin-top: 12upx;
+				font-size: 28upx;
+				color:#999999;
+			}
+		}		
+	}
+	.buy-time{
+		height: 100upx;
+		border-bottom: 2upx solid #E2E2E2;
+		padding:0 30upx;
+		@include dflex(space-between,center);
+		p{
+			font-size: 28upx;
+			color:#333;
+			span{
+				background: #FB6971;
+				border-radius: 6upx;
+				font-size: 20upx;
+				color: #fff;
+				padding: 2upx 6upx;
+				margin-right: 8upx;
+			}
+		}
+		.time-red{
+			font-size: 28upx;
+			color:#FD444C;
+			span{
+				background: #FD444C;
+				border-radius: 100upx;
+				font-size: 26upx;
+				color:#fff;
+				padding: 3upx 14upx;
+			}
+		}
+		.time-gray{
+			font-size: 28upx;
+			color:#999999;
+		}
+	}
+	
+	.dsdBox-no{
+		height: 100upx;
+		background: #FFF4F3;
+		@include dflex(space-between,center);
+		padding:0 30upx;
+		font-size: 28upx;
+		color:#333;
+		p{
+			@include dflex(center,center);
+			font-size: 26upx;
+			color:#666;
+			border:2upx solid #E5E5E5;
+			border-radius: 100upx;
+			width: 200upx;
+			height: 58upx;
+		}
+	}
+	
+	.buy-item{
+		padding:0 30upx 30upx;
+		border-bottom: 2upx solid #E2E2E2;
+		.main-rt{
+			font-size: 30upx;
+		}
+	}
+	
+	.buy-all{
+		height: 100upx;
+		@include dflex(flex-end,center);
+		padding-right: 30upx;
+		p{
+			font-size: 28upx;
+			color:#333;
+		}
+		.all-g{ color:#999; margin-right: 15upx; }
+		.all-r{ color:#FD444C; }
+	}
+	
+	.formbBd{
+		p{
+			padding-left: 30upx;
+			padding-top: 20upx;
+			font-size: 28upx;
+			color:#666;
+			span{
+				color:red;
+				font-weight: bold;
+			}
+		}
+		.bd-ipt{
+			margin: 20upx 30upx;
+		}
+		&:last-child{
+			border-top: 2upx solid #E2E2E2;
+		}
+		.formbBd-img{
+			padding: 20upx 30upx;
+		}
+	}
+	
+	
+}
+
+

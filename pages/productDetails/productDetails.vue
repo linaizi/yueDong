@@ -76,11 +76,11 @@
 				<view>{{scTxt}}</view>
 			</view>
 			<view class="leftBtnBox bottomBtnBox">加入购物车</view>
-			<view class="bottomBtnBox">立即购买</view>
+			<view class="bottomBtnBox" @click="goBuy">立即购买</view>
 		</view>
 		
 		<view class="pd-tc">
-			<view class="tc-item">
+			<view class="tc-item" @click="goCart">
 				<image src="../../static/img/pd-cart.png" class="w100" mode="widthFix"></image>
 				<span>25</span>
 			</view>
@@ -171,10 +171,20 @@
 					url: '/pages/index/index'
 				});
 			},
-			
 			toPj(){
 				uni.navigateTo({
 				    url: '/pages/allEvaluations/allEvaluations'
+				});
+			},
+			goCart(){
+				uni.navigateTo({
+				    url: '/pages/myCart/myCart'
+				});
+			},
+			
+			goBuy(){
+				uni.navigateTo({
+				    url: '/pages/buy/buy'
 				});
 			},
 			
