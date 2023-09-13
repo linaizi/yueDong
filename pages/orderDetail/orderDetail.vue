@@ -2,15 +2,15 @@
 	<view class="allBg">
 		<view class="odBg">
 			<view class="od-zt">
-				<uni-icons type="spinner-cycle" size="24" color="#fff"></uni-icons>
-				<uni-icons type="info" size="24" color="#fff"></uni-icons><span class="ml10">已取消</span>
+				<uni-icons type="spinner-cycle" size="48upx" color="#fff"></uni-icons>
+				<uni-icons type="info" size="48upx" color="#fff"></uni-icons><span class="ml10">已取消</span>
 			</view>
 			<view class="od-time">需支付:￥59.70 剩余00小时09分47秒</view>
 					
 			<view class="od-main">
 				<view class="odBox">
 					<view class="od-adr">
-						<uni-icons type="location" size="28" color="#333333"></uni-icons>
+						<uni-icons type="location" size="56upx" color="#333333"></uni-icons>
 						<view class="adr-rt">
 							<view class="rt-name">小明 <span>13411112222</span></view>
 							<p>广东省广州市天河区五山路483号华南农业大学 201</p>

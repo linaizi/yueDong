@@ -12,8 +12,8 @@
 				</view>
 			</view>
 			<view class="top-rt">
-				<uni-icons type="location" size="28" color="#777" @click="lctClick" ></uni-icons>
-				<uni-icons type="gear" size="28" color="#777" @click="setClick" class="ml10"></uni-icons>
+				<uni-icons type="location" size="56upx" color="#777" @click="lctClick" ></uni-icons>
+				<uni-icons type="gear" size="56upx" color="#777" @click="setClick" class="ml10"></uni-icons>
 			</view>
 		</view>
 		
@@ -74,22 +74,23 @@
 				let url=''
 				switch(idx) {
 				  case 0:
-				    url='/pages/myOrder/myOrder'
+				    url=''
 				    break;
 					case 1:
-						url='/pages/coupon/coupon'
+						url=''
 						break;
 					case 2:
-					  url='/packageA/activeChain/activeChain'
+					  url='/pages/about/about'
 					  break;
 					case 3:
 					  this.$refs.kfchild.$refs.kfPopup.open();
 					  break;
 				} 	
-				
-				uni.navigateTo({
-				    url: url
-				});
+				if(idx!=3){
+					uni.navigateTo({
+					    url: url
+					});
+				}
 			},
 		}
 	}

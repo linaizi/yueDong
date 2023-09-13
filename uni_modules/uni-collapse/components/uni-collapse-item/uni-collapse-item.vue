@@ -14,7 +14,7 @@
 			<view v-if="showArrow"
 				:class="{ 'uni-collapse-item__title-arrow-active': isOpen, 'uni-collapse-item--animation': showAnimation === true }"
 				class="uni-collapse-item__title-arrow">
-				<uni-icons :color="disabled?'#ddd':'#bbb'" size="14" type="bottom" />
+				<uni-icons :color="disabled?'#ddd':'#bbb'" size="28upx" type="bottom" />
 			</view>
 		</view>
 		<view class="uni-collapse-item__wrap" :class="{'is--transition':showAnimation}"

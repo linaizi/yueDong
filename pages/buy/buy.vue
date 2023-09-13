@@ -16,15 +16,15 @@
 				</uni-forms>
 			</view>
 			<view class="tab-form" v-else>
-				<view class="form-noadr" v-if="false">
-					<span>+</span>请添加同城配送地址
-				</view>
-				<view class="form-adr" v-else>
+				<view class="form-adr" v-if="hasAddr">
 					<view class="adr-lt">
 						<view class="lt-t">阿道夫 <span>13411112222</span><p>配送范围内</p></view>
 						<view class="lt-b overflow2">广东省广州市天河区五山路483号华南农业大学201</view>
 					</view>
-					<uni-icons type="forward" size="22" color="#666"></uni-icons>
+					<uni-icons type="forward" size="40upx" color="#666"></uni-icons>
+				</view>
+				<view class="form-noadr" v-else>
+					<span>+</span>请添加同城配送地址
 				</view>
 			</view>
 		</view>
@@ -32,21 +32,21 @@
 		<view class="buyBox">
 			<view class="title">跃动球鞋洗护</view>
 			
-			<view class="dsdBox" v-if="true">
-				<view class="dsd-adr">
+			<view class="dsdBox" v-if="hasAddr">
+				<view class="dsd-adr" v-if="tabNum==0">
 					<view class="adr-t">
 						<view class="t-l">
-							<uni-icons type="paperplane" size="18" color="#999"></uni-icons>
+							<uni-icons type="paperplane" size="36upx" color="#999"></uni-icons>
 							校园通代收点
-							<uni-icons type="right" size="16" color="#999"></uni-icons>
+							<uni-icons type="right" size="32upx" color="#999"></uni-icons>
 						</view>
-						<view class="t-r"><uni-icons type="location" size="18" color="#CDCDCD"></uni-icons>距您85.87km</view>
+						<view class="t-r"><uni-icons type="location" size="36upx" color="#CDCDCD"></uni-icons>距您85.87km</view>
 					</view>
 					<view class="adr-b">华南农业大学校园泰山区通代收点</view>
 				</view>
-				<view class="buy-time">
+				<view class="buy-time" @click="setTimeClick">
 					<p>预约提货时间</p>
-					<view class="time-red">今天(周一)17:30-18:00<uni-icons type="right" size="16" color="#999"></uni-icons></view>
+					<view class="time-red">{{yyTime}}<uni-icons type="right" size="32upx" color="#999"></uni-icons></view>
 				</view>
 			</view>
 			<view class="dsdBox-no" v-else>请添加联系人 <p>添加配送地址</p></view>
@@ -61,14 +61,20 @@
 				<view class="main-rt">￥81.90</view>
 			</view>
 			
-			<view class="buy-time">
-				<p><span>惠</span>预约提货时间</p>
+			<view class="buy-time" @click="yhqClick">
+				<p><span>惠</span>优惠券</p>
 				<view  :class="hasQ ? 'time-red':'time-gray'">
 					<span>1张可用</span>
 					<!-- 暂无可用优惠券 -->
-					<uni-icons type="right" size="16" color="#999"></uni-icons>
+					<uni-icons type="right" size="32upx" color="#999"></uni-icons>
 				</view>
 			</view>
+			
+			<view class="buy-time" v-if="tabNum==1">
+				<p>运费</p>
+				<view class="time-red">￥6</view>
+			</view>
+			
 			<view class="buy-all"> <p class="all-g">共1件</p> <p>共计：</p> <p class="all-r">￥69.60</p> </view>
 		</view>
 		
@@ -95,23 +101,83 @@
 			</view>
 		</view>
 		
-		<view style="height: 140upx;"></view>
+		<view style="height: 130upx;"></view>
+		
+		<view class="buy-foot">
+			<view class="foot-lt">合计:￥<span>9.90</span></view>
+			<view class="foot-rt">提交订单</view>
+		</view>
+		
+		<hTimeAlert 
+			title="预约上门取鞋时间" 
+			:isShow="timeShow" 
+			rangeDay="5" 
+			rangeStartTime="9:30:00"
+			rangeEndTime="20:30:00"
+			:rangeType="true"
+			:isNow="true"
+			@closeAlert="handelClose">
+		</hTimeAlert>
+		
+		<!-- 优惠券弹窗 -->
+		<uni-popup ref="yhqPopup" type="bottom">
+			<view class="yhq-pp">
+				<view class="yhq-title"><b>优惠券</b><uni-icons type="closeempty" size="52upx" color="#666" @click="closeYhq"></uni-icons></view>
+				<view class="yhq-tab">
+					<view :class="['tab-item',{'tab-item-act':yhqAct==0}]" @click="yhqAct=0">可用优惠券(1)</view>
+					<view :class="['tab-item',{'tab-item-act':yhqAct==1}]" @click="yhqAct=1">不可用优惠券(1)</view>
+				</view>
+				<view class="yhq-maim">
+					<view class="yhq-item">
+						<view class="item-top">
+							<view class="top-l"><span>￥</span>10.00</view>
+							<view class="top-m"><p>首次下单9.9元</p><p>满19.90元可用</p></view>
+							<view class="top-r">
+								<span></span>
+							</view>
+						</view>
+						<view class="item-foot">
+							<p>有效日期:2023-08-19 22:06:49-2024-08-1822:06:49</p>
+							<p>适用商品:普通鞋类</p>
+						</view>
+					</view>
+					<view class="yhq-item">
+						<view class="item-top item-top-no">
+							<view class="top-l"><span>￥</span>10.00</view>
+							<view class="top-m"><p>首次下单9.9元</p><p>满19.90元可用</p></view>
+							<view class="top-r" v-if="false">
+								<span></span>
+							</view>
+						</view>
+						<view class="item-foot">
+							<p>有效日期:2023-08-19 22:06:49-2024-08-1822:06:49</p>
+							<p>适用商品:普通鞋类</p>
+						</view>
+					</view>
+				</view>
+			</view>
+		</uni-popup>
 		
 	</view>
 </template>
 
 <script>
-	
+	import hTimeAlert from "@/components/h-time-alert/h-time-alert.vue";
 	export default {
 		components: {
-			
+			hTimeAlert
 		},
 		data() {
 			return {
 				formData:{},
+				tabNum:0,
+				hasAddr:true,
+				yyTime:'今天(周一)17:30-18:00',
+				timeShow:false,
+				yhqAct:0,
+							
 				imgURL:'',
 				imageValue:[],
-				tabNum:0,
 				hasQ:true,
 			}
 		},
@@ -120,6 +186,47 @@
 			this.imgURL=this.$imgURL
 		},
 		methods: {
+			setTimeClick(){ this.timeShow = true; },
+			handelClose(data){  
+				this.timeShow = false; 
+				console.log(data)
+				
+				const [datePart, timePart] = data.dateRange.split(' ');
+				const date = new Date(datePart);
+				// 获取日期的月、日和星期
+				const month = (date.getMonth() + 1).toString(); // 添加 +1 并转换为字符串
+				const day = date.getDate().toString()+'日'; // 转换为字符串
+				const dayOfWeek = date.toLocaleDateString('default', { weekday: 'short' }); // 使用 'short' 格式
+				
+				const today = new Date();		// 获取今天的日期
+				today.setHours(0, 0, 0, 0); // 将时间部分设置为零，只比较日期部分
+				
+				const tomorrow = new Date();
+				tomorrow.setDate(tomorrow.getDate() + 1);  // 获取明天的日期
+				tomorrow.setHours(0, 0, 0, 0);
+				
+				let prefix = '';	// 根据日期比较确定前缀
+				if (date.getTime() === today.getTime()) {
+				  prefix = '今天';
+				} else if (date.getTime() === tomorrow.getTime()) {
+				  prefix = '明天';
+				}
+				if(prefix){
+					this.yyTime = `${prefix}(${dayOfWeek}) ${timePart}`;
+				}else{
+					this.yyTime = `${month}月${day}(${dayOfWeek}) ${timePart}`;
+				}
+			},
+			
+			//优惠券
+			yhqClick(){
+				if(!this.hasQ) return;
+				this.$refs.yhqPopup.open()
+			},
+			closeYhq(){
+				this.$refs.yhqPopup.close()
+			},
+			
 			// 获取上传状态
 			select(e){
 				console.log('选择文件：',e)

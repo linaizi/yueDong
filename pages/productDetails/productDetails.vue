@@ -103,7 +103,7 @@
 		<uni-popup ref="hbPopup" >
 			<view class="hb-pp">
 				<view class="hb-img"><image src="https://file.aikbao.com/2023070714050925" :show-menu-by-longpress="true" class="w100" mode="widthFix"></image></view>
-				<uni-icons type="close" size="33" color="#fff" @click="closeHb" class="hbClose"></uni-icons>
+				<uni-icons type="close" size="66upx" color="#fff" @click="closeHb" class="hbClose"></uni-icons>
 				<view class="hbtxt" @click="preservationImg(0,'https://file.aikbao.com/2023070714050925')">保存图片</view>
 			</view>
 		</uni-popup>

@@ -121,18 +121,28 @@
 			
 			initGoods(){},
 			
-			menuClick(i){
-				switch(i) {
+			menuClick(idx){
+				let url=''
+				switch(idx) {
 				  case 0:
+				    url=''
 				    break;
 					case 1:
-					  break;
+						url=''
+						break;
 					case 2:
+					  url='/pages/about/about'
 					  break;
 					case 3:
 					  this.$refs.kfchild.$refs.kfPopup.open();
 					  break;
-				} 
+				} 		
+				if(idx!=3){
+					uni.navigateTo({
+					    url: url
+					});
+				}
+				
 			},
 			
 			openCar(i){
