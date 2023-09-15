@@ -8,7 +8,7 @@
 						 <p class="mid-red"><span>￥</span>{{ppCarData.newprice}}</p>
 						 <p class="mid-gray">库存：9999</p>
 					 </view>
-					 <uni-icons type="closeempty" size="60upx" color="#999" @click="closeCar"></uni-icons>
+					 <uni-icons type="closeempty" size="60rpx" color="#999" @click="closeCar"></uni-icons>
 				 </view>
 				 <view class="ppMid">
 					 <view class="ppMid-top">
@@ -50,6 +50,7 @@
 			},
 			
 			goBuy(){
+				this.$refs.popup.close()
 				uni.navigateTo({
 				    url: '/pages/buy/buy'
 				});

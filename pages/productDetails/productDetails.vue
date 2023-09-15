@@ -6,7 +6,7 @@
 		
 		<!-- <商品轮播图 -->
 		<view class="uni-padding-wrap">
-			<swiper class="swiper" autoplay="true" interval="3000" circular="true" @change='swiperChange'>
+			<swiper class="pdswiper" autoplay="true" interval="3000" circular="true" @change='swiperChange' >
 				<block v-for="(item,index) in swpArr" :key="index">
 					<swiper-item>
 						<view class="swiperBox">
@@ -103,7 +103,7 @@
 		<uni-popup ref="hbPopup" >
 			<view class="hb-pp">
 				<view class="hb-img"><image src="https://file.aikbao.com/2023070714050925" :show-menu-by-longpress="true" class="w100" mode="widthFix"></image></view>
-				<uni-icons type="close" size="66upx" color="#fff" @click="closeHb" class="hbClose"></uni-icons>
+				<uni-icons type="close" size="66rpx" color="#fff" @click="closeHb" class="hbClose"></uni-icons>
 				<view class="hbtxt" @click="preservationImg(0,'https://file.aikbao.com/2023070714050925')">保存图片</view>
 			</view>
 		</uni-popup>
@@ -112,12 +112,10 @@
 </template>
 
 <script>
-	import Swiper from "@/components/swiper/swiper.vue"
 	import Ppcar from "@/components/ppcar/ppcar.vue"
 	import { priceHander,preservationImg } from '@/common/tool.js'
 	export default {
 		components: {
-			Swiper,
 			Ppcar
 		},
 		data() {
@@ -144,7 +142,12 @@
 			}
 		},
 		onLoad(option) {
-			this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
+			const {platform,statusBarHeight} = uni.getSystemInfoSync()
+			this.iStatusBarHeight = statusBarHeight
+			// let height = statusBarHeight +4
+			// if (platform.toLowerCase() == "android" ){
+			// 	height +=4
+			// }
 		},
 		
 		methods: {

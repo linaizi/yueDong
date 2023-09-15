@@ -2,8 +2,8 @@
 	<view class="allBg">
 		<view class="topBox">
 			<view class="tab-t">
-				<view :class="['t-item',{'t-item-lt':tabNum==0}]" @click="tabNum=0"><image src="../../static/img/tab2-1.jpg" mode="" class="t-img"></image>到店服务</view>
-				<view :class="['t-item',{'t-item-rt':tabNum==1}]" @click="tabNum=1"><image src="../../static/img/tab2-1.jpg" mode="" class="t-img"></image>上面取送</view>
+				<view :class="['t-item',{'t-item-lt':tabNum==0}]" @click="tabNum=0"><image src="../../static/img/buy1.png" v-if="tabNum==0" class="t-img1"></image>到店服务</view>
+				<view :class="['t-item',{'t-item-rt':tabNum==1}]" @click="tabNum=1"><image src="../../static/img/buy2.png" v-if="tabNum==1" class="t-img2"></image>上面取送</view>
 			</view>
 			<view class="tab-form" v-if="tabNum==0">
 				<uni-forms :model="formData" border class="aa">
@@ -21,7 +21,7 @@
 						<view class="lt-t">阿道夫 <span>13411112222</span><p>配送范围内</p></view>
 						<view class="lt-b overflow2">广东省广州市天河区五山路483号华南农业大学201</view>
 					</view>
-					<uni-icons type="forward" size="40upx" color="#666"></uni-icons>
+					<uni-icons type="forward" size="40rpx" color="#666"></uni-icons>
 				</view>
 				<view class="form-noadr" v-else>
 					<span>+</span>请添加同城配送地址
@@ -36,17 +36,17 @@
 				<view class="dsd-adr" v-if="tabNum==0">
 					<view class="adr-t">
 						<view class="t-l">
-							<uni-icons type="paperplane" size="36upx" color="#999"></uni-icons>
+							<uni-icons type="paperplane" size="36rpx" color="#999"></uni-icons>
 							校园通代收点
-							<uni-icons type="right" size="32upx" color="#999"></uni-icons>
+							<uni-icons type="right" size="32rpx" color="#999"></uni-icons>
 						</view>
-						<view class="t-r"><uni-icons type="location" size="36upx" color="#CDCDCD"></uni-icons>距您85.87km</view>
+						<view class="t-r"><uni-icons type="location" size="36rpx" color="#CDCDCD"></uni-icons>距您85.87km</view>
 					</view>
 					<view class="adr-b">华南农业大学校园泰山区通代收点</view>
 				</view>
 				<view class="buy-time" @click="setTimeClick">
 					<p>预约提货时间</p>
-					<view class="time-red">{{yyTime}}<uni-icons type="right" size="32upx" color="#999"></uni-icons></view>
+					<view class="time-red">{{yyTime}}<uni-icons type="right" size="32rpx" color="#999"></uni-icons></view>
 				</view>
 			</view>
 			<view class="dsdBox-no" v-else>请添加联系人 <p>添加配送地址</p></view>
@@ -66,7 +66,7 @@
 				<view  :class="hasQ ? 'time-red':'time-gray'">
 					<span>1张可用</span>
 					<!-- 暂无可用优惠券 -->
-					<uni-icons type="right" size="32upx" color="#999"></uni-icons>
+					<uni-icons type="right" size="32rpx" color="#999"></uni-icons>
 				</view>
 			</view>
 			
@@ -122,7 +122,7 @@
 		<!-- 优惠券弹窗 -->
 		<uni-popup ref="yhqPopup" type="bottom">
 			<view class="yhq-pp">
-				<view class="yhq-title"><b>优惠券</b><uni-icons type="closeempty" size="52upx" color="#666" @click="closeYhq"></uni-icons></view>
+				<view class="yhq-title"><span class="b">优惠券</span><uni-icons type="closeempty" size="52rpx" color="#666" @click="closeYhq"></uni-icons></view>
 				<view class="yhq-tab">
 					<view :class="['tab-item',{'tab-item-act':yhqAct==0}]" @click="yhqAct=0">可用优惠券(1)</view>
 					<view :class="['tab-item',{'tab-item-act':yhqAct==1}]" @click="yhqAct=1">不可用优惠券(1)</view>
@@ -133,7 +133,7 @@
 							<view class="top-l"><span>￥</span>10.00</view>
 							<view class="top-m"><p>首次下单9.9元</p><p>满19.90元可用</p></view>
 							<view class="top-r">
-								<span></span>
+								<view class="circle"></view>
 							</view>
 						</view>
 						<view class="item-foot">
@@ -146,7 +146,7 @@
 							<view class="top-l"><span>￥</span>10.00</view>
 							<view class="top-m"><p>首次下单9.9元</p><p>满19.90元可用</p></view>
 							<view class="top-r" v-if="false">
-								<span></span>
+								<view class="circle"></view>
 							</view>
 						</view>
 						<view class="item-foot">

@@ -124,18 +124,18 @@
 	.foot-rt-act{
 		background: #FF4544;
 	}
+	.foot-del{
+		@include dflex(center,center);
+		color:#999;
+		font-size: 28upx;
+		border:2upx solid #989898;
+		width: 150upx;
+		height: 60upx;
+		border-radius: 100upx;
+	}
+	.foot-del-act{
+		color:#FD444C;
+		border-color: #FD444C;
+	}
 }
 
- // <view class="myCart-foot">
-	// 	<view class="foot-lt">
-	// 		<view class="circle"></view>全选
-	// 		<span>总计：￥{{totalMoney}}</span>
-	// 	</view>
-	// 	<view class="foot-rt">去结算</view>
- // </view>
-
-// /deep/.uniNum{
-// 	.uni-numbox-btns{
-// 		background: red!important;
-// 	}
-// }

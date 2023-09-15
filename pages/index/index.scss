@@ -1,4 +1,7 @@
-
+.swiperBox{
+	height: 350upx;
+}
+	
 .containBox{
 	padding: 24upx 24upx 0;
 	.menu{
@@ -31,6 +34,10 @@
 				height: 36upx;
 				margin-right: 12upx;
 			}
+	}
+	
+	.goodsList{
+		padding-bottom: 30upx;
 	}
 	
 }

@@ -109,6 +109,42 @@
 				"navigationBarTextStyle": "black",
 				"backgroundColor": "#ffffff"
 		 	}
+		},
+		{
+		 	"path": "pages/help/help",
+		 	"style" : {
+		 		"navigationBarTitleText": "使用帮助",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
+		},
+		{
+		 	"path": "pages/myAddress/myAddress",
+		 	"style" : {
+		 		"navigationBarTitleText": "我的地址",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
+		},
+		{
+		 	"path": "pages/setAddress/setAddress",
+		 	"style" : {
+		 		"navigationBarTitleText": "编辑地址",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
+		},
+		{
+		 	"path": "pages/map/map",
+		 	"style" : {
+		 		"navigationBarTitleText": "定位地址",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
 		}
 	],
 	"globalStyle": {

@@ -24,5 +24,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'pages/index/index.scss'
+	@import 'map.scss'
 </style>

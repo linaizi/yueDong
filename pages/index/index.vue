@@ -1,10 +1,13 @@
 <template>
 	<view class="bgBox flexBox">
+		<uni-nav-bar statusBar="true" backgroundColor="#fff" title="跃动洗鞋" fixed></uni-nav-bar>
+		
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop"
 			class="boxScroll indexScroll"
 			:refresher-enabled="isOpenRefresh" :refresher-triggered="triggered" @refresherpulling="onPulling"
 			@refresherrefresh="onRefresh"	@refresherrestore="onRestore" @refresherabort="onAbort" > 
-				<Swiper :dataInfo="swpArr"></Swiper>
+			
+			<view class="swiperBox"> <Swiper :dataInfo="swpArr"></Swiper></view>
 			
 				<view class="containBox">
 					<view class="menu">
@@ -14,7 +17,7 @@
 						</view>
 					</view>
 					
-					<image src="../../static/img/index1.png" mode="widthFix" class="w100"></image>
+					<image src="../../static/img/index1.png" mode="widthFix" class="w100" @click="goSort"></image>
 					
 					<view class="tZan">
 						<image class="icon" src="../../static/img/zan.png"></image>
@@ -50,7 +53,7 @@
 				<image src="../../static/img/gotop.png" mode="aspectFit" class="goTop-img"></image>
 		</view>
 			
-		 <Tabbar :id="1"></Tabbar>
+		 <Tabbar :tabid="1"></Tabbar>
 		 <Ppcar :ppCarData="ppCarData" ref="child"></Ppcar>
 		 <Ppkefu ref="kfchild"></Ppkefu>
 		 
@@ -128,7 +131,7 @@
 				    url=''
 				    break;
 					case 1:
-						url=''
+						url='/pages/help/help'
 						break;
 					case 2:
 					  url='/pages/about/about'
@@ -143,6 +146,12 @@
 					});
 				}
 				
+			},
+			
+			goSort(){
+				uni.navigateTo({
+				   url: '/pages/sort/sort',
+				})
 			},
 			
 			openCar(i){

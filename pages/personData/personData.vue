@@ -6,6 +6,7 @@
 				<button class="rt-but" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">
 						<image class="rt-img" :src="avatarUrl"></image>
 				</button> 
+				<uni-icons type="right" size="32rpx" color="#777"></uni-icons>
 			</view>
 		</view>
 		<view class="perItem">

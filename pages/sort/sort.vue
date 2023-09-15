@@ -1,5 +1,7 @@
 <template>
 	<view class="bgBox">
+		<uni-nav-bar statusBar="true" backgroundColor="#fff" title="分类" fixed></uni-nav-bar>
+		
 		 <view class="sortBox">
 			 <view class="sortLt">
 				 <view v-for="(item,index) in list" :key="index" :class="['ltItem',{ 'active': actNum === index }]" @click="sortChange(index)">{{item}}</view>
@@ -11,7 +13,7 @@
 								<image :src="item.img" class="goodsImg"></image>
 								<view class="goodsMsg">
 									<view class="goodsMsg-top">
-										<h2 class="overflow2">{{item.name}}</h2>
+										<h2 class="top-h overflow2">{{item.name}}</h2>
 										<view class="goods-sal">已售：{{item.sales}} 件</view>
 									</view>
 									<view class="goodsMsg-foot">
@@ -36,7 +38,7 @@
 		 		<image src="../../static/img/gotop.png" mode="aspectFit" class="goTop-img"></image>
 		 </view>
 		 
-		 <Tabbar :id="2"></Tabbar>
+		 <Tabbar :tabid="2"></Tabbar>
 		 <Ppcar :ppCarData="ppCarData" ref="child"></Ppcar>
 	</view>
 </template>

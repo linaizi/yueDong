@@ -27,7 +27,7 @@
 							<view class="md-p">适用商品：普通鞋类</view>
 							<view class="md-p">有效期至：2023-12-09 14:40</view>
 						</view>
-						<view class="item-rt">去使用</view>
+						<view class="item-rt">{{txtArr[topId]}}</view>
 					</view>
 				</view>
 				
@@ -49,6 +49,7 @@
 		data() {
 			return {
 				topArr:['未使用','已使用','已过期'],
+				txtArr:['去使用','已使用','已过期'],
 				topId:0,
 				
 				imgArr:[

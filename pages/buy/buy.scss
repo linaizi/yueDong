@@ -14,7 +14,12 @@
 			font-size: 28upx;
 			border-radius: 12upx 0 0 0;
 			height: 66upx;
-			.t-img{
+			.t-img1{
+				width: 30upx;
+				height: 30upx;
+				margin-right: 8upx;
+			}
+			.t-img2{
 				width: 38upx;
 				height: 36upx;
 				margin-right: 8upx;
@@ -285,6 +290,9 @@
 		font-size: 36upx;
 		color:#333;
 		padding: 20upx 30upx 30upx;
+		.b{
+			font-weight: bold;
+		}
 	}
 	.yhq-tab{
 		@include dflex(center,center);
@@ -341,14 +349,6 @@
 				}
 				.top-r{
 					padding: 16upx;
-					span{
-						display: inline-block;
-						width: 38upx;
-						height: 38upx;
-						background: #fff;
-						border-radius: 50%;
-						border:2upx solid #A2A19E;
-					}
 				}
 			}
 			.item-top-no{

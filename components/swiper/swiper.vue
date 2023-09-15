@@ -1,6 +1,5 @@
 <!-- 首页轮播组件 -->
 <template>
-	<view class="content">
 		<swiper class="swiper" 
 		:indicator-dots="indicatorDots"
 		:autoplay="autoplay" 
@@ -11,10 +10,9 @@
 		circular="true"
 		>
 				<swiper-item v-for="(item,index) in dataInfo" :key="index" >
-						<image :src="item" mode="widthFix"></image>
+						<image :src="item" mode="widthFix" class="swt-img"></image>
 				</swiper-item>
 		</swiper>
-	</view>
 </template>
 
 <script>
@@ -51,15 +49,14 @@
 	}
 </script>
 
-<style lang="scss" scoped>
-	.content{
-	}
-	.swiper{
+<style lang="scss">
+	/deep/.swiper{
 		width:100%;
 		overflow: hidden;
 		height: 350upx;
 	}
-	.swiper image{
-		width:100%;
+	.swt-img{
+		width: 100%;
+		height: 100%;
 	}
 </style>

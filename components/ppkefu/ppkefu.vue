@@ -6,7 +6,7 @@
 						<image src="https://file.aikbao.com/20230616101226811" :show-menu-by-longpress="true" class="kf-img" mode="widthFix"></image>
 						<view class="kf-phone" @click="PhoneCall">或点击致电：13411112222</view>
 						<view class="hbtxt" @click="preservationImg(0,'https://file.aikbao.com/2023070714050925')">保存图片</view>
-						<uni-icons type="close" size="70upx" color="#fff" @click="closeHb" class="kfClose"></uni-icons>
+						<uni-icons type="close" size="70rpx" color="#fff" @click="closeHb" class="kfClose"></uni-icons>
 			</view>
 		</uni-popup>
 </template>

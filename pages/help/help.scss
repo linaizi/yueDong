@@ -1,0 +1,62 @@
+.sch-main{
+	padding: 30upx;
+	.main-tx{
+		width: 74upx;
+		height: 74upx;
+		border-radius: 6upx;
+	}
+	.main-left{
+		display: flex;
+		margin-bottom: 30upx;
+		.left-dh{
+			padding: 11upx 17upx 25upx;
+			margin-left: 20upx;
+			background: #fff;
+			border-radius: 8upx;
+			max-width: 517upx;
+			position: relative;
+			&:before{
+				content: '';
+				position: absolute;
+				top: 23upx;
+				left: -8upx;
+				width: 0;
+				height: 0;
+				//左三角
+				border-right:9upx solid #fff;
+				border-top:9upx solid transparent;
+				border-bottom:9upx solid transparent; 
+			}
+		}
+	}
+	
+	.main-right{
+		display: flex;
+		justify-content: flex-end;
+		margin-bottom: 30upx;
+		.right-dh{
+			margin-right: 20upx;
+			background: #A8EA7C;
+			border-radius: 8upx;
+			padding: 11upx 17upx 25upx;
+			max-width: 517upx;
+			word-wrap: break-word;
+			position: relative;
+			white-space: pre-line;/* 此属性会保留换行符，并根据它们进行换行 */
+			&:before{
+				content: '';
+				position: absolute;
+				top: 23upx;
+				right: -8upx;
+				width: 0;
+				height: 0;
+				//右三角
+				border-left:9upx solid #A8EA7C;
+				border-top:9upx solid transparent;
+				border-bottom:9upx solid transparent; 
+			}
+		}
+	}
+
+}
+	
