@@ -17,8 +17,8 @@
 		 	@refresherabort="onAbort" >
 			
 				<view class="myCartList">
-					<view class="myCartItem" v-for="(item,index) in recommendArr" :key="index" @click="goodsClick(item)">
-						<view class="circle"></view>
+					<view class="myCartItem" v-for="(item,index) in recommendArr" :key="index" @click="goodsClick(index)">
+						<view :class="['circle',{'circle-red':item.check}]"></view>
 						<view class="itemRt">
 							<image :src="item.img" class="rt-Img"></image>
 							<view class="rt-mid">
@@ -45,13 +45,13 @@
 		 </view>
 		 
 		 <view class="myCart-foot">
-				<view class="foot-lt">
-					<view class="circle"></view>
+				<view class="foot-lt" @click="allCkClick">
+					<view :class="['circle',{'circle-red':allCheck}]"></view>
 					<span class="lt-span">全选</span>
 					<span class="red" v-if="showJs">总计: ￥{{totalMoney}}</span>
 				</view>
-				<view :class="['foot-rt',{'foot-rt-act':isJs}]" v-if="showJs">去结算</view>
-				<view :class="['foot-del',{'foot-del-act':isJs}]" v-else>删除</view>
+				<view :class="['foot-rt',{'foot-rt-act':totalMoney>0}]" v-if="showJs" @click="jieSuan">去结算</view>
+				<view :class="['foot-del',{'foot-del-act':showDel}]" v-else @click="delClick">删除</view>
 		 </view>
 		 
 		 <view class="goTop" @click="toTop" v-if="flag">
@@ -71,16 +71,18 @@
 		data() {
 			return {
 				recommendArr:[
-					{name:"普通鞋类精选1双", img:"../../static/img/swiper1.jpg",newprice:19.9,oldprice:49.4,sales:129,qg:1,check:false},
-					{name:"高级鞋类精选三双", img:"../../static/img/swiper2.jpg",newprice:20,oldprice:76,sales:29,qg:3,check:false},
-					{name:"中级鞋类精选2双", img:"../../static/img/logo.jpg",newprice:13.9,oldprice:49,sales:89,qg:2,check:false},
-					{name:"中级鞋类修复", img:"../../static/img/swiper3.png",newprice:13.9,oldprice:49,sales:89,qg:1,check:false},
+					{name:"普通鞋类精选1双", img:"../../static/img/swiper1.jpg",newprice:19.9,id:1,sales:129,qg:1,check:false},
+					{name:"高级鞋类精选三双", img:"../../static/img/swiper2.jpg",newprice:20,id:2,sales:29,qg:3,check:false},
+					{name:"中级鞋类精选2双", img:"../../static/img/logo.jpg",newprice:13.9,id:3,sales:89,qg:2,check:false},
+					{name:"中级鞋类修复", img:"../../static/img/swiper3.png",newprice:13.9,id:4,sales:89,qg:1,check:false},
 				],
 				noGshow:false,
 				totalMoney:0.00,
 				numberValue:1,
 				showJs:true, //显示结算，false显示删除
-				isJs:false, 
+				allCheck:false, 
+				showDel:false,
+				ids:[],
 				
 				
 				flag:false,
@@ -106,12 +108,58 @@
 				this.noGshow = this.recommendArr.length>0 ? false : true;
 			},
 			
+			//编辑事件
 			editClick(){
 				this.showJs = !this.showJs;
+				this.recommendArr.forEach((item) => {
+					item.check = false;
+				});
+				this.allCheck = false;
+				this.totalMoney = 0;
 			},
 			
-			goodsClick(obj){
-				console.log(obj)
+			//点击商品事件
+			goodsClick(index) {
+				this.recommendArr[index].check = !this.recommendArr[index].check;
+				this.handleEdit()
+		
+				// 检查是否所有商品都被选中
+				this.allCheck = this.recommendArr.every((item) => item.check);
+			},
+			
+			//全选事件
+			allCkClick() {
+				this.allCheck = !this.allCheck;
+				this.recommendArr.forEach((item) => {
+					item.check = this.allCheck;
+				});
+				
+				this.handleEdit()
+			},
+			
+			//统计总金额
+			handleEdit() {
+				if(this.showJs){
+					this.totalMoney = this.recommendArr
+						.filter((item) => item.check)
+						.reduce((total, item) => total + item.newprice, 0);
+				}else{
+					this.ids = this.recommendArr
+						.filter((item) => item.check)
+						.map((item) => item.id);
+								
+					this.showDel = this.ids.length > 0;
+				}
+			},
+			
+			//点击结算事件
+			jieSuan(){
+				if(this.totalMoney<=0) return;
+			},
+			//删除事件
+			delClick(){
+				if(this.ids.length<=0) return;
+				console.log(this.ids)
 			},
 			
 			scrollLower(){

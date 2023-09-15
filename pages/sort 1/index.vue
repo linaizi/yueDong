@@ -1,9 +1,3 @@
-<template>
-  <view class="zBox">
-    <slot></slot>
-  </view>
-</template>
-
 <!-- <template>
   <div>
     <Tabbar>
@@ -20,6 +14,11 @@
 微信小程序通知配置教程：https://help.saaas.com/article/5161873096035032
 公众号通知配置教程：http://help.saaas.com/article/5182346375528704 
 -->
+<template>
+	<view class="">
+		
+	</view>
+</template>
 
 <script>
 	
@@ -41,5 +40,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'pages/index/index.scss'
+	@import 'index.scss'
 </style>

@@ -56,6 +56,14 @@
             "minified" : true
         },
         "usingComponents" : true,
+				"permission" : {},
+				"lazyCodeLoading" : "requiredComponents",
+				"optimization" : {
+				    "subPackages" : true //开启分包优化,分包的js文件将不会再打包到主包的vendor.js中
+				},
+				"secureNetwork" : {
+				    "enable" : true
+				},
         "permission" : {
             "scope.userLocation" : {
                 "desc" : "你的位置信息将用于小程序位置接口的效果展示"

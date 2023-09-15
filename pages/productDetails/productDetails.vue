@@ -87,7 +87,7 @@
 			<view class="tc-item" @click="sharePP">
 				<image src="../../static/img/pd-share.png" class="w100" mode="widthFix"></image>
 			</view>
-			<view class="tc-item" @click="scrollToTop">
+			<view class="tc-item" @click="scrollToTop" v-if="flag">
 				<image src="../../static/img/pd-top.png" class="w100" mode="widthFix"></image>
 			</view>
 		</view>
@@ -112,12 +112,9 @@
 </template>
 
 <script>
-	import Ppcar from "@/components/ppcar/ppcar.vue"
 	import { priceHander,preservationImg } from '@/common/tool.js'
 	export default {
-		components: {
-			Ppcar
-		},
+	
 		data() {
 			return {
 				iStatusBarHeight: 0,
