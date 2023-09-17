@@ -20,12 +20,22 @@
 		<image src="../../static/img/index1.png" mode="widthFix" class="w100"></image>
 		
 		<view class="userCenterBox">
-			<view class="titleBox" @click="xd">用户中心</view>
+			<view class="titleBox">用户中心</view>
 			<view class="box flex">
 				<view class="itemBox" v-for="item in tabArr" :key="item.tabId" @click="jumpToSonPage(item.tabId)">
 					<button type="default" open-type="share" v-if="item.tabId==1&&Token" class="itemBox-btn"></button>
 					<image :src="item.imgUrl" class="itemIcon"></image>
 					<view>{{item.tabName}}</view>
+				</view>
+			</view>
+		</view>
+		
+		<view class="userCenterBox">
+			<view class="titleBox">菜单栏</view>
+			<view class="box flex">
+				<view class="itemBox" @click="goShopGl">
+					<image src="http://file.aikbao.com//20221206141224358" class="itemIcon"></image>
+					<view>商城管理</view>
 				</view>
 			</view>
 		</view>
@@ -145,6 +155,13 @@
 					});
 				}
 			},
+			
+			goShopGl(){
+				uni.navigateTo({
+				    url: '/packageA/aIndex/aIndex'
+				});
+			},
+			
 		}
 	}
 </script>

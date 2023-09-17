@@ -138,15 +138,35 @@
 		 	}
 		},
 		{
-		 	"path": "pages/map/map",
+			"path": "pages/map/map",
+			"style": {
+				"navigationStyle":"custom",  
+				"app-plus":{
+					"titleView":false 
+				}
+			}
+		},
+		{
+		 	"path": "packageA/aIndex/aIndex",
 		 	"style" : {
-		 		"navigationBarTitleText": "定位地址",
+		 		"navigationBarTitleText": "商城管理",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"navigationBarTextStyle": "black",
 				"backgroundColor": "#ffffff"
 		 	}
 		}
 	],
+	
+	"subPackages": [
+		 {
+				"root": "packageA",
+				"pages": [
+					"aIndex/aIndex"
+				]
+			}
+	],
+	
+	
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "",

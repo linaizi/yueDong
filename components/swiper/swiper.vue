@@ -50,7 +50,7 @@
 </script>
 
 <style lang="scss">
-	/deep/.swiper{
+	.swiper{
 		width:100%;
 		overflow: hidden;
 		height: 350upx;

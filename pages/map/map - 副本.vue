@@ -2,7 +2,7 @@
 	<view class="">
 		<view class="ditu">
 			<map style="width:100%;height:100%;" :latitude="latitude" :longitude="longitude" :scale="scale"
-				enable-poi @markertap="toMap()">
+				:markers="marker" @markertap="toMap()">
 			</map>
 		</view>
 	</view>
@@ -31,6 +31,7 @@
 								type: 'gcj02',
 								geocode: true,
 								success(response) {
+									console.log(1111)
 									console.log(response)
 									
 									let location = {
@@ -47,7 +48,6 @@
 										key: 'PBZBZ-74CE3-7ND3P-3OVWM-HDZIT-QRF23'  //别人的key
 										// key: 'LUDBZ-VKU3G-D4KQ6-QDLJQ-RMTDH-RRFYI'  //自己的key
 									});
-									console.log(qqmapsdk)
 									qqmapsdk.reverseGeocoder({
 										location,
 										get_poi:1,

@@ -1,7 +1,7 @@
 <template>
 	<view class="allBg">
 		<view class="maddrBox">
-			<view class="maddr-item" v-for="(i,ind) in 10" :key="ind">
+			<view class="maddr-item" v-for="(i,ind) in 1" :key="ind">
 				<view class="top">
 					<view class="top-l">收货人：林</view>
 					<view class="top-r">13411112222</view>

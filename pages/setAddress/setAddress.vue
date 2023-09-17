@@ -46,9 +46,22 @@
 		},
 		methods: {
 			goMap(){
+				const key = 'LUDBZ-VKU3G-D4KQ6-QDLJQ-RMTDH-RRFYI'; //使用在腾讯位置服务申请的key
+				const referer = '紫荆洗鞋'; //调用插件的app的名称
+				// const location = JSON.stringify({
+				//   latitude: 39.89631551,
+				//   longitude: 116.323459711
+				// });
+				// const category = '生活服务,娱乐休闲';
+
 				uni.navigateTo({
-				   url: '/pages/map/map',
-				})
+					url: `plugin://chooseLocation/index?key=${key}&referer=${referer}`
+				});		
+				
+				
+				// uni.navigateTo({
+				//    url: '/pages/map/map',
+				// })
 			}
 		}
 	}
