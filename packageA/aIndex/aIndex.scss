@@ -1,0 +1,80 @@
+.adBox{
+	padding: 30upx 26upx;
+}
+
+.ad-ban{
+	display: grid;
+	grid-template-columns: repeat(4,1fr);
+	gap: 0 20upx;
+	background: #fff;
+	padding: 30upx 0;
+	border-radius: 14upx;
+	
+	.ban-item{
+		text-align: center;
+		.item-img{
+			width: 80upx;
+			height: 80upx;
+		}
+		.item-p{
+			font-size: 26upx;
+			color: #333;
+		}
+	}
+
+}
+
+.adWhite{
+	border-radius: 14upx;
+	background: #fff;
+	margin-top: 30upx;
+	padding: 36upx;
+	.title{
+		font-size: 30upx;
+		color:#333;
+	}
+	.timeTab{
+		display: grid;
+		grid-template-columns: repeat(4,1fr);
+		border:2upx solid #446DFD;
+		border-radius: 100upx;
+		height: 56upx;
+		overflow: hidden;
+		margin: 30upx 0;
+		.tab{
+			text-align: center;
+			font-size: 26upx;
+			color:#666666;
+			line-height: 56upx;
+		}
+		.tab-act{
+			background: #446DFD;
+			color:#fff;
+		}
+	}
+	
+	.numBox{
+		display: grid;
+		grid-template-columns: repeat(2,1fr);
+		grid-template-rows: repeat(2, 130upx);
+		gap:30upx 20upx ;
+		.b-item{
+			padding: 28upx 0 0 28upx;
+			font-size: 26upx;
+			color:#999999;
+			.b-n{
+				color:#597DFD;
+				font-size: 42upx;
+			}
+		}
+	}
+}
+
+
+// 	<view class="numBox">
+// 		<view class="b-item"><span class="b-n">8</span>支付订单数</view>
+// 		<view class="b-item"><span class="b-n">8</span>支付订单数</view>
+// 		<view class="b-item"><span class="b-n">8</span>支付订单数</view>
+// 		<view class="b-item"><span class="b-n">8</span>支付订单数</view>
+// 	</view>
+// </view>
