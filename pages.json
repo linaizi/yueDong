@@ -138,6 +138,15 @@
 		 	}
 		},
 		{
+		 	"path": "pages/storeList/storeList",
+		 	"style" : {
+		 		"navigationBarTitleText": "门店列表",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
+		},
+		{
 			"path": "pages/map/map",
 			"style": {
 				"navigationStyle":"custom",  

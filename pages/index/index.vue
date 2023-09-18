@@ -128,7 +128,7 @@
 				let url=''
 				switch(idx) {
 				  case 0:
-				    url=''
+				    url='/pages/storeList/storeList'
 				    break;
 					case 1:
 						url='/pages/help/help'
