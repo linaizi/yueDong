@@ -1,11 +1,79 @@
 import request from '../request.js'
+// 先对登陆—>我的—>首页—>商品列表—>详情—>购物车—>地址—>下单 这样对咯
+
+//login
+export function WxLogin(data) { // 微信登录
+	return request({
+		url: '/elantra/user/wx_login',
+		method: 'POST',
+		data
+	})
+}
+
+export function getPhone(data) { 		// 获取用户绑定的手机号
+	return request({
+		url: '/elantra/user/get_wx_phone',
+		method: 'POST',
+		data
+	})
+}
+
+export function buildPhone(params) { 	// 绑定手机号
+	return request({
+		url: '/elantra/user/build/phone',
+		method: 'GET',
+		params
+	})
+}
+
+
+
+//更新用户信息
+export function updatePerData(authorization,data) { 		
+	return request({
+		url: '/elantra/user/update/user_info',
+		method: 'POST',
+		headers: {
+		  authorization,
+		},
+		data
+	})
+}
+
+
+export function getOpenId(data) { 		// 获取用户open_id
+	return request({
+		url: '/miniapp/code_to_session',
+		method: 'POST',
+		data
+	})
+}
+
+export function mobileLog(data) { 		// 授权手机号后调用接口
+	return request({
+		url: '/miniapp/check_bind_mobile',
+		method: 'POST',
+		data
+	})
+}
+
+export function logBind(data) { 		// 登录并绑定
+	return request({
+		url: '/miniapp/comfirm_bind_mobile',
+		method: 'POST',
+		data
+	})
+}
+
+
+
+
 
 //index.vue
 export function getIndex(params) { // 首页信息
 	return request({
 		url: '/miniapp/index',
 		method: 'GET',
-		
 		params
 	})
 }
@@ -65,50 +133,6 @@ export function miniCmdTransfer(authorization,data) { 		// 口令转换  首页�
 		data
 	})
 }
-
-
-
-//login
-export function WxLogin(data) { 		// 微信登录
-	return request({
-		url: '/miniapp/check_third_auth',
-		method: 'POST',
-		data
-	})
-}
-
-export function getOpenId(data) { 		// 获取用户open_id
-	return request({
-		url: '/miniapp/code_to_session',
-		method: 'POST',
-		data
-	})
-}
-
-export function mobileLog(data) { 		// 授权手机号后调用接口
-	return request({
-		url: '/miniapp/check_bind_mobile',
-		method: 'POST',
-		data
-	})
-}
-
-export function logBind(data) { 		// 登录并绑定
-	return request({
-		url: '/miniapp/comfirm_bind_mobile',
-		method: 'POST',
-		data
-	})
-}
-
-export function getPhone(data) { 		// 获取用户绑定的手机号
-	return request({
-		url: '/miniapp/get_wx_phone',
-		method: 'POST',
-		data
-	})
-}
-
 
 //searchGoods.vue
 export function PTsearch(authorization,data) { 		// 商品普通搜索
@@ -244,18 +268,6 @@ export function getPersonalData(authorization,params) { 		// 我的个人信息�
 		params
 	})
 }
-
-export function updatePersonalData(authorization,data) { 		// 我的个人信息更新
-	return request({
-		url: '/miniapp/update_personal_data',
-		method: 'POST',
-		headers: {
-		  authorization,
-		},
-		data
-	})
-}
-
 
 
 //bindPhone.vue

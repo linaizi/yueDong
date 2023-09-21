@@ -30,7 +30,7 @@
 </template>
 
 <script>
-	import Pgtab from "@/components/pgtab/pgtab.vue"
+	import Pgtab from "../components/pgtab/pgtab.vue"
 	export default {
 		components: {
 			Pgtab
