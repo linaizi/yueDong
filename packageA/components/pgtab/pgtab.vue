@@ -10,22 +10,22 @@
  
 <script>
 	import { debounce } from "@/common/throttle.js";
-   export default {
-      props: {
-				 tabid: {
-				 	type: Number,
-				 	default: 1
-				 },
-      },
+	export default {
+	  props: {
+		 tabid: {
+			type: Number,
+			default: 1
+		 },
+	  },
       data() {
          return {
             paddingBottomHeight: 0, //苹果X以上手机底部适配高度
             list: [
-							{ id:1, name:'首页', img1:"../../static/img/tab1.jpg", img2:"../../static/img/tab1-1.jpg", path: "/pages/index/index"},
-							{ id:2, name:'分类', img1:"../../static/img/tab2.jpg", img2:"../../static/img/tab2-1.jpg", path: "/pages/sort/sort"},
-							{ id:3, name:'购物车', img1:"../../static/img/tab3.jpg", img2:"../../static/img/tab3-1.jpg", path: "/pages/myCart/myCart"},
-							{ id:4, name:'我的', img1:"../../static/img/tab4.jpg", img2:"../../static/img/tab4-1.jpg", path: "/pages/mine/mine"},
-						],
+				{ id:1, name:'首页', img1:"../../static/aimg/tab1.jpg", img2:"../../static/aimg/tab1-1.jpg", path: "/packageA/aIndex/aIndex"},
+				{ id:2, name:'订单', img1:"../../static/aimg/tab2.jpg", img2:"../../static/aimg/tab2-1.jpg", path: "/packageA/sort/sort"},
+				{ id:3, name:'商品', img1:"../../static/aimg/tab3.jpg", img2:"../../static/aimg/tab3-1.jpg", path: "/packageA/myCart/myCart"},
+				{ id:4, name:'设置', img1:"../../static/aimg/tab4.jpg", img2:"../../static/aimg/tab4-1.jpg", path: "/packageA/mine/mine"},
+			],
          };
       },
 			
