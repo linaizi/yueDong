@@ -4,7 +4,7 @@
 			<view class="item-lt">头像</view>
 			<view class="item-rt">
 				<button class="rt-but" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">
-						<image class="rt-img" :src="avatarUrl"></image>
+						<image class="rt-img" :src="UserInfo.avatar"></image>
 				</button> 
 				<uni-icons type="right" size="32rpx" color="#777"></uni-icons>
 			</view>
@@ -12,28 +12,24 @@
 		<view class="perItem">
 			<view class="item-lt">昵称</view>
 			<view class="item-rt">
-				<input type="nickname" v-model.trim="Name" class="rt-input" placeholder="请输入昵称" maxlength="16"/>
+				<input type="nickname" v-model.trim="UserInfo.nickName" class="rt-input" placeholder="请输入昵称" maxlength="16"/>
 			</view>
 		</view>
 		
-		<view class="perBtn">确 定</view>
+		<view class="perBtn" @click="updClick">确 定</view>
 	</view>
 </template>
 
 <script>
-	
+	import { updUserInfo } from '@/api/page/index.js'
 	export default {
-		components: {
-			
-		},
 		data() {
 			return {
-				avatarUrl:"../../static/img/logo.jpg",
-				Name:"小明"
+				UserInfo:{}
 			}
 		},
 		onReady() {
-		
+			this.UserInfo = JSON.parse(uni.getStorageSync('UserInfo'))
 		},
 		methods: {
 			onChooseAvatar(e) {
@@ -54,6 +50,21 @@
 				// 	},
 				// });
 			},
+			
+			updClick(){
+				let param = {
+					avatar:this.UserInfo.avatar,
+					nickName:this.UserInfo.nickName,
+				}
+				updUserInfo(param).then((res) => {
+						uni.setStorageSync('UserInfo', JSON.stringify(this.UserInfo))
+						uni.showToast({title: '修改成功', icon:'success'});
+						setTimeout(() => {
+							uni.navigateBack()
+						}, 1200);
+				});
+			},
+			
 		}
 	}
 </script>

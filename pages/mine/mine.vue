@@ -5,13 +5,13 @@
 		<view class="top">
 			<view class="top-lt" @click="loginClick">
 				<image class="headImg" :src="UserInfo.avatar ? UserInfo.avatar : '../../static/img/logo.jpg'"></image>
-				<!-- <p class="lt-p">立即登录</p> -->
-				<view class="lt-r">
-					<view class="r-name">will</view>
-					<view class="r-phone">手机号：15989359452</view>
+				<view class="lt-r" v-if="mid">
+					<view class="r-name">{{UserInfo.nickName}}</view>
+					<view class="r-phone">手机号：{{UserInfo.phone}}</view>
 				</view>
+				<p class="lt-p" v-else>立即登录</p>
 			</view>
-			<view class="top-rt">
+			<view class="top-rt" v-if="mid">
 				<uni-icons type="location" size="56rpx" color="#777" @click="lctClick"></uni-icons>
 				<uni-icons type="gear" size="56rpx" color="#777" @click="setClick" class="ml10"></uni-icons>
 			</view>
@@ -23,7 +23,7 @@
 			<view class="titleBox">用户中心</view>
 			<view class="box flex">
 				<view class="itemBox" v-for="item in tabArr" :key="item.tabId" @click="jumpToSonPage(item.tabId)">
-					<button type="default" open-type="share" v-if="item.tabId==1&&Token" class="itemBox-btn"></button>
+					<button type="default" open-type="share" v-if="item.tabId==1&&mid" class="itemBox-btn"></button>
 					<image :src="item.imgUrl" class="itemIcon"></image>
 					<view>{{item.tabName}}</view>
 				</view>
@@ -87,7 +87,7 @@
 	import Tabbar from "@/components/tabbar/tabbar.vue"
 	import Ppkefu from "@/components/ppkefu/ppkefu.vue"
 	import { debounce } from "@/common/throttle.js";
-	import { WxLogin,getPhone } from '@/api/page/index.js'
+	import { WxLogin,getPhone,buildPhone,myDetail,userReg } from '@/api/page/index.js'
 	
 	export default {
 		components: {
@@ -96,8 +96,8 @@
 		},
 		data() {
 			return {
-				Token: this.$store.state.Token,
-				UserInfo:{},
+				mid: uni.getStorageSync('mid'),
+				UserInfo:JSON.parse(uni.getStorageSync('UserInfo')),
 				tabArr:[
 					{imgUrl:`http://file.aikbao.com//20221206141224358`,tabName:'我的订单', tabId:0},
 					{imgUrl:`http://file.aikbao.com/20211228145236509`,tabName:'我的优惠券', tabId:1},
@@ -115,10 +115,20 @@
 			}
 		},
 		onReady() {
+			if(this.mid){
+				this.getUserData()
+			}
 		},
 		methods: {
+			getUserData(){
+				myDetail().then((res) => {
+						this.UserInfo = res.data;
+						uni.setStorageSync('UserInfo', JSON.stringify(res.data))
+				});
+			},
+			
 			loginClick(){
-				this.$refs.logPopup.open()
+				if(!this.mid) this.$refs.logPopup.open();
 			},
 			closeLog(){ this.$refs.logPopup.close() },
 			onChooseAvatar(e) {
@@ -160,11 +170,16 @@
 				WxLogin(param).then((res) => {
 					if(res.code == 200){
 						uni.showToast({title: '登录成功', icon:'success'})
-					}else if(res.code == 5001){
+					}else{
 						this.$refs.logPopup.close()
 						this.$refs.popup.open()
 						this.WxLoginCode = res.code;
-						uni.setStorageSync('mid', res.data)
+						if(res.code == 5001){
+							uni.setStorageSync('mid', res.data)
+						}else if(res.code == 5002){
+							this.paramsData.openId = res.data.openId;
+							this.paramsData.unionId = res.data.unionId;
+						}
 					}
 				});
 			},
@@ -177,20 +192,41 @@
 				if (e.detail.errMsg == "getPhoneNumber:ok") {
 					getPhone({ jscode: e.detail.code }).then((res) => {
 						if(res.code == 200){
-								if(this.WxLoginCode == 5001) this.bindPhone();
+								if(this.WxLoginCode == 5001) this.bindPhone(res.data.phoneNumber);
+								if(this.WxLoginCode == 5002) this.mobileLog(res.data.phoneNumber);
 						}
 					});
 				} else {
 					//拒绝授权或授权失败
 				}
 			},
+			
 			//绑定手机号
-			bindPhone(){
-				
+			bindPhone(phone){
+				buildPhone({phone}).then((res) => {
+					if(res.code == 200){
+							uni.showToast({title: '绑定成功', icon:'success'});
+							this.$refs.popup.close();
+							this.getUserData();
+					}
+				});
 			},
+			
 			//用户注册
-			mobileLog(){
-				
+			mobileLog(phone){
+				let param = {
+					...this.paramsData,
+					phone
+				}
+				userReg(param).then((res) => {
+					if(res.code == 200){
+							uni.showToast({title: '登录成功', icon:'success'});
+							this.$refs.popup.close();
+							this.mid = res.data;
+							uni.setStorageSync('mid', res.data)
+							this.getUserData();
+					}
+				});
 			},
 			
 			

@@ -66,6 +66,7 @@
 	import Ppcar from "@/components/ppcar/ppcar.vue"
 	import Ppkefu from "@/components/ppkefu/ppkefu.vue"
 	import { priceHander } from '@/common/tool.js'
+	import { goodsList } from '@/api/page/index.js'
 	export default {
 		components: {
 			Swiper,
