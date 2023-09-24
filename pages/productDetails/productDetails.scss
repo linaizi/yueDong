@@ -76,9 +76,12 @@
 		}
 	}
 	.pd-sale{
+		@include dflex(space-between,center);
 		margin-top: 18upx;
-		font-size: 24upx;
-		color:#999999
+		.sale-v1{
+			font-size: 24upx;
+			color:#999999;
+		}
 	}
 
 }

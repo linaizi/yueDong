@@ -7,7 +7,7 @@
 		<!-- <商品轮播图 -->
 		<view class="uni-padding-wrap">
 			<swiper class="pdswiper" autoplay="true" interval="3000" circular="true" @change='swiperChange' >
-				<block v-for="(item,index) in swpArr" :key="index">
+				<block v-for="(item,index) in infoData.goodsImgs" :key="index">
 					<swiper-item>
 						<view class="swiperBox">
 							<image :src="item" :data-src="item" class="bannerImg" @click="getImgIndex(index)"></image>
@@ -16,38 +16,32 @@
 				</block>
 			</swiper>
 			<view class="swiperMsg" v-if="isShowMsg">
-				<view class="numbox">{{swiperIndex+1}}/{{swpArr.length}}</view>
+				<view class="numbox">{{swiperIndex+1}}/{{infoData.goodsImgs.length}}</view>
 			</image>
 			</view>
 		</view>
 		
 		<view class="pdBox">
-			<view class="pd-price">￥<span class="big">25.9</span> <span class="gray">￥39.6</span></view>
-			<view class="pd-title">普通鞋类 (不含aj、椰子、绒面)普通鞋类 (不含aj、椰子、绒面)普通鞋类 (不含aj、椰子、绒面)</view>
-			<view class="pd-sale">已售21件</view>
+			<view class="pd-price">￥<span class="big">{{infoData.goodsNowPrice}}</span> <span class="gray">￥{{infoData.goodsPrice}}</span></view>
+			<view class="pd-title">{{infoData.goodsName}}</view>
+			<view class="pd-sale">
+				<view class="sale-v1">已售{{infoData.saleas}}件</view>
+				<view class="sale-v1">库存{{infoData.stockNum}}件</view>
+			</view>
 		</view>
 		
-		<view class="pdBox">
-			<view class="pd-title">商品评价(2) <span @click="toPj">查看全部 ></span></view>
-			<view class="pjItem">
+		<view class="pdBox" v-if="infoData.commentNum>0">
+			<view class="pd-title">商品评价({{infoData.commentNum}}) <span @click="toPj">查看全部 ></span></view>
+			<view class="pjItem" v-for="(pi,pid) in infoData.comments" :key="pid">
 				<view class="item-top">
-					<image src="../../static/img/logo.jpg" class="top-img"></image>
-					<p class="top-p">匿名用户</p>
-					<p>2023-08-09</p>
+					<image :src="pi.avatar" class="top-img"></image>
+					<p class="top-p">{{pi.nickName}}</p>
+					<p>{{pi.createTime}}</p>
 				</view>
-				<view class="item-txt">阿斯顿发送到发是发</view>
-				<view class="image-grid" v-if="imgArr.length>0">
-				  <image v-for="(i,ind) in imgArr" :key="ind" :src="i" mode="widthFix" class="image"></image>
+				<view class="item-txt">{{pi.content}}</view>
+				<view class="image-grid" v-if="pi.pic.length>0">
+				  <image v-for="(i,ind) in pi.pic" :key="ind" :src="i" mode="widthFix" class="image"></image>
 				</view>
-				<view class="item-gray">规格：默认</view>
-			</view>
-			<view class="pjItem">
-				<view class="item-top">
-					<image src="../../static/img/logo.jpg" class="top-img"></image>
-					<p class="top-p">匿名用户</p>
-					<p>2023-08-09</p>
-				</view>
-				<view class="item-txt">阿斯顿发送到发是发</view>
 				<view class="item-gray">规格：默认</view>
 			</view>
 		</view>
@@ -61,7 +55,7 @@
 				</view>
 			</view>
 			<view class="pictureList" v-show="isShowImgBox">
-				<image v-for="(item,index) in imgArr" :key="index" :src="item" mode="widthFix" class="picture">
+				<image v-for="(item,index) in infoData.goodsInfoImgs" :key="index" :src="item" mode="widthFix" class="picture">
 				</image>
 			</view>
 		</view>
@@ -75,14 +69,14 @@
 				<image :src="scImg" class="btnIcon"></image>
 				<view>{{scTxt}}</view>
 			</view>
-			<view class="leftBtnBox bottomBtnBox">加入购物车</view>
+			<view class="leftBtnBox bottomBtnBox" @click.stop="openCar">加入购物车</view>
 			<view class="bottomBtnBox" @click="goBuy">立即购买</view>
 		</view>
 		
 		<view class="pd-tc">
 			<view class="tc-item" @click="goCart">
 				<image src="../../static/img/pd-cart.png" class="w100" mode="widthFix"></image>
-				<span>25</span>
+				<span>{{infoData.shoppingNum}}</span>
 			</view>
 			<view class="tc-item" @click="sharePP">
 				<image src="../../static/img/pd-share.png" class="w100" mode="widthFix"></image>
@@ -108,29 +102,31 @@
 			</view>
 		</uni-popup>
 		
+		<Ppcar :ppCarData="infoData" ref="child" @updClick="handleUpd"></Ppcar>
+		
 	</view>
 </template>
 
 <script>
 	import { priceHander,preservationImg } from '@/common/tool.js'
+	import { goodsInfo,shoppingAdd } from '@/api/page/index.js'
+	import Ppcar from "@/components/ppcar/ppcar.vue"
 	export default {
-	
+		components: {
+			Ppcar,
+		},
 		data() {
 			return {
+				mid: uni.getStorageSync('mid'),
+				goodsId:'',
 				iStatusBarHeight: 0,
+				infoData:{
+					goodsImgs:[]
+				},
 				
 				swiperIndex:0,
 				isShowMsg:true,
-				swpArr: [
-					"../../static/img/good1.png",
-					"../../static/img/swiper2.jpg",
-					"../../static/img/swiper3.png",
-				],
 				
-				imgArr:[
-					"../../static/img/good1.png",
-					"../../static/img/index1.png",
-				],
 				isShowImgBox:false,
 				hasSC:false,//false代表没有收藏，改成true就可以增加收藏
 				scTxt:'收藏',
@@ -145,11 +141,26 @@
 			// if (platform.toLowerCase() == "android" ){
 			// 	height +=4
 			// }
+			this.goodsId = option.goodsId;
+			this.getGoodInfo(option.goodsId)
 		},
 		
 		methods: {
 			priceHander,
 			preservationImg,
+			
+			getGoodInfo(goodsId){
+				goodsInfo({goodsId}).then((res) => {
+					if(res.code == 200){
+						this.infoData = res.data;
+					}
+				})
+			},
+			
+			openCar(i){
+				this.$refs.child.$refs.popup.open()
+			},
+			handleUpd(){ this.getGoodInfo(this.goodsId) },
 			
 			back_(){
 				uni.navigateBack({
@@ -173,19 +184,27 @@
 			},
 			toPj(){
 				uni.navigateTo({
-				    url: '/pages/allEvaluations/allEvaluations'
+				    url: '/pages/allEvaluations/allEvaluations?goodsId=' + this.infoData.id
 				});
 			},
 			goCart(){
-				uni.navigateTo({
-				    url: '/pages/myCart/myCart'
-				});
+				if(this.mid) { 
+					uni.navigateTo({
+					    url: '/pages/myCart/myCart'
+					});
+				}else{
+					uni.showToast({ title: '请先登录', icon:'none' })
+				}
 			},
 			
 			goBuy(){
-				uni.navigateTo({
-				    url: '/pages/buy/buy'
-				});
+				if(this.mid) {
+					uni.navigateTo({
+					    url: '/pages/buy/buy'
+					});
+				}else{
+					uni.showToast({ title: '请先登录', icon:'none' })
+				}
 			},
 			
 			//图片预览

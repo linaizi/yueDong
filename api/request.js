@@ -2,7 +2,8 @@ import axios from 'axios'
 import Qs from 'qs'
 
 //配置api接口地址
-var url = "http://10.100.3.46:7777"  
+// var url = "http://10.100.3.46:7777"  
+var url = "http://192.168.43.207:7777"  
 
 const $axios = axios.create({
 	baseURL : url,
@@ -32,7 +33,6 @@ $axios.interceptors.response.use(
 		if (res.status == 200) {
 			if(res.data['code'] && ![200,5001,5002].includes(res.data.code)){
 				uni.showToast({ title: res.data.message||res.data.msg, icon:'none' })
-				Promise.reject(res)
 			}
 		}
 		

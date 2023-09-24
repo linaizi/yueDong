@@ -51,7 +51,6 @@ export function updUserInfo(data) { 		// 更新用户信息
 }
 
 
-
 //index.vue
 export function goodsList(params) { 	// 商品列表
 	return request({
@@ -62,5 +61,60 @@ export function goodsList(params) { 	// 商品列表
 }
 
 
+//productDetails.vue
+export function goodsInfo(params) { 	// 商品详情
+	return request({
+		url: '/elantra/goods/info',
+		method: 'GET',
+		params
+	})
+}
+
+export function infoComments(params) { 	// 某商品下的所有评论
+	return request({
+		url: '/elantra/comment/list',
+		method: 'GET',
+		params
+	})
+}
+
+export function commentNum(params) { 	// 某商品下的所有评论数量
+	return request({
+		url: '/elantra/comment/list—num',
+		method: 'GET',
+		params
+	})
+}
+
+export function shoppingAdd(data) { 		// 添加购物车
+	return request({
+		url: '/elantra/shopping/add',
+		method: 'POST',
+		data
+	})
+}
 
 
+export function shoppingPage(params) { 	// 购物车列表
+	return request({
+		url: '/elantra/shopping/page',
+		method: 'GET',
+		params
+	})
+}
+
+export function shoppingDel(params) { 	// 删除购物车
+	return request({
+		url: '/elantra/shopping/del',
+		method: 'GET',
+		params
+	})
+}
+
+export function shoppingEditNum(params) { 	// 修改数量
+	return request({
+		url: '/elantra/shopping/edit-num',
+		method: 'GET',
+		params
+	})
+}

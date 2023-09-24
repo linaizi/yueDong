@@ -101,6 +101,7 @@
 					if (value > (this.max * scale)) {
 						value = this.max * scale
 					}
+					this.$emit('minus',value)
 				}
 
 				if (type === "plus") {
@@ -111,6 +112,7 @@
 					if (value < (this.min * scale)) {
 						value = this.min * scale
 					}
+					this.$emit('plus',value)
 				}
 
 				this.inputValue = (value / scale).toFixed(String(scale).length - 1);

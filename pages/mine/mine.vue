@@ -97,7 +97,7 @@
 		data() {
 			return {
 				mid: uni.getStorageSync('mid'),
-				UserInfo:JSON.parse(uni.getStorageSync('UserInfo')),
+				UserInfo:{},
 				tabArr:[
 					{imgUrl:`http://file.aikbao.com//20221206141224358`,tabName:'我的订单', tabId:0},
 					{imgUrl:`http://file.aikbao.com/20211228145236509`,tabName:'我的优惠券', tabId:1},
@@ -111,19 +111,28 @@
 					avatar:"https://file.aikbao.com/20230619140350568",
 					nickName:"小明"
 				},
-				WxLoginCode:200,
+				WxLoginCode:1,
 			}
 		},
-		onReady() {
+		onLoad(option) {
+			if(uni.getStorageSync('UserInfo')){
+				this.UserInfo = JSON.parse(uni.getStorageSync('UserInfo'))
+			}
+			
 			if(this.mid){
 				this.getUserData()
 			}
 		},
+	
 		methods: {
 			getUserData(){
 				myDetail().then((res) => {
 						this.UserInfo = res.data;
 						uni.setStorageSync('UserInfo', JSON.stringify(res.data))
+						if(this.WxLoginCode==200) {
+							this.$refs.logPopup.close();
+							uni.showToast({title: '登录成功', icon:'success'});
+						}
 				});
 			},
 			
@@ -168,12 +177,14 @@
 					code
 				}
 				WxLogin(param).then((res) => {
+					this.WxLoginCode = res.code;
 					if(res.code == 200){
-						uni.showToast({title: '登录成功', icon:'success'})
+						this.mid = res.data;
+						uni.setStorageSync('mid', res.data)
+						this.getUserData();
 					}else{
 						this.$refs.logPopup.close()
 						this.$refs.popup.open()
-						this.WxLoginCode = res.code;
 						if(res.code == 5001){
 							uni.setStorageSync('mid', res.data)
 						}else if(res.code == 5002){

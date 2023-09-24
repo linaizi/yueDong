@@ -25,17 +25,17 @@
 					</view>
 					
 					<view class="goodsList">
-						<view class="goodsItem" v-for="(item,index) in recommendArr" :key="index" @click="goProductDetails(item)">
-							<image :src="item.img" class="goodsImg"></image>
+						<view class="goodsItem" v-for="item in recommendArr" :key="item.id" @click="goProductDetails(item)">
+							<image :src="item.goodsPic" class="goodsImg"></image>
 							<view class="goodsMsg">
 								<view class="goodsMsg-top">
-									<h2 class="overflow2">{{item.name}}</h2>
-									<view class="goods-sal">已售：{{item.sales}} 件</view>
+									<h2 class="overflow2">{{item.goodsName}}</h2>
+									<view class="goods-sal">已售：{{item.saleas}} 件</view>
 								</view>
 								<view class="goodsMsg-foot">
 									<view class="foot-lf">
-											<p>￥<span class="big">{{priceHander(item.newprice,1)}}</span>{{priceHander(item.newprice,2)}}</p>
-											<p class="gray">￥{{item.oldprice}}</p>
+											<p>￥<span class="big">{{priceHander(item.goodsNowPrice,1)}}</span>{{priceHander(item.goodsNowPrice,2)}}</p>
+											<p class="gray">￥{{item.goodsPrice}}</p>
 									</view>
 									<image class="foot-rf" src="../../static/img/gwc.jpg" @click.stop="openCar(item)"></image>
 								</view>
@@ -54,7 +54,7 @@
 		</view>
 			
 		 <Tabbar :tabid="1"></Tabbar>
-		 <Ppcar :ppCarData="ppCarData" ref="child"></Ppcar>
+		 <Ppcar :ppCarData="ppCarData" ref="child" @updClick="handleUpd"></Ppcar>
 		 <Ppkefu ref="kfchild"></Ppkefu>
 		 
 	</view>
@@ -90,14 +90,10 @@
 				
 				goodParams:{
 					pageNo:1,
-					pageSize:10
+					pageSize:10,
+					cid:0
 				},
-				recommendArr:[
-					{name:"普通鞋类精选1双", img:"../../static/img/swiper1.jpg",newprice:19.9,oldprice:49.4,sales:129,qg:1},
-					{name:"高级鞋类精选三双", img:"../../static/img/swiper2.jpg",newprice:20,oldprice:76,sales:29,qg:3},
-					{name:"中级鞋类精选2双", img:"../../static/img/logo.jpg",newprice:13.9,oldprice:49,sales:89,qg:2},
-					{name:"中级鞋类修复", img:"../../static/img/swiper3.png",newprice:13.9,oldprice:49,sales:89,qg:1},
-				],
+				recommendArr:[],
 				
 				flag:false,
 				contentText:{
@@ -116,14 +112,34 @@
 				ppCarData:{},
 			}
 		},
-		onReady() {
-			this.initData()
+		onLoad(option) {
 			this.initGoods()
+			
+			// wx.setEnableDebug({ //开发环境打开调试
+			// 	enableDebug: true
+			// })
 		},
 		methods: {
-			initData(){},
-			
-			initGoods(){},
+			initGoods(){
+				goodsList(this.goodParams).then((res) => {
+					if(res.code == 200){
+						if(this.goodParams.pageNo<=res.data.totalPages){
+							this.recommendArr.push(...res.data.data);
+							this.isLoadMore=false
+							this.loadStatus='loading'
+						}else{
+							if(this.goodParams.pageNo == 1){
+								this.isLoadMore=false;
+							}else{
+								this.isLoadMore=true
+								this.loadStatus='nomore'
+							}
+						}
+					}
+				}).catch(e=>{
+					this.isLoadMore=false
+				});
+			},
 			
 			menuClick(idx){
 				let url=''
@@ -157,22 +173,16 @@
 			
 			openCar(i){
 				this.ppCarData = i;
-				this.ppCarData.numberValue=i.qg;
-				this.ppCarData.minSale=i.qg;	
 				this.$refs.child.$refs.popup.open()
 			},
+			handleUpd(){ console.log('handleUpd')},
 			
 			priceHander,
 			
 			// 跳转商品详情
 			goProductDetails(i){
-				var arr = {
-				  itemSource:i.item_source,
-				  goodsId:i.data_id,
-				}
-				
 				 uni.navigateTo({
-					url: '/pages/productDetails/productDetails?arr=' + JSON.stringify(arr) 
+					url: '/pages/productDetails/productDetails?goodsId=' + i.id 
 				 })
 			},
 			
@@ -197,7 +207,6 @@
 					this._freshing = false;
 					this.goodParams.pageNo = 1
 					this.recommendArr = []
-					this.initData()
 					this.initGoods()
 				}, 500);
 			},

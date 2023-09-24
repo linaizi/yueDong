@@ -17,19 +17,18 @@
 		 	@refresherabort="onAbort" >
 			
 				<view class="myCartList">
-					<view class="myCartItem" v-for="(item,index) in recommendArr" :key="index" @click="goodsClick(index)">
-						<view :class="['circle',{'circle-red':item.check}]"></view>
+					<view class="myCartItem" v-for="(item,index) in list" :key="index">
+						<view :class="['circle',{'circle-red':item.check}]" @click="goodsClick(index)"></view>
 						<view class="itemRt">
-							<image :src="item.img" class="rt-Img"></image>
+							<image :src="item.goodsInfoDto.goodsPic" class="rt-Img"></image>
 							<view class="rt-mid">
-								<view class="mid-name overflow2">{{item.name}}</view>
+								<view class="mid-name overflow2">{{item.goodsInfoDto.goodsName}}</view>
 								<view class="mid-gz">规格：默认</view>
 								<view class="mid-price">
-									{{item.newprice}}
-									<uni-number-box :value="numberValue" @change="change" background="#fff" class="uniNum" />
+									{{item.goodsInfoDto.goodsNowPrice}}
+									<uni-number-box v-model="item.goodsNum" @minus="minClick(index)" @plus="plusClick(index)" background="#fff" :min="1" class="uniNum" />
 								</view>
 							</view>
-							
 						</view>
 					</view>
 				</view>
@@ -64,18 +63,13 @@
 
 <script>
 	import Tabbar from "@/components/tabbar/tabbar.vue"
+	import { shoppingPage,shoppingDel,shoppingEditNum } from '@/api/page/index.js'
 	export default {
 		components: {
 			Tabbar,
 		},
 		data() {
 			return {
-				recommendArr:[
-					{name:"普通鞋类精选1双", img:"../../static/img/swiper1.jpg",newprice:19.9,id:1,sales:129,qg:1,check:false},
-					{name:"高级鞋类精选三双", img:"../../static/img/swiper2.jpg",newprice:20,id:2,sales:29,qg:3,check:false},
-					{name:"中级鞋类精选2双", img:"../../static/img/logo.jpg",newprice:13.9,id:3,sales:89,qg:2,check:false},
-					{name:"中级鞋类修复", img:"../../static/img/swiper3.png",newprice:13.9,id:4,sales:89,qg:1,check:false},
-				],
 				noGshow:false,
 				totalMoney:0.00,
 				numberValue:1,
@@ -83,7 +77,11 @@
 				allCheck:false, 
 				showDel:false,
 				ids:[],
-				
+				listQuery:{
+					pageNo:1,
+					pageSize:10
+				},
+				list:[],
 				
 				flag:false,
 				contentText:{
@@ -100,18 +98,42 @@
 				_freshing: false,  
 			}
 		},
-		onReady() {
+		onLoad(option) {
 			this.initData()
 		},
 		methods: {
 			initData(){
-				this.noGshow = this.recommendArr.length>0 ? false : true;
+				shoppingPage(this.listQuery).then((res) => {
+					if(res.code == 200){
+						if(this.listQuery.pageNo<=res.data.totalPages){
+							this.list.push(...res.data.data);
+							this.isLoadMore=false
+							this.loadStatus='loading'
+							
+							this.list.forEach((item) => {
+								this.$set(item,'check',false)
+							});
+						}else{
+							if(this.listQuery.pageNo == 1){
+								this.isLoadMore=false;
+							}else{
+								this.isLoadMore=true
+								this.loadStatus='nomore'
+							}
+						}
+						
+						this.noGshow = this.list.length>0 ? false : true;
+					}
+				}).catch(e=>{
+					this.isLoadMore=false
+				});
+				
 			},
 			
 			//编辑事件
 			editClick(){
 				this.showJs = !this.showJs;
-				this.recommendArr.forEach((item) => {
+				this.list.forEach((item) => {
 					item.check = false;
 				});
 				this.allCheck = false;
@@ -120,17 +142,17 @@
 			
 			//点击商品事件
 			goodsClick(index) {
-				this.recommendArr[index].check = !this.recommendArr[index].check;
+				this.list[index].check = !this.list[index].check;
 				this.handleEdit()
 		
 				// 检查是否所有商品都被选中
-				this.allCheck = this.recommendArr.every((item) => item.check);
+				this.allCheck = this.list.every((item) => item.check);
 			},
 			
 			//全选事件
 			allCkClick() {
 				this.allCheck = !this.allCheck;
-				this.recommendArr.forEach((item) => {
+				this.list.forEach((item) => {
 					item.check = this.allCheck;
 				});
 				
@@ -140,16 +162,32 @@
 			//统计总金额
 			handleEdit() {
 				if(this.showJs){
-					this.totalMoney = this.recommendArr
+					this.totalMoney = this.list
 						.filter((item) => item.check)
-						.reduce((total, item) => total + item.newprice, 0);
+						.reduce((total, item) => total + item.goodsInfoDto.goodsNowPrice, 0);
+					this.totalMoney = parseFloat(this.totalMoney.toFixed(2));
 				}else{
-					this.ids = this.recommendArr
-						.filter((item) => item.check)
-						.map((item) => item.id);
-								
+					this.ids = this.list.filter((item) => item.check).map((item) => item.id);
 					this.showDel = this.ids.length > 0;
 				}
+			},
+			
+			minClick(i){
+				this.EditNum(i,2);
+			},	
+			plusClick(i){
+				this.EditNum(i,1);
+			},
+			EditNum(i,type){
+				let parm = {
+					 goodsId:this.list[i].goodsId,
+					 type		//1: 增加 2:减少
+				}
+				shoppingEditNum(parm).then((res) => {
+					if(res.code !== 200){
+						type == 1 ? this.list[i].goodsNum-- : this.list[i].goodsNum++
+					}
+				});
 			},
 			
 			//点击结算事件
@@ -159,14 +197,24 @@
 			//删除事件
 			delClick(){
 				if(this.ids.length<=0) return;
-				console.log(this.ids)
+				let param = {
+					ids:this.ids.join(',')
+				}
+				shoppingDel(param).then((res) => {
+					if(res.code==200){
+						uni.showToast({title: '删除成功', icon:'success'});
+						this.listQuery.pageNo = 1;
+						this.list = []
+						this.initData();
+					}
+				});
 			},
 			
 			scrollLower(){
 				if(!this.isLoadMore){  //此处判断，上锁，防止重复请求
 					this.isLoadMore = true
-					this.goodParams.pageNo++
-					this.initGoods()
+					this.listQuery.pageNo++
+					this.initData()
 				}
 			},
 			// 自定义下拉刷新控件被下拉
@@ -181,10 +229,9 @@
 				setTimeout(() => {
 					this.triggered = false;
 					this._freshing = false;
-					this.goodParams.pageNo = 1
-					this.recommendArr = []
+					this.listQuery.pageNo = 1
+					this.list = []
 					this.initData()
-					this.initGoods()
 				}, 500);
 			},
 			// 自定义下拉刷新被复位

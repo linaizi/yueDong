@@ -3,10 +3,10 @@
 		<uni-popup ref="popup" type="bottom">
 			 <view class="ppBox">
 				 <view class="ppTop">
-						<image :src="ppCarData.img"  class="mid-img"></image>
+						<image :src="ppCarData.goodsPic"  class="mid-img"></image>
 					 <view class="ppTop-mid">
-						 <p class="mid-red"><span>￥</span>{{ppCarData.newprice}}</p>
-						 <p class="mid-gray">库存：9999</p>
+						 <p class="mid-red"><span>￥</span>{{ppCarData.goodsNowPrice}}</p>
+						 <p class="mid-gray">库存：{{ppCarData.stockNum}}</p>
 					 </view>
 					 <uni-icons type="closeempty" size="60rpx" color="#999" @click="closeCar"></uni-icons>
 				 </view>
@@ -18,12 +18,12 @@
 						 </view>
 					 </view>
 					 <view class="ppMid-foot">
-						 <view class="foot-lt">数量 <p>(<span>{{ppCarData.qg}}</span>件起售)</p></view>
-						 <uni-number-box :value="ppCarData.numberValue" :min="ppCarData.minSale" @change="change" />
+						 <view class="foot-lt">数量 <p>(<span>1</span>件起售)</p></view>
+						 <uni-number-box :value="goodsNum" :min="1" @change="change" />
 					 </view>
 				 </view>
 				 <view class="ppFoot">
-						<view class="ppFoot-btn">加入购物车</view>
+						<view class="ppFoot-btn" @click="addCart">加入购物车</view>
 						<view class="ppFoot-btn ppFoot-btn-rt" @click="goBuy">立即购买</view>
 				 </view>
 			 </view>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+	import { shoppingAdd } from '@/api/page/index.js'
 	export default{
 		props:{
 			ppCarData:{
@@ -39,10 +40,31 @@
 		},
 		data(){
 			return{
+				goodsNum:1
 			}
 		},
 		
 		methods:{
+			addCart(){
+				let param = {
+					goodsId:this.ppCarData.id,
+					goodsNum:this.goodsNum
+				}
+				shoppingAdd(param).then((res) => {
+					if(res.code == 200){
+						uni.showToast({ title: '添加购物车成功', icon:'success' })
+						this.$emit('updClick');
+						this.closeCar()
+					}else{
+						setTimeout(()=>{
+							uni.navigateTo({
+							    url: '/pages/mine/mine'
+							});
+						},1000)
+					}
+				})
+			},
+			
 			closeCar(){ this.$refs.popup.close() },
 			
 			change(value) {

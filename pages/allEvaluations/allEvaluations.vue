@@ -1,7 +1,7 @@
 <template>
 	<view class="allBg flexBox">
 		 <view class="aet-top">
-			 <span v-for="(i,index) in topArr" :key="index" :class="{'top-red':index==topId}" @click="topClick(index)">{{i.name}}({{i.num}})</span>
+			 <span v-for="i in topArr" :key="i.num" :class="{'top-red':i.num==listQuery.type}" @click="topClick(i.num)">{{i.name}}({{numArr[i.n]}})</span>
 		 </view>
 		 
 		 <scroll-view scroll-y="true" lower-threshold="50"
@@ -17,29 +17,19 @@
 		 	@refresherabort="onAbort" >
 				
 				<view class="aetBox">
-					<view class="pjItem">
+					<view class="pjItem" v-for="(item,index) in list" :key="index">
 						<view class="item-top">
-							<image src="../../static/img/logo.jpg" class="top-img"></image>
-							<p class="top-p">匿名用户</p>
-							<p>2023-08-09</p>
+							<image :src="item.avatar" class="top-img"></image>
+							<p class="top-p">{{item.nickName}}</p>
+							<p>{{item.createTime}}</p>
 						</view>
-						<view class="item-txt">阿斯顿发送到发是发</view>
-						<view class="image-grid" v-if="imgArr.length>0">
-						  <image v-for="(i,ind) in imgArr" :key="ind" :src="i" mode="widthFix" class="image"></image>
+						<view class="item-txt">{{item.content}}</view>
+						<view class="image-grid" v-if="item.pic.length>0">
+						  <image v-for="(i,ind) in item.pic" :key="ind" :src="i" mode="widthFix" class="image"></image>
 						</view>
 						<view class="item-gray">规格：默认</view>
+						<view class="item-sj" v-if="item.replyContent"><span>商家：</span>{{item.replyContent}}</view>
 					</view>
-					<view class="pjItem" v-for="(i,ind) in 10" :key="ind">
-						<view class="item-top">
-							<image src="../../static/img/logo.jpg" class="top-img"></image>
-							<p class="top-p">匿名用户</p>
-							<p>2023-08-09</p>
-						</view>
-						<view class="item-txt">阿斯顿发送到发是发</view>
-						<view class="item-gray">规格：默认</view>
-						<view class="item-sj"><span>商家：</span>阿斯顿发送到发是发阿斯顿发送到发是发阿斯顿发送到发是发阿斯顿发送到发是发阿斯顿发送到发是发</view>
-					</view>
-					
 				</view>
 				
 				<view v-show="isLoadMore" class="more_loading">  
@@ -55,25 +45,27 @@
 </template>
 
 <script>
+	import { infoComments,commentNum } from '@/api/page/index.js'
 	export default {
-		
 		data() {
 			return {
 				topArr:[
-					{name:'全部', num:2},
-					{name:'图片', num:2},
-					{name:'好评', num:2},
-					{name:'中评', num:2},
-					{name:'差评', num:2}
+					{name:'全部', num:0, n:'titalNum'},
+					{name:'图片', num:4, n:'titalPicNum'},
+					{name:'好评', num:1, n:'titalUpNum'},
+					{name:'中评', num:2, n:'titalCentreNum'},
+					{name:'差评', num:3, n:'titalBadNum'}
 				],
-				imgArr:[
-					"../../static/img/good1.png",
-					"../../static/img/index1.png",
-				],
+				list:[],
+				numArr:{},
 				
-				topId:0,
+				listQuery:{
+					pageNo:1,
+					type:0,
+				},
 				
 				flag:false,
+				page:1,
 				contentText:{
 					contentdown: "上拉显示更多",
 					contentrefresh: "加载中...",
@@ -88,18 +80,59 @@
 				_freshing: false,  
 			}
 		},
-		onReady() {
-		
+		onLoad(option) {
+			this.listQuery.goodsId = option.goodsId;
+			this.initGoods()
+			this.getComNum(option.goodsId)
 		},
 		methods: {
-			topClick(i){
-				this.topId = i;
+			getComNum(goodsId){
+				commentNum({goodsId}).then((res) => {
+					this.numArr = res.data;
+				});
+			},
+			
+			initGoods(goodsId,type){
+				if(this.page == this.listQuery.pageNo){
+					this.list = [];				
+					this.listQuery.pageNo = 1
+				}
+				
+				infoComments(this.listQuery).then((res) => {
+					if(res.code == 200){
+						if(this.listQuery.pageNo<=res.data.totalPages){
+							this.list.push(...res.data.data);
+							this.isLoadMore=false
+							this.loadStatus='loading'
+							this.page = this.listQuery.pageNo;
+						}else{
+							if(this.listQuery.pageNo == 1){
+								this.isLoadMore=false;
+							}else{
+								this.isLoadMore=true
+								this.loadStatus='nomore'
+							}
+						}
+					}
+				}).catch(e=>{
+					this.isLoadMore=false
+					if(this.page>1){
+						this.page-=1
+					}
+				});
+			},
+			
+			topClick(type){
+				this.listQuery.type = type;
+				this.listQuery.pageNo = 1;
+				this.list = [];
+				this.initGoods()
 			},
 			
 			scrollLower(){
 				if(!this.isLoadMore){  //此处判断，上锁，防止重复请求
 					this.isLoadMore = true
-					this.goodParams.pageNo++
+					this.listQuery.pageNo++;
 					this.initGoods()
 				}
 			},
@@ -115,10 +148,9 @@
 				setTimeout(() => {
 					this.triggered = false;
 					this._freshing = false;
-					this.goodParams.pageNo = 1
-					this.recommendArr = []
+					this.listQuery.pageNo = 1
+					this.list = []
 					this.initData()
-					this.initGoods()
 				}, 500);
 			},
 			// 自定义下拉刷新被复位
