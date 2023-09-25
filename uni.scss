@@ -379,3 +379,33 @@ page{
 		text-align: center;
 	}
 }
+
+
+// 登录弹窗
+.log-pp{
+	background: #fff;
+	border-radius: 20upx 20upx 0 0;
+	padding: 40upx 44upx 50upx;
+	.log-title{
+		font-size: 30upx;
+		color:#333;
+		font-weight: bold;
+	}
+	.log-sj{
+		font-size: 26upx;
+		color:#5A6A94;
+		padding: 26upx 0 30upx;
+	}
+	.log-btn{
+		@include dflex(center,center);
+		height:76upx;
+		font-size:28upx;
+		color:#5A6AB0;
+	}
+	.log-yes{
+		background: #EAF0FF;
+		border-radius: 4upx;
+		color:#3358D3;
+	}
+	
+}

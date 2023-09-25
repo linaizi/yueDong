@@ -56,6 +56,7 @@
 		 <Tabbar :tabid="1"></Tabbar>
 		 <Ppcar :ppCarData="ppCarData" ref="child" @updClick="handleUpd"></Ppcar>
 		 <Ppkefu ref="kfchild"></Ppkefu>
+		 <!-- <Pplog ref="logchild" :mid.sync="mid"  @getData='getUserData'></Pplog> -->
 		 
 	</view>
 </template>
@@ -67,15 +68,18 @@
 	import Ppkefu from "@/components/ppkefu/ppkefu.vue"
 	import { priceHander,JudgeAuthorize } from '@/common/tool.js'
 	import { goodsList } from '@/api/page/index.js'
+	import Pplog from "@/components/pplog/pplog.vue"
 	export default {
 		components: {
 			Swiper,
 			Tabbar,
 			Ppcar,
 			Ppkefu,
+			Pplog,
 		},
 		data() {
 			return {
+				mid: uni.getStorageSync('mid'),
 				swpArr: [
 					"../../static/img/swiper1.jpg",
 					"../../static/img/swiper2.jpg",

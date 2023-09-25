@@ -40,12 +40,17 @@
 		},
 		data(){
 			return{
-				goodsNum:1
+				goodsNum:1,
+				
 			}
 		},
 		
 		methods:{
 			addCart(){
+				if(!uni.getStorageSync('mid')){
+					this.$emit('logClick');
+					return;
+				}
 				let param = {
 					goodsId:this.ppCarData.id,
 					goodsNum:this.goodsNum
@@ -72,6 +77,10 @@
 			},
 			
 			goBuy(){
+				if(!uni.getStorageSync('mid')){
+					this.$emit('logClick');
+					return;
+				}
 				this.$refs.popup.close()
 				uni.navigateTo({
 				    url: '/pages/buy/buy'

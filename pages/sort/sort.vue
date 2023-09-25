@@ -39,7 +39,8 @@
 		 </view>
 		 
 		 <Tabbar :tabid="2"></Tabbar>
-		 <Ppcar :ppCarData="ppCarData" ref="child"></Ppcar>
+		 <Ppcar :ppCarData="ppCarData" ref="child" @updClick="handleUpd" @logClick="logClick"></Ppcar>
+		 <Pplog ref="logchild" :mid.sync="mid"  @getData='getUserData'></Pplog>
 	</view>
 </template>
 
@@ -47,13 +48,16 @@
 	import Tabbar from "@/components/tabbar/tabbar.vue"
 	import Ppcar from "@/components/ppcar/ppcar.vue"
 	import { priceHander } from '@/common/tool.js'
+	import Pplog from "@/components/pplog/pplog.vue"
 	export default {
 		components: {
 			Tabbar,
-			Ppcar
+			Ppcar,
+			Pplog,
 		},
 		data() {
 			return {
+				mid: uni.getStorageSync('mid'),
 				ppCarData:{},
 				list:[ "鞋类清洗", "鞋类修复","鞋类护理","特殊洗护"],
 				actNum:0,
@@ -100,7 +104,19 @@
 				this.ppCarData = i;
 				this.ppCarData.numberValue=i.qg;
 				this.ppCarData.minSale=i.qg;	
-				this.$refs.child.$refs.popup.open('bottom')
+				this.$refs.child.$refs.popup.open()
+			},
+			
+			handleUpd(){ console.log('handleUpd')},
+			logClick(){
+				this.$refs.child.$refs.popup.close()
+				this.$refs.logchild.$refs.logPopup.open()
+			},
+			getUserData(wcode){
+				if(wcode==200) {
+					this.$refs.logchild.$refs.logPopup.close();
+					uni.showToast({title: '登录成功', icon:'success'});
+				}
 			},
 					
 			scrollLower(){
