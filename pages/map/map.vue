@@ -26,7 +26,7 @@
 			 Mixin_GetLocation(){
 					const that = this
 					return new Promise((resolve, reject) => {
-						this.mixin_JudgeWeixinAuthorizeLocation(() => {
+						this.JudgeAuthorize(() => {
 							uni.getLocation({
 								type: 'gcj02',
 								geocode: true,
@@ -76,7 +76,7 @@
 			 },
 			
 			// 判断小程序和 APP 有没有定位权限
-			async mixin_JudgeWeixinAuthorizeLocation(callback){
+			async JudgeAuthorize(callback){
 					const that = this
 					uni.authorize({
 						scope:'scope.userLocation',
@@ -97,7 +97,7 @@
 										uni.openSetting({
 											success(res) {
 												console.log('授权成功'); 
-												that.mixin_JudgeWeixinAuthorizeLocation(callback)
+												that.JudgeAuthorize(callback)
 											}
 										});
 									} else if (res.cancel) {

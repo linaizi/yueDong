@@ -136,3 +136,41 @@ function openInstall() {
 		}
 	});
 }
+
+
+//判断小程序有没有定位权限
+export function JudgeAuthorize(){
+	return new Promise((req, rej) => {
+		uni.authorize({
+			scope:'scope.userLocation',
+			success(scope){
+				if(scope.errMsg==="authorize:ok") {
+					req(true)
+				}
+			},
+			fail(error) {
+				console.log("微信小程序获取位置信息失败:",error)
+				uni.showModal({
+					title:"提示",
+					content:"为保证功能正常使用，请开启定位权限",
+					confirmText:"去开启",
+					confirmColor:'#426BEB',
+					success: function(res) {
+						if (res.confirm) {
+							uni.openSetting({
+								success(res) {
+									console.log('授权成功'); 
+									req(true)
+								}
+							});
+						} else if (res.cancel) {
+							console.log('用户不授权');
+						}
+					}
+				});
+				
+			}
+		})
+					
+	})
+}

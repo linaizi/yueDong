@@ -118,3 +118,32 @@ export function shoppingEditNum(params) { 	// 修改数量
 		params
 	})
 }
+
+
+// storeList.vue
+export function pointList(params) { 	// 代收点列表
+	return request({
+		url: '/elantra/user/address/collection-point/list',
+		method: 'GET',
+		params
+	})
+}
+
+
+//myAddress.vue
+export function addressList(params) { 	// 查询用户地址信息
+	return request({
+		url: '/elantra/user/address/list',
+		method: 'GET',
+		params
+	})
+}
+
+export function addressAdd(data) { 	// 添加地址
+	return request({
+		url: '/elantra/user/address/add',
+		method: 'POST',
+		data
+	})
+}
+

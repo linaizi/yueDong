@@ -360,3 +360,22 @@ page{
 	}
 }
 
+//暂无数据 
+.searchNo {
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	transform: -webkit-translate(-50%, -50%);
+
+	img {
+		width: 375upx;
+		height: 238upx;
+	}
+
+	p {
+		font-size: 28upx;
+		color: #999999;
+		text-align: center;
+	}
+}

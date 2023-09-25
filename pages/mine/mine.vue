@@ -127,12 +127,19 @@
 		methods: {
 			getUserData(){
 				myDetail().then((res) => {
+					if(res.code == 200){
 						this.UserInfo = res.data;
 						uni.setStorageSync('UserInfo', JSON.stringify(res.data))
 						if(this.WxLoginCode==200) {
 							this.$refs.logPopup.close();
 							uni.showToast({title: '登录成功', icon:'success'});
 						}
+					}else if(res.code == 500){
+						uni.removeStorageSync('UserInfo')
+						uni.removeStorageSync('mid')
+						this.mid = ''
+						this.UserInfo = {}
+					}
 				});
 			},
 			
@@ -243,7 +250,7 @@
 			
 			lctClick(){
 				uni.navigateTo({
-				    url: '/pages/myAddress/myAddress'
+						url: '/pages/myAddress/myAddress'
 				});
 			},
 			setClick(){
