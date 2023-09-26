@@ -19,7 +19,7 @@
 						<input type="nickname" v-model.trim="paramsData.nickName" class="rt-input" placeholder="请输入昵称" maxlength="16"/>
 					</view>
 				</view>
-				<view class="log-sj">随机头像昵称</view>
+				<view class="log-sj" @click="suiJi">随机头像昵称</view>
 				<view class="log-btn log-yes" @click="getWxCode">允许</view>
 				<view class="log-btn log-no" @click="closeLog">拒绝</view>
 			</view>
@@ -56,10 +56,36 @@
 					nickName:"小明"
 				},
 				WxLoginCode:1,
+				sjArr:[
+					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"飞翔的燕子" },
+					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"魔幻的夜曲" },
+					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"铁拳的李白" },
+					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"突破的火星" },
+					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"潜伏的幽灵" },
+					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"躁动的巨人" },
+					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"悲伤的嫦娥" },
+					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"勇敢的狼牙" },
+					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"冷静的暗影" },
+					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"绽放的霞光" },
+				],
+				lastRandomIndex:-1,
 			}
 		},
 		
 		methods:{
+			suiJi(){
+				const sjArrLength = this.sjArr.length;
+				
+				let randomIndex;
+				do {
+				  randomIndex = Math.floor(Math.random() * sjArrLength);
+				} while (randomIndex === this.lastRandomIndex);
+				
+				this.lastRandomIndex = randomIndex;
+				
+				this.paramsData = this.sjArr[randomIndex];
+			},
+			
 			onChooseAvatar(e) {
 				const { avatarUrl } = e.detail 
 				
