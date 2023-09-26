@@ -1,5 +1,5 @@
 import request from '../request.js'
-// 先对登陆—>我的—>首页—>商品列表—>详情—>购物车—>地址—>下单 这样对咯
+// 先对登陆—>我的—>首页—>商品列表—>详情—>购物车—>地址—>下单 
 
 //login
 export function WxLogin(data) { // 微信登录
@@ -147,3 +147,43 @@ export function addressAdd(data) { 	// 添加地址
 	})
 }
 
+export function addressEdit(data) { 	// 修改地址
+	return request({
+		url: '/elantra/user/address/edit',
+		method: 'POST',
+		data
+	})
+}
+
+export function editDefault(params) { 	// 修改为默认
+	return request({
+		url: '/elantra/user/address/edit/default',
+		method: 'GET',
+		params
+	})
+}
+
+export function addressDel(params) { 	// 删除地址
+	return request({
+		url: '/elantra/user/address/del',
+		method: 'GET',
+		params
+	})
+}
+
+export function categoryList(params) { 	// 分类列表
+	return request({
+		url: '/elantra/category/list',
+		method: 'GET',
+		params
+	})
+}
+
+
+export function couponList(params) { 	// 查询用户优惠券
+	return request({
+		url: '/elantra/user/coupon/list',
+		method: 'GET',
+		params
+	})
+}

@@ -1,6 +1,6 @@
 .sortBox{
 	@include dflex(null,null);
-	height:100%;
+	height:85%;
 	.sortLt{
 		background: #F7F7F7;
 		height:100%;
@@ -20,6 +20,7 @@
 	}
 	
 	.sortRt{
+		background: #fff;
 		flex: 1;
 		.sortGoodBox{
 			margin: 0 26upx;

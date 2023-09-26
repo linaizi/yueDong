@@ -23,7 +23,7 @@
 			<view class="titleBox">用户中心</view>
 			<view class="box flex">
 				<view class="itemBox" v-for="item in tabArr" :key="item.tabId" @click="jumpToSonPage(item.tabId)">
-					<button type="default" open-type="share" v-if="item.tabId==1&&mid" class="itemBox-btn"></button>
+					<!-- <button type="default" open-type="share" v-if="item.tabId==1&&mid" class="itemBox-btn"></button> -->
 					<image :src="item.imgUrl" class="itemIcon"></image>
 					<view>{{item.tabName}}</view>
 				</view>
@@ -121,23 +121,27 @@
 			jumpToSonPage(idx){//跳转到子页面
 				let url=''
 				switch(idx) {
-				  case 0:
-				    url='/pages/myOrder/myOrder'
-				    break;
+					case 0:
+						url='/pages/myOrder/myOrder'
+						break;
 					case 1:
 						url='/pages/coupon/coupon'
 						break;
 					case 2:
-					  url='/pages/about/about'
-					  break;
+						url='/pages/about/about'
+						break;
 					case 3:
-					  this.$refs.kfchild.$refs.kfPopup.open();
-					  break;
+						this.$refs.kfchild.$refs.kfPopup.open();
+						break;
 				} 	
 				if(idx!=3){
-					uni.navigateTo({
-					    url: url
-					});
+					if((idx==0||idx==1)&&!this.mid){
+						uni.showToast({title: '请先登录', icon:'none'});
+					}else{
+						uni.navigateTo({
+						    url
+						});
+					}
 				}
 			},
 			

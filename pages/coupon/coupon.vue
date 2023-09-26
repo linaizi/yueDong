@@ -1,7 +1,7 @@
 <template>
 	<view class="allBg flexBox">
 		 <view class="cpon-top">
-			 <view v-for="(i,index) in topArr" :key="index" :class="['top-item',{'top-red':index==topId}]" @click="topClick(index)">{{i}}</view>
+			 <view v-for="i in topArr" :key="i.id" :class="['top-item',{'top-red':i.id==topId}]" @click="topClick(i.id)">{{i.name}}</view>
 		 </view>
 		 
 		 <scroll-view scroll-y="true" lower-threshold="50"
@@ -16,18 +16,18 @@
 		 	@refresherrestore="onRestore"
 		 	@refresherabort="onAbort" >
 				
-				<view :class="['cponBox',{'cponItem-no':topId !== 0}]" >
-					<view class="cponItem">
+				<view :class="['cponBox',{'cponItem-no':topId !== 2}]" >
+					<view class="cponItem" v-for="(item,index) in recommendArr" :key="index">
 						<view class="item-lt">
-							<p class="lt-p">￥<span>15</span> </p>
-							<p>满65元可用</p>
+							<p class="lt-p">￥<span>{{item.couponDto.amount}}</span> </p>
+							<p>满{{item.couponDto.conditionAmount}}元可用</p>
 						</view>
 						<view class="item-md">
-							<view class="md-t">15元券 <span>代金券</span></view>
-							<view class="md-p">适用商品：普通鞋类</view>
-							<view class="md-p">有效期至：2023-12-09 14:40</view>
+							<view class="md-t">{{item.couponDto.amount}}元券 <span>{{item.couponDto.type == 1 ? '新人' : '满减'}}券</span></view>
+							<view class="md-p">适用商品：所有商品</view>
+							<view class="md-p">有效期至：{{item.expireTime}}</view>
 						</view>
-						<view class="item-rt">{{txtArr[topId]}}</view>
+						<view class="item-rt" @click="goSort">{{txtArr[topId]}}</view>
 					</view>
 				</view>
 				
@@ -44,19 +44,29 @@
 </template>
 
 <script>
+	import { couponList } from '@/api/page/index.js'
 	export default {
-		
 		data() {
 			return {
-				topArr:['未使用','已使用','已过期'],
-				txtArr:['去使用','已使用','已过期'],
-				topId:0,
-				
+				mid: uni.getStorageSync('mid'),
+				recommendArr:[],
+				topArr:[
+					{name:'未使用', id:2 },
+					{name:'已使用', id:1 },
+					{name:'已过期', id:3 },
+				],
+				txtArr:['','已使用','去使用','已过期'],
+				topId:2,
 				imgArr:[
 					"../../static/img/good1.png",
 					"../../static/img/index1.png",
 				],
 				
+				listQuery:{
+					pageNo:1,
+					pageSize:10,
+					type:2
+				},
 				flag:false,
 				contentText:{
 					contentdown: "上拉显示更多",
@@ -73,11 +83,50 @@
 			}
 		},
 		onReady() {
-		
+			this.initGoods()
 		},
 		methods: {
+			initGoods(){
+				couponList(this.listQuery).then((res) => {
+					if(res.code == 200){
+						if(res.data.length>0){
+							this.recommendArr.push(...res.data);
+							
+							if(res.data.length<10){  //判断接口返回数据量小于请求数据量，则表示此为最后一页
+								this.isLoadMore=true
+								this.loadStatus='nomore'
+							}else{
+								this.isLoadMore=false
+							}
+							
+						}else{
+							if(this.listQuery.pageNo == 1){
+								this.isLoadMore=false;
+							}else{
+								this.isLoadMore=true
+								this.loadStatus='nomore'
+							}
+						}
+					}
+				}).catch(e=>{
+					this.isLoadMore=false
+				});
+			},
+			
+			//tab切换
 			topClick(i){
 				this.topId = i;
+				this.listQuery.pageNo = 1;
+				this.listQuery.type = i;
+				this.recommendArr = [];
+				this.initGoods()
+			},
+			
+			goSort(){
+				if(this.topId!==2) return;
+				uni.navigateTo({
+					url: "/pages/sort/sort",
+				})
 			},
 			
 			scrollLower(){

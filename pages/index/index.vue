@@ -54,9 +54,9 @@
 		</view>
 			
 		 <Tabbar :tabid="1"></Tabbar>
-		 <Ppcar :ppCarData="ppCarData" ref="child" @updClick="handleUpd"></Ppcar>
+		 <Ppcar :ppCarData="ppCarData" ref="child" @updClick="handleUpd" @logClick="logClick"></Ppcar>
 		 <Ppkefu ref="kfchild"></Ppkefu>
-		 <!-- <Pplog ref="logchild" :mid.sync="mid"  @getData='getUserData'></Pplog> -->
+		 <Pplog ref="logchild" :mid.sync="mid"  @getData='getUserData'></Pplog>
 		 
 	</view>
 </template>
@@ -185,6 +185,17 @@
 				this.$refs.child.$refs.popup.open()
 			},
 			handleUpd(){ console.log('handleUpd')},
+			logClick(){
+				this.$refs.child.$refs.popup.close()
+				this.$refs.logchild.$refs.logPopup.open()
+			},
+			//pplog组件回调
+			getUserData(wcode){
+				if(wcode==200) {
+					this.$refs.logchild.$refs.logPopup.close();
+					uni.showToast({title: '登录成功', icon:'success'});
+				}
+			},
 			
 			priceHander,
 			

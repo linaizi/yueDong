@@ -3,10 +3,10 @@
 		<uni-popup ref="popup" type="bottom">
 			 <view class="ppBox">
 				 <view class="ppTop">
-						<image :src="ppCarData.goodsPic"  class="mid-img"></image>
+						<image :src="goodsData.goodsPic"  class="mid-img"></image>
 					 <view class="ppTop-mid">
-						 <p class="mid-red"><span>￥</span>{{ppCarData.goodsNowPrice}}</p>
-						 <p class="mid-gray">库存：{{ppCarData.stockNum}}</p>
+						 <p class="mid-red"><span>￥</span>{{goodsData.goodsNowPrice}}</p>
+						 <p class="mid-gray">库存：{{goodsData.stockNum}}</p>
 					 </view>
 					 <uni-icons type="closeempty" size="60rpx" color="#999" @click="closeCar"></uni-icons>
 				 </view>
@@ -19,7 +19,7 @@
 					 </view>
 					 <view class="ppMid-foot">
 						 <view class="foot-lt">数量 <p>(<span>1</span>件起售)</p></view>
-						 <uni-number-box :value="goodsNum" :min="1" @change="change" />
+						 <uni-number-box v-model="goodsData.goodsNum" :min="1" />
 					 </view>
 				 </view>
 				 <view class="ppFoot">
@@ -41,8 +41,16 @@
 		data(){
 			return{
 				goodsNum:1,
-				
+				goodsData:{}
 			}
+		},
+		watch: {
+		    ppCarData: {
+				handler(newData) {
+					this.goodsData = {goodsNum:1, ...newData}; // 在 ppCarData 变化时执行的操作
+				},
+				deep: true // 深度监听对象属性的变化
+		    }
 		},
 		
 		methods:{
@@ -52,8 +60,8 @@
 					return;
 				}
 				let param = {
-					goodsId:this.ppCarData.id,
-					goodsNum:this.goodsNum
+					goodsId:this.goodsData.id,
+					goodsNum:this.goodsData.goodsNum
 				}
 				shoppingAdd(param).then((res) => {
 					if(res.code == 200){
@@ -70,21 +78,23 @@
 				})
 			},
 			
-			closeCar(){ this.$refs.popup.close() },
-			
-			change(value) {
-				this.ppCarData.numberValue = value
+			closeCar(){ 
+				this.$refs.popup.close() 
+				this.goodsData.goodsNum =1;
 			},
+			
 			
 			goBuy(){
 				if(!uni.getStorageSync('mid')){
 					this.$emit('logClick');
 					return;
 				}
-				this.$refs.popup.close()
+				let arr = [this.goodsData]
+				
 				uni.navigateTo({
-				    url: '/pages/buy/buy'
+				    url: '/pages/buy/buy?goodsData=' + JSON.stringify(arr)
 				});
+				this.closeCar()
 			},
 		},
 	

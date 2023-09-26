@@ -164,7 +164,7 @@
 				if(this.showJs){
 					this.totalMoney = this.list
 						.filter((item) => item.check)
-						.reduce((total, item) => total + item.goodsInfoDto.goodsNowPrice, 0);
+						.reduce((total, item) => total + item.goodsInfoDto.goodsNowPrice*item.goodsNum, 0);
 					this.totalMoney = parseFloat(this.totalMoney.toFixed(2));
 				}else{
 					this.ids = this.list.filter((item) => item.check).map((item) => item.id);
@@ -184,8 +184,10 @@
 					 type		//1: 增加 2:减少
 				}
 				shoppingEditNum(parm).then((res) => {
-					if(res.code !== 200){
-						type == 1 ? this.list[i].goodsNum-- : this.list[i].goodsNum++
+					if(res.code == 200){
+						this.handleEdit()
+					}else{
+						type == 1 ? this.list[i].goodsNum-- : this.list[i].goodsNum++;
 					}
 				});
 			},
@@ -193,6 +195,18 @@
 			//点击结算事件
 			jieSuan(){
 				if(this.totalMoney<=0) return;
+				
+				const arr = this.list
+				  .filter(item => item.check)
+				  .map(item => {
+				    const info = { ...item.goodsInfoDto }; 
+				    info.goodsNum = item.goodsNum;
+				    return info;
+				  });
+				
+				uni.navigateTo({
+				    url: '/pages/buy/buy?goodsData=' + JSON.stringify(arr)
+				});
 			},
 			//删除事件
 			delClick(){

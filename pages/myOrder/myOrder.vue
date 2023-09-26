@@ -125,6 +125,7 @@
 				});
 			},
 			
+			//tab切换
 			listClick(i){
 				if (i === this.activeIndex) return 	//重复点击不生效
 				

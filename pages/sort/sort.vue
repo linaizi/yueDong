@@ -4,22 +4,22 @@
 		
 		 <view class="sortBox">
 			 <view class="sortLt">
-				 <view v-for="(item,index) in list" :key="index" :class="['ltItem',{ 'active': actNum === index }]" @click="sortChange(index)">{{item}}</view>
+				 <view v-for="(item,index) in list" :key="index" :class="['ltItem',{ 'active': actNum === index }]" @click="sortChange(index)">{{item.cname}}</view>
 			 </view>
 			 <view class="sortRt flexBox">
 				 <scroll-view class="boxScroll" scroll-y="true" lower-threshold="50" @scrolltolower="scrollLower" :scroll-top="scrollTop">
 						<view class="sortGoodBox">
-							<view class="goodsItem" v-for="(item,index) in recommendArr" :key="index">
-								<image :src="item.img" class="goodsImg"></image>
+							<view class="goodsItem" v-for="(item,index) in recommendArr" :key="index" @click="goProductDetails(item)">
+								<image :src="item.goodsPic" class="goodsImg"></image>
 								<view class="goodsMsg">
 									<view class="goodsMsg-top">
-										<h2 class="top-h overflow2">{{item.name}}</h2>
-										<view class="goods-sal">已售：{{item.sales}} 件</view>
+										<h2 class="top-h overflow2">{{item.goodsName}}</h2>
+										<view class="goods-sal">已售：{{item.saleas}} 件</view>
 									</view>
 									<view class="goodsMsg-foot">
 										<view class="foot-lf">
-												<p>￥<span class="big">{{priceHander(item.newprice,1)}}</span>{{priceHander(item.newprice,2)}}</p>
-												<p class="gray">￥{{item.oldprice}}</p>
+												<p>￥<span class="big">{{priceHander(item.goodsNowPrice,1)}}</span>{{priceHander(item.goodsNowPrice,2)}}</p>
+												<p class="gray">￥{{item.goodsPrice}}</p>
 										</view>
 										<image class="foot-rf" src="../../static/img/gwc.jpg" @click.stop="openCar(item)"></image>
 									</view>
@@ -49,6 +49,7 @@
 	import Ppcar from "@/components/ppcar/ppcar.vue"
 	import { priceHander } from '@/common/tool.js'
 	import Pplog from "@/components/pplog/pplog.vue"
+	import { categoryList,goodsList } from '@/api/page/index.js'
 	export default {
 		components: {
 			Tabbar,
@@ -59,15 +60,10 @@
 			return {
 				mid: uni.getStorageSync('mid'),
 				ppCarData:{},
-				list:[ "鞋类清洗", "鞋类修复","鞋类护理","特殊洗护"],
+				list:[],
 				actNum:0,
 				
-				recommendArr:[
-					{name:"普通鞋类精选1双", img:"../../static/img/swiper1.jpg",newprice:19.9,oldprice:49.4,sales:129,qg:1},
-					{name:"高级鞋类精选三双", img:"../../static/img/swiper2.jpg",newprice:20,oldprice:76,sales:29,qg:3},
-					{name:"中级鞋类精选2双", img:"../../static/img/logo.jpg",newprice:13.9,oldprice:49,sales:89,qg:2},
-					{name:"中级鞋类修复中级鞋类修复中级鞋类修复中级鞋类修复", img:"../../static/img/swiper3.png",newprice:13.9,oldprice:49,sales:89,qg:1},
-				],
+				recommendArr:[],
 				
 				//scroll-view
 				contentText:{
@@ -77,9 +73,9 @@
 				},
 				listQuery:{
 					pageNo:1,
-					sort:1
+					pageSize:10,
+					cid:1
 				},
-				page:1,
 				pagesize:10,
 				loadStatus:'loading',  //加载样式：more-加载前样式，loading-加载中样式，nomore-没有数据样式
 				isLoadMore:false,  //是否加载中
@@ -91,13 +87,57 @@
 			}
 		},
 		onReady() {
-		
+			this.getList()
 		},
 		methods: {
 			priceHander,
 			
+			getList(){
+				categoryList().then((res) => {
+					if(res.code == 200){
+						this.list = res.data;
+						this.listQuery.cid = res.data[0].id;
+						this.initGoods()
+					}
+				});
+			},
+			
+			initGoods(){
+				goodsList(this.listQuery).then((res) => {
+					if(res.code == 200){
+						if(this.listQuery.pageNo<=res.data.totalPages){
+							this.recommendArr.push(...res.data.data);
+							this.isLoadMore=false
+							this.loadStatus='loading'
+						}else{
+							if(this.listQuery.pageNo == 1){
+								this.isLoadMore=false;
+							}else{
+								this.isLoadMore=true
+								this.loadStatus='nomore'
+							}
+						}
+					}
+				}).catch(e=>{
+					this.isLoadMore=false
+				});
+			},
+			
+			// 跳转商品详情
+			goProductDetails(i){
+				 uni.navigateTo({
+					url: '/pages/productDetails/productDetails?goodsId=' + i.id 
+				 })
+			},
+			
+			//tab切换
 			sortChange(n){
+				if(this.actNum == n) return;
 				this.actNum = n;
+				this.listQuery.cid = this.list[n].id;
+				this.recommendArr = [];
+				this.listQuery.pageNo = 1;
+				this.initGoods()
 			},
 			
 			openCar(i){
@@ -112,6 +152,7 @@
 				this.$refs.child.$refs.popup.close()
 				this.$refs.logchild.$refs.logPopup.open()
 			},
+			//pplog组件回调
 			getUserData(wcode){
 				if(wcode==200) {
 					this.$refs.logchild.$refs.logPopup.close();
@@ -125,7 +166,7 @@
 					this.listQuery.pageNo++
 					let _that = this
 					setTimeout(()=>{
-						_that.initData()
+						_that.initGoods()
 					},1000)
 				}
 			},

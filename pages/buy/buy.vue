@@ -3,7 +3,7 @@
 		<view class="topBox">
 			<view class="tab-t">
 				<view :class="['t-item',{'t-item-lt':tabNum==0}]" @click="tabNum=0"><image src="../../static/img/buy1.png" v-if="tabNum==0" class="t-img1"></image>到店服务</view>
-				<view :class="['t-item',{'t-item-rt':tabNum==1}]" @click="tabNum=1"><image src="../../static/img/buy2.png" v-if="tabNum==1" class="t-img2"></image>上面取送</view>
+				<view :class="['t-item',{'t-item-rt':tabNum==1}]" @click="tabNum=1"><image src="../../static/img/buy2.png" v-if="tabNum==1" class="t-img2"></image>上门取送</view>
 			</view>
 			<view class="tab-form" v-if="tabNum==0">
 				<uni-forms :model="formData" border class="aa">
@@ -29,6 +29,7 @@
 			</view>
 		</view>
 		
+		<!-- 商品信息 -->
 		<view class="buyBox">
 			<view class="title">跃动球鞋洗护</view>
 			
@@ -51,14 +52,14 @@
 			</view>
 			<view class="dsdBox-no" v-else>请添加联系人 <p>添加配送地址</p></view>
 			
-			<view class="ordre-item buy-item">
-				<image src="../../static/img/good1.png" class="main-lt"></image>
+			<view class="ordre-item buy-item" v-for="it in goodsData" :key="it.id">
+				<image :src="it.goodsPic" class="main-lt"></image>
 				<view class="item-mid">
-					<p class="mid-p overflow1">高级鞋类精选三双</p>
+					<p class="mid-p overflow1">{{it.goodsName}}</p>
 					<p>规格：默认</p>
-					<p>x4</p>
+					<p>x{{it.goodsNum}}</p>
 				</view>
-				<view class="main-rt">￥81.90</view>
+				<view class="main-rt">￥{{it.goodsNowPrice}}</view>
 			</view>
 			
 			<view class="buy-time" @click="yhqClick">
@@ -75,9 +76,10 @@
 				<view class="time-red">￥6</view>
 			</view>
 			
-			<view class="buy-all"> <p class="all-g">共1件</p> <p>共计：</p> <p class="all-r">￥69.60</p> </view>
+			<view class="buy-all"> <p class="all-g">共1件</p> <p>共计：</p> <p class="all-r">￥{{totalMoney}}</p> </view>
 		</view>
 		
+		<!-- 表单 -->
 		<view class="buyBox">
 			<view class="title">自定义表单</view>
 			
@@ -104,7 +106,7 @@
 		<view style="height: 130upx;"></view>
 		
 		<view class="buy-foot">
-			<view class="foot-lt">合计:￥<span>9.90</span></view>
+			<view class="foot-lt">合计:￥<span>{{totalMoney}}</span></view>
 			<view class="foot-rt">提交订单</view>
 		</view>
 		
@@ -163,6 +165,7 @@
 
 <script>
 	import hTimeAlert from "@/components/h-time-alert/h-time-alert.vue";
+	import { pointList } from '@/api/page/index.js'
 	export default {
 		components: {
 			hTimeAlert
@@ -170,6 +173,9 @@
 		data() {
 			return {
 				formData:{},
+				goodsData:{},
+				totalMoney:0,	//总金额
+				lotn:{},	//当前定位
 				tabNum:0,
 				hasAddr:true,
 				yyTime:'今天(周一)17:30-18:00',
@@ -181,11 +187,54 @@
 				hasQ:true,
 			}
 		},
-		onLoad() {
+		onLoad(option) {
+			this.goodsData = JSON.parse(option.goodsData);
+			this.totalMoney = this.goodsData.reduce((total, item) => total + item.goodsNowPrice*item.goodsNum, 0);
+			
+			this.getLocation() //获取当前位置
+				
 			//全局定义的图片访问地址前缀
 			this.imgURL=this.$imgURL
 		},
 		methods: {
+			//获取当前位置
+			getLocation(){
+				var _that = this;
+				uni.getLocation({
+					type: 'gcj02',
+					geocode: true,
+					success(response) {
+						console.log(response)
+						// {
+						// 	accuracy: 65
+						// 	errMsg: "getLocation:ok"
+						// 	horizontalAccuracy: 65
+						// 	latitude: 22.55329
+						// 	longitude: 113.88308
+						// 	speed: -1
+						// 	verticalAccuracy: 65
+						// }
+						_that.lotn = {
+							n: response.latitude,
+							e: response.longitude
+						}
+						_that.getList()
+					},
+					fail() {
+						
+					}
+				})
+			},
+			
+			//获取附近代收点列表
+			getList(){
+				pointList(this.lotn).then((res) => {
+					if(res.code == 200){
+						this.list = res.data
+					}
+				});
+			},
+			
 			setTimeClick(){ this.timeShow = true; },
 			handelClose(data){  
 				this.timeShow = false; 

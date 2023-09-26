@@ -55,13 +55,13 @@
 				}
 				this.getList()
 				// {
-				// 	address: "广东省深圳市宝安区新桥街道上寮社区上南大街202号104"
-				// 	city: "深圳市"
-				// 	district: "宝安区"
-				// 	latitude: 22.553342
-				// 	longitude: 113.883082
-				// 	name: "觅茶"
-				// 	province: "广东省"
+					// address: "广东省深圳市宝安区上星路西星悦豪庭一期对面"
+					// city: "深圳市"
+					// district: "宝安区"
+					// latitude: 22.726897
+					// longitude: 113.83283
+					// name: "星际大厦"
+					// province: "广东省"
 				// }
 			}
 		

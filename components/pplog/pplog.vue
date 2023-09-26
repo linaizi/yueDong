@@ -44,9 +44,10 @@
 	import { WxLogin,getPhone,buildPhone,userReg } from '@/api/page/index.js'
 	export default{
 		props:{
-			mid:{
-				type:Number
-			},
+			mid: {
+                type: String,
+                default: "",
+            }
 		},
 		data(){
 			return{

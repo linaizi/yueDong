@@ -103,7 +103,8 @@
 		</uni-popup>
 		
 		<Ppcar :ppCarData="infoData" ref="child" @updClick="handleUpd"></Ppcar>
-		
+		<Pplog ref="logchild" :mid.sync="mid"  @getData='getUserData'></Pplog>
+		 
 	</view>
 </template>
 
@@ -111,9 +112,11 @@
 	import { priceHander,preservationImg } from '@/common/tool.js'
 	import { goodsInfo,shoppingAdd } from '@/api/page/index.js'
 	import Ppcar from "@/components/ppcar/ppcar.vue"
+	import Pplog from "@/components/pplog/pplog.vue"
 	export default {
 		components: {
 			Ppcar,
+			Pplog,
 		},
 		data() {
 			return {
@@ -161,6 +164,19 @@
 				this.$refs.child.$refs.popup.open()
 			},
 			handleUpd(){ this.getGoodInfo(this.goodsId) },
+			logClick(){
+				this.$refs.child.$refs.popup.close()
+				this.$refs.logchild.$refs.logPopup.open()
+			},
+			//pplog组件回调
+			getUserData(wcode){
+				if(wcode==200) {
+					this.$refs.logchild.$refs.logPopup.close();
+					uni.showToast({title: '登录成功', icon:'success'});
+				}
+				this.getGoodInfo(this.goodsId)
+			},
+			
 			
 			back_(){
 				uni.navigateBack({
