@@ -179,10 +179,17 @@ export function categoryList(params) { 	// 分类列表
 	})
 }
 
-
 export function couponList(params) { 	// 查询用户优惠券
 	return request({
 		url: '/elantra/user/coupon/list',
+		method: 'GET',
+		params
+	})
+}
+
+export function couponListTwo(params) { 	// 结算查询用户优惠券
+	return request({
+		url: '/elantra/user/coupon/list/two',
 		method: 'GET',
 		params
 	})

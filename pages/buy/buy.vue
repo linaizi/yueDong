@@ -33,6 +33,10 @@
 		<view class="buyBox">
 			<view class="title">跃动球鞋洗护</view>
 			
+			<template v-if="tabNum==0">
+				<view></view>
+			</template>
+			
 			<view class="dsdBox" v-if="hasAddr">
 				<view class="dsd-adr" v-if="tabNum==0">
 					<view class="adr-t">
@@ -51,6 +55,9 @@
 				</view>
 			</view>
 			<view class="dsdBox-no" v-else>请添加联系人 <p>添加配送地址</p></view>
+			
+			
+			
 			
 			<view class="ordre-item buy-item" v-for="it in goodsData" :key="it.id">
 				<image :src="it.goodsPic" class="main-lt"></image>
@@ -165,7 +172,7 @@
 
 <script>
 	import hTimeAlert from "@/components/h-time-alert/h-time-alert.vue";
-	import { pointList } from '@/api/page/index.js'
+	import { pointList,addressList,couponListTwo } from '@/api/page/index.js'
 	export default {
 		components: {
 			hTimeAlert
@@ -177,6 +184,14 @@
 				totalMoney:0,	//总金额
 				lotn:{},	//当前定位
 				tabNum:0,
+				list:[],
+				addrList:[],
+				couponParam:{
+					amount:59,
+					pageNo:1,
+					pageSize:10,
+					type:1
+				},
 				hasAddr:true,
 				yyTime:'今天(周一)17:30-18:00',
 				timeShow:false,
@@ -192,9 +207,12 @@
 			this.totalMoney = this.goodsData.reduce((total, item) => total + item.goodsNowPrice*item.goodsNum, 0);
 			
 			this.getLocation() //获取当前位置
+			this.getAddr()	//获取用户地址
+			this.getAddr()	//获取用户地址
+			this.getCoupon()	//获取用户优惠券
 				
 			//全局定义的图片访问地址前缀
-			this.imgURL=this.$imgURL
+			// this.imgURL=this.$imgURL
 		},
 		methods: {
 			//获取当前位置
@@ -226,11 +244,26 @@
 				})
 			},
 			
+			getAddr(){
+				addressList({ addressType:1 }).then((res) => {
+					if(res.code == 200){
+						this.list = res.data
+					}
+				});
+			},
+			
+			getCoupon(){
+				couponListTwo(this.couponParam).then((res) => {
+					if(res.code == 200){
+					}
+				});
+			},
+			
 			//获取附近代收点列表
 			getList(){
 				pointList(this.lotn).then((res) => {
 					if(res.code == 200){
-						this.list = res.data
+						this.addrList = res.data
 					}
 				});
 			},
