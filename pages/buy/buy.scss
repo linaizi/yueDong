@@ -89,7 +89,7 @@
 			span{ font-size: 38upx;}
 		}
 		.form-adr{
-			@include dflex(space-between,null);
+			@include dflex(space-between,center);
 			padding-top: 38upx;
 			.adr-lt{
 				flex: 1;
@@ -130,36 +130,34 @@
 		border-bottom: 2upx solid #E2E2E2;
 	}
 	
-	.dsdBox{
-		.dsd-adr{
-			border-bottom: 2upx solid #E2E2E2;
-			padding:20upx 30upx 30upx;
-			.adr-t{
-				@include dflex(space-between,center);
-				.t-l{
-					font-weight: bold;
-					font-size: 28upx;
-					color:#333;
-				}
-				.t-r{
-					font-size: 26upx;
-					color:#333;
-					@include dflex(null,flex-end);
-				}
-			}
-			.adr-b{
-				margin-top: 12upx;
+	.dsd-adr{
+		border-bottom: 2upx solid #E2E2E2;
+		padding:20upx 30upx 30upx;
+		.adr-t{
+			@include dflex(space-between,center);
+			.t-l{
+				font-weight: bold;
 				font-size: 28upx;
-				color:#999999;
+				color:#333;
 			}
-		}		
-	}
+			.t-r{
+				font-size: 26upx;
+				color:#333;
+				@include dflex(null,flex-end);
+			}
+		}
+		.adr-b{
+			margin-top: 12upx;
+			font-size: 28upx;
+			color:#999999;
+		}
+	}		
 	.buy-time{
 		height: 100upx;
 		border-bottom: 2upx solid #E2E2E2;
 		padding:0 30upx;
 		@include dflex(space-between,center);
-		p{
+		.time-lt{
 			font-size: 28upx;
 			color:#333;
 			span{
@@ -171,16 +169,22 @@
 				margin-right: 8upx;
 			}
 		}
-		.time-red{
-			font-size: 28upx;
-			color:#FD444C;
-			span{
+		.time-rt{
+			@include dflex(null,center);
+			.rt-red{
+				font-size: 28upx;
+				color:#FD444C;
 				background: #FD444C;
 				border-radius: 100upx;
 				font-size: 26upx;
 				color:#fff;
 				padding: 3upx 14upx;
+				
 			}
+		}
+		.time-red{
+			font-size: 28upx;
+			color:#FD444C;
 		}
 		.time-gray{
 			font-size: 28upx;
@@ -360,9 +364,12 @@
 				background: #fff;
 				padding:24upx;
 				border-radius: 0 0 16upx 16upx;
-				p{
+				.foot-p{
 					font-size: 28upx;
 					color:#333;
+					.p-span{
+						font-size: 26upx;
+					}
 				}
 				
 				position: relative;

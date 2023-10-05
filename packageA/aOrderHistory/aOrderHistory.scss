@@ -1,0 +1,121 @@
+.contentBox{
+	height: 100%;
+	background: #F7F7F7;
+	display: flex;
+	flex-direction: column;
+	.searchTab{
+		width: 100%;
+		padding:0upx 53upx 24upx 64upx;
+		box-sizing: border-box;
+		display: flex;
+		align-items: flex-end;
+		background: #fff;
+		.searchBox{
+			width:510upx;
+			height: 72upx;
+			background: #FEF4F4;
+			border-radius: 36upx;
+			display: flex;
+			align-items: center;
+			padding-left: 36upx;
+			box-sizing: border-box;
+			.searchIcon{
+				width: 30upx;
+				height: 26upx;
+				margin-right: 11upx;
+			}
+			.searchInput{
+				flex: 1;
+				font-size: 28upx;
+				padding-right: 20upx;
+				box-sizing: border-box;
+			}
+			.searchBox-right{
+				height: 100%;
+				width: 70upx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				.searchBox-right-icon{
+					width: 28upx;
+					height: 28upx;
+				}
+			}
+		}
+		.searchBtn{
+			margin-left: 15upx;
+			background: #FBFBFB;
+			border-radius: 30upx;
+			color:#FF3445;
+			font-size: 28upx;
+			width: 108upx;
+			height: 60upx;
+			font-weight: 500;
+			text-align: center;
+			line-height: 60upx;
+		}
+		.searchOrderBtn{
+			background: #446DFD;
+			color: #fff;
+		}
+	}
+	.noData{
+		background: #fff;
+		width: 100%;
+		height: 502upx;
+		padding-top: 87upx;
+		margin-top: 40upx;
+		box-sizing: border-box;
+		text-align: center;
+		font-size: 32upx;
+		color:#333;
+		image{
+			width: 482upx;
+			height: 290upx;
+			margin-bottom: 35upx;
+		}
+	}
+	.orderHistory{
+		margin-top: 40upx;
+	}
+	.historyBox{
+		width: 100%;
+		flex: 1;
+		background: #fff;
+		border-radius: 30upx 30upx 0 0;
+		padding:48upx 32upx;
+		box-sizing: border-box;
+		overflow: hidden;
+		.titleBox{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 30upx;
+			font-weight: 600;
+			color: #000;
+			margin-bottom: 32upx;
+			.delIcon{
+				width: 37upx;
+				height: 36upx;
+			}
+		}
+		.listBox{
+			display: flex;
+			flex-wrap: wrap;
+			.itemBox{
+				padding:13upx 30upx;
+				box-sizing: border-box;
+				font-size: 24upx;
+				color: #333;
+				border-radius: 30upx;
+				background: #F7F7F7;
+				margin-bottom: 24upx;
+				margin-right: 24upx;
+				
+				overflow: hidden;/*超出部分隐藏*/
+				white-space: nowrap;/*不换行*/
+				text-overflow:ellipsis;/*超出部分文字以...显示*/
+			}
+		}
+	}
+}

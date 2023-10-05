@@ -1,4 +1,14 @@
-$FILE_BASE_URL:'https://file.aikbao.com';
+$FILE_BASE_URL:'https://file.hanwenliang.love/file';
+
+//分页，下拉刷新，按myOrder aOrder的来做
+//siteManage 刷新当前页  
+//详情页导航  地图搜索不行   添加商品-原件现价  全局加loading  
+
+//暂无数据图片：
+// https://file.hanwenliang.love/file/f426289f-7fe0-4431-ab45-78262049c918.jpg
+// https://file.hanwenliang.love/file/3ee934e5-e364-4dad-9417-88a4776bfd87.png
+// https://file.hanwenliang.love/file/4fdba217-1bdf-44bf-a8dc-42bb196b432d.jpg
+
 
 //公用样式
 page{
@@ -111,6 +121,11 @@ page{
 }
 
 .w100{ width: 100%; }
+
+.wh180{
+	width: 100%;
+	height: 180upx;
+}
 
 .flex{display: flex;}
 
@@ -237,32 +252,32 @@ page{
 
 //我的订单 订单详情
 .ordre-item{
-		@include dflex(space-between,null);
-		margin-top: 30upx;
-		.main-lt{
-			width: 160upx;
-			height: 160upx;
+	@include dflex(space-between,null);
+	margin-top: 30upx;
+	.main-lt{
+		width: 160upx;
+		height: 160upx;
+	}
+	.item-mid{
+		flex:1;
+		margin-left: 20upx;
+		p{
+			color:#999;
+			font-size: 26upx;
 		}
-		.item-mid{
-			flex:1;
-			margin-left: 20upx;
-			p{
-				color:#999;
-				font-size: 26upx;
-			}
-			.mid-p{
-				font-size: 28upx;
-				color:#333;
-				width: 320upx;
-				line-height: 1.8;
-			}
-		}
-		.main-rt{
-			margin-top: 70upx;
-			font-size: 24upx;
+		.mid-p{
+			font-size: 28upx;
 			color:#333;
+			width: 320upx;
+			line-height: 1.8;
 		}
 	}
+	.main-rt{
+		margin-top: 70upx;
+		font-size: 24upx;
+		color:#333;
+	}
+}
 	
 .image-grid {
 	display: grid;
@@ -318,9 +333,8 @@ page{
 	border:2upx solid #A2A19E;
 }
 .circle-red{
-	// background: url('../../static/img/maddr1.png') no-repeat;
-	// background-size: 100% 100%;
-	background: red;
+	background: url($FILE_BASE_URL + '/0fa127da-4393-411b-9955-5acf32efd066.png') center center no-repeat;
+	background-size: 100% 100%;
 	border-color: #fff;
 }
 
@@ -360,27 +374,6 @@ page{
 	}
 }
 
-//暂无数据 
-.searchNo {
-	position: fixed;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	transform: -webkit-translate(-50%, -50%);
-
-	img {
-		width: 375upx;
-		height: 238upx;
-	}
-
-	p {
-		font-size: 28upx;
-		color: #999999;
-		text-align: center;
-	}
-}
-
-
 // 登录弹窗
 .log-pp{
 	background: #fff;
@@ -409,3 +402,266 @@ page{
 	}
 	
 }
+
+//暂无数据
+.noGood{
+	position: fixed;
+	top:50%;
+	left: 50%;
+	transform: translate(-50%,-80%);
+	.noGood-img{
+		width: 334upx;
+		height: 147upx;
+	}
+	p{
+		font-size: 30upx;
+		color:#333333;
+		text-align: center;
+		margin-top: 15upx;
+	}
+}
+
+// myOrder.vue aOrder.vue共用样式
+.ordre-main{
+	margin: 28upx;
+	background: #fff;
+	border-radius: 12upx;
+	box-shadow: 0 2upx 2upx rgba(153, 153, 153, .3);
+	padding: 0 28upx 28upx;
+	.main-top{
+		@include dflex(space-between,center);
+		border-bottom: 2upx solid #E5E5E5;
+		height: 70upx;
+		.top-lt,.top-rt{
+			color:#333;
+			font-size: 26upx
+		}
+	}
+	
+	
+	.main-price{
+		@include dflex(flex-end,null);
+		.price-p{
+			margin-left: 30upx;
+			font-size: 30upx;
+			color:#333;
+			span{
+				font-size: 24upx;
+				color:#999;
+			}
+		}
+		
+	}
+	
+	.mian-pay{
+		@include dflex(flex-end,null);
+		margin-top: 30upx;
+		.pay-btn{
+			@include dflex(center,center);
+			width: 120upx;
+			height: 60upx;
+			font-size: 28upx;
+			color:#333;
+			border:2upx solid #E2E2E2;
+			border-radius: 100upx;
+			margin-left: 20upx;
+			box-sizing: border-box;
+		}
+		.pay-fk{
+			background: linear-gradient(270deg, #FF3445 0%, #FD4903 100%);
+			color:#fff;
+		}
+	}
+}
+
+// 详情页-其他信息-备注,图片
+.odBg{
+	background: linear-gradient(180deg, #FD444C 0%, #F7F7F7 100%);
+	height: 300upx;
+	.od-zt{
+		@include dflex(center,null);
+		font-size: 32upx;
+		color:#FFF;
+		padding-top: 38upx;
+	}
+	.od-time{
+		@include dflex(center,flex-start);
+		margin-top: 10upx;
+		text-align: center;
+		font-size: 26upx;
+		color:#FFF;
+	}
+}
+
+.od-main{
+	margin: 50upx 28upx 0;
+	padding-bottom: 20upx;
+	.odBox{
+		background: #fff;
+		border-radius: 16upx;
+		padding: 0 26upx;
+		margin-bottom: 26upx;
+		
+		.od-adr{
+			@include dflex(null,null);
+			border-bottom: 2upx solid #E2E2E2;
+			padding: 30upx 0 26upx;
+			.adr-rt{
+				margin-left: 12upx;
+				.rt-name{
+					font-size: 28upx;
+					color:#333;
+					font-weight: bold;
+					margin-bottom: 10upx;
+					span{
+						margin-left: 34upx;
+					}
+					.name-tell{
+						margin-left: 25upx;
+						color:#446DFD;
+					}
+				}
+				p{
+					font-size: 24upx;
+					color:#999999;
+				}
+			}
+		}
+		
+		.od-title{
+			@include dflex(space-between,center);
+			border-bottom: 2upx solid #E2E2E2;
+			height: 96upx;
+			.title-lt{
+				font-size: 28upx;
+				color:#333;
+				font-weight: bold;
+			}
+			.title-rt{
+				font-size: 26upx;
+				color:#999;
+			}
+			&:last-child{ border:none}
+		}
+		
+		.od-info{
+			padding: 20upx 0;
+			p{
+				font-size: 28upx;
+				color:#333;
+				line-height: 1.8;
+				@include dflex(space-between,center);
+				span{
+					width: 66upx;
+					height: 30upx;
+					text-align: center;
+					line-height: 30upx;
+					font-size: 24upx;
+					color: #ff0000;
+					padding: 1upx 5upx;
+					border: 1px solid #ff0000;
+					border-radius: 100upx;
+					display: inline-block;
+				}
+			}
+		}
+		
+		.od-price{
+			margin-top: 30upx;
+			border-top: 2upx solid #E2E2E2;
+			border-bottom: 2upx solid #E2E2E2;
+			padding: 14upx 0;
+			p{
+				font-size: 28upx;
+				color:#333;
+				line-height: 1.7;
+				@include dflex(space-between,center);
+			}
+		}
+		.od-allPrice{
+			font-size: 30upx;
+			color:#333;
+			text-align: right;
+			padding: 20upx 0;
+			span{
+				font-size: 28upx;
+				color:#666;
+				font-weight: bold;
+			}
+		}
+	}
+}
+
+.od-qt{
+	padding: 20upx 0;
+	.qtBox{
+		margin-bottom: 24upx;
+		.qtBox-tt, .qtBox-txt{
+			font-size: 28upx;
+			color:#333;
+			margin-bottom: 10upx;
+			.tt-red{ color:red; }
+		}
+		.qtBox-txt{
+			text-indent: 2em;
+			.txt-ipt{
+				margin: 20upx 30upx;
+				font-size: 28upx;
+				color:#333;
+			}
+		}			
+	}
+}
+.od-btn{
+	width: 70%;
+	height: 44px;
+	border-radius: 55px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #FD444C;
+	font-size: 17px;
+	color: #fff;
+	margin: 0 auto 40upx;
+}
+
+
+//后台tab
+.rod-mume{
+	background: #fff;
+	height: 100upx;
+	border-bottom: 2upx solid #E2E2E2;
+	@include dflex(space-around,center);
+	position: relative;
+	.mume-item{
+		span{
+			display: inline-block;
+			font-size: 28upx;
+			color:#333;
+			height: 100%;
+			line-height: 100upx;
+		}
+	}
+	.mume-item-act{
+		span{
+			color:#446DFD;
+			position: relative;
+			&:before{
+				content: '';
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				height: 2upx;
+				background: #446DFD;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+

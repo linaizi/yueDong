@@ -1,0 +1,82 @@
+.tabBox{
+	width: 320upx;
+	border:2upx solid #446DFD;
+	border-radius: 100upx;
+	height: 56upx;
+	margin: 26upx auto;
+	@include dflex(null,null);
+	overflow: hidden;
+	.tab{
+		width: 50%;
+		text-align: center;
+		font-size: 24upx;
+		color:#666666;
+		line-height: 56upx;
+	}
+	.tab-act{
+		background: #446DFD;
+		color:#fff;
+	}
+}
+
+
+.apl-main{
+	padding: 0 26upx 30upx;
+	.apl-item{
+		padding: 24upx;
+		background: #fff;
+		border-radius: 16upx;
+		margin-bottom: 24upx;
+		.item-top{
+			@include dflex(null,null);
+			.item-lt{
+				width: 146upx;
+				height: 146upx;
+			}
+			.item-mid{
+				margin-left: 20upx;
+				padding: 14upx 0;
+				@include dflex(space-between,null);
+				flex-direction: column;	
+				.mid-p{
+					font-size: 28upx;
+					color:#333;
+				}
+				.mid-g{
+					font-size: 26upx;
+					color:#999;
+				}
+			}
+		}
+		.item-foot{
+			margin-top: 20upx;
+			@include dflex(space-between,center);
+			.foot-lt{
+				@include dflex(null,center);
+				font-size: 24upx;
+				color:#333;
+			}
+			.foot-rt{
+				@include dflex(null,center);
+				.rt-btn{
+					font-size: 30upx;
+					color:#446DFD;
+					border-radius: 100upx;
+					border:2upx solid #446DFD;
+					padding: 6upx 20upx;
+					margin-left: 20upx;
+				}
+				.rt-g{
+					border:2upx solid #BBBBBB;
+					color:#333;
+				}
+			}
+		}
+	}
+	.apl-item-act{
+		background: #E5E5E5;
+		.item-top{
+			background: #DEDEDE;
+		}
+	}
+}

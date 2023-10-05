@@ -8,7 +8,7 @@
 				</view>
 				<view class="main-right">
 					<view class="right-dh">{{item.da}}</view>
-					<image src="../../static/img/logo.jpg" class="main-tx">
+					<image :src="FILE_BASE_URL + '/7688789b-4834-4f91-836f-316c71aa7882.jpg'" class="main-tx">
 				</view>
 			</view>
 		</view>
@@ -24,6 +24,7 @@
 		},
 		data() {
 			return {
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				hArr:[
 					{
 						wen:"手工洗护的意义",

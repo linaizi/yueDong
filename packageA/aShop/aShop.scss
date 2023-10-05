@@ -1,0 +1,118 @@
+.asp-top{
+	height: 90upx;
+	background: #EFEFF4;
+	@include dflex(space-between,center);
+	padding: 0 36upx 0 26upx;
+	.top-lt{
+		background: #fff;
+		border-radius: 100upx;
+		width: 526upx;
+		height: 56upx;
+		@include dflex(space-between,center);
+		padding: 0 24upx;
+		box-sizing: border-box;
+		.searchInput{
+			font-size: 28upx;
+			color:#333;
+			width: 430upx;
+		}
+		.lt-right{
+			width: 36upx;
+			height: 36upx;
+		}
+	}
+	.top-rt{
+		font-size: 28upx;
+		color:#446DFD;
+		font-weight: bold;
+	}
+}
+
+
+.asp-main{
+	padding: 26upx;
+	.main-item{
+		@include dflex(space-between,center);
+		padding: 26upx;
+		background: #fff;
+		border-radius: 12upx;
+		margin-bottom: 24upx;
+		.item-lt{
+			width: 150upx;
+			height: 150upx;
+			flex-shrink: 0;
+			.lt-img{
+				width: 100%;
+				height: 100%;
+			}
+		}
+		.item-mid{
+			@include dflex(space-between,null);
+			flex-direction: column;
+			height: 150upx;
+			margin: 0 16upx;
+			flex: 1;
+			.mid-title{
+				font-size: 30upx;
+				color:#333;
+			}
+			.mid-price{
+				font-size: 32upx;
+				color:#FF4544;
+				margin-top: auto;
+			}
+			.mid-kc{
+				font-size: 28upx;
+				color:#999;
+			}
+		}
+		.item-rt{
+			align-self: flex-end;
+			position: relative;
+			.rt-list{
+				background: #666;
+				@include dflex(space-around,center);
+				position: absolute;
+				left: -224upx;
+				top: -110upx;
+				width: 274upx;
+				height: 100upx;
+				border-radius: 12upx;
+				&:before{
+					content: '';
+					position: absolute;
+					bottom: -14upx;
+					right: 20upx;
+					width: 0;
+					height: 0;
+					
+					//下三角
+					border-top: 14upx solid #666;
+					border-left:14upx solid transparent;
+					border-right:14upx solid transparent; 
+				}
+				.list-item{
+					text-align: center;
+					p{
+						font-size: 22upx;
+						color:#fff;
+					}
+				}
+			}
+		}
+	}
+}
+
+// <view class="main-item">
+// 	<view class="item-lt">
+// 		<image :src="FILE_BASE_URL + '/44710a9b-f090-4a86-a6b8-d0ab9d053c86.jpg'" class="lt-img"></image>
+// 	</view>
+// 	<view class="item-mid">
+// 		<view class="mid-title">绒面专洗(翻毛皮、麂皮、磨砂等)</view>
+// 		<view class="mid-price">￥35.90</view>	
+// 		<view class="mid-kc">库存:9994</view>
+// 	</view>
+// 	<view class="item-rt">
+// 		<uni-icons type="more-filled" size="40rpx" color="#666"></uni-icons>
+// 	</view>
+// </view>

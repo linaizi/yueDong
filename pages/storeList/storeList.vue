@@ -5,10 +5,10 @@
 		
 		<view class="mt20">
 			<!-- 数据为空显示状态 -->
-			<div class="searchNo" v-if="list.length == 0">
-				<img src="https://file.aikbao.com/2022042214201361829?/width/348/height/234/2022042214201361829?/width/348/height/234" alt="" />
+			<view class="noGood" v-if='list.length==0'>
+				<image :src="FILE_BASE_URL + '/3ee934e5-e364-4dad-9417-88a4776bfd87.png'" mode="widthFix" class="noGood-img"></image>
 				<p>附近暂无门店~</p>
-			</div>
+			</view>
 			
 			<template v-else>
 				<view class="stl-item" v-for="item in list" :key="item.id" >
@@ -36,6 +36,7 @@
 	export default {
 		data() {
 			return {
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				isAddr:false,
 				lotn:{},
 				addr:'',
@@ -89,10 +90,13 @@
 					type: 'gcj02',
 					geocode: true,
 					success(response) {
-						console.log(response)
-						_that.lotn = {
-							n: response.latitude,
-							e: response.longitude
+						// _that.lotn = {
+						// 	n: response.latitude,
+						// 	e: response.longitude
+						// }
+						this.lotn = {
+							n: 22.726897,
+							e: 113.83283
 						}
 						_that.getList()
 					},

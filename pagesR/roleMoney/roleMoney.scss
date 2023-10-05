@@ -1,0 +1,123 @@
+.rmn-top{
+	background: linear-gradient(135deg, #FF3445 0%, #FD4903 100%);
+	border-radius: 20upx;
+	margin: 24upx;
+	@include dflex(space-around,null);
+	padding: 30upx 0;
+	color:#fff;
+	.top-it{
+		text-align: center;
+		.it-t{
+			font-size: 32upx;
+		}
+		.it-m{
+			font-size: 40upx;
+			font-weight: bold;
+			margin: 16upx 0;
+		}
+		.it-f{
+			font-size: 28upx;
+			border:2upx solid #fff;
+			border-radius: 110upx;
+			width: 110upx;
+			height: 44upx;
+			line-height: 44upx;
+			margin: 0 auto;
+		}
+		.it-b{
+			text-decoration: underline;
+			font-weight: bold;
+		}
+	}
+}
+
+.pp-tx{
+	width: 550upx;
+	border-radius: 12upx;
+	box-sizing: border-box;
+	background: #fff;
+	position: relative;
+	.tx-title{
+		text-align: center;
+		font-size: 36upx;
+		padding: 30upx 0 40upx;
+	}
+	.tx-input{
+		border-radius: 8upx;
+		border: 2upx solid #EEEEEE;
+		height: 66upx;
+		padding-left: 20upx;
+		font-size: 28upx;
+		margin: 0 28upx;
+	}
+	.tx-btn{
+		@include dflex(center,null);
+		border-top:2upx solid #F5F5F5;
+		margin-top:36upx;
+		.btn{
+			width:48%;
+			text-align: center;
+			height:80upx;
+			line-height: 80upx;
+			font-size:28upx;
+			color:#333;
+		}
+		.btn1{
+			color:#007AFF;
+			border-left: 2upx solid #F5F5F5;
+		}
+	}
+}
+
+.rmn-title{
+	padding-left: 28upx;
+	font-size: 34upx;
+	color:#333;
+	font-weight: bold;
+	margin-top: 20upx;
+}
+
+.rmn-main{
+	margin: 24upx;
+}
+.main-item {
+	padding: 30upx;
+	background: #ffffff;
+	box-shadow: 0 4upx 8upx 0 rgba(0, 0, 0, 0.03);
+	border-radius: 12upx;
+	margin-bottom: 24upx;
+	@include dflex(space-between,null);
+	.item-lf {
+		h3 {
+			font-size: 32upx;
+			font-weight: normal;
+			color: #000;
+			margin-bottom: 10upx;
+		}
+		p {
+			font-size: 24upx;
+			color: #333333;
+			line-height: 1.7;
+		}
+	}
+	.item-rf {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		flex-shrink: 0;
+		font-size: 30upx;
+		.rf-p1 {
+			font-size: 32upx;
+			color: #ff6200;
+		}
+		.rf-p3 {
+			font-size: 32upx;
+			color: green;
+		}
+		.rf-p2 {
+			color: #333333;
+			text-align: right;
+			
+		}
+	}
+}

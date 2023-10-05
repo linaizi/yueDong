@@ -17,10 +17,10 @@
 						</view>
 					</view>
 					
-					<image src="../../static/img/index1.png" mode="widthFix" class="w100" @click="goSort"></image>
+					<image :src="FILE_BASE_URL + '/5680d7d6-630a-4dbb-809f-f9aec3137e5e.png'" mode="widthFix" class="wh180" @click="goSort"></image>
 					
 					<view class="tZan">
-						<image class="icon" src="../../static/img/zan.png"></image>
+						<image class="icon" :src="FILE_BASE_URL + '/c87c082b-4819-4fec-a4fd-ab944e6fcceb.png'"></image>
 						<view>热门推荐</view>
 					</view>
 					
@@ -37,7 +37,7 @@
 											<p>￥<span class="big">{{priceHander(item.goodsNowPrice,1)}}</span>{{priceHander(item.goodsNowPrice,2)}}</p>
 											<p class="gray">￥{{item.goodsPrice}}</p>
 									</view>
-									<image class="foot-rf" src="../../static/img/gwc.jpg" @click.stop="openCar(item)"></image>
+									<image class="foot-rf" :src="FILE_BASE_URL + '/4cde96e1-9e5c-44dc-b616-b50eac17ef2d.jpg'" @click.stop="openCar(item)"></image>
 								</view>
 							</view>
 						</view>
@@ -50,7 +50,7 @@
 		</scroll-view>
 			
 		<view class="goTop" @click="toTop" v-if="flag">
-				<image src="../../static/img/gotop.png" mode="aspectFit" class="goTop-img"></image>
+			<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		</view>
 			
 		 <Tabbar :tabid="1"></Tabbar>
@@ -79,17 +79,18 @@
 		},
 		data() {
 			return {
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				mid: uni.getStorageSync('mid'),
 				swpArr: [
-					"../../static/img/swiper1.jpg",
-					"../../static/img/swiper2.jpg",
-					"../../static/img/swiper3.png",
+					this.$BASE_URLS.FILE_BASE_URL+'/44710a9b-f090-4a86-a6b8-d0ab9d053c86.jpg',
+					this.$BASE_URLS.FILE_BASE_URL+'/a22373d4-fbb0-4fd5-bf45-f3d47e29f93f.jpg',
+					this.$BASE_URLS.FILE_BASE_URL+'/33b724a9-1515-478c-afe8-f82e36198d64.png',
 				],
 				menuArr: [
-					{name:"门店列表", img:"../../static/img/menu1.png"},
-					{name:"使用帮助", img:"../../static/img/menu2.png"},
-					{name:"关于我们", img:"../../static/img/menu3.png"},
-					{name:"联系客服", img:"../../static/img/menu4.png"},
+					{name:"门店列表", img:this.$BASE_URLS.FILE_BASE_URL+"/438c369d-80a9-41ce-a2d8-6b43b04780eb.png"},
+					{name:"使用帮助", img:this.$BASE_URLS.FILE_BASE_URL+"/14862a4b-1145-4f76-8265-d9492207f9a8.png"},
+					{name:"关于我们", img:this.$BASE_URLS.FILE_BASE_URL+"/cc6c1f69-e610-42de-b359-25cad1b889a4.png"},
+					{name:"联系客服", img:this.$BASE_URLS.FILE_BASE_URL+"/233bda21-5ade-4c7a-ad7c-11c88dbb695d.png"},
 				],
 				
 				goodParams:{

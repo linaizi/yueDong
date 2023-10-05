@@ -1,6 +1,7 @@
 .order-top{
 		position: relative;
 		display: flex;
+		background: #F7F7F7;
 		.top-left{
 			white-space: nowrap;
 			width: 100%;
@@ -34,52 +35,6 @@
 		}
 	}
 
-.ordre-main{
-	margin: 28upx;
-	background: #fff;
-	border-radius: 12upx;
-	box-shadow: 0 2upx 2upx rgba(153, 153, 153, .3);
-	padding: 0 28upx 28upx;
-	.main-top{
-		@include dflex(space-between,center);
-		border-bottom: 2upx solid #E5E5E5;
-		height: 70upx;
-		.top-lt,.top-rt{
-			color:#333;
-			font-size: 26upx
-		}
-	}
-	
-	
-	.main-price{
-		font-size: 30upx;
-		color:#333;
-		text-align: right;
-		span{
-			font-size: 24upx;
-			color:#999;
-		}
-	}
-	
-	.mian-pay{
-		@include dflex(flex-end,null);
-		margin-top: 30upx;
-		.pay-btn{
-			@include dflex(center,center);
-			width: 120upx;
-			height: 60upx;
-			font-size: 28upx;
-			color:#333;
-			border:2upx solid #E2E2E2;
-			border-radius: 100upx;
-			margin-left: 20upx;
-			box-sizing: border-box;
-		}
-		.pay-fk{
-			background: linear-gradient(270deg, #FF3445 0%, #FD4903 100%);
-			color:#fff;
-		}
-	}
-}
+
 
 

@@ -70,7 +70,7 @@
 				<view>{{scTxt}}</view>
 			</view>
 			<view class="leftBtnBox bottomBtnBox" @click.stop="openCar">加入购物车</view>
-			<view class="bottomBtnBox" @click="goBuy">立即购买</view>
+			<view class="bottomBtnBox" @click="openCar">立即购买</view>
 		</view>
 		
 		<view class="pd-tc">
@@ -89,37 +89,35 @@
 		<uni-popup ref="popup" background-color="#fff">
 			<view class="share-pp">
 				<view class="pp-item"><button type="default" open-type="share" class="share-btn"></button>分享给好友</view>
-				<view class="pp-item" @click="openHb">生成海报</view>
+				<view class="pp-item" @click="hbClick">生成海报</view>
 				<view class="pp-item pp-qx" @click="closePP">取消</view>
-			</view>
-		</uni-popup>
-		
-		<uni-popup ref="hbPopup" >
-			<view class="hb-pp">
-				<view class="hb-img"><image src="https://file.aikbao.com/2023070714050925" :show-menu-by-longpress="true" class="w100" mode="widthFix"></image></view>
-				<uni-icons type="close" size="66rpx" color="#fff" @click="closeHb" class="hbClose"></uni-icons>
-				<view class="hbtxt" @click="preservationImg(0,'https://file.aikbao.com/2023070714050925')">保存图片</view>
 			</view>
 		</uni-popup>
 		
 		<Ppcar :ppCarData="infoData" ref="child" @updClick="handleUpd"></Ppcar>
 		<Pplog ref="logchild" :mid.sync="mid"  @getData='getUserData'></Pplog>
+		 <!-- 海报弹窗 -->
+		 <hbTc :hbShow.sync="hbShow" :hbData="hbData"></hbTc>
 		 
 	</view>
 </template>
 
 <script>
 	import { priceHander,preservationImg } from '@/common/tool.js'
+	import { base64ToPath } from '@/common/image-tools.js'
 	import { goodsInfo,shoppingAdd } from '@/api/page/index.js'
 	import Ppcar from "@/components/ppcar/ppcar.vue"
 	import Pplog from "@/components/pplog/pplog.vue"
+	import hbTc from "@/components/hbTc/hbTc.vue"; 
 	export default {
 		components: {
 			Ppcar,
 			Pplog,
+			hbTc,
 		},
 		data() {
 			return {
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				mid: uni.getStorageSync('mid'),
 				goodsId:'',
 				iStatusBarHeight: 0,
@@ -135,6 +133,9 @@
 				scTxt:'收藏',
 				scImg:'../../static/img/sc1.png',
 				flag: false,
+				
+				hbShow:false,
+				hbData:{},
 			}
 		},
 		onLoad(option) {
@@ -177,7 +178,6 @@
 				this.getGoodInfo(this.goodsId)
 			},
 			
-			
 			back_(){
 				uni.navigateBack({
 					delta:1
@@ -213,20 +213,10 @@
 				}
 			},
 			
-			goBuy(){
-				if(this.mid) {
-					uni.navigateTo({
-					    url: '/pages/buy/buy'
-					});
-				}else{
-					uni.showToast({ title: '请先登录', icon:'none' })
-				}
-			},
-			
 			//图片预览
 			getImgIndex(index) { 
 				console.log(index);
-				let imgs = this.dataList.goods_gallery_urls.map(item => {
+				let imgs = this.infoData.goodsImgs.map(item => {
 					return item
 				})
 				uni.previewImage({
@@ -240,11 +230,31 @@
 				this.$refs.popup.open('bottom')
 			},
 			closePP(){ this.$refs.popup.close() },
-			openHb(){
+			hbClick(){
 				this.$refs.popup.close();
-				this.$nextTick(()=>{
-					this.$refs.hbPopup.open('center')
+				// this.$nextTick(()=>{
+				// 	this.$refs.hbPopup.open('center')
+				// })
+				
+				uni.showLoading({
+					title: '加载中'
+				});
+				
+				let param = {
+					goodsId: this.goodsId,
+					page:'pages/productDetails/productDetails',			//先传空，上线后删除
+				}
+				
+				getWechatEwm(param).then((res) => {
+					let codeImg = 'data:image/png;base64,'+ uni.arrayBufferToBase64(res)
+					base64ToPath(codeImg)
+					  .then(ph => {
+							this.hbShow = true;
+							this.hbData = this.infoData
+							this.$set(this.hbData,'ewm',ph) 
+					  })
 				})
+				
 			},
 			
 			// 打开海报弹窗

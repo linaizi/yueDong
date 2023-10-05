@@ -16,7 +16,7 @@
 				<view class="perItem">
 					<view class="item-lt">昵称</view>
 					<view class="item-rt">
-						<input type="nickname" v-model.trim="paramsData.nickName" class="rt-input" placeholder="请输入昵称" maxlength="16"/>
+						<input type="nickname" v-model.trim="paramsData.nickName" class="rt-input" placeholder="请输入昵称" maxlength="8"/>
 					</view>
 				</view>
 				<view class="log-sj" @click="suiJi">随机头像昵称</view>
@@ -29,9 +29,9 @@
 		<uni-popup ref="popup" :is-mask-click='false'>
 			<view class="index-popup popup-box">
 				<view class="indexPopup-close" @click="closePopup">
-					<image class="close-img" src="http://file.aikbao.com/2022052515464761366?/width/24/height/24" mode="widthFix"></image>
+					<image class="close-img" :src="FILE_BASE_URL + '/ad3ad3e5-2bb4-400a-b846-5800a747fa3d.jpg'" mode="widthFix"></image>
 				</view>
-				<image class="indexPopup-img" src="http://file.aikbao.com/2022042908450255730?/width/128/height/128"></image>
+				<image class="indexPopup-img" :src="FILE_BASE_URL + '/ac2a9d09-19cc-49b7-9f61-36084df0508e.jpg'"></image>
 				<p class="indexPopup-p">为保障您的账号安全 请绑定手机号码</p>
 				<button type="default" open-type="getPhoneNumber" @getphonenumber="decryptPhoneNumber" @click="closePopup" class="indexPopup-btn">绑定手机号码</button>
 			</view>
@@ -51,22 +51,23 @@
 		},
 		data(){
 			return{
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				paramsData:{
-					avatar:"https://file.aikbao.com/20230619140350568",
-					nickName:"小明"
+					avatar: this.$BASE_URLS.FILE_BASE_URL+'/60a219d8-a949-41ec-9ed7-40be2b57d6dd.jpg',
+					nickName:"翱翔的敦敦"
 				},
 				WxLoginCode:1,
 				sjArr:[
-					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"飞翔的燕子" },
-					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"魔幻的夜曲" },
-					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"铁拳的李白" },
-					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"突破的火星" },
-					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"潜伏的幽灵" },
-					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"躁动的巨人" },
-					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"悲伤的嫦娥" },
-					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"勇敢的狼牙" },
-					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"冷静的暗影" },
-					{ avatar:"https://file.aikbao.com/20230619140350568", nickName:"绽放的霞光" },
+					{ avatar:this.$BASE_URLS.FILE_BASE_URL+'/f8c3b0d7-4d29-4f89-acbd-67f4960c1fda.jpg', nickName:"飞翔的燕子" },
+					{ avatar:this.$BASE_URLS.FILE_BASE_URL+'/df3f27d2-2f11-4809-9f60-e208d063da3d.jpg', nickName:"魔幻的夜曲" },
+					{ avatar:this.$BASE_URLS.FILE_BASE_URL+'/b065af83-be01-4921-ad38-8cca3705961f.jpg', nickName:"铁拳的李白" },
+					{ avatar:this.$BASE_URLS.FILE_BASE_URL+'/61255346-bb33-44b9-bb51-24d659ef01d1.jpg', nickName:"突破的火星" },
+					{ avatar:this.$BASE_URLS.FILE_BASE_URL+'/38f9e3d9-fbee-463f-8bfa-8e9e9e9078d5.jpg', nickName:"潜伏的幽灵" },
+					{ avatar:this.$BASE_URLS.FILE_BASE_URL+'/70f511c2-ff8a-412b-90ac-d21b7c119f5c.jpg', nickName:"躁动的巨人" },
+					{ avatar:this.$BASE_URLS.FILE_BASE_URL+'/0eae5f35-4982-46ac-a188-211251198a2b.jpg', nickName:"悲伤的嫦娥" },
+					{ avatar:this.$BASE_URLS.FILE_BASE_URL+'/8198078f-ad9a-4312-a399-e5b5ea88e71d.jpg', nickName:"勇敢的狼牙" },
+					{ avatar:this.$BASE_URLS.FILE_BASE_URL+'/f827077d-414a-4ae7-b951-f661ce1f863b.jpg', nickName:"冷静的暗影" },
+					{ avatar:this.$BASE_URLS.FILE_BASE_URL+'/717679f4-9d21-4b00-a35d-5ea22f436d24.jpg', nickName:"绽放的霞光" },
 				],
 				lastRandomIndex:-1,
 			}
@@ -88,9 +89,8 @@
 			
 			onChooseAvatar(e) {
 				const { avatarUrl } = e.detail 
-				
 				uni.uploadFile({
-					url: this.$BASE_URLS.FILE_upload_URL+'/h5/img/fileUpload', 
+					url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
 					filePath: avatarUrl,
 					name: 'file',
 					formData: {
@@ -99,7 +99,7 @@
 					success: (f) => {
 						let res = JSON.parse(f.data)
 						if(res.code == 200){
-							this.upInfo(res.data.url)
+							console.log(res.data.url)
 						}
 					},
 				});

@@ -1,0 +1,81 @@
+.asp-top{
+	height: 100upx;
+	background: #fff;
+	@include dflex(space-around,center);
+	padding: 0 40upx;
+	.top-lt{
+		background: #FEF4F4;
+		border-radius: 100upx;
+		width: 480upx;
+		height: 64upx;
+		@include dflex(space-between,center);
+		padding: 0 24upx;
+		box-sizing: border-box;
+		.searchInput{
+			font-size: 28upx;
+			color:#333;
+			width: 430upx;
+		}
+		.lt-right{
+			width: 36upx;
+			height: 36upx;
+		}
+	}
+	.top-rt{
+		width: 130upx;
+		text-align: center;
+		font-size: 28upx;
+		color:#fff;
+		font-weight: bold;
+		background: #446DFD;
+		height: 58upx;
+		line-height: 58upx;
+		border-radius: 100upx;
+	}
+}
+
+.stman-title{
+	font-size: 32upx;
+	color:#333;
+	font-weight: bold;
+	padding-left: 24upx;
+	margin-top: 30upx;
+	margin-bottom: 20upx;
+}
+.stman{
+	margin: 0upx 24upx 20upx;
+	.item{
+		border-radius: 16upx;
+		padding: 24upx;
+		background:#fff;
+		margin-bottom: 20upx;
+		&:last-child{ margin-bottom: 0; }
+		@include dflex(space-between,center);
+		.img{
+			width: 150upx;
+			height: 150upx;
+		}
+		.item-mid{
+			flex:1;
+			margin-left: 20upx;
+			min-height: 150upx;
+			.name{
+				font-size: 28upx;
+				color:#333;
+			}
+			.item-p{
+				font-size: 26upx;
+				color:#666;
+				margin-top: 10upx;
+			}
+		}
+		.item-rt{
+			text-align: center;
+			p{
+				font-size: 28upx;
+				color:#333;
+			}
+		}
+		
+	}
+}

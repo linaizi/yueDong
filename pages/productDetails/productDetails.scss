@@ -216,35 +216,3 @@
 		border-top:20upx solid #F8F8F7;
 	}
 }
-
-.hb-pp{
-	width: 510upx;
-	border-radius: 12upx;
-	padding: 24upx 28upx 40upx;
-	box-sizing: border-box;
-	background: #fff;
-	.hb-img{
-		width: 100%;
-		box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-	}
-	.hbClose{
-		position: absolute;
-		top:-70upx;
-		right: 0;
-	}
-	.hbtxt{
-		width: 280upx;
-		height: 60upx;
-		@include dflex(center,center);
-		font-size: 28upx;
-		color:#fff;
-		font-weight: bold;
-		border: 2upx solid #fff;
-		border-radius: 100upx;
-		position: absolute;
-		bottom:-100upx;
-		left: 50%;
-		transform: translateX(-50%);
-		background: rgba(0, 0, 0, 0.1);
-	}
-}

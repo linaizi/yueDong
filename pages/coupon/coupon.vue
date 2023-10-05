@@ -37,7 +37,7 @@
 		 </scroll-view>
 		 
 		 <view class="goTop" @click="toTop" v-if="flag">
-		 		<image src="../../static/img/gotop.png" mode="aspectFit" class="goTop-img"></image>
+		 		<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		 </view>
 		 
 	</view>
@@ -48,6 +48,7 @@
 	export default {
 		data() {
 			return {
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				mid: uni.getStorageSync('mid'),
 				recommendArr:[],
 				topArr:[
@@ -57,10 +58,6 @@
 				],
 				txtArr:['','已使用','去使用','已过期'],
 				topId:2,
-				imgArr:[
-					"../../static/img/good1.png",
-					"../../static/img/index1.png",
-				],
 				
 				listQuery:{
 					pageNo:1,

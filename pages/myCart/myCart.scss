@@ -13,23 +13,6 @@
 	}
 }
 
-.noGood{
-	position: fixed;
-	top:50%;
-	left: 50%;
-	transform: translate(-50%,-80%);
-	.noGood-img{
-		width: 334upx;
-		height: 147upx;
-	}
-	p{
-		font-size: 30upx;
-		color:#333333;
-		text-align: center;
-		margin-top: 15upx;
-	}
-}
-
 .myCartList{
 	background: #fff;
 	.myCartItem{

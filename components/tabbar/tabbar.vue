@@ -21,10 +21,23 @@
          return {
             paddingBottomHeight: 0, //苹果X以上手机底部适配高度
             list: [
-				{ id:1, name:'首页', img1:"../../static/img/tab1.jpg", img2:"../../static/img/tab1-1.jpg", path: "/pages/index/index"},
-				{ id:2, name:'分类', img1:"../../static/img/tab2.jpg", img2:"../../static/img/tab2-1.jpg", path: "/pages/sort/sort"},
-				{ id:3, name:'购物车', img1:"../../static/img/tab3.jpg", img2:"../../static/img/tab3-1.jpg", path: "/pages/myCart/myCart"},
-				{ id:4, name:'我的', img1:"../../static/img/tab4.jpg", img2:"../../static/img/tab4-1.jpg", path: "/pages/mine/mine"},
+				{ 	id:1, name:'首页', 
+					img1:this.$BASE_URLS.FILE_BASE_URL+'/4f56dca9-c229-461d-ab82-b876b41efd83.jpg', 
+					img2:this.$BASE_URLS.FILE_BASE_URL+'/bf5fe9a5-c9b4-4f6e-b49a-d3bb33e8fd3e.jpg', 
+					path: "/pages/index/index",
+				},
+				{ 	id:2, name:'分类', 
+					img1:this.$BASE_URLS.FILE_BASE_URL+'/73b1f901-d621-4718-8e99-da724271bca3.jpg', 
+					img2:this.$BASE_URLS.FILE_BASE_URL+'/27dc26b8-1ace-4584-b15a-aefdae119485.jpg', 
+					path: "/pages/sort/sort"},
+				{ id:3, name:'购物车', 
+					img1:this.$BASE_URLS.FILE_BASE_URL+'/92424fc3-0ca0-4a30-a400-cbf82ee19c86.jpg', 
+					img2:this.$BASE_URLS.FILE_BASE_URL+'/eba02379-fb14-4aea-9bf4-1337c84fef6b.jpg', 
+					path: "/pages/myCart/myCart"},
+				{ id:4, name:'我的', 
+					img1:this.$BASE_URLS.FILE_BASE_URL+'/f305f685-c768-4a50-9ac7-b5b9d01bb91d.jpg', 
+					img2:this.$BASE_URLS.FILE_BASE_URL+'/a8175a59-d4c8-4a3a-a68c-468097c1e460.jpg', 
+					path: "/pages/mine/mine"},
 			],
          };
       },
@@ -68,6 +81,7 @@
 			 }
 					
          }),
+		 
       }
    };
 </script>
@@ -81,7 +95,7 @@
       position: fixed;
       bottom: 0;
       left: 0;
-			z-index: 99;
+			z-index: 9;
       width: 100%;
 			height: 98upx;
       display: flex;

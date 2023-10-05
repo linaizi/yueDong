@@ -38,7 +38,7 @@
 		 </scroll-view>
 		 
 		 <view class="goTop" @click="toTop" v-if="flag">
-		 		<image src="../../static/img/gotop.png" mode="aspectFit" class="goTop-img"></image>
+		 		<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		 </view>
 		 
 	</view>
@@ -49,6 +49,8 @@
 	export default {
 		data() {
 			return {
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
+				mid: uni.getStorageSync('mid'),
 				topArr:[
 					{name:'全部', num:0, n:'titalNum'},
 					{name:'图片', num:4, n:'titalPicNum'},

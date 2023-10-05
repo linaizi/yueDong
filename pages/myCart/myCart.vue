@@ -2,7 +2,7 @@
 	<view class="allBg flexBox">
 		<uni-nav-bar statusBar="true" backgroundColor="#fff" title="购物车" fixed></uni-nav-bar>
 		
-		 <view class="myCart-top">商品库存有限，请尽快下单  <p v-if="!noGshow" @click="editClick">{{showJs?"编辑":"完成"}}</p></view>
+		 <view class="myCart-top">商品库存有限，请尽快下单  <p v-if="!noDataShow" @click="editClick">{{showJs?"编辑":"完成"}}</p></view>
 		 
 		<scroll-view scroll-y="true" lower-threshold="50"
 			@scrolltolower="scrollLower" 
@@ -38,8 +38,8 @@
 				</view>
 		 </scroll-view>
 		 
-		 <view class="noGood" v-if="noGshow">
-				<image src="../../static/img/myCart1.png" mode="widthFix" class="noGood-img"></image>
+		 <view class="noGood" v-if="noDataShow">
+				<image :src="FILE_BASE_URL + '/170c312a-64df-4b04-aa59-7cea333acc60.png'" mode="widthFix" class="noGood-img"></image>
 				<p>购物车还是空的哦</p>
 		 </view>
 		 
@@ -54,7 +54,7 @@
 		 </view>
 		 
 		 <view class="goTop" @click="toTop" v-if="flag">
-		 		<image src="../../static/img/gotop.png" mode="aspectFit" class="goTop-img"></image>
+		 		<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		 </view>
 		 
 		  <Tabbar :tabid="3"></Tabbar>
@@ -70,7 +70,8 @@
 		},
 		data() {
 			return {
-				noGshow:false,
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
+				noDataShow:false,
 				totalMoney:0.00,
 				numberValue:1,
 				showJs:true, //显示结算，false显示删除
@@ -122,7 +123,7 @@
 							}
 						}
 						
-						this.noGshow = this.list.length>0 ? false : true;
+						this.noDataShow = this.list.length>0 ? false : true;
 					}
 				}).catch(e=>{
 					this.isLoadMore=false

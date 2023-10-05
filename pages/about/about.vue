@@ -1,6 +1,6 @@
 <template>
 	<view class="allBg about">
-			<image src="../../static/img/logo.jpg" mode="" class="about-img"></image>
+			<image :src="FILE_BASE_URL + '/7688789b-4834-4f91-836f-316c71aa7882.jpg'" mode="" class="about-img"></image>
 			
 			<p>亲爱的同学们，你好:</p>
 			<p class="about-p">我叫“<span>跃动洗鞋</span>”，想必通过我的名字，你可能已经猜到我是谁了。
@@ -20,6 +20,7 @@
 		},
 		data() {
 			return {
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				
 			}
 		},

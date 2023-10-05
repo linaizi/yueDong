@@ -4,7 +4,7 @@
 		
 		<view class="top">
 			<view class="top-lt" @click="loginClick">
-				<image class="headImg" :src="UserInfo.avatar ? UserInfo.avatar : '../../static/img/logo.jpg'"></image>
+				<image class="headImg" :src="UserInfo.avatar ? UserInfo.avatar : '../../static/img/user.png'"></image>
 				<view class="lt-r" v-if="mid">
 					<view class="r-name">{{UserInfo.nickName}}</view>
 					<view class="r-phone">手机号：{{UserInfo.phone}}</view>
@@ -17,7 +17,7 @@
 			</view>
 		</view>
 		
-		<image src="../../static/img/index1.png" mode="widthFix" class="w100"></image>
+		<image :src="FILE_BASE_URL + '/5680d7d6-630a-4dbb-809f-f9aec3137e5e.png'" mode="widthFix" class="wh180"></image>
 		
 		<view class="userCenterBox">
 			<view class="titleBox">用户中心</view>
@@ -27,18 +27,32 @@
 					<image :src="item.imgUrl" class="itemIcon"></image>
 					<view>{{item.tabName}}</view>
 				</view>
-			</view>
-		</view>
-		
-		<view class="userCenterBox">
-			<view class="titleBox">菜单栏</view>
-			<view class="box flex">
-				<view class="itemBox" @click="goShopGl">
-					<image src="http://file.aikbao.com//20221206141224358" class="itemIcon"></image>
+				<view class="itemBox" @click="jumpToSonPage(4)" v-if="isOk&&UserInfo.level==6">
+					<image :src="FILE_BASE_URL + '/cb83f150-bd4d-4bcf-945e-6caabcfd8ba1.jpg'" class="itemIcon"></image>
 					<view>商城管理</view>
 				</view>
 			</view>
 		</view>
+		
+		<view class="userCenterBox" v-if="isOk&&UserInfo.level!=1&&UserInfo.level!=6">
+			<view class="titleBox">{{UserInfo.levelName}}菜单栏</view>
+			<view class="box flex">
+				<view class="itemBox" @click="roleClick(1)">
+					<image :src="FILE_BASE_URL + '/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg'" class="itemIcon"></image>
+					<view>订单管理</view>
+				</view>
+				<view class="itemBox" @click="roleClick(2)"  v-if="UserInfo.level!=5">
+					<image :src="FILE_BASE_URL + '/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg'" class="itemIcon"></image>
+					<view>金额管理</view>
+				</view>
+				<view class="itemBox" @click="roleClick(3)" v-if="UserInfo.level==3">
+					<image :src="FILE_BASE_URL + '/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg'" class="itemIcon"></image>
+					<view>骑手管理</view>
+				</view>
+			</view>
+		</view>
+		
+		<br><br><br>
 		
 		<Tabbar :tabid="4"></Tabbar>
 		<Ppkefu ref="kfchild"></Ppkefu>
@@ -61,16 +75,16 @@
 		},
 		data() {
 			return {
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				mid: uni.getStorageSync('mid'),
 				UserInfo:{},
 				tabArr:[
-					{imgUrl:`http://file.aikbao.com//20221206141224358`,tabName:'我的订单', tabId:0},
-					{imgUrl:`http://file.aikbao.com/20211228145236509`,tabName:'我的优惠券', tabId:1},
-					{imgUrl:`http://file.aikbao.com/20221206141307334`,tabName:'关于我们', tabId:2},
-					{imgUrl:`http://file.aikbao.com/20211228145310428`,tabName:'联系客服', tabId:3},
-					// {imgUrl:`http://file.aikbao.com/20221206142912946`,tabName:'邀请好友', tabId:6},
-					// {imgUrl:`http://file.aikbao.com/20221206142857413`,tabName:'收藏夹', tabId:5},
+					{imgUrl:this.$BASE_URLS.FILE_BASE_URL+'/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg',tabName:'我的订单', tabId:0},
+					{imgUrl:this.$BASE_URLS.FILE_BASE_URL+'/179e5927-3eb7-44e3-81b8-2561ecc129a5.jpg',tabName:'我的优惠券', tabId:1},
+					{imgUrl:this.$BASE_URLS.FILE_BASE_URL+'/3b194d4b-1412-44c2-bfe6-1effcc5ff5b7.jpg',tabName:'关于我们', tabId:2},
+					{imgUrl:this.$BASE_URLS.FILE_BASE_URL+'/e9b08ce8-c807-4799-b0aa-5b84b532f4b9.jpg',tabName:'联系客服', tabId:3},
 				],
+				isOk:false,
 			}
 		},
 		onLoad(option) {
@@ -88,6 +102,7 @@
 				myDetail().then((res) => {
 					if(res.code == 200){
 						this.UserInfo = res.data;
+						this.isOk = true;
 						uni.setStorageSync('UserInfo', JSON.stringify(res.data))
 						if(wcode==200) {
 							this.$refs.logchild.$refs.logPopup.close();
@@ -106,7 +121,6 @@
 				if(!this.mid) this.$refs.logchild.$refs.logPopup.open();
 			},
 				
-			
 			lctClick(){
 				uni.navigateTo({
 						url: '/pages/myAddress/myAddress'
@@ -133,6 +147,9 @@
 					case 3:
 						this.$refs.kfchild.$refs.kfPopup.open();
 						break;
+					case 4:
+						url='/packageA/aIndex/aIndex'
+						break;
 				} 	
 				if(idx!=3){
 					if((idx==0||idx==1)&&!this.mid){
@@ -145,9 +162,22 @@
 				}
 			},
 			
-			goShopGl(){
+			roleClick(n){
+				let url=''
+				switch(n) {
+					case 1:
+						url='/pagesR/roleOrder/roleOrder?level=' + this.UserInfo.level
+						break;
+					case 2:
+						url='/pagesR/roleMoney/roleMoney?level=' + this.UserInfo.level
+						break;
+					case 3:
+						url='/pagesR/siteManage/siteManage'
+						break;
+				} 
+				
 				uni.navigateTo({
-				    url: '/packageA/aIndex/aIndex'
+				    url
 				});
 			},
 			

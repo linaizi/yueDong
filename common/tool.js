@@ -174,3 +174,9 @@ export function JudgeAuthorize(){
 					
 	})
 }
+
+//校验手机号
+export function isValidPhoneNumber(phoneNumber){
+	const phoneNumberPattern = /^1[3456789]\d{9}$/;
+	return phoneNumberPattern.test(phoneNumber);
+}

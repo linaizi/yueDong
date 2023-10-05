@@ -28,6 +28,7 @@
 		},
 		data() {
 			return {
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				
 			}
 		},

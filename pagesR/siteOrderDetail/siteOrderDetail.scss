@@ -1,0 +1,50 @@
+
+.qs-pp{
+	height: 60vh;
+	background: #F7F7F7;
+	.qs-title{
+		font-size: 36upx;
+		color: #333;
+		font-weight: bold;
+		padding: 24upx;
+		background: #fff;
+		@include dflex(space-between,center);
+	}
+}
+.stman{
+	margin: 20upx 24upx;
+	.item{
+		border-radius: 16upx;
+		padding: 24upx;
+		background:#fff;
+		margin-bottom: 20upx;
+		&:last-child{ margin-bottom: 0; }
+		@include dflex(space-between,center);
+		.img{
+			width: 150upx;
+			height: 150upx;
+		}
+		.item-mid{
+			flex:1;
+			margin-left: 20upx;
+			min-height: 150upx;
+			.name{
+				font-size: 28upx;
+				color:#333;
+			}
+			.item-p{
+				font-size: 26upx;
+				color:#666;
+				margin-top: 10upx;
+			}
+		}
+		.item-rt{
+			text-align: center;
+			p{
+				font-size: 28upx;
+				color:#333;
+			}
+		}
+		
+	}
+}

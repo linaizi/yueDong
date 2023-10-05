@@ -12,9 +12,16 @@
 		<view class="perItem">
 			<view class="item-lt">昵称</view>
 			<view class="item-rt">
-				<input type="nickname" v-model.trim="UserInfo.nickName" class="rt-input" placeholder="请输入昵称" maxlength="16"/>
+				<input type="nickname" v-model.trim="UserInfo.nickName" class="rt-input" placeholder="请输入昵称" maxlength="8"/>
 			</view>
 		</view>
+		
+		<!-- <uni-file-picker
+			limit="9" 
+			v-model="imageValue" 
+			@select="select"  
+			@delete="deletea">
+		</uni-file-picker> -->
 		
 		<view class="perBtn" @click="updClick">确 定</view>
 	</view>
@@ -25,7 +32,11 @@
 	export default {
 		data() {
 			return {
-				UserInfo:{}
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
+				UserInfo:{},
+				
+				imgURL:'',
+				imageValue:[],
 			}
 		},
 		onReady() {
@@ -33,22 +44,22 @@
 		},
 		methods: {
 			onChooseAvatar(e) {
-				// const { avatarUrl } = e.detail 
+				const { avatarUrl } = e.detail 
 				
-				// uni.uploadFile({
-				// 	url: this.$BASE_URLS.FILE_upload_URL+'/h5/img/fileUpload', 
-				// 	filePath: avatarUrl,
-				// 	name: 'file',
-				// 	formData: {
-				// 		'user': 'test'
-				// 	},
-				// 	success: (f) => {
-				// 		let res = JSON.parse(f.data)
-				// 		if(res.code == 200){
-				// 			this.upInfo(res.data.url)
-				// 		}
-				// 	},
-				// });
+				uni.uploadFile({
+					url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
+					filePath: avatarUrl,
+					name: 'file',
+					success: (f) => {
+						let res = JSON.parse(f.data)
+						if(res.code == 200){
+							// console.log(res.data)
+						}
+					},
+					fail: (e) => {
+						console.log('err:',e)
+					},
+				});
 			},
 			
 			updClick(){
@@ -65,6 +76,25 @@
 				});
 			},
 			
+			// 获取上传状态
+			select(e){
+				const imgUrl = e.tempFilePaths[0]
+				uni.uploadFile({
+					url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
+					filePath: imgUrl,
+					name: 'file',
+					header:{"Content-Type": "multipart/form-data"},
+					success: (res) => {
+						console.log(JSON.parse(res.data).data)
+					}
+				});
+			},
+			
+			// 图片删除
+			deletea(e){
+				const num = this.imageValue.findIndex(v => v.url === e.tempFilePath);
+				this.imageValue.splice(num, 1);
+			},
 		}
 	}
 </script>

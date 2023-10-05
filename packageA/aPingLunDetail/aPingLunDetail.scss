@@ -1,0 +1,83 @@
+.apd-title{
+	padding:30upx 24upx 24upx;
+	font-size: 28upx;
+	color:#999;
+	font-weight: bold;
+}
+
+.apd-main{
+	margin: 0 24upx 10upx;
+	background: #fff;
+	border-radius: 20upx;
+	padding: 24upx;
+	.main-top{
+		@include dflex(space-between,center);
+		padding-bottom: 24upx;
+		border-bottom: 2upx solid #E2E2E2;
+		.top-lt{
+			width: 146upx;
+			height: 146upx;
+		}
+		.top-mid{
+			height: 146upx;
+			flex:1;
+			margin-left: 20upx;
+			.mid-p{
+				font-size: 28upx;
+				color:#333;
+				margin-bottom: 10upx;
+			}
+			.mid-g{
+				font-size: 26upx;
+				color:#999;
+			}
+		}
+		.top-rt{
+			.rt-p{
+				font-size: 24upx;
+				color:#333;
+			}
+			
+		}
+	}
+	
+	.apd-p{
+		font-size: 28upx;
+		color:#333;
+		margin: 36upx auto 10upx;
+	}
+}
+
+.apd-hf{
+	margin: 0 24upx;
+	background: #fff;
+	border-radius: 20upx;
+	padding: 28upx 24upx;
+	.hf-txt{
+		width: 100%;
+		height: 280upx;
+		background: #F7F7F7;
+		border-radius: 16upx;
+		padding: 24upx;
+		box-sizing: border-box;
+		font-size: 28upx;
+	}
+}	
+
+.apd-btn{
+	margin: 80upx auto 0;
+	background: #446DFD;
+	border-radius: 100upx;
+	width: 80%;
+	height: 80upx;
+	text-align: center;
+	line-height: 80upx;
+	font-size: 30upx;
+	color:#fff;
+}
+
+// <view class="apd-title">卖家回复</view>
+// <view class="apd-hf">
+// 	<textarea class="hf-txt" auto-height />
+// </view>
+// <view class="apd-btn">发布回复</view>

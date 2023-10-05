@@ -2,8 +2,8 @@
 	<view class="allBg">
 		<view class="topBox">
 			<view class="tab-t">
-				<view :class="['t-item',{'t-item-lt':tabNum==0}]" @click="tabNum=0"><image src="../../static/img/buy1.png" v-if="tabNum==0" class="t-img1"></image>到店服务</view>
-				<view :class="['t-item',{'t-item-rt':tabNum==1}]" @click="tabNum=1"><image src="../../static/img/buy2.png" v-if="tabNum==1" class="t-img2"></image>上门取送</view>
+				<view :class="['t-item',{'t-item-lt':tabNum==0}]" @click="tabNum=0"><image :src="FILE_BASE_URL + '/2dcf36c4-bdad-4c47-851b-c545b2c17684.png'" v-if="tabNum==0" class="t-img1"></image>到店服务</view>
+				<view :class="['t-item',{'t-item-rt':tabNum==1}]" @click="tabNum=1"><image :src="FILE_BASE_URL + '/05564c5d-5f46-4901-91ae-bb664f4ba272.png'" v-if="tabNum==1" class="t-img2"></image>上门取送</view>
 			</view>
 			<view class="tab-form" v-if="tabNum==0">
 				<uni-forms :model="formData" border class="aa">
@@ -17,13 +17,13 @@
 			</view>
 			<view class="tab-form" v-else>
 				<view class="form-adr" v-if="hasAddr">
-					<view class="adr-lt">
-						<view class="lt-t">阿道夫 <span>13411112222</span><p>配送范围内</p></view>
-						<view class="lt-b overflow2">广东省广州市天河区五山路483号华南农业大学201</view>
+					<view class="adr-lt" @click="goMyaddr">
+						<view class="lt-t">{{userAddr.name}} <span>{{userAddr.phone}}</span><p v-if="false">配送范围内</p></view>
+						<view class="lt-b overflow2">{{userAddr.address}} {{userAddr.houseNumber}}</view>
 					</view>
-					<uni-icons type="forward" size="40rpx" color="#666"></uni-icons>
+					<uni-icons type="forward" size="40rpx" color="#666" style="margin-top: -38upx;"></uni-icons>
 				</view>
-				<view class="form-noadr" v-else>
+				<view class="form-noadr" v-else @click="goMyaddr">
 					<span>+</span>请添加同城配送地址
 				</view>
 			</view>
@@ -34,29 +34,26 @@
 			<view class="title">跃动球鞋洗护</view>
 			
 			<template v-if="tabNum==0">
-				<view></view>
-			</template>
-			
-			<view class="dsdBox" v-if="hasAddr">
-				<view class="dsd-adr" v-if="tabNum==0">
+				<view class="dsd-adr" v-if="addrList.length>0">
 					<view class="adr-t">
 						<view class="t-l">
 							<uni-icons type="paperplane" size="36rpx" color="#999"></uni-icons>
-							校园通代收点
+							{{addrList[0].shopName}}
 							<uni-icons type="right" size="32rpx" color="#999"></uni-icons>
 						</view>
-						<view class="t-r"><uni-icons type="location" size="36rpx" color="#CDCDCD"></uni-icons>距您85.87km</view>
+						<view class="t-r"><uni-icons type="location" size="36rpx" color="#CDCDCD"></uni-icons>距您{{addrList[0].distance}}km</view>
 					</view>
-					<view class="adr-b">华南农业大学校园泰山区通代收点</view>
+					<view class="adr-b">{{addrList[0].address}} {{addrList[0].houseNumber}}</view>
 				</view>
-				<view class="buy-time" @click="setTimeClick">
+				<view class="dsdBox-no" v-else>当前位置附近暂无代收点</view>
+			</template>
+			<template v-else>
+				<view class="buy-time" @click="setTimeClick" v-if="hasAddr">
 					<p>预约提货时间</p>
 					<view class="time-red">{{yyTime}}<uni-icons type="right" size="32rpx" color="#999"></uni-icons></view>
 				</view>
-			</view>
-			<view class="dsdBox-no" v-else>请添加联系人 <p>添加配送地址</p></view>
-			
-			
+				<view class="dsdBox-no" v-else>请添加联系人 <p>添加配送地址</p></view>
+			</template>
 			
 			
 			<view class="ordre-item buy-item" v-for="it in goodsData" :key="it.id">
@@ -70,10 +67,16 @@
 			</view>
 			
 			<view class="buy-time" @click="yhqClick">
-				<p><span>惠</span>优惠券</p>
-				<view  :class="hasQ ? 'time-red':'time-gray'">
-					<span>1张可用</span>
-					<!-- 暂无可用优惠券 -->
+				<p class="time-lt"><span>惠</span>优惠券</p>
+				<view class="time-rt">
+					<template v-if="couCheck==-1">
+						<span class="rt-red" v-if="availableNum>0">{{availableNum}}张可用</span>
+						<span class="time-gray" v-else>暂无可用优惠券</span>
+					</template>
+					<template v-else>
+						<view class="time-red">-￥{{zero(couMon)}}</view>
+					</template>
+					
 					<uni-icons type="right" size="32rpx" color="#999"></uni-icons>
 				</view>
 			</view>
@@ -88,8 +91,7 @@
 		
 		<!-- 表单 -->
 		<view class="buyBox">
-			<view class="title">自定义表单</view>
-			
+			<view class="title">操作</view>
 			<view class="formbBd">
 				<p>备注：</p>
 				<input type="text" placeholder="请输入备注"  class="bd-ipt" />
@@ -133,34 +135,21 @@
 			<view class="yhq-pp">
 				<view class="yhq-title"><span class="b">优惠券</span><uni-icons type="closeempty" size="52rpx" color="#666" @click="closeYhq"></uni-icons></view>
 				<view class="yhq-tab">
-					<view :class="['tab-item',{'tab-item-act':yhqAct==0}]" @click="yhqAct=0">可用优惠券(1)</view>
-					<view :class="['tab-item',{'tab-item-act':yhqAct==1}]" @click="yhqAct=1">不可用优惠券(1)</view>
+					<view :class="['tab-item',{'tab-item-act':couponParam.type==1}]" @click="tabCoupon(1)">可用优惠券({{availableNum}})</view>
+					<view :class="['tab-item',{'tab-item-act':couponParam.type==2}]" @click="tabCoupon(2)">不可用优惠券({{notAvailableNum}})</view>
 				</view>
 				<view class="yhq-maim">
-					<view class="yhq-item">
-						<view class="item-top">
-							<view class="top-l"><span>￥</span>10.00</view>
-							<view class="top-m"><p>首次下单9.9元</p><p>满19.90元可用</p></view>
-							<view class="top-r">
-								<view class="circle"></view>
+					<view class="yhq-item" v-for="(cu,ind) in couList" :key="ind" @click="couClick(cu,ind)">
+						<view :class="['item-top',{'item-top-no':couponParam.type==2}]">
+							<view class="top-l"><span>￥</span>{{zero(cu.couponDto.amount)}}</view>
+							<view class="top-m"><p>{{cu.couponDto.type == 1 ? '新人专享' : '满减福利'}}{{cu.couponDto.amount}}元</p><p>满{{cu.couponDto.conditionAmount}}元可用</p></view>
+							<view class="top-r" v-if="couponParam.type==1">
+								<view :class="['circle',{'circle-red':cu.check}]"></view>
 							</view>
 						</view>
 						<view class="item-foot">
-							<p>有效日期:2023-08-19 22:06:49-2024-08-1822:06:49</p>
-							<p>适用商品:普通鞋类</p>
-						</view>
-					</view>
-					<view class="yhq-item">
-						<view class="item-top item-top-no">
-							<view class="top-l"><span>￥</span>10.00</view>
-							<view class="top-m"><p>首次下单9.9元</p><p>满19.90元可用</p></view>
-							<view class="top-r" v-if="false">
-								<view class="circle"></view>
-							</view>
-						</view>
-						<view class="item-foot">
-							<p>有效日期:2023-08-19 22:06:49-2024-08-1822:06:49</p>
-							<p>适用商品:普通鞋类</p>
+							<p class="foot-p">有效日期：<span class="p-span">{{cu.possessTime}}-{{cu.expireTime}}</span></p>
+							<p class="foot-p">适用商品：所有商品</p>
 						</view>
 					</view>
 				</view>
@@ -179,19 +168,27 @@
 		},
 		data() {
 			return {
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
+				mid: uni.getStorageSync('mid'),
 				formData:{},
 				goodsData:{},
-				totalMoney:0,	//总金额
 				lotn:{},	//当前定位
 				tabNum:0,
-				list:[],
-				addrList:[],
+				userAddr:{},	//用户地址
+				addrList:[],	//代收点地址
 				couponParam:{
 					amount:59,
 					pageNo:1,
 					pageSize:10,
 					type:1
 				},
+				couList:[], //优惠券列表
+				couList1:[], //优惠券列表
+				couList2:[], //优惠券列表
+				couCheck:-1,
+				availableNum:0,
+				notAvailableNum:0,
+				couMon:0,
 				hasAddr:true,
 				yyTime:'今天(周一)17:30-18:00',
 				timeShow:false,
@@ -199,21 +196,31 @@
 							
 				imgURL:'',
 				imageValue:[],
-				hasQ:true,
 			}
 		},
 		onLoad(option) {
 			this.goodsData = JSON.parse(option.goodsData);
-			this.totalMoney = this.goodsData.reduce((total, item) => total + item.goodsNowPrice*item.goodsNum, 0);
 			
 			this.getLocation() //获取当前位置
 			this.getAddr()	//获取用户地址
-			this.getAddr()	//获取用户地址
-			this.getCoupon()	//获取用户优惠券
+			this.getCoupon(2)	//获取用户不可用优惠券
+			this.getCoupon(1)	//获取用户优惠券
 				
 			//全局定义的图片访问地址前缀
 			// this.imgURL=this.$imgURL
 		},
+		computed: {
+			totalMoney() {
+			  return this.goodsData.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0) - this.couMon;
+			}
+		},
+		onShow() {
+			uni.$once('isAddr',function(data){
+				this.userAddr = JSON.parse(data)
+				this.hasAddr = true;
+			})
+		},
+		
 		methods: {
 			//获取当前位置
 			getLocation(){
@@ -224,18 +231,23 @@
 					success(response) {
 						console.log(response)
 						// {
-						// 	accuracy: 65
-						// 	errMsg: "getLocation:ok"
-						// 	horizontalAccuracy: 65
-						// 	latitude: 22.55329
-						// 	longitude: 113.88308
-						// 	speed: -1
-						// 	verticalAccuracy: 65
+							// address: "广东省深圳市宝安区上星路西星悦豪庭一期对面"
+							// city: "深圳市"
+							// district: "宝安区"
+							// latitude: 22.726897
+							// longitude: 113.83283
+							// name: "星际大厦"
+							// province: "广东省"
 						// }
 						_that.lotn = {
-							n: response.latitude,
-							e: response.longitude
+							n: 22.726897,
+							e: 113.83283
 						}
+						// _that.lotn = {
+						// 	n: response.latitude,
+						// 	e: response.longitude
+						// }
+						
 						_that.getList()
 					},
 					fail() {
@@ -246,15 +258,29 @@
 			
 			getAddr(){
 				addressList({ addressType:1 }).then((res) => {
-					if(res.code == 200){
-						this.list = res.data
+					if(res.code == 200&&res.data.length>0){
+						this.hasAddr = true;
+						this.userAddr = res.data[0];
 					}
 				});
 			},
 			
-			getCoupon(){
+			// 获取优惠券列表
+			getCoupon(i){
+				this.couponParam.type = i;
 				couponListTwo(this.couponParam).then((res) => {
 					if(res.code == 200){
+						this.availableNum = res.data.availableNum;
+						this.notAvailableNum = res.data.notAvailableNum;
+						if(i==1){
+							res.data.data.forEach((item) => {
+								this.$set(item,'check',false)
+							});
+							this.couList = res.data.data;
+							this.couList1 = res.data.data;
+						}else{
+							this.couList2 = res.data.data;
+						}
 					}
 				});
 			},
@@ -268,7 +294,16 @@
 				});
 			},
 			
+			goMyaddr(){
+				uni.navigateTo({
+					url: '/pages/myAddress/myAddress?source=1'
+				})
+				
+			},
+						
 			setTimeClick(){ this.timeShow = true; },
+			
+			//时间选择 关闭事件
 			handelClose(data){  
 				this.timeShow = false; 
 				console.log(data)
@@ -302,11 +337,44 @@
 			
 			//优惠券
 			yhqClick(){
-				if(!this.hasQ) return;
 				this.$refs.yhqPopup.open()
 			},
 			closeYhq(){
 				this.$refs.yhqPopup.close()
+			},
+			//优惠券tab事件
+			tabCoupon(n){
+				this.couponParam.type = n;
+				if(n==1){
+					this.couList = this.couList1;
+				}else{
+					this.couList = this.couList2;
+				}
+			},
+			//选择优惠券事件
+			couClick(obj,ind){
+				if(this.couponParam.type == 2) return;
+				
+				this.couList1.forEach((item,n) => {
+					if(n==ind){
+						item.check = !item.check;
+					}else{
+						item.check = false;
+					}
+				});
+				
+				if(this.couList1[ind].check){
+					this.couCheck = ind;
+					this.couMon = obj.couponDto.amount
+				}else{
+					this.couCheck = -1;
+					this.couMon = 0.00
+				}
+				this.$refs.yhqPopup.close()
+			},
+			//金额补零
+			zero(num){
+				return num.toFixed(2);
 			},
 			
 			// 获取上传状态

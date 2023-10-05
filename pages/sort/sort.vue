@@ -21,7 +21,7 @@
 												<p>￥<span class="big">{{priceHander(item.goodsNowPrice,1)}}</span>{{priceHander(item.goodsNowPrice,2)}}</p>
 												<p class="gray">￥{{item.goodsPrice}}</p>
 										</view>
-										<image class="foot-rf" src="../../static/img/gwc.jpg" @click.stop="openCar(item)"></image>
+										<image class="foot-rf" :src="FILE_BASE_URL + '/4cde96e1-9e5c-44dc-b616-b50eac17ef2d.jpg'" @click.stop="openCar(item)"></image>
 									</view>
 								</view>
 							</view>
@@ -35,7 +35,7 @@
 		 </view>
 		 
 		 <view class="goTop" @click="toTop" v-if="flag">
-		 		<image src="../../static/img/gotop.png" mode="aspectFit" class="goTop-img"></image>
+		 		<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		 </view>
 		 
 		 <Tabbar :tabid="2"></Tabbar>
@@ -58,6 +58,7 @@
 		},
 		data() {
 			return {
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				mid: uni.getStorageSync('mid'),
 				ppCarData:{},
 				list:[],

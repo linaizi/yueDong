@@ -2,43 +2,36 @@
 	<view class="allBg flexBox">
 		<view class="order-top">
 			<scroll-view class="top-left" scroll-x="true" scroll-with-animation :scroll-left="scrollLeft">
-				<view v-for="(item,index) in listArr" :key="index" class="topItem" @click="listClick(index)">
-					<span :class="{'topItem-act':index==listId}">{{item.title}}</span>
+				<view v-for="item in listArr" :key="item.catid" class="topItem" @click="listClick(item.catid)">
+					<span :class="{'topItem-act':item.catid==listId}">{{item.title}}</span>
 				</view>
 			</scroll-view>
 		</view>
 	
-		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop"
-			class="boxScroll indexScroll"
-			:refresher-enabled="isOpenRefresh" :refresher-triggered="triggered" @refresherpulling="onPulling"
-			@refresherrefresh="onRefresh"	@refresherrestore="onRestore" @refresherabort="onAbort" > 
-			
-				<view class="ordre-main" v-for="(item,index) in 10" :key="index" @click="toOrderDetail(item)">
+		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop" class="boxScroll"> 
+				<view class="ordre-main" v-for="item in list" :key="item.orderId" @click="toOrderDetail(item)">
 					<view class="main-top">
-						<view class="top-lt">订单号：222222222222222222</view>
-						<view class="top-rt">已取消</view>
-					</view>
-					<view class="ordre-item">
-						<image src="../../static/img/good1.png" class="main-lt"></image>
-						<view class="item-mid">
-							<p class="mid-p overflow1">高级鞋类精选三双</p>
-							<p>规格：默认</p>
-							<p>x4</p>
-						</view>
-						<view class="main-rt">￥81.90</view>
-					</view>
-					<view class="ordre-item">
-						<image src="../../static/img/good1.png" class="main-lt"></image>
-						<view class="item-mid">
-							<p class="mid-p overflow1">高级鞋类精选三双</p>
-							<p>规格：默认</p>
-							<p>x4</p>
-						</view>
-						<view class="main-rt">￥81.90</view>
+						<view class="top-lt">订单号：{{item.orderNo}}</view>
+						<view class="top-rt">{{rtStatus(item.status)}}</view>
 					</view>
 					
-					<view class="main-price"><span>合计：</span>￥81.90</view>
-					<view class="mian-pay">
+					<view class="ordre-item" v-for="(i,ind) in JSON.parse(item.goodsInfo)" :key="ind">
+						<image :src="i.goodsPic" class="main-lt"></image>
+						<view class="item-mid">
+							<p class="mid-p overflow1">{{i.goodsName}}</p>
+							<p>规格：默认</p>
+							<p>x{{i.goodsNum}}</p>
+						</view>
+						<view class="main-rt">￥{{i.goodsNowPrice}}</view>
+					</view>
+					
+					<view class="main-price">
+						<p class="price-p">
+							<span>合计：</span>￥{{totalMon(item.goodsInfo)}}
+						</p>
+					</view>
+					
+					<view class="mian-pay" v-if="item.status==1">
 						<view class="pay-btn">取消</view>
 						<view class="pay-btn pay-fk">付款</view>
 					</view>
@@ -48,30 +41,34 @@
 						<uni-load-more :status="loadStatus" :contentText="contentText"></uni-load-more>
 				</view>
 		</scroll-view>
+		
+		<view class="noGood" v-if='noDataShow'>
+			<image :src="FILE_BASE_URL + '/3ee934e5-e364-4dad-9417-88a4776bfd87.png'" mode="widthFix" class="noGood-img"></image>
+			<p>暂无订单</p>
+		</view>
 			
 		<view class="goTop" @click="toTop" v-if="flag">
-				<image src="../../static/img/gotop.png" mode="aspectFit" class="goTop-img"></image>
+			<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		</view>
 		
 	</view>
 </template>
 
 <script>
-	
+	import { orderPage } from '@/api/page/index.js'
 	export default {
-		components: {
-			
-		},
 		data() {
 			return {
+				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				listArr:[
-					{title:"全部", catid:1},
-					{title:"待付款", catid:2},
-					{title:"已付款", catid:3},
-					{title:"准备清洗", catid:4},
-					{title:"正在清洗", catid:5},
-					{title:"清洗完成", catid:6},
-					{title:"已完成", catid:7},
+					{title:"全部", catid:0},
+					{title:"待付款", catid:1},
+					{title:"已付款", catid:2},
+					{title:"准备清洗", catid:3},
+					{title:"正在清洗", catid:4},
+					{title:"清洗完成", catid:5},
+					{title:"已完成", catid:6},
+					{title:"已关闭", catid:7},
 				],
 				
 				showCard: [], //组件显示
@@ -81,7 +78,14 @@
 				listId: 0, // 当前选中
 				scrollLeft: 0, // 横向滚动条位置
 				
-				flag:false,
+				listQuery:{
+					pageNo:1,
+					pageSize:10,
+					status:0
+				},
+				list:[],
+				noDataShow:false,
+				//scroll-view
 				contentText:{
 					contentdown: "上拉显示更多",
 					contentrefresh: "加载中...",
@@ -89,15 +93,16 @@
 				},
 				loadStatus:'loading',  //加载样式：more-加载前样式，loading-加载中样式，nomore-没有数据样式
 				isLoadMore:false,  //是否加载中
+				
+				//返回顶部
 				scrollTop:0,
 				oldScrollTop:0,
-				isOpenRefresh: true, // 是否开启下拉
-				triggered: false,  //当前下拉刷新状态
-				_freshing: false, 
+				flag:false,
 			}
 		},
 		onReady() {
 			this.getScrollW();
+			this.initData();
 		},
 		methods: {
 			// 获取标题区域宽度，和每个子元素节点的宽度以及元素距离左边栏的距离
@@ -118,10 +123,58 @@
 			  }).exec()
 			},
 			
-			toOrderDetail(){
+			initData(){
+				orderPage(this.listQuery).then((res) => {
+					if(res.code == 200){
+						if(this.listQuery.pageNo<=res.data.totalPages){
+							this.noDataShow = false;
+							this.list.push(...res.data.data);
+								
+							if(this.listQuery.pageNo==res.data.totalPages){  //判断接口返回数据量小于请求数据量，则表示此为最后一页
+								this.isLoadMore=true                                             
+								this.loadStatus='nomore'
+							}else{
+								this.isLoadMore=false
+								this.loadStatus='loading'
+							}
+						}else{
+							if(this.listQuery.pageNo == 1){
+								this.isLoadMore=false;
+								this.noDataShow = true;
+							}else{
+								this.isLoadMore=true
+								this.loadStatus='nomore'
+							}
+						}
+						
+					}
+				}).catch(e=>{
+					this.isLoadMore=false
+				})
+			},
+			
+			toOrderDetail(item){
 				uni.navigateTo({
-				    url: '/pages/orderDetail/orderDetail'
+				    url: '/pages/orderDetail/orderDetail?orderId=' + item.orderId + "&orderNo=" + item.orderNo
 				});
+			},
+			
+			rtStatus(id){
+				const statusDict = {
+				      1: '待付款',
+				      2: '已付款',
+				      3: '骑手未取货',
+				      4: '骑手已取货',
+				      5: '厂家未取货',
+				      6: '厂家已取货',
+				      7: '代收点已收货',
+				      8: '送货骑手未取货',
+				      9: '送货骑手已取货',
+				      10: '骑手已送达',
+				      11: '已完成',
+				};
+				
+				return statusDict[id]
 			},
 			
 			//tab切换
@@ -138,42 +191,26 @@
 				
 				let resultSpot = this.listArr[i].left + this.listArr[i].width / 2 - this.contentScrollW / 2; //最终要停留的点
 				this.scrollLeft = resultSpot;
+				
+				this.loadStatus = 'loading'
+				this.list = [];
+				this.listQuery.pageNo = 1;
+				this.listQuery.status = i;
+				this.initData();
 			},
 			
+			totalMon(goodsInfo){
+				if(!goodsInfo) return;
+				goodsInfo = JSON.parse(goodsInfo);
+				return goodsInfo.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0);
+			},
 			
 			scrollLower(){
 				if(!this.isLoadMore){  //此处判断，上锁，防止重复请求
-					this.isLoadMore = true
-					this.goodParams.pageNo++
-					this.initGoods()
-				}
-			},
-			// 自定义下拉刷新控件被下拉
-			onPulling(e) {
-				if (e.detail.dy < 0) return  // 防止上滑页面也触发下拉
-				this.triggered = true;
-			},
-			// 自定义下拉刷新被触发
-			onRefresh() {
-				if (this._freshing) return;
-				this._freshing = true;
-				setTimeout(() => {
-					this.triggered = false;
-					this._freshing = false;
-					this.goodParams.pageNo = 1
-					this.recommendArr = []
+					this.isLoadMore=true
+					this.listQuery.pageNo++
 					this.initData()
-					this.initGoods()
-				}, 500);
-			},
-			// 自定义下拉刷新被复位
-			onRestore() {
-				console.log("onRestore");
-				this.triggered = false //重置
-			},
-			// 自定义下拉刷新被中止
-			onAbort() {
-				console.log("onAbort-被中止");
+				}
 			},
 			fromTop(e){  // 监听页面滚动
 				if (e.detail.scrollTop > 150) { //当距离大于50时显示回到顶部按钮
@@ -183,7 +220,6 @@
 						this.flag = false
 				}
 			},
-			
 			toTop(){
 				this.scrollTop = this.oldScrollTop
 				this.$nextTick(() => {
@@ -191,7 +227,17 @@
 				});
 			},
 			
-		}
+		},
+		
+		//下拉刷新
+		onPullDownRefresh() {
+			this.list = [];
+			this.listQuery.pageNo = 1
+			this.initData();
+			setTimeout(function () {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
 	}
 </script>
 
