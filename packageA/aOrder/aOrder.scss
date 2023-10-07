@@ -51,7 +51,7 @@
 		}
 	}
 	.mone-list{
-		width: 190upx;
+		width: 250upx;
 		background: #fff;
 		position: absolute;
 		top: 100upx;
@@ -60,8 +60,9 @@
 		border: 2upx solid #E2E2E2;
 		border-top: none;
 		.list{
-			text-align: center;
-			line-height: 70upx;
+			height: 70upx;
+			font-size: 28upx;
+			@include dflex(center,center);
 		}
 	}
 }
@@ -79,12 +80,13 @@
 		padding: 30upx 0;
 	}
 	.pp-tm{
-		padding: 0 30upx;
-		display: grid;
-		grid-template-columns: repeat(3,170upx);
-		grid-template-rows: repeat(2,62upx);
-		gap:20upx 30upx;
+		padding: 0 20upx;
+		@include dflex(null,center);
+		flex-wrap: wrap;
 		.tm-item{
+			min-width: 150upx;
+			padding: 0 10upx;
+			margin:0 12upx 20upx;
 			border:2upx solid #DDDDDD;
 			border-radius: 100upx;
 			text-align: center;
@@ -144,7 +146,12 @@
 	}
 }
 
+.aod-box{
+	padding-bottom: 100upx;
+}
+
 .ordre-main{
+	margin-bottom: 0;
 	.main-top{
 		padding: 10upx 0;
 		border-bottom: none;
@@ -173,6 +180,19 @@
 					height: 60upx;
 					padding-left: 20upx;
 					line-height: 60upx;
+				}
+				&:before{
+					content: '';
+					position: absolute;
+					top: -14upx;
+					left: 20upx;
+					width: 0;
+					height: 0;
+					
+					//下三角
+					border-bottom: 14upx solid rgba(0, 0, 0, .2);
+					border-left:14upx solid transparent;
+					border-right:14upx solid transparent; 
 				}
 			}
 		}

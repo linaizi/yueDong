@@ -59,6 +59,8 @@
  
       methods: {
          tabbarChange: debounce(function(item) {
+			 if(this.tabid == item.id) return;
+			 
 			 if(item.id==3){
 				 if(uni.getStorageSync('mid')){
 					 uni.navigateTo({

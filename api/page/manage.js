@@ -8,6 +8,8 @@ export function operateReport(params) { 	// 经营状况
 	})
 }
 
+
+
 export function goodsList(params) { 	// 商品列表
 	return request({
 		url: '/elantra/admin/goods/list',
@@ -50,6 +52,7 @@ export function editGoodsStatus(params) { 	// 修改商品状态
 
 
 
+
 export function commentPage(params) { 	// 评论列表
 	return request({
 		url: '/elantra/admin/comment/page',
@@ -82,4 +85,75 @@ export function commentReply(params) { 	// 回复评论
 	})
 }
 
+
+
+export function AorderPage(data) { // 查看订单列表
+	return request({
+		url: '/elantra/admin/order/page',
+		method: 'POST',
+		data
+	})
+}
+
+export function AorderInfo(params) { 	// 查看订单详情
+	return request({
+		url: '/elantra/admin/order/info',
+		method: 'GET',
+		params
+	})
+}
+
+export function AorderEdit(data) { // 修改订单状态
+	return request({
+		url: '/elantra/admin/order/edit',
+		method: 'POST',
+		data
+	})
+}
+
+
+
+
+export function AuserList(data) { // 用户列表
+	return request({
+		url: '/elantra/admin/user/list',
+		method: 'POST',
+		data
+	})
+}
+
+export function AeditLevel(data) { // 更改用户等级
+	return request({
+		url: '/elantra/admin/user/edit/level',
+		method: 'POST',
+		data
+	})
+}
+
+export function AuserBlock(data) { // 拉黑用户
+	return request({
+		url: '/elantra/admin/user/block',
+		method: 'POST',
+		data
+	})
+}
+
+
+
+
+export function AsettingList(data) { // 配置列表
+	return request({
+		url: '/elantra/admin/setting/list',
+		method: 'POST',
+		data
+	})
+}
+
+export function AsettingEdit(data) { // 修改配置
+	return request({
+		url: '/elantra/admin/setting/edit',
+		method: 'POST',
+		data
+	})
+}
 

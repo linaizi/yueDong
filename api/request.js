@@ -2,7 +2,7 @@ import axios from 'axios'
 import Qs from 'qs'
 
 //配置api接口地址
-// var url = "http://10.100.3.46:7777"  
+// var url = "http://10.100.1.29:7777"  
 var url = "http://www.hanwenliang.love"  
 
 const $axios = axios.create({

@@ -58,6 +58,8 @@
  
       methods: {
          tabbarChange: debounce(function(item) {
+			if(this.tabid == item.id) return;
+			  
 			uni.navigateTo({
 				url: item.path,
 			})

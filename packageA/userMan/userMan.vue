@@ -30,23 +30,26 @@
 		
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop" class="boxScroll">
 			<view class="user-main">
-				<view class="main-item">
+				<view class="main-item" v-for="(item,index) in list" :key="item.uid">
 					<view class="item-top">
-						<image :src="FILE_BASE_URL + '/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg'" class="top-img"></image>
+						<image :src="item.avatar" class="top-img"></image>
 						<view class="top-rt">
-							<view class="rt-name">用户234 <span class="n-g">普通用户</span></view>
-							<view class="rt-p">手机号：13411112333</view>
-							<view class="rt-p">注册时间：2022-10-2</view>
+							<view class="rt-name">
+								{{item.nickName}} <span class="n-g">{{item.levelName}}</span> 
+								<span class="n-g" v-if="item.level==2&&item.shopName">({{item.shopName}})</span>
+							</view>
+							<view class="rt-p">手机号：{{item.phone}}</view>
+							<view class="rt-p">注册时间：{{item.createTime}}</view>
 						</view>
 					</view>
 					<view class="item-list">
-						<view class="item-it"><span class="it-s">交易额</span>￥0.00</view>
-						<view class="item-it"><span class="it-s">余额</span>￥0.00</view>
-						<view class="item-it"><span class="it-s">订单数</span>￥0.00</view>
+						<view class="item-it"><span class="it-s">交易额</span>￥{{item.payAmount}}</view>
+						<view class="item-it"><span class="it-s">余额</span>￥{{item.balance}}</view>
+						<view class="item-it"><span class="it-s">订单数</span>￥{{item.orderNum}}</view>
 					</view>
 					<view class="item-btn">
-						<view class="btn">拉黑</view>
-						<view class="btn" @click="xgClick">修改信息</view>
+						<view class="btn" @click="laHeiClick(item.uid,index)">拉黑</view>
+						<view class="btn" @click="xgClick(item.uid)">修改信息</view>
 					</view>
 				</view>
 			</view>
@@ -56,11 +59,6 @@
 			</view>
 		</scroll-view>
 		
-		<!-- <view class="noGood" v-if='list.length==0'>
-			<image :src="FILE_BASE_URL + '/3ee934e5-e364-4dad-9417-88a4776bfd87.png'" mode="widthFix" class="noGood-img"></image>
-			<p>暂无订单</p>
-		</view> -->
-			
 		<view class="goTop" @click="toTop" v-if="flag">
 			<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		</view>
@@ -91,7 +89,7 @@
 </template>
 
 <script>
-	
+	import { AuserList,AeditLevel,AuserBlock } from '@/api/page/manage.js'
 	export default {
 		data() {
 			return {
@@ -114,6 +112,7 @@
 				tabAct:0,
 				djArr:[],
 				djAct:0,
+				xGuid:0,
 				
 				listQuery:{
 					pageNo:1,
@@ -170,18 +169,20 @@
 			//搜索事件
 			searchOrder(){
 				this.listQuery.content = this.iptTxt;
+				this.listQuery.pageNo = 1;
+				this.list = [];
+				this.initData(); 
 			},
 			
 			tabClick(i){
-				 // 切换当前选中项的状态
-				i.check = (i.check + 1) % 3;
-				
 				if (this.tabAct !== i.id) {
-					// 重置之前选中 tab 的状态
 					let prevTab = this.tabArr.find(tab => tab.id === this.tabAct);
 					if (prevTab) prevTab.check = 0;
-				
+					i.check = 1
 					this.tabAct = i.id;
+				}else{
+					if(i.check == 1) i.check = 2;
+					else if(i.check == 2 || i.check == 0) i.check = 1;
 				}
 				
 				if (i.id === 0) {
@@ -189,12 +190,16 @@
 				} else {
 					this.listQuery.sort = i.check === 0 ? undefined : (i.check === 1 ? 4 : 3);
 				}
-				  
+				
+				this.listQuery.pageNo = 1;
+				this.list = [];
+				this.initData(); 
 			},
 			
 			//修改信息
-			xgClick(){
+			xgClick(id){
 				this.$refs.XGpopup.open();
+				this.xGuid = id;
 			},
 			closeXG(){
 				this.$refs.XGpopup.close();
@@ -212,46 +217,77 @@
 				this.$refs.DJPopup.close();
 			},
 			djYes(){
+				uni.showModal({
+					title:"温馨提示",
+					content:"确定修改当前用户等级?",
+					confirmText:"确定",
+					success: (res)=> {
+						if (res.confirm) {
+							let param = {
+								level: this.djArr[this.djAct].id,
+								uid: this.xGuid
+							}
+							AeditLevel(param).then((res) => {
+								if(res.code == 200){
+									uni.showToast({title:"修改成功",icon:'success'})
+									this.listQuery.pageNo = 1;
+									this.list = [];
+									this.initData(); 
+									this.$refs.DJPopup.close();
+								}
+							})
+						} else if (res.cancel) {}
+					}
+				});
+			},
+			
+			laHeiClick(uid){
+				uni.showModal({
+					title:"温馨提示",
+					content:"确定拉黑当前用户?",
+					confirmText:"确定",
+					success: (res)=> {
+						if (res.confirm) {
+							AuserBlock({ uid }).then((res) => {
+								if(res.code == 200){
+									uni.showToast({title:"已拉黑",icon:'success'})
+									this.list.splice(index, 1);
+								}
+							})
+							
+						} else if (res.cancel) {}
+					}
+				});
 				
 			},
 			
 			initData() {
-				return;
-				const fetchData = (queryFunction) => {
-					queryFunction(this.listQuery).then((res) => {
-						if (res.code === 200) {
-						  if (this.listQuery.pageNo <= res.data.totalPages) {
-							this.list.push(...res.data.data);
-				
-							if (this.listQuery.pageNo === res.data.totalPages) {
-							  this.isLoadMore = true;
-							  this.loadStatus = 'nomore';
-							} else {
-							  this.isLoadMore = false;
-							  this.loadStatus = 'loading';
-							}
-						  } else {
-							if (this.listQuery.pageNo === 1) {
-							  this.isLoadMore = false;
-							} else {
-							  this.isLoadMore = true;
-							  this.loadStatus = 'nomore';
-							}
-						  }
+				AuserList(this.listQuery).then((res) => {
+					if (res.code === 200) {
+					  if (res.data.length>0) {
+						this.list.push(...res.data);
+			
+						if(res.data.length<this.listQuery.pageSize){  //判断接口返回数据量小于请求数据量，则表示此为最后一页
+							this.isLoadMore=true;                                             
+							this.loadStatus='nomore';
+						}else{
+							this.isLoadMore=false;
+							this.loadStatus='loading';
 						}
-					})
-					.catch((e) => {
-						this.isLoadMore = false;
-					});
-				};
-				
-				if (this.level == 2) {
-					fetchData(RorderPage);
-				} else if (this.level == 3) {
-					fetchData(DSorderPage);
-				} else if (this.level == 5) {
-					fetchData(GCorderPage);
-				}
+					  } else {
+						if (this.listQuery.pageNo === 1) {
+						  this.isLoadMore = false;
+						} else {
+						  this.isLoadMore = true;
+						  this.loadStatus = 'nomore';
+						}
+					  }
+					}
+				})
+				.catch((e) => {
+					this.isLoadMore = false;
+				});
+			
 			},
 			
 			scrollLower(){
