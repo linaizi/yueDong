@@ -26,7 +26,7 @@
 				</view>
 				<view class="phone">
 					{{item.name}} <span class="phone-sp">{{item.phone}}</span>
-					<view class="phone-tell" @click="PhoneCall(item.phone)">
+					<view class="phone-tell" @click.stop="PhoneCall(item.phone)">
 						<uni-icons type="phone" size="30rpx" color="#446DFD"></uni-icons>联系收货人
 					</view>
 				</view>
@@ -352,8 +352,10 @@
 				    url: "/packageA/aOrderHistory/aOrderHistory"
 				});
 			},
-			toDetail(){
-				
+			toDetail(item){
+				uni.navigateTo({
+					url: '/packageA/aOrderDetail/aOrderDetail?orderId=' + item.orderId + "&orderNo=" + item.orderNo
+				});
 			},		
 				
 			rtStatus(id){

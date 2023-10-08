@@ -276,6 +276,15 @@
 		 	}
 		},
 		{
+		 	"path": "packageA/aOrderDetail/aOrderDetail",
+		 	"style" : {
+		 		"navigationBarTitleText": "订单详情",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
+		},
+		{
 		 	"path": "packageA/aShop/aShop",
 		 	"style" : {
 				"enablePullDownRefresh": true,
@@ -320,13 +329,14 @@
 			"pages": [
 				"aIndex/aIndex",
 				"aOrder/aOrder",
+				"aOrderDetail/aOrderDetail",
+				"aOrderHistory/aOrderHistory",
 				"aShop/aShop",
 				"aSet/aSet",
 				"addShop/addShop",
 				"aPingLun/aPingLun",
 				"aPingLunDetail/aPingLunDetail",
-				"userMan/userMan",
-				"aOrderHistory/aOrderHistory"
+				"userMan/userMan"
 			]
 		},
 		{
