@@ -166,3 +166,13 @@ export function AwithdrawPage(params) { 	// 申请提现列表
 		params
 	})
 }
+
+
+
+export function AcouponList(params) { 	// 优惠券列表
+	return request({
+		url: '/elantra/admin/coupon/list',
+		method: 'GET',
+		params
+	})
+}

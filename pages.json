@@ -314,6 +314,15 @@
 		 	}
 		},
 		{
+		 	"path": "packageA/aCouponMan/aCouponMan",
+		 	"style" : {
+		 		"navigationBarTitleText": "优惠券管理",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
+		},
+		{
 		 	"path": "packageA/aSet/aSet",
 		 	"style" : {
 		 		"navigationBarTitleText": "商城设置",
@@ -346,6 +355,7 @@
 				"addShop/addShop",
 				"aPingLun/aPingLun",
 				"tiXian/tiXian",
+				"aCouponMan/aCouponMan",
 				"aPingLunDetail/aPingLunDetail",
 				"userMan/userMan"
 			]

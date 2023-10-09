@@ -84,6 +84,9 @@
 					case 3:
 						url='/packageA/userMan/userMan'
 						break;
+					case 4:
+						url='/packageA/aCouponMan/aCouponMan'
+						break;
 				} 
 				
 				uni.navigateTo({
