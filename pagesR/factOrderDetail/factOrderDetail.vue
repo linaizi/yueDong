@@ -27,7 +27,7 @@
 					</view>
 					<view class="od-title" v-if="infoData.type == 1">
 						<view class="title-lt">预约上门取鞋时间</view>
-						<view class="title-rt">9月6日(周三)13:30-14:00</view>
+						<view class="title-rt">{{infoData.reservationTime}}</view>
 					</view>
 				</view>
 				
@@ -255,7 +255,7 @@
 				});
 			},
 			
-			getImgIndex(index) { //图片预览
+			getImgIndex(obj,index) { //图片预览
 				let imgs = obj.map(item => {
 					//只返回图片路径
 					return item

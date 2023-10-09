@@ -24,5 +24,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'index.scss'
+	@import 'tiXian.scss'
 </style>

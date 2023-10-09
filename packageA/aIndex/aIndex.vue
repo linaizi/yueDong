@@ -76,7 +76,7 @@
 				let url=''
 				switch(id) {
 					case 1:
-						url='/packageA/roleOrder/roleOrder'
+						url='/packageA/tiXian/tiXian'
 						break;
 					case 2:
 						url='/packageA/aPingLun/aPingLun'

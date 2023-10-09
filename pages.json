@@ -257,6 +257,16 @@
 		 	}
 		},
 		{
+		 	"path": "packageA/tiXian/tiXian",
+		 	"style" : {
+				"enablePullDownRefresh": true,
+		 		"navigationBarTitleText": "提现审核",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
+		},
+		{
 		 	"path": "packageA/userMan/userMan",
 		 	"style" : {
 				"enablePullDownRefresh": true,
@@ -335,6 +345,7 @@
 				"aSet/aSet",
 				"addShop/addShop",
 				"aPingLun/aPingLun",
+				"tiXian/tiXian",
 				"aPingLunDetail/aPingLunDetail",
 				"userMan/userMan"
 			]

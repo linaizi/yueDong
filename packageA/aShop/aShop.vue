@@ -204,12 +204,21 @@
 			
 			//删除
 			delClick(goodsId,index){
-				goodsDel({ goodsId }).then((res) => {
-					if(res.code == 200){
-						uni.showToast({ title: '删除成功',icon:'success' });
-						this.list.splice(index, 1);
+				uni.showModal({
+					title:"温馨提示",
+					content:"确定删除当前商品?",
+					confirmText:"确定",
+					success: (res)=> {
+						if (res.confirm) {
+							goodsDel({ goodsId }).then((res) => {
+								if(res.code == 200){
+									uni.showToast({ title: '删除成功',icon:'success' });
+									this.list.splice(index, 1);
+								}
+							})
+						} else if (res.cancel) {}
 					}
-				})
+				});
 			},
 			
 			toAddShop(){

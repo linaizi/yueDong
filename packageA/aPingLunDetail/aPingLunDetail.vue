@@ -58,7 +58,20 @@
 						},1000)
 					}
 				})
-			}
+			},
+			
+			getImgIndex(obj,index) { //图片预览
+				let imgs = obj.map(item => {
+					//只返回图片路径
+					return item
+				})
+				//调用预览图片的方法
+				uni.previewImage({
+					urls: imgs,
+					current: index
+				})
+			},
+			
 		}
 	}
 </script>

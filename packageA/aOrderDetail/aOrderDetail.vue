@@ -1,5 +1,5 @@
 <template>
-	<view class="allBg">
+	<view class="allBg aoddBg">
 		<view class="aodd-top"><view class="top-txt">{{rtStatus(infoData.status)}}</view></view>
 		
 		<view class="aodd-addr">
@@ -34,19 +34,26 @@
 		</view>	
 		
 		<view class="aodd-whbg">
-			<view class="title">配送信息</view>
-			<view class="p"><view class="p-lt">发货方式:</view><view class="p-rt">{{infoData.type == 1 ? "上门取送":"到店服务"}}</view></view>
-			<view class="p"><view class="p-lt">发货地址:</view><view class="p-rt">{{infoData.city}} {{infoData.district}}</view></view>
-			<view class="p"><view class="p-lt">联系方式:</view><view class="p-rt">{{infoData.freightAmount}}</view></view>
-			<view class="p"><view class="p-lt">配送说明:</view><view class="p-rt">{{infoData.freightAmount}}</view></view>
-			<view class="p"><view class="p-lt">预约上面取鞋时间:</view><view class="p-rt">{{infoData.freightAmount}}</view></view>
-		</view>
-		
-		<view class="aodd-whbg">
 			<view class="title">订单信息</view>
-			<view class="p"><view class="p-lt">下单时间:</view><view class="p-rt">同城配送</view></view>
-			<view class="p"><view class="p-lt">订单号:</view><view class="p-rt">同城配送</view></view>
+			<view class="p"><view class="p-lt">下单时间:</view><view class="p-rt">{{infoData.createTime}}</view></view>
+			<view class="p" @click="copy(infoData.orderNo)"><view class="p-lt">订单号:</view><view class="p-rt">{{infoData.orderNo}}</view></view>
 			<view class="p"><view class="p-lt">支付方式:</view><view class="p-rt">微信支付</view></view>
+			<view class="p"><view class="p-lt">发货方式:</view><view class="p-rt">{{infoData.type == 1 ? "上门取送":"到店服务"}}</view></view>
+			<view class="p" v-if="infoData.type == 1"><view class="p-lt">预约上门取鞋时间:</view><view class="p-rt">{{infoData.reservationTime}}</view></view>
+			<template v-if="infoData.orderOperates">
+				<view class="od-qt" style="padding-bottom: 0;" v-for="(oot,ooind) in infoData.orderOperates" :key="ooind">
+					<view class="qtBox" v-if="oot.remarks">
+						<view class="qtBox-tt">{{typeTxt(oot.type)}}备注：</view>
+						<view class="qtBox-txt">{{oot.remarks}}</view>
+					</view>
+					<view class="qtBox" v-if="oot.pic.length>0">
+						<view class="qtBox-tt">{{typeTxt(oot.type)}}上传的图片：</view>
+						<view class="image-grid">
+						  <image v-for="(i,ind) in oot.pic" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(oot.pic,ind)"></image>
+						</view>
+					</view>
+				</view>
+			</template>
 		</view>
 		
 	</view>
@@ -95,14 +102,20 @@
 					  12: '申请售后(待审核)',
 					  13: '售后成功已关闭',
 				};
-				
 				return statusDict[id]
+			},
+			typeTxt(type){
+				const arr = {
+				      1: '骑手',
+				      2: '送货骑手',
+				      3: '代收点',
+				      4: '厂家',
+				};
+				return arr[type]
 			},
 			
 			//复制
 			copy(value){
-				console.log(value)
-				return;
 				uni.setClipboardData({
 					data: value,
 					success: function(res) {
@@ -135,6 +148,17 @@
 						console.log('success:',res);
 					}
 				});
+			},
+			getImgIndex(obj,index) { //图片预览
+				let imgs = obj.map(item => {
+					//只返回图片路径
+					return item
+				})
+				//调用预览图片的方法
+				uni.previewImage({
+					urls: imgs,
+					current: index
+				})
 			},
 			
 		}

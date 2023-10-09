@@ -27,7 +27,7 @@
 					</view>
 					<view class="od-title" v-if="infoData.type == 1">
 						<view class="title-lt">预约上门取鞋时间</view>
-						<view class="title-rt">9月6日(周三)13:30-14:00</view>
+						<view class="title-rt">{{infoData.reservationTime}}</view>
 					</view>
 					<view class="od-title" v-if="infoData.type == 1" @click="openQsSel">
 						<view class="title-lt">分配骑手</view>

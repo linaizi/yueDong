@@ -33,7 +33,7 @@
 					</view>
 					<view class="od-title" v-if="infoData.type == 1">
 						<view class="title-lt">预约上门取鞋时间</view>
-						<view class="title-rt">9月6日(周三)13:30-14:00</view>
+						<view class="title-rt">{{infoData.reservationTime}}</view>
 					</view>
 				</view>
 				
@@ -82,7 +82,7 @@
 						<view class="qtBox">
 							<view class="qtBox-tt"><span class="tt-red">*</span>图片上传：</view>
 							<view class="image-grid">
-							  <image v-for="(i,ind) in imgArr" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(ind)"></image>
+							  <image v-for="(i,ind) in imgArr" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(imgArr,ind)"></image>
 							</view>
 						</view>
 					</view>
@@ -182,14 +182,11 @@
 				});
 			},
 			
-			getImgIndex(index) { //图片预览
-				console.log(index);
-				//准备一个装图片路径的  数组imgs
-				let imgs = this.dataList.goods_gallery_urls.map(item => {
+			getImgIndex(obj,index) { //图片预览
+				let imgs = obj.map(item => {
 					//只返回图片路径
 					return item
 				})
-				// console.log(imgs);
 				//调用预览图片的方法
 				uni.previewImage({
 					urls: imgs,
