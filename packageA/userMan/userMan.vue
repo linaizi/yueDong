@@ -215,6 +215,7 @@
 			},
 			djClose(){
 				this.$refs.DJPopup.close();
+				this.djAct=0;
 			},
 			djYes(){
 				uni.showModal({
@@ -233,7 +234,7 @@
 									this.listQuery.pageNo = 1;
 									this.list = [];
 									this.initData(); 
-									this.$refs.DJPopup.close();
+									this.djClose();
 								}
 							})
 						} else if (res.cancel) {}

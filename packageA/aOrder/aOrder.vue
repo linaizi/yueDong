@@ -21,7 +21,7 @@
 			
 			<view class="ordre-main" v-for="(item,index) in list" :key="index" @click="toDetail(item)">
 				<view class="main-top">
-					<view class="top-lt">订单号：{{item.orderNo}}</view>
+					<view class="top-lt" @click="copy(item.orderNo)">订单号：{{item.orderNo}}</view>
 					<view class="top-rt">{{rtStatus(item.status)}}</view>
 				</view>
 				<view class="phone">
@@ -54,7 +54,7 @@
 						</view> -->
 					</view>
 					<view class="cz-rt">
-						<view class="rt-btn" @click="openSta(item)">修改订单状态</view>
+						<view class="rt-btn" @click.stop="openSta(item)">修改订单状态</view>
 						<!-- <view class="rt-btn" @click="bzClick">备注</view> -->
 						<!-- <view class="rt-btn rt-btn1">发货</view> -->
 					</view>
@@ -284,6 +284,7 @@
 				this.staObj.sta = this.staArr[m].id;
 			},
 			staClose(){
+				this.staId=0;
 				this.$refs.staPopup.close();
 			},
 			staYes(){
@@ -304,7 +305,7 @@
 										title:"修改成功",
 										icon:'success'
 									})
-									this.$refs.staPopup.close();
+									this.staClose()
 									this.fetchData();
 								}
 							})
@@ -312,7 +313,6 @@
 						} else if (res.cancel) {}
 					}
 				});
-				
 			},
 			
 			
@@ -384,6 +384,22 @@
 				return goodsInfo.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0);
 			},
 			
+			//复制
+			copy(value){
+				uni.setClipboardData({
+					data: value,
+					success: function(res) {
+						uni.getClipboardData({
+							success: function(res) {
+								uni.showToast({
+									title: '已复制到剪贴板'
+								});
+							}
+						});
+					}
+				});
+			},
+			
 			scrollLower(){
 				if(!this.isLoadMore){  //此处判断，上锁，防止重复请求
 					this.isLoadMore=true
@@ -413,7 +429,8 @@
 		
 		//下拉刷新
 		onPullDownRefresh() {
-			this.page = this.listQuery.pageNo;
+			this.list = [];
+			this.listQuery.pageNo = 1
 			this.initData();
 			setTimeout(function () {
 				uni.stopPullDownRefresh();

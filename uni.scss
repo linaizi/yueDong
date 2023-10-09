@@ -438,6 +438,21 @@ page{
 		}
 	}
 	
+	.phone{
+		background: #F7F7F7;
+		height: 70upx;
+		@include dflex(null,center);
+		color:#333;
+		font-size: 26upx;
+		padding-left: 30upx;
+		.phone-sp{
+			margin-left: 16upx;
+		}
+		.phone-tell{
+			margin-left: 25upx;
+			color:#446DFD;
+		}
+	}
 	
 	.main-price{
 		@include dflex(flex-end,null);
@@ -470,6 +485,60 @@ page{
 		.pay-fk{
 			background: linear-gradient(270deg, #FF3445 0%, #FD4903 100%);
 			color:#fff;
+		}
+	}
+	
+	.mian-cz{
+		margin-top: 36upx;
+		@include dflex(space-between,center);
+		.cz-lt{
+			position: relative;
+			.lt-txt{
+				color:#666;
+				font-size: 26upx;
+				width: 100upx;
+			}
+			.lt-more{
+				position: absolute;
+				left: 0;
+				top: 50upx;
+				background: #fff;
+				box-shadow: 0 0 8upx rgba(0, 0, 0, .3);
+				.more{
+					width: 170upx;
+					height: 60upx;
+					padding-left: 20upx;
+					line-height: 60upx;
+				}
+				&:before{
+					content: '';
+					position: absolute;
+					top: -14upx;
+					left: 20upx;
+					width: 0;
+					height: 0;
+					
+					//下三角
+					border-bottom: 14upx solid rgba(0, 0, 0, .2);
+					border-left:14upx solid transparent;
+					border-right:14upx solid transparent; 
+				}
+			}
+		}
+		.cz-rt{
+			@include dflex(null,center);
+			.rt-btn,.rt-btn1{
+				border-radius: 100upx;
+				margin-left: 20upx;
+				font-size: 26upx;
+				padding: 4upx 14upx;
+				color:#333;
+				border:2upx solid #BBBBBB;
+			}
+			.rt-btn1{
+				color:#446DFD;
+				border-color: #446DFD;
+			}
 		}
 	}
 }

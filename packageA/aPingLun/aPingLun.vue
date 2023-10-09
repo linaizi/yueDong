@@ -138,12 +138,23 @@
 			},
 			// 删除评论
 			delPL(id){
-				commentDel({ id }).then((res) => {
-					if(res.code == 200){
-						uni.showToast({ title: '删除成功',icon:'success' });
-						this.list.splice(index, 1);
+				uni.showModal({
+					title:"温馨提示",
+					content:"确定删除当前评论?",
+					confirmText:"确定",
+					success: (res)=> {
+						if (res.confirm) {
+							commentDel({ id }).then((res) => {
+								if(res.code == 200){
+									uni.showToast({ title: '删除成功',icon:'success' });
+									this.list.splice(index, 1);
+								}
+							})
+							
+						} else if (res.cancel) {}
 					}
-				})
+				});
+				
 			},
 			// 回复
 			huiFClick(item){

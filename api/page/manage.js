@@ -157,3 +157,12 @@ export function AsettingEdit(data) { // 修改配置
 	})
 }
 
+
+
+export function AwithdrawPage(params) { 	// 申请提现列表
+	return request({
+		url: '/elantra/admin/withdraw/page',
+		method: 'GET',
+		params
+	})
+}
