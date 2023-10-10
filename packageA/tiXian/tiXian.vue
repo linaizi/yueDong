@@ -8,7 +8,7 @@
 		<view class="asp-top">
 			<view class="top-lt">
 				<input type="text" 
-					placeholder="请输入昵称搜索" 
+					placeholder="请输入真实姓名搜索" 
 					v-model="iptTxt" 
 					@confirm="searchOrder" 
 					@input="onKeyInput"
@@ -26,22 +26,22 @@
 						<image :src="item.adminUserDto.avatar" class="top-img"></image>
 						<view class="top-mid">
 							<view class="mid-name">
-								{{item.adminUserDto.nickName}} <span class="n-g">{{item.adminUserDto.levelName}}</span> 
+								{{item.adminUserDto.nickName}}({{item.realName}}) <span class="n-g">{{item.adminUserDto.levelName}}</span> 
 								<span class="n-g" v-if="item.adminUserDto.level==2&&item.adminUserDto.shopName">({{item.adminUserDto.shopName}})</span>
 							</view>
 							<view class="mid-p">手机号：{{item.adminUserDto.phone}}</view>
-							<view class="mid-p" v-if="item.status!=1||item.status!=3">提现单号:<span>{{item.tradeSn}}</span></view>
+							<view class="mid-p overflow1" v-if="item.status!=1||item.status!=3">提现单号:<span>{{item.tradeSn}}</span></view>
 							<view class="mid-p">申请时间:<span>{{item.createTime}}</span></view>
 						</view>
 						<view class="top-rt">
-							<view class="rt-p">{{item.statusText}}</view>
+							<view :class="['rt-gray',{'rt-red':[2,3,4].includes(item.status)},{'rt-blue':item.status==5}]">{{item.statusText}}</view>
 							<view class="rt-mon">-<span>￥</span>{{item.amount}}</view>
 						</view>
 						
 					</view>
-					<view class="item-btn">
-						<view class="btn" @click="laHeiClick(item.uid,index)">拉黑</view>
-						<view class="btn" @click="xgClick(item.uid)">修改信息</view>
+					<view class="item-btn" v-if="item.status==1">
+						<view class="btn" @click="noClick(item.id)">驳回</view>
+						<view class="btn" @click="yesClick(item.id)">同意</view>
 					</view>
 				</view>
 			</view>
@@ -56,37 +56,21 @@
 		</view>
 		
 		<view class="noGood" v-if='noDataShow'>
-			<image :src="FILE_BASE_URL + '/f426289f-7fe0-4431-ab45-78262049c918.png'" mode="widthFix" class="noGood-img"></image>
+			<image :src="FILE_BASE_URL + '/f426289f-7fe0-4431-ab45-78262049c918.jpg'" mode="widthFix" class="noGood-img"></image>
 			<p>暂无数据~</p>
 		</view>
 		
-		<!-- 修改信息弹窗 -->
-		<uni-popup ref="XGpopup" type="bottom">
-			<view class="XGmain">
-				<view class="item" @click="DJClick">修改会员等级</view>
-				<view class="item blue" @click="closeXG">取消</view>
-			</view>
+		<!-- 驳回弹窗 -->
+		<uni-popup ref="inputDialog" type="dialog">
+			<uni-popup-dialog ref="inputClose" mode="input" title="驳回内容" 
+				placeholder="请输入内容" @confirm="iptConfirm"></uni-popup-dialog>
 		</uni-popup>
-		<!-- 修改会员等级弹窗 -->
-		<uni-popup ref="DJPopup" type="center">
-			 <view class="DJPpBox">
-				 <view class="pp-title">修改会员等级</view>
-				 <view class="pp-tm">
-					 <view v-for="(t,i) in djArr" :key="i" :class="['tm-item',{'tm-item-act':i==djAct}]" @click="tmClick(i)">{{t.name}}</view>
-				 </view>
-				 
-				 <view class="pp-btn">
-					 <view class="btn1" @click="djClose">取消</view>
-					 <view class="btn1 blue" @click="djYes">确认</view>
-				 </view>
-			 </view>
-		 </uni-popup>
-		
+					
 	</view>
 </template>
 
 <script>
-	import { AwithdrawPage } from '@/api/page/manage.js'
+	import { AwithdrawPage,AwithdrawOperate } from '@/api/page/manage.js'
 	export default {
 		data() {
 			return {
@@ -100,11 +84,7 @@
 				],
 				iptTxt:'',
 				iptClose:false,
-				
-				
-				djArr:[],
-				djAct:0,
-				xGuid:0,
+				id:null,
 				
 				listQuery:{
 					pageNo:1,
@@ -131,15 +111,17 @@
 		onReady() {
 			this.initData()
 		},
+		
 		methods: {
 			mumeClick(id){
+				if(this.listQuery.status == id) return;
+				
 				this.list = [];
 				this.loadStatus = 'loading'
 				this.iptTxt = "";
 				this.listQuery.realName = "";
 				this.listQuery.pageNo = 1;
 				this.listQuery.status  = id;
-				
 				this.initData();
 			},
 			
@@ -154,6 +136,10 @@
 			removeInput(){
 				this.iptTxt = "";
 				this.iptClose = false;
+				this.listQuery.realName = "";
+				this.listQuery.pageNo = 1;
+				this.list = [];
+				this.initData();
 			},
 			//搜索事件
 			searchOrder(){
@@ -163,69 +149,43 @@
 				this.initData(); 
 			},
 			
-			//修改信息
-			xgClick(id){
-				this.$refs.XGpopup.open();
-				this.xGuid = id;
+			noClick(id){
+				this.$refs.inputDialog.open();
+				this.id = id;
 			},
-			closeXG(){
-				this.$refs.XGpopup.close();
-			},
-			DJClick(){
-				this.$refs.XGpopup.close();
-				this.$refs.DJPopup.open();
-				this.djArr = this.mumeArr.filter(item => item.id != 0 && item.id != 2)
-			},
-			//选择修改后的等级
-			tmClick(n){
-				this.djAct = n;
-			},
-			djClose(){
-				this.$refs.DJPopup.close();
-			},
-			djYes(){
-				uni.showModal({
-					title:"温馨提示",
-					content:"确定修改当前用户等级?",
-					confirmText:"确定",
-					success: (res)=> {
-						if (res.confirm) {
-							let param = {
-								level: this.djArr[this.djAct].id,
-								uid: this.xGuid
-							}
-							AeditLevel(param).then((res) => {
-								if(res.code == 200){
-									uni.showToast({title:"修改成功",icon:'success'})
-									this.listQuery.pageNo = 1;
-									this.list = [];
-									this.initData(); 
-									this.$refs.DJPopup.close();
-								}
-							})
-						} else if (res.cancel) {}
-					}
-				});
+			iptConfirm(val){
+				this.toOperate(this.id,2,val)
 			},
 			
-			laHeiClick(uid){
+			yesClick(id){
 				uni.showModal({
 					title:"温馨提示",
-					content:"确定拉黑当前用户?",
+					content:"确定同意当前用户的提现?",
 					confirmText:"确定",
 					success: (res)=> {
 						if (res.confirm) {
-							AuserBlock({ uid }).then((res) => {
-								if(res.code == 200){
-									uni.showToast({title:"已拉黑",icon:'success'})
-									this.list.splice(index, 1);
-								}
-							})
-							
+							this.toOperate(id,1)
 						} else if (res.cancel) {}
 					}
 				});
 				
+			},
+			
+			toOperate(id,status,remark){
+				let param = {
+					id,
+					status,
+					remark
+				}
+				
+				AwithdrawOperate(param).then((res) => {
+					if(res.code == 200){
+						uni.showToast({title:"操作成功",icon:'success'})
+						this.listQuery.pageNo = 1;
+						this.list = [];
+						this.initData(); 
+					}
+				})
 			},
 			
 			initData() {

@@ -167,6 +167,15 @@ export function AwithdrawPage(params) { 	// 申请提现列表
 	})
 }
 
+export function AwithdrawOperate(data) { // 审核操作
+	return request({
+		url: '/elantra/admin/withdraw/operate',
+		method: 'POST',
+		data
+	})
+}
+
+
 
 
 export function AcouponList(params) { 	// 优惠券列表

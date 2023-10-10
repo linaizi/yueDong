@@ -26,22 +26,22 @@
 					</uni-file-picker>
 				</uni-forms-item>
 				<uni-forms-item label="商品名称" name="goodsName">
-					<input type="text" v-model="formData.goodsName" placeholder="请输入商品名称" class="ipt"> 
+					<uni-easyinput v-model="formData.goodsName"  placeholder="请输入商品名称" placeholder-style="font-size:28rpx"/>
 				</uni-forms-item>
 				<uni-forms-item label="商品原价" name="goodsPrice">
-					<input type="number" v-model="formData.goodsPrice" placeholder="请输入商品原价" class="ipt" @input="setValue('goodsPrice',formData.goodsPrice)"> 
+					<uni-easyinput v-model="formData.goodsPrice" type="number" placeholder="请输入商品原价" placeholder-style="font-size:28rpx"/>
 					<span class="ml10">元</span>
 				</uni-forms-item>
 				<uni-forms-item label="商品现价" name="goodsNowPrice">
-					<input type="number" v-model="formData.goodsNowPrice" placeholder="请输入商品现价" class="ipt" @input="setValue('goodsNowPrice',formData.goodsNowPrice)"> 
+					<uni-easyinput v-model="formData.goodsNowPrice" type="number" placeholder="请输入商品现价" placeholder-style="font-size:28rpx"/>
 					<span class="ml10">元</span>
 				</uni-forms-item>
 				<uni-forms-item label="商品库存" name="stockNum">
-					<input type="number" v-model="formData.stockNum" placeholder="请输入商品库存" class="ipt"> 
+					<uni-easyinput v-model="formData.stockNum" type="number" placeholder="请输入商品库存" placeholder-style="font-size:28rpx"/>
 					<span class="ml10">件</span>
 				</uni-forms-item>
 				<uni-forms-item label="商品运费" name="freightAmount">
-					<input type="number" v-model="formData.freightAmount" placeholder="请输入商品运费" class="ipt"> 
+					<uni-easyinput v-model="formData.freightAmount" type="number" placeholder="请输入商品运费" placeholder-style="font-size:28rpx"/>
 					<span class="ml10">元</span>
 				</uni-forms-item>
 				<uni-forms-item label="商品详情图(≤9张)" name="goodsInfoImas">
@@ -107,18 +107,21 @@
 						rules:[{
 							required: true,
 							errorMessage: '商品原价不能为空'
+						}, {
+							format: 'number',
+							errorMessage: '只能输入数字'
 						}]
 					},
 					goodsNowPrice:{
 						rules:[{
+								format: 'number',
+								errorMessage: '只能输入数字'
+							}, {
 								required: true,
 								errorMessage: '商品现价不能为空'
 							},
 							{
 								validateFunction: function(rule, value, data, callback) {
-									console.log(value, typeof value)
-									console.log(data.goodsPrice, typeof data.goodsPrice)
-									console.log(value> data.goodsPrice)
 									if (value> data.goodsPrice) {
 										callback('商品现价不能大于原价')
 									}
@@ -131,12 +134,18 @@
 						rules:[{
 							required: true,
 							errorMessage: '库存不能为空'
+						}, {
+							format: 'number',
+							errorMessage: '只能输入数字'
 						}]
 					},
 					freightAmount:{
 						rules:[{
 							required: true,
 							errorMessage: '运费不能为空'
+						}, {
+							format: 'number',
+							errorMessage: '只能输入数字'
 						}]
 					},
 					goodsInfoImas: {

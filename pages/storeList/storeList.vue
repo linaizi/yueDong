@@ -90,13 +90,10 @@
 					type: 'gcj02',
 					geocode: true,
 					success(response) {
-						// _that.lotn = {
-						// 	n: response.latitude,
-						// 	e: response.longitude
-						// }
-						this.lotn = {
-							n: 22.726897,
-							e: 113.83283
+						console.log(response)
+						_that.lotn = {
+							n: response.latitude,
+							e: response.longitude
 						}
 						_that.getList()
 					},

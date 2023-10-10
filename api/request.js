@@ -16,6 +16,10 @@ $axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlenco
 $axios.interceptors.request.use(
 	config => {
 		//post请求data转Qs
+		// uni.showLoading({
+		// 	title: '加载中...',
+		// 	mask:true,
+		// });
 		config.headers['mid'] = uni.getStorageSync('mid');
 		if (config.method.toLowerCase() === 'post' || config.method.toLowerCase() === 'put') {
 			config.data = Qs.stringify(config.data);
@@ -30,6 +34,7 @@ $axios.interceptors.request.use(
 // 响应拦截器
 $axios.interceptors.response.use(
 	res => {
+		// uni.hideLoading();
 		if (res.status == 200) {
 			if(res.data['code'] && ![200,5001,5002].includes(res.data.code)){
 				uni.showToast({ title: res.data.message||res.data.msg, icon:'none' })

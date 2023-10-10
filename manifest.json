@@ -48,7 +48,7 @@
             "sdkConfigs" : {
                 "payment" : {
                     "weixin" : {
-                        "__platform__" : [ "ios", "android" ],
+                        "__platform__" : [ "ios" ],
                         "appid" : "wx31ee3d4bafea0aa1",
                         "UniversalLinks" : ""
                     }

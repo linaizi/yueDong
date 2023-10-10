@@ -9,11 +9,11 @@
 					></uni-data-select>
 				</uni-forms-item>
 				<uni-forms-item label="券面额" name="amount">
-					<input type="number" v-model="formData.amount" placeholder="请输入券面额" class="ipt"> 
+					<uni-easyinput v-model="formData.amount" placeholder="请输入券面额" placeholder-style="font-size:28rpx"/>
 					<span class="ml10">元</span>
 				</uni-forms-item>
 				<uni-forms-item label="使用条件" name="conditionAmount">
-					<input type="number" v-model="formData.conditionAmount" placeholder="满多少元可用" class="ipt"> 
+					<uni-easyinput v-model="formData.conditionAmount" placeholder="满多少元可用" placeholder-style="font-size:28rpx"/>
 					<span class="ml10" style="flex-shrink: 0;">元内可用</span>
 				</uni-forms-item>
 				<uni-forms-item label="券领取时间" name="lqTime">
@@ -60,12 +60,18 @@
 						rules:[{
 							required: true,
 							errorMessage: '券面额不能为空'
+						}, {
+							format: 'number',
+							errorMessage: '只能输入数字'
 						}]
 					},
 					conditionAmount:{
 						rules:[{
 							required: true,
 							errorMessage: '使用条件不能为空'
+						}, {
+							format: 'number',
+							errorMessage: '只能输入数字'
 						}]
 					},
 					lqTime:{

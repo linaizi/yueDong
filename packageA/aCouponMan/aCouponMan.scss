@@ -1,5 +1,8 @@
+.acmBox{
+	padding-bottom: 100upx;
+}
 .acm-main{
-	padding: 24upx 24upx 100upx;
+	padding: 0 24upx;
 	.main-item{
 		border-radius: 12upx;
 		border:2upx solid #446DFD;
@@ -63,5 +66,26 @@
 		color: #fff;
 		background: #FE5349;
 		border-radius: 100upx;
+	}
+}
+
+.tabBox{
+	width: 320upx;
+	border:2upx solid #446DFD;
+	border-radius: 100upx;
+	height: 56upx;
+	margin: 20upx auto;
+	@include dflex(null,null);
+	overflow: hidden;
+	.tab{
+		width: 50%;
+		text-align: center;
+		font-size: 26upx;
+		color:#666666;
+		line-height: 56upx;
+	}
+	.tab-act{
+		background: #446DFD;
+		color:#fff;
 	}
 }
