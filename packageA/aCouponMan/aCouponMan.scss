@@ -1,0 +1,67 @@
+.acm-main{
+	padding: 24upx 24upx 100upx;
+	.main-item{
+		border-radius: 12upx;
+		border:2upx solid #446DFD;
+		background: #fff;
+		padding: 24upx;
+		margin-bottom: 20upx;
+		.item-lt{
+			.lt-top{
+				@include dflex(null,center);
+				.top-mon{
+					font-weight: bold;
+					font-size: 40upx;
+					color:#333;
+					.mon-b{
+						font-size: 44upx;
+					}
+				}
+				.top-p{
+					font-size: 30upx;
+					color:#333;
+					margin-left: 20upx;
+				}
+			}
+			.md-p{
+				font-size: 26upx;
+				color:#333;
+				font-weight: bold;
+				margin-top: 14upx;
+			}
+			.md-p1{
+				text-align: center;
+			}
+		}
+		.item-rt{
+			@include dflex(center,center);
+			width: 160upx;
+			height: 50upx;
+			font-size: 28upx;
+			color:#fff;
+			background:#6a87ed;
+			border-radius: 100upx;
+			margin-top: 30upx;
+			margin-left: auto;
+		}
+	}
+}
+
+.acm-btn{
+	width: 100%;
+	height: 90upx;
+	background: #fff;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	@include dflex(center,center);
+	.btn{
+		@include dflex(center,center);
+		width: 80%;
+		height: 70upx;
+		font-size: 28upx;
+		color: #fff;
+		background: #FE5349;
+		border-radius: 100upx;
+	}
+}

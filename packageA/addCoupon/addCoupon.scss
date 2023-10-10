@@ -1,0 +1,47 @@
+
+.addSp-form{
+	background: #fff;
+	padding: 30upx 28upx;
+	/deep/.uni-forms-item{
+		.uni-forms-item__content{
+			@include dflex(null,center);
+		}
+		.uni-stat__select{
+			width: 400upx
+		}
+		.uni-forms-item__label{
+			width: 150upx!important;
+			font-size: 28upx;
+			color:#333;
+		}
+		.uni-select__input-placeholder,.uni-select__input-text,.ipt{
+			font-size: 28upx;
+			color:#333;
+		}
+		.ipt{
+			border:2upx solid #E5E5E5;
+			border-radius: 8upx;
+			height: 60upx;
+			padding-left: 20upx;
+			width: 88%;
+		}
+	}
+}
+
+.addSp-btn{
+	@include dflex(center,center);
+	margin: 80upx auto;
+	.btn{
+		border-radius: 100upx;
+		width: 70%;
+		height: 80upx;
+		text-align: center;
+		line-height: 80upx;
+		font-size: 30upx;
+		margin: 0 20upx;
+		border:2upx solid #446DFD;
+		background: #446DFD;
+		color:#fff;
+	}
+	
+}

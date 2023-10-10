@@ -36,16 +36,17 @@
 	.main-item{
 		border-radius: 12upx;
 		background: #fff;
-		padding: 24upx;
+		padding: 20upx;
 		.item-top{
-			@include dflex(null,null);
+			@include dflex(space-between,null);
 			.top-img{
 				width: 100upx;
 				height: 100upx;
 			}
-			.top-rt{
-				margin-left: 30upx;
-				.rt-name{
+			.top-mid{
+				margin-left: 20upx;
+				flex: 1;
+				.mid-name{
 					font-size: 28upx;
 					color:#333;
 					margin-bottom: 8upx;
@@ -55,10 +56,29 @@
 						margin-left: 14upx;
 					}
 				}
-				.rt-p{
+				.mid-p{
 					font-size: 26upx;
 					color:#666;
+					span{
+						font-size: 24upx;
+					}
 				}
+			}
+			.top-rt{
+				.rt-p{
+					// "statusTextColor": "#0083FF",
+					// 		"statusTextBgColor": "#E5F2FF",
+				}
+				.rt-mon{
+					font-size: 36upx;
+					color: #FF3445;
+					
+					span{
+						font-size: 30upx;
+						letter-spacing: -4upx;
+					}
+				}
+				
 			}
 		}
 		

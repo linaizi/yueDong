@@ -23,20 +23,21 @@
 			<view class="user-main">
 				<view class="main-item" v-for="(item,index) in list" :key="item.uid">
 					<view class="item-top">
-						<image :src="item.avatar" class="top-img"></image>
-						<view class="top-rt">
-							<view class="rt-name">
-								{{item.nickName}} <span class="n-g">{{item.levelName}}</span> 
-								<span class="n-g" v-if="item.level==2&&item.shopName">({{item.shopName}})</span>
+						<image :src="item.adminUserDto.avatar" class="top-img"></image>
+						<view class="top-mid">
+							<view class="mid-name">
+								{{item.adminUserDto.nickName}} <span class="n-g">{{item.adminUserDto.levelName}}</span> 
+								<span class="n-g" v-if="item.adminUserDto.level==2&&item.adminUserDto.shopName">({{item.adminUserDto.shopName}})</span>
 							</view>
-							<view class="rt-p">手机号：{{item.phone}}</view>
-							<view class="rt-p">注册时间：{{item.createTime}}</view>
+							<view class="mid-p">手机号：{{item.adminUserDto.phone}}</view>
+							<view class="mid-p" v-if="item.status!=1||item.status!=3">提现单号:<span>{{item.tradeSn}}</span></view>
+							<view class="mid-p">申请时间:<span>{{item.createTime}}</span></view>
 						</view>
-					</view>
-					<view class="item-list">
-						<view class="item-it"><span class="it-s">交易额</span>￥{{item.payAmount}}</view>
-						<view class="item-it"><span class="it-s">余额</span>￥{{item.balance}}</view>
-						<view class="item-it"><span class="it-s">订单数</span>￥{{item.orderNum}}</view>
+						<view class="top-rt">
+							<view class="rt-p">{{item.statusText}}</view>
+							<view class="rt-mon">-<span>￥</span>{{item.amount}}</view>
+						</view>
+						
 					</view>
 					<view class="item-btn">
 						<view class="btn" @click="laHeiClick(item.uid,index)">拉黑</view>
@@ -162,7 +163,6 @@
 				this.initData(); 
 			},
 			
-			
 			//修改信息
 			xgClick(id){
 				this.$refs.XGpopup.open();
@@ -233,7 +233,7 @@
 					if (res.code === 200) {
 					  if (this.listQuery.pageNo<=res.data.totalPages) {
 							this.noDataShow = false;
-							this.list.push(...res.data);
+							this.list.push(...res.data.data);
 				
 							if(this.listQuery.pageNo==res.data.totalPages){  //判断接口返回数据量小于请求数据量，则表示此为最后一页
 								this.isLoadMore=true;                                             

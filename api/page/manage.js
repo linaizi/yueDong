@@ -176,3 +176,19 @@ export function AcouponList(params) { 	// 优惠券列表
 		params
 	})
 }
+
+export function AcouponAdd(data) { // 优惠券新增
+	return request({
+		url: '/elantra/admin/coupon/add',
+		method: 'POST',
+		data
+	})
+}
+
+export function AcouponDel(data) { // 优惠券删除
+	return request({
+		url: '/elantra/admin/coupon/del',
+		method: 'POST',
+		data
+	})
+}

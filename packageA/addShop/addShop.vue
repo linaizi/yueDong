@@ -29,19 +29,19 @@
 					<input type="text" v-model="formData.goodsName" placeholder="请输入商品名称" class="ipt"> 
 				</uni-forms-item>
 				<uni-forms-item label="商品原价" name="goodsPrice">
-					<input type="text" v-model="formData.goodsPrice" placeholder="请输入商品原价" class="ipt" @input="setValue('goodsPrice',formData.goodsPrice)"> 
+					<input type="number" v-model="formData.goodsPrice" placeholder="请输入商品原价" class="ipt" @input="setValue('goodsPrice',formData.goodsPrice)"> 
 					<span class="ml10">元</span>
 				</uni-forms-item>
 				<uni-forms-item label="商品现价" name="goodsNowPrice">
-					<input type="text" v-model="formData.goodsNowPrice" placeholder="请输入商品现价" class="ipt" @input="setValue('goodsNowPrice',formData.goodsNowPrice)"> 
+					<input type="number" v-model="formData.goodsNowPrice" placeholder="请输入商品现价" class="ipt" @input="setValue('goodsNowPrice',formData.goodsNowPrice)"> 
 					<span class="ml10">元</span>
 				</uni-forms-item>
 				<uni-forms-item label="商品库存" name="stockNum">
-					<input type="text" v-model="formData.stockNum" placeholder="请输入商品库存" class="ipt"> 
+					<input type="number" v-model="formData.stockNum" placeholder="请输入商品库存" class="ipt"> 
 					<span class="ml10">件</span>
 				</uni-forms-item>
 				<uni-forms-item label="商品运费" name="freightAmount">
-					<input type="text" v-model="formData.freightAmount" placeholder="请输入商品运费" class="ipt"> 
+					<input type="number" v-model="formData.freightAmount" placeholder="请输入商品运费" class="ipt"> 
 					<span class="ml10">元</span>
 				</uni-forms-item>
 				<uni-forms-item label="商品详情图(≤9张)" name="goodsInfoImas">
