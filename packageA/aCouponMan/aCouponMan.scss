@@ -11,7 +11,7 @@
 		margin-bottom: 20upx;
 		.item-lt{
 			.lt-top{
-				@include dflex(null,center);
+				@include dflex(space-between,center);
 				.top-mon{
 					font-weight: bold;
 					font-size: 40upx;
@@ -24,6 +24,14 @@
 					font-size: 30upx;
 					color:#333;
 					margin-left: 20upx;
+					flex:1;
+				}
+				.top-r{
+					font-size: 24upx;
+					background: #ffd2d2;
+					color: #e32121;
+					padding: 4upx 10upx;
+					border-radius: 4upx;
 				}
 			}
 			.md-p{

@@ -26,7 +26,13 @@
 								<view class="mid-gz">规格：默认</view>
 								<view class="mid-price">
 									{{item.goodsInfoDto.goodsNowPrice}}
-									<uni-number-box v-model="item.goodsNum" @minus="minClick(index)" @plus="plusClick(index)" background="#fff" :min="1" class="uniNum" />
+									<uni-number-box 
+										v-model="item.goodsNum" 
+										@minus="minClick(index)" 
+										@plus="plusClick(index)" 
+										background="#fff" 
+										:min="1" 
+										class="uniNum" />
 								</view>
 							</view>
 						</view>

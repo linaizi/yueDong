@@ -22,6 +22,10 @@
 				<uni-forms-item label="券使用时间" name="syTime">
 					 <uni-datetime-picker v-model="formData.syTime" type="datetimerange" rangeSeparator="至" />
 				</uni-forms-item>
+				<uni-forms-item label="券数量" name="totalNum">
+					<uni-easyinput v-model="formData.totalNum" placeholder="请输入券数量" placeholder-style="font-size:28rpx"/>
+					<span class="ml10" style="flex-shrink: 0;">张</span>
+				</uni-forms-item>
 			</uni-forms>
 		</view>
 		
@@ -54,6 +58,15 @@
 						rules:[{
 							required: true,
 							errorMessage: '优惠券类型不能为空'
+						}]
+					},
+					totalNum:{
+						rules:[{
+							required: true,
+							errorMessage: '券数量不能为空'
+						}, {
+							format: 'number',
+							errorMessage: '只能输入数字'
 						}]
 					},
 					amount:{

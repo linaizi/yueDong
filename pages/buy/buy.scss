@@ -265,7 +265,7 @@
 	box-sizing: border-box;
 	padding: 0 20upx;
 	background: #fff;
-	z-index: 1;
+	z-index: 9;
 	@include dflex(space-between,center);
 	.foot-lt{
 		color:#FD444C;

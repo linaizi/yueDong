@@ -194,6 +194,14 @@ export function couponListTwo(params) { 	// 结算查询用户优惠券
 	})
 }
 
+export function orderAdd(data) { 	// 点提交生成待付款订单
+	return request({
+		url: '/elantra/order/add',
+		method: 'POST',
+		data
+	})
+}
+
 export function orderPage(params) { 	// 查看订单列表
 	return request({
 		url: '/elantra/order/page',

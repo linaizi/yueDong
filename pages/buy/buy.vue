@@ -2,8 +2,8 @@
 	<view class="allBg">
 		<view class="topBox">
 			<view class="tab-t">
-				<view :class="['t-item',{'t-item-lt':tabNum==0}]" @click="tabNum=0"><image :src="FILE_BASE_URL + '/2dcf36c4-bdad-4c47-851b-c545b2c17684.png'" v-if="tabNum==0" class="t-img1"></image>到店服务</view>
-				<view :class="['t-item',{'t-item-rt':tabNum==1}]" @click="tabNum=1"><image :src="FILE_BASE_URL + '/05564c5d-5f46-4901-91ae-bb664f4ba272.png'" v-if="tabNum==1" class="t-img2"></image>上门取送</view>
+				<view :class="['t-item',{'t-item-lt':tabNum==0}]" @click="tabClick(0)"><image :src="FILE_BASE_URL + '/2dcf36c4-bdad-4c47-851b-c545b2c17684.png'" v-if="tabNum==0" class="t-img1"></image>到店服务</view>
+				<view :class="['t-item',{'t-item-rt':tabNum==1}]" @click="tabClick(1)"><image :src="FILE_BASE_URL + '/05564c5d-5f46-4901-91ae-bb664f4ba272.png'" v-if="tabNum==1" class="t-img2"></image>上门取送</view>
 			</view>
 			<view class="tab-form" v-if="tabNum==0">
 				<uni-forms :model="formData" border class="aa">
@@ -33,28 +33,24 @@
 		<view class="buyBox">
 			<view class="title">跃动球鞋洗护</view>
 			
-			<template v-if="tabNum==0">
-				<view class="dsd-adr" v-if="addrList.length>0">
-					<view class="adr-t">
-						<view class="t-l">
-							<uni-icons type="paperplane" size="36rpx" color="#999"></uni-icons>
-							{{addrList[0].shopName}}
-							<uni-icons type="right" size="32rpx" color="#999"></uni-icons>
-						</view>
-						<view class="t-r"><uni-icons type="location" size="36rpx" color="#CDCDCD"></uni-icons>距您{{addrList[0].distance}}km</view>
+			<view class="dsd-adr" v-if="addrList.length>0">
+				<view class="adr-t">
+					<view class="t-l">
+						<uni-icons type="paperplane" size="36rpx" color="#999"></uni-icons>
+						{{addrList[0].shopName}}
+						<uni-icons type="right" size="32rpx" color="#999"></uni-icons>
 					</view>
-					<view class="adr-b">{{addrList[0].address}} {{addrList[0].houseNumber}}</view>
+					<view class="t-r"><uni-icons type="location" size="36rpx" color="#CDCDCD"></uni-icons>距您{{addrList[0].distance}}km</view>
 				</view>
-				<view class="dsdBox-no" v-else>当前位置附近暂无代收点</view>
-			</template>
-			<template v-else>
-				<view class="buy-time" @click="setTimeClick" v-if="hasAddr">
-					<p>预约提货时间</p>
-					<view class="time-red">{{yyTime}}<uni-icons type="right" size="32rpx" color="#999"></uni-icons></view>
-				</view>
-				<view class="dsdBox-no" v-else>请添加联系人 <p>添加配送地址</p></view>
-			</template>
-			
+				<view class="adr-b">{{addrList[0].address}} {{addrList[0].houseNumber || ''}}</view>
+			</view>
+			<view class="dsdBox-no" v-else>当前位置附近暂无代收点</view>
+		
+			<view class="buy-time" @click="setTimeClick" v-if="hasAddr">
+				<p>预约上门取鞋时间</p>
+				<view class="time-red">{{yyTime}}<uni-icons type="right" size="32rpx" color="#999"></uni-icons></view>
+			</view>
+			<view class="dsdBox-no" v-else>请添加联系人 <p>添加配送地址</p></view>
 			
 			<view class="ordre-item buy-item" v-for="it in goodsData" :key="it.id">
 				<image :src="it.goodsPic" class="main-lt"></image>
@@ -83,7 +79,7 @@
 			
 			<view class="buy-time" v-if="tabNum==1">
 				<p>运费</p>
-				<view class="time-red">￥6</view>
+				<view class="time-red">￥{{goodsData[0].freightAmount}}</view>
 			</view>
 			
 			<view class="buy-all"> <p class="all-g">共1件</p> <p>共计：</p> <p class="all-r">￥{{totalMoney}}</p> </view>
@@ -94,7 +90,7 @@
 			<view class="title">操作</view>
 			<view class="formbBd">
 				<p>备注：</p>
-				<input type="text" placeholder="请输入备注"  class="bd-ipt" />
+				<input type="text" placeholder="请输入备注" v-model="remark"  class="bd-ipt" />
 			</view>
 			<view class="formbBd">
 				<p><span>*</span>图片上传：</p>
@@ -116,7 +112,7 @@
 		
 		<view class="buy-foot">
 			<view class="foot-lt">合计:￥<span>{{totalMoney}}</span></view>
-			<view class="foot-rt">提交订单</view>
+			<view class="foot-rt" @click="subOrder">提交订单</view>
 		</view>
 		
 		<hTimeAlert 
@@ -161,7 +157,7 @@
 
 <script>
 	import hTimeAlert from "@/components/h-time-alert/h-time-alert.vue";
-	import { pointList,addressList,couponListTwo } from '@/api/page/index.js'
+	import { pointList,addressList,couponListTwo,orderAdd } from '@/api/page/index.js'
 	export default {
 		components: {
 			hTimeAlert
@@ -175,7 +171,9 @@
 				lotn:{},	//当前定位
 				tabNum:0,
 				userAddr:{},	//用户地址
-				addrList:[],	//代收点地址
+				addrList:[],	//页面显示的代收点
+				addrList1:[],	//到店服务获取到的代收点数据
+				addrList2:[],	//上门服务获取到的代收点数据
 				couponParam:{
 					amount:59,
 					pageNo:1,
@@ -189,39 +187,137 @@
 				availableNum:0,
 				notAvailableNum:0,
 				couMon:0,
+				couponId:null,
 				hasAddr:true,
-				yyTime:'今天(周一)17:30-18:00',
+				yyTime:'请选择时间',
 				timeShow:false,
 				yhqAct:0,
 							
-				imgURL:'',
-				imageValue:[],
+				remark:'',
+				imageValue:[{url:"https://file.yuedongxixie.com/file/84da4960-9cdd-4f01-8fcc-e1f9cad88334.jpg"}],
 			}
 		},
 		onLoad(option) {
 			this.goodsData = JSON.parse(option.goodsData);
 			
+			this.couponParam.amount = this.goodsData.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0);
 			this.getLocation() //获取当前位置
 			this.getAddr()	//获取用户地址
 			this.getCoupon(2)	//获取用户不可用优惠券
 			this.getCoupon(1)	//获取用户优惠券
-				
-			//全局定义的图片访问地址前缀
-			// this.imgURL=this.$imgURL
 		},
 		computed: {
 			totalMoney() {
-			  return this.goodsData.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0) - this.couMon;
+				if(Object.keys(this.goodsData).length == 0) return 0;
+				let tot = this.goodsData.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0) - this.couMon
+				return this.tabNum == 0 ? tot : (tot + this.goodsData[0].freightAmount)
 			}
 		},
 		onShow() {
+			var _that = this;
 			uni.$once('isAddr',function(data){
-				this.userAddr = JSON.parse(data)
-				this.hasAddr = true;
+				_that.userAddr = JSON.parse(data)
+				_that.hasAddr = true;
+				_that.lotn = {
+					n: _that.userAddr.n,
+					e: _that.userAddr.e
+				}
+				_that.getList()
 			})
 		},
 		
 		methods: {
+			subOrder(){
+				let param = {
+					type: this.tabNum,
+					goodsTotalAmount: this.totalMoney + this.couMon,
+					reservationTime: this.yyTime,
+					goodsInfo: JSON.stringify(this.goodsData),
+					couponId: this.couponId,
+					freightAmount: this.goodsData[0].freightAmount,
+					payAmount: this.totalMoney,
+					remark: this.remark,
+					pics: this.imageValue.map(item => item.url).join(','),
+					collectionId: this.addrList[0].cid
+				};
+				
+				if(this.tabNum == 0){
+					param.name = this.formData.name
+					param.phone = this.formData.phone
+				}else{
+					if(this.hasAddr){
+						param.name = this.userAddr.name
+						param.phone = this.userAddr.phone
+						param.address = this.userAddr.address + this.userAddr.houseNumber
+						param.houseNumber = this.userAddr.houseNumber
+						param.addressId = this.userAddr.id
+						param.province = this.userAddr.province
+						param.city = this.userAddr.city
+						param.district = this.userAddr.district
+						param.e = this.userAddr.e
+						param.n = this.userAddr.n
+						param.goodsTotalAmount -= this.goodsData[0].freightAmount;
+					}else{
+						uni.showToast({title:"地址不能为空",icon:'none'})
+						return;
+					}
+				}
+				if(this.addrList.length == 0){
+					uni.showToast({title:"附近暂无代收点,请重新选择地址",icon:'none'})
+					return;
+				}
+				
+				if(this.yyTime == '请选择时间'){
+					uni.showToast({title:"地址不能为空",icon:'none'})
+					return;
+				}
+				
+				if(this.imageValue.length==0){
+					uni.showToast({title:"'图片上传'不能为空",icon:'none'})
+					return;
+				}
+				
+				orderAdd(param).then((res) => {
+					if(res.code == 200){
+						this.wxPay(res.data)
+					}
+				});
+			},
+			
+			wxPay(data){
+				// data: "wx1116551365313335e278dc48e5efe70000"
+				return;
+				//订单对象，从服务器获取
+				var orderInfo = {
+				  "appid": "wx499********7c70e",  // 应用ID（AppID）
+				  "partnerid": "148*****52",      // 商户号（PartnerID）
+				  "prepayid": "wx202254********************fbe90000", // 预支付交易会话ID
+				  "package": "Sign=WXPay",        // 固定值
+				  "noncestr": "c5sEwbaNPiXAF3iv", // 随机字符串
+				  "timestamp": 1597935292,        // 时间戳（单位：秒）
+				  "sign": "A842B45937F6EFF60DEC7A2EAA52D5A0" // 签名，这里用的 MD5 签名
+				};
+				uni.getProvider({
+				    service: 'payment',
+				    success: function (res) {
+				        console.log(res.provider)
+				        if (~res.provider.indexOf('wxpay')) {
+				            uni.requestPayment({
+				                "provider": "wxpay",  //固定值为"wxpay"
+				                "orderInfo": orderInfo, 
+				                success: function (res) {
+				                    var rawdata = JSON.parse(res.rawdata);
+				                    console.log("支付成功");
+				                },
+				                fail: function (err) {
+				                    console.log('支付失败:' + JSON.stringify(err));
+				                }
+				            });
+				        }
+				    }
+				});
+			},
+			
 			//获取当前位置
 			getLocation(){
 				var _that = this;
@@ -250,9 +346,7 @@
 						
 						_that.getList()
 					},
-					fail() {
-						
-					}
+					fail() {}
 				})
 			},
 			
@@ -290,8 +384,25 @@
 				pointList(this.lotn).then((res) => {
 					if(res.code == 200){
 						this.addrList = res.data
+						if(this.tabNum==0) this.addrList1 = res.data
+						else this.addrList2 = res.data
 					}
 				});
+			},
+			
+			tabClick(n){
+				this.tabNum = n;
+				if(n==1&&this.addrList2.length==0){
+					if(Object.keys(this.userAddr).length>0){
+						this.lotn = {
+							n: this.userAddr.n,
+							e: this.userAddr.e
+						}
+						this.getList()
+					}else{
+						this.addrList = []
+					}
+				}
 			},
 			
 			goMyaddr(){
@@ -365,10 +476,12 @@
 				
 				if(this.couList1[ind].check){
 					this.couCheck = ind;
-					this.couMon = obj.couponDto.amount
+					this.couMon = obj.couponDto.amount;
+					this.couponId = obj.couponId;
 				}else{
 					this.couCheck = -1;
-					this.couMon = 0.00
+					this.couMon = 0.00;
+					this.couponId = undefined;
 				}
 				this.$refs.yhqPopup.close()
 			},
@@ -379,32 +492,25 @@
 			
 			// 获取上传状态
 			select(e){
-				console.log('选择文件：',e)
-				const tempFilePaths = e.tempFilePaths;
-				const imgUrl=tempFilePaths[0]
+				const imgUrl = e.tempFilePaths[0]
 				uni.uploadFile({
-					url: 'https://xxx.xxx.com/api/uploadpic2/', 
+					url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
 					filePath: imgUrl,
-					name: 'imgUrl',
+					name: 'file',
 					header:{"Content-Type": "multipart/form-data"},
-					success: (uploadFileRes) => {
-						console.log('uploadFileRes',JSON.parse(uploadFileRes.data));
-						let path=JSON.parse(uploadFileRes.data)
-						//后端返回的地址，存入图片地址
+					success: (res) => {
 						this.imageValue.push({
-							url:this.imgURL+path.imgUrl,
-							name:''
+							url:JSON.parse(res.data).data,
 						})
 						console.log('imageValue',this.imageValue)
 					}
 				});
 			},
-			
 			// 图片删除
 			deletea(e){
 				const num = this.imageValue.findIndex(v => v.url === e.tempFilePath);
 				this.imageValue.splice(num, 1);
-			},
+			},		
 			
 		}
 	}
