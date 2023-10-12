@@ -96,6 +96,11 @@
 				this.getUserData()
 			}
 		},
+		onShow(){
+			uni.hideTabBar({ //隐藏系统自动的底部导航
+					animation: false
+			})
+		},
 	
 		methods: {
 			getUserData(wcode){

@@ -124,6 +124,11 @@
 			// 	enableDebug: true
 			// })
 		},
+		onShow(){
+			uni.hideTabBar({ //隐藏系统自动的底部导航
+					animation: false
+			})
+		},
 		methods: {
 			initGoods(){
 				goodsList(this.goodParams).then((res) => {

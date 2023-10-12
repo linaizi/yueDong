@@ -63,21 +63,21 @@
 			 
 			 if(item.id==3){
 				 if(uni.getStorageSync('mid')){
-					 uni.navigateTo({
+					 uni.switchTab({
 					    url: item.path,
 					 })
 				 }else{
 					 uni.showToast({ title: '请先登录', icon:'none' })
 					 if(this.tabid !==4){
 						 setTimeout(()=>{
-							 uni.navigateTo({
+							 uni.switchTab({
 								url: "/pages/mine/mine",
 							 })
 						 },1000)
 					 }
 				 }
 			 }else{
-				 uni.navigateTo({
+				 uni.switchTab({
 				    url: item.path,
 				 })
 			 }

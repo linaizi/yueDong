@@ -40,10 +40,6 @@
 					<uni-easyinput v-model="formData.stockNum" type="number" placeholder="请输入商品库存" placeholder-style="font-size:28rpx"/>
 					<span class="ml10">件</span>
 				</uni-forms-item>
-				<uni-forms-item label="商品运费" name="freightAmount">
-					<uni-easyinput v-model="formData.freightAmount" type="number" placeholder="请输入商品运费" placeholder-style="font-size:28rpx"/>
-					<span class="ml10">元</span>
-				</uni-forms-item>
 				<uni-forms-item label="商品详情图(≤9张)" name="goodsInfoImas">
 					<uni-file-picker
 						limit="9" 
@@ -134,15 +130,6 @@
 						rules:[{
 							required: true,
 							errorMessage: '库存不能为空'
-						}, {
-							format: 'number',
-							errorMessage: '只能输入数字'
-						}]
-					},
-					freightAmount:{
-						rules:[{
-							required: true,
-							errorMessage: '运费不能为空'
 						}, {
 							format: 'number',
 							errorMessage: '只能输入数字'

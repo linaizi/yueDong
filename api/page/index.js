@@ -49,9 +49,9 @@ export function updUserInfo(data) { 		// 更新用户信息
 	})
 }
 
-
 //index.vue
 export function goodsList(params) { 	// 商品列表
+	console.log(111)
 	return request({
 		url: '/elantra/goods/list',
 		method: 'GET',

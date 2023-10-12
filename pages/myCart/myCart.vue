@@ -30,6 +30,8 @@
 										v-model="item.goodsNum" 
 										@minus="minClick(index)" 
 										@plus="plusClick(index)" 
+										@change="chgClick($event,index)"
+										@focus="fcClick"
 										background="#fff" 
 										:min="1" 
 										class="uniNum" />
@@ -103,10 +105,16 @@
 				isOpenRefresh: true, // 是否开启下拉
 				triggered: false,  //当前下拉刷新状态
 				_freshing: false,  
+				ysNum:1, //修改商品数量前的值
 			}
 		},
 		onLoad(option) {
 			this.initData()
+		},
+		onShow(){
+			uni.hideTabBar({ //隐藏系统自动的底部导航
+					animation: false
+			})
 		},
 		methods: {
 			initData(){
@@ -180,21 +188,27 @@
 			},
 			
 			minClick(i){
-				this.EditNum(i,2);
+				this.ysNum = this.list[i].goodsNum 
 			},	
 			plusClick(i){
-				this.EditNum(i,1);
+				this.ysNum = this.list[i].goodsNum 
 			},
-			EditNum(i,type){
+			fcClick(e){
+				this.ysNum = e.detail.value
+			},
+			chgClick(value,i){
+				this.EditNum(i,value)
+			},
+			EditNum(i,goodsNum){
 				let parm = {
 					 goodsId:this.list[i].goodsId,
-					 type		//1: 增加 2:减少
+					 goodsNum		
 				}
 				shoppingEditNum(parm).then((res) => {
 					if(res.code == 200){
 						this.handleEdit()
 					}else{
-						type == 1 ? this.list[i].goodsNum-- : this.list[i].goodsNum++;
+						this.list[i].goodsNum = this.ysNum;
 					}
 				});
 			},

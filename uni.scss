@@ -13,6 +13,22 @@ $FILE_BASE_URL:'https://file.yuedongxixie.com/file';
 // https://file.hanwenliang.love/file/3ee934e5-e364-4dad-9417-88a4776bfd87.png
 // https://file.hanwenliang.love/file/4fdba217-1bdf-44bf-a8dc-42bb196b432d.jpg
 
+// <template>
+//   <div>
+//     <Tabbar>
+//       <template v-slot:default>
+//         <view>这里放入父组件中的内容 121211</view>
+//       </template>
+//     </Tabbar>
+//   </div>
+// </template>
+
+// <!-- 
+// 操作路径：
+// 官微中心 - 设置 - 通知提醒 - 提醒用户，在列表中根据需求开启“公众号通知、小程序通知”，并且点击“设置模板”设置下通知信息模板。具体配置教程如下：
+// 微信小程序通知配置教程：https://help.saaas.com/article/5161873096035032
+// 公众号通知配置教程：http://help.saaas.com/article/5182346375528704 
+// -->
 
 //公用样式
 page{

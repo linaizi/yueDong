@@ -60,7 +60,7 @@
          tabbarChange: debounce(function(item) {
 			if(this.tabid == item.id) return;
 			  
-			uni.navigateTo({
+			uni.redirectTo({
 				url: item.path,
 			})
          }),
