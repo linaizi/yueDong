@@ -1,6 +1,6 @@
 <template>
 	<view class="allBg">
-		<view class="stl-btn" @click="goMap">手动定位</view>
+		<view class="stl-btn" @click="authVerification">手动定位</view>
 		<p class="stl-p" v-if="addr">{{addr}}</p>
 		
 		<view class="mt20">
@@ -31,8 +31,8 @@
 </template>
 
 <script>
-	const chooseLocation = requirePlugin('chooseLocation');
 	import { pointList } from '@/api/page/index.js'
+	import { authVerification } from '@/common/tool.js'
 	export default {
 		data() {
 			return {
@@ -47,42 +47,27 @@
 				this.getLocation()
 		},
 		onShow () {
-			const location = chooseLocation.getLocation(); // 如果点击确认选点按钮，则返回选点结果对象，否则返回null
-			if(location){
-				this.addr = location.address;
-				this.lotn = {
-					n: location.latitude,
-					e: location.longitude
-				}
-				this.getList()
-				// {
-					// address: "广东省深圳市宝安区上星路西星悦豪庭一期对面"
-					// city: "深圳市"
-					// district: "宝安区"
-					// latitude: 22.726897
-					// longitude: 113.83283
-					// name: "星际大厦"
-					// province: "广东省"
-				// }
-			}
-		
+			uni.getStorage({
+				key: 'currentLocation',
+				success: (res) => {
+				  console.log(res.data)
+				  if(res.data.errMsg == "chooseLocation:ok"){
+					   this.addr = res.data.address;
+					   this.lotn = {
+					   	n: res.data.latitude,
+					   	e: res.data.longitude
+					   }
+					   this.getList()
+					   setTimeout(()=>{
+						   uni.removeStorageSync('currentLocation')
+					   },1000)
+				  }
+				},
+			})
+			
 		},
 		
 		methods: {
-			goMap(){
-				const key = 'LUDBZ-VKU3G-D4KQ6-QDLJQ-RMTDH-RRFYI'; //使用在腾讯位置服务申请的key
-				const referer = '紫荆洗鞋'; //调用插件的app的名称
-				const location = JSON.stringify({
-				  latitude: this.lotn.n,
-				  longitude: this.lotn.e
-				});
-				// const category = '生活服务:生活服务场所';
-				
-				uni.navigateTo({
-					url: `plugin://chooseLocation/index?key=${key}&referer=${referer}&location=${location}`
-				});		
-			},
-			
 			//获取当前位置
 			getLocation(){
 				var _that = this;
@@ -102,6 +87,7 @@
 					}
 				})
 			},
+			authVerification,
 			
 			//获取附近代收点列表
 			getList(){

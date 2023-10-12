@@ -181,3 +181,73 @@ export function isValidPhoneNumber(phoneNumber){
 	return phoneNumberPattern.test(phoneNumber);
 }
 
+
+
+//判断用户是否有定位授权
+export function authVerification () {
+  uni.getSetting({
+	success: (res) => {
+		if (res.authSetting['scope.userLocation']) { /* 用户授权成功时走这里 */
+			GetLocation()
+		} else if (res.authSetting['scope.userLocation'] === undefined) { /* 用户未授权时走这里 */
+			handleOpenSetting()
+		} else { /* 用户拒绝了授权后走这里 */
+			handleOpenSetting()
+		}
+	},
+  })
+}
+//获取当前的地理位置
+function GetLocation(){
+	uni.getLocation({
+		type: 'gcj02',
+		geocode: true,
+		success(response) {
+			console.log('getLocation:', response)
+			handerChooseLocation(response.latitude,response.longitude)
+		},
+		fail() {
+			handerChooseLocation()
+		}
+	})
+}
+// 使用uni.chooseLocation()打开地图选择位置
+function handerChooseLocation (latitude, longitude) {
+	uni.chooseLocation({
+		latitude: latitude || '',
+		longitude: longitude || '', 
+		success: (res) => {
+			uni.setStorageSync('currentLocation', res)
+		},
+		fail: function (err) {
+			console.log('取消按钮', err)
+		}
+	})
+}
+function handleOpenSetting () {
+	wx.openSetting({			/* 打开定位设置 */
+		success: (res) => {
+			if (res.authSetting["scope.userLocation"]) {
+				handerChooseLocation()
+			}
+		}
+	})
+}
+
+
+import QQMapWX from "@/common/qqmap-wx-jssdk.min.js";
+export function mapsdk (location){
+	const qqmapsdk = new QQMapWX({
+		// key: 'PBZBZ-74CE3-7ND3P-3OVWM-HDZIT-QRF23'  //别人的key
+		key: 'LUDBZ-VKU3G-D4KQ6-QDLJQ-RMTDH-RRFYI'  //自己的key
+	});
+	qqmapsdk.reverseGeocoder({
+		location,
+		get_poi:1,
+		poi_options:'policy=2;radius=3000;page_size=20;page_index=1',
+		success: function(res) {
+			console.log(111222,res)
+			return res.result;
+		},
+	});
+}

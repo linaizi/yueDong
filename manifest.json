@@ -65,12 +65,12 @@
         "secureNetwork" : {
             "enable" : false
         }
-        ,"plugins" : {
-            "chooseLocation" : {
-                "version" : "1.0.9",
-                "provider" : "wx76a9a06e5b4e693e"
-            }
-        }
+        // ,"plugins" : {
+        //     "chooseLocation" : {
+        //         "version" : "1.0.9",
+        //         "provider" : "wx76a9a06e5b4e693e"
+        //     }
+        // }
 		,
         "requiredPrivateInfos" : [ "chooseAddress", "choosePoi", "getLocation" , "chooseLocation" ],
         "permission" : {

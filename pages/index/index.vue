@@ -66,7 +66,7 @@
 	import Tabbar from "@/components/tabbar/tabbar.vue"
 	import Ppcar from "@/components/ppcar/ppcar.vue"
 	import Ppkefu from "@/components/ppkefu/ppkefu.vue"
-	import { priceHander,JudgeAuthorize } from '@/common/tool.js'
+	import { priceHander } from '@/common/tool.js'
 	import { goodsList } from '@/api/page/index.js'
 	import Pplog from "@/components/pplog/pplog.vue"
 	export default {
@@ -151,14 +151,11 @@
 				});
 			},
 			
-			async menuClick(idx){
+			menuClick(idx){
 				let url=''
 				switch(idx) {
 				  case 0:
-						let k = await this.JudgeAuthorize();
-						if(k){
-							url = '/pages/storeList/storeList'
-						}
+						url = '/pages/storeList/storeList'
 				    break;
 					case 1:
 						url='/pages/help/help'
@@ -177,11 +174,10 @@
 				}
 			},			
 			
-			//判断小程序有没有定位权限
-			JudgeAuthorize,
+		
 			
 			goSort(){
-				uni.navigateTo({
+				uni.switchTab({
 				   url: '/pages/sort/sort',
 				})
 			},

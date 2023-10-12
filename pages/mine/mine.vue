@@ -17,7 +17,7 @@
 			</view>
 		</view>
 		
-		<image :src="FILE_BASE_URL + '/5680d7d6-630a-4dbb-809f-f9aec3137e5e.png'" mode="widthFix" class="wh180"></image>
+		<image :src="FILE_BASE_URL + '/5680d7d6-630a-4dbb-809f-f9aec3137e5e.png'" mode="widthFix" class="wh180" @click="goSort"></image>
 		
 		<view class="userCenterBox">
 			<view class="titleBox">用户中心</view>
@@ -66,7 +66,7 @@
 	import Ppkefu from "@/components/ppkefu/ppkefu.vue"
 	import { myDetail } from '@/api/page/index.js'
 	import Pplog from "@/components/pplog/pplog.vue"
-	
+		
 	export default {
 		components: {
 			Tabbar,
@@ -124,6 +124,12 @@
 			
 			loginClick(){
 				if(!this.mid) this.$refs.logchild.$refs.logPopup.open();
+			},
+			
+			goSort(){
+				uni.switchTab({
+				   url: '/pages/sort/sort',
+				})
 			},
 				
 			lctClick(){

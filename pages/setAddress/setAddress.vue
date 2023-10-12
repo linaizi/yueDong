@@ -12,7 +12,7 @@
 				</view>
 				<view class="m-item">
 					<view class="item-lt">定位地址</view>
-					<view class="item-rt" @click="goMap">
+					<view class="item-rt" @click="authVerification">
 						<view :class="['rt-dz','overflow2',{'rt-gray':!param.address}]">{{param.address?param.address:'点击此处进行定位'}}</view>
 						<uni-icons type="right" size="30rpx" color="#E5E5E5"></uni-icons>
 					</view>
@@ -28,8 +28,10 @@
 </template>
 
 <script>
-	const chooseLocation = requirePlugin('chooseLocation');
+	// import QQMapWX from "@/common/qqmap-wx-jssdk.min.js";
 	import { addressAdd,addressEdit } from '@/api/page/index.js'
+	import { authVerification, mapsdk } from '@/common/tool.js'
+
 	export default {
 		data() {
 			return {
@@ -49,27 +51,61 @@
 			}
 		},
 		onShow () {
-			const location = chooseLocation.getLocation(); // 如果点击确认选点按钮，则返回选点结果对象，否则返回null
-			console.log(location)
-			if(location){
-				this.param.address = location.address;
-				this.param.province = location.province;
-				this.param.city = location.city;
-				this.param.district = location.district;
-				this.param.e = location.longitude;
-				this.param.n = location.latitude;				
-			}
+			// let location = {
+			//    e : 113.88308,
+			//    n : 22.55329
+			// }
+			// this.aaa()
+			// this.mapsdk(location)
+			// return;
+			uni.getStorage({
+				key: 'currentLocation',
+				success: (res) => {
+				  console.log(11,res.data)
+				  if(res.data.errMsg == "chooseLocation:ok"){
+					   this.param.address = res.data.address;
+					   this.param.e =  res.data.longitude;
+					   this.param.n =  res.data.latitude;
+					   // let location = {
+						  //  e : res.data.longitude,
+						  //  n : res.data.latitude
+					   // }
+					   // let a = this.mapsdk(location)
+					   // console.log(a)
+					   setTimeout(()=>{
+							uni.removeStorageSync('currentLocation')
+					   },1000)
+				  }
+				  // {
+				  // 	address: "广东省深圳市宝安区创业一路"
+				  // 	errMsg: "chooseLocation:ok"
+				  // 	latitude: 22.55329
+				  // 	longitude: 113.88308
+				  // 	name: "宝安区创业一路(深圳市宝安区人民政府)"
+				  // }
+				}
+			})
+			
 		},
 		
 		methods: {
-			goMap(){
-				const key = 'LUDBZ-VKU3G-D4KQ6-QDLJQ-RMTDH-RRFYI'; //使用在腾讯位置服务申请的key
-				const referer = '紫荆洗鞋'; //调用插件的app的名称
-				
-				uni.navigateTo({
-					url: `plugin://chooseLocation/index?key=${key}&referer=${referer}`
-				});		
-			},
+			authVerification,
+			mapsdk,
+			
+			// aaa (location){
+			// 	const qqmapsdk = new QQMapWX({
+			// 		// key: 'PBZBZ-74CE3-7ND3P-3OVWM-HDZIT-QRF23'  //别人的key
+			// 		key: 'LUDBZ-VKU3G-D4KQ6-QDLJQ-RMTDH-RRFYI'  //自己的key
+			// 	});
+			// 	qqmapsdk.reverseGeocoder({
+			// 		location,
+			// 		get_poi:1,
+			// 		poi_options:'policy=2;radius=3000;page_size=20;page_index=1',
+			// 		success: function(res) {
+			// 			console.log(res)
+			// 		},
+			// 	});
+			// },
 			
 			saveAddr(){
 				// 创建一个字段和字段名称的映射
