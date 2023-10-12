@@ -285,36 +285,28 @@
 			},
 			
 			wxPay(data){
-				// data: "wx1116551365313335e278dc48e5efe70000"
-				return;
-				//订单对象，从服务器获取
-				var orderInfo = {
-				  "appid": "wx499********7c70e",  // 应用ID（AppID）
-				  "partnerid": "148*****52",      // 商户号（PartnerID）
-				  "prepayid": "wx202254********************fbe90000", // 预支付交易会话ID
-				  "package": "Sign=WXPay",        // 固定值
-				  "noncestr": "c5sEwbaNPiXAF3iv", // 随机字符串
-				  "timestamp": 1597935292,        // 时间戳（单位：秒）
-				  "sign": "A842B45937F6EFF60DEC7A2EAA52D5A0" // 签名，这里用的 MD5 签名
-				};
-				uni.getProvider({
-				    service: 'payment',
-				    success: function (res) {
-				        console.log(res.provider)
-				        if (~res.provider.indexOf('wxpay')) {
-				            uni.requestPayment({
-				                "provider": "wxpay",  //固定值为"wxpay"
-				                "orderInfo": orderInfo, 
-				                success: function (res) {
-				                    var rawdata = JSON.parse(res.rawdata);
-				                    console.log("支付成功");
-				                },
-				                fail: function (err) {
-				                    console.log('支付失败:' + JSON.stringify(err));
-				                }
-				            });
-				        }
-				    }
+				// data: {
+				// 	appId: "wx31ee3d4bafea0aa1"
+				// 	nonceStr: "Rnfc3C6nwfkrluWh2lgxXXygD2Uj0kAu"
+				// 	packAge: "prepay_id=wx11201113259642530c6266e7a923740000"
+				// 	paySign: "l7r0W4E8nGzkAcqumhTnwiQV37MZBGRQfq9JR02Zi6W4kLkUSwzI8SN1JwODCJPyQpL/BkhJeGCCJonBhE5NRRVeEiuF7urqjzS5KyuhOU/uAE9BR7q0CqTeYRAR9/f/Rh2UdSdZkfzUzmPw8EHfMvmHkJ1XXGrGpmpS7fExa+fZth6JpjFYgADAmB+xH+jVVhc8MJIMp9oWW7eq6Ek2OOj8bREtGZc2RP/u3RwWqLhj6TbtGc6fOKUw0ajT9rvXrer4WwpU63N4az2b4Au5tu+3EXbiXY5k1MMxHrQA3rYgTSwFN+szxK1w9uSeFqphoBKDoXvsZhKm9imyib9/Ug=="
+				// 	signType: "RSA"
+				// 	timeStamp: "1697026273"
+				// }
+				
+				uni.requestPayment({
+				    provider: 'wxpay',
+					timeStamp: data.timeStamp,
+					nonceStr: data.nonceStr,
+					package: data.packAge,
+					signType: data.signType,
+					paySign: data.paySign,
+					success: function (res) {
+						console.log('支付成功:' + JSON.stringify(res));
+					},
+					fail: function (err) {
+						console.log('支付失败:' + JSON.stringify(err));
+					}
 				});
 			},
 			
