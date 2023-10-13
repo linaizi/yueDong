@@ -88,18 +88,18 @@
 			}
 		},
 		onLoad(option) {
-			if(uni.getStorageSync('UserInfo')){
-				this.UserInfo = JSON.parse(uni.getStorageSync('UserInfo'))
-			}
-			
 			if(this.mid){
 				this.getUserData()
 			}
 		},
 		onShow(){
 			uni.hideTabBar({ //隐藏系统自动的底部导航
-					animation: false
+				animation: false
 			})
+			
+			if(uni.getStorageSync('UserInfo')){
+				this.UserInfo = JSON.parse(uni.getStorageSync('UserInfo'))
+			}
 		},
 	
 		methods: {
@@ -134,7 +134,7 @@
 				
 			lctClick(){
 				uni.navigateTo({
-						url: '/pages/myAddress/myAddress'
+					url: '/pages/myAddress/myAddress'
 				});
 			},
 			setClick(){
@@ -192,7 +192,17 @@
 				});
 			},
 			
-		}
+		},
+		
+		//下拉刷新
+		onPullDownRefresh() {
+			if(this.mid){
+				this.getUserData()
+			}
+			setTimeout(function () {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
 	}
 </script>
 

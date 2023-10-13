@@ -68,6 +68,14 @@ export function goodsInfo(params) { 	// 商品详情
 	})
 }
 
+export function getWechatEwm(params) { 	// 商品分享
+	return request({
+		url: '/elantra/goods/share/poster',
+		method: 'GET',
+		params
+	})
+}
+
 export function infoComments(params) { 	// 某商品下的所有评论
 	return request({
 		url: '/elantra/comment/list',
@@ -188,6 +196,14 @@ export function couponList(params) { 	// 查询用户优惠券
 export function couponListTwo(params) { 	// 结算查询用户优惠券
 	return request({
 		url: '/elantra/user/coupon/list/two',
+		method: 'GET',
+		params
+	})
+}
+
+export function getFreightAmount(params) { 	// 获取运费
+	return request({
+		url: '/elantra/order/get/freightAmount',
 		method: 'GET',
 		params
 	})

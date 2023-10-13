@@ -5,12 +5,12 @@
 		<image src="../../static/img/back.png" class="back" @click="back_"></image>
 		
 		<!-- <商品轮播图 -->
-		<view class="uni-padding-wrap">
+		<view class="uni-padding-wrap" :style="{ height: zuiGao }">
 			<swiper class="pdswiper" autoplay="true" interval="3000" circular="true" @change='swiperChange' >
 				<block v-for="(item,index) in infoData.goodsImgs" :key="index">
 					<swiper-item>
 						<view class="swiperBox">
-							<image :src="item" :data-src="item" class="bannerImg" @click="getImgIndex(index)"></image>
+							<image :src="item" :data-src="item" class="bannerImg" mode="widthFix" @click="getImgIndex(index)"></image>
 						</view>
 					</swiper-item>
 				</block>
@@ -104,8 +104,7 @@
 
 <script>
 	import { priceHander,preservationImg } from '@/common/tool.js'
-	import { base64ToPath } from '@/common/image-tools.js'
-	import { goodsInfo,shoppingAdd } from '@/api/page/index.js'
+	import { goodsInfo, shoppingAdd, getWechatEwm } from '@/api/page/index.js'
 	import Ppcar from "@/components/ppcar/ppcar.vue"
 	import Pplog from "@/components/pplog/pplog.vue"
 	import hbTc from "@/components/hbTc/hbTc.vue"; 
@@ -136,15 +135,13 @@
 				
 				hbShow:false,
 				hbData:{},
+				zuiGao:'414px', //计算获取轮播图的最高高度
 			}
 		},
 		onLoad(option) {
 			const {platform,statusBarHeight} = uni.getSystemInfoSync()
 			this.iStatusBarHeight = statusBarHeight
-			// let height = statusBarHeight +4
-			// if (platform.toLowerCase() == "android" ){
-			// 	height +=4
-			// }
+		
 			this.goodsId = option.goodsId;
 			this.getGoodInfo(option.goodsId)
 		},
@@ -157,8 +154,37 @@
 				goodsInfo({goodsId}).then((res) => {
 					if(res.code == 200){
 						this.infoData = res.data;
+						if(res.data.goodsPic) this.infoData.goodsImgs.unshift(res.data.goodsPic)
+						this.lunBoHandle(this.infoData.goodsImgs)	
 					}
 				})
+			},
+			
+			//轮播图处理 根据轮播图定义高度
+			async lunBoHandle(data){
+				let sjW = 0;
+				const query = uni.createSelectorQuery().in(this).select('.uni-padding-wrap');
+				query.boundingClientRect((res) => {
+					sjW = res.width
+					
+					let zuiH = 0;
+					const getImageInfoPromises = data.map((item) => {
+						return new Promise((resolve) => {
+							uni.getImageInfo({
+								src: item,
+								success: function (image) {
+									let sw_height = image.height * sjW / image.width;
+									if (zuiH < sw_height) zuiH = sw_height;
+									resolve();
+								}
+							});
+						});
+					});
+				
+					Promise.all(getImageInfoPromises).then(() => {
+						if(zuiH<=414) this.zuiGao = zuiH + 'px';
+					});
+				}).exec();
 			},
 			
 			openCar(i){
@@ -205,7 +231,7 @@
 			},
 			goCart(){
 				if(this.mid) { 
-					uni.navigateTo({
+					uni.switchTab({
 					    url: '/pages/myCart/myCart'
 					});
 				}else{
@@ -215,7 +241,6 @@
 			
 			//图片预览
 			getImgIndex(index) { 
-				console.log(index);
 				let imgs = this.infoData.goodsImgs.map(item => {
 					return item
 				})
@@ -232,9 +257,6 @@
 			closePP(){ this.$refs.popup.close() },
 			hbClick(){
 				this.$refs.popup.close();
-				// this.$nextTick(()=>{
-				// 	this.$refs.hbPopup.open('center')
-				// })
 				
 				uni.showLoading({
 					title: '加载中'
@@ -244,15 +266,12 @@
 					goodsId: this.goodsId,
 					page:'pages/productDetails/productDetails',			//先传空，上线后删除
 				}
-				
 				getWechatEwm(param).then((res) => {
-					let codeImg = 'data:image/png;base64,'+ uni.arrayBufferToBase64(res)
-					base64ToPath(codeImg)
-					  .then(ph => {
-							this.hbShow = true;
-							this.hbData = this.infoData
-							this.$set(this.hbData,'ewm',ph) 
-					  })
+					if(res.code == 200){
+						this.hbShow = true;
+						this.hbData = this.infoData
+						this.$set(this.hbData,'ewm', res.data) 
+					}
 				})
 				
 			},
@@ -282,14 +301,11 @@
 			onShareAppMessage(options) {
 				this.$refs.popup.close()
 				
-				this._newPar.nolog = true
-				let UserInfo = JSON.parse(uni.getStorageSync('UserInfo'));
-				this._newPar.uCode = UserInfo.inviteCode
-				let url = '/pages/productDetails/productDetails?arr=' + JSON.stringify(this._newPar)
+				let url = '/pages/productDetails/productDetails?goodsId=' + this.goodsId 
 			
-				var that = this;
+				var _that = this;
 				var shareObj = {
-					title: that.dataList.title,
+					title: _that.infoData.goodsName,
 					path: url
 				}
 				// 来自页面内的按钮的转发
@@ -301,11 +317,7 @@
 		
 		//下拉刷新
 		onPullDownRefresh() {
-			// if(this.nolog){
-			// 	this.initDataNoLog();
-			// }else{
-			// 	this.initData();
-			// }
+			this.getGoodInfo(this.goodsId)
 			setTimeout(function () {
 				uni.stopPullDownRefresh();
 			}, 1000);

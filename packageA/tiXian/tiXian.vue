@@ -136,10 +136,7 @@
 			removeInput(){
 				this.iptTxt = "";
 				this.iptClose = false;
-				this.listQuery.realName = "";
-				this.listQuery.pageNo = 1;
-				this.list = [];
-				this.initData();
+				this.searchOrder();
 			},
 			//搜索事件
 			searchOrder(){

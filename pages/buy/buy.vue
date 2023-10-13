@@ -79,7 +79,7 @@
 			
 			<view class="buy-time" v-if="tabNum==1">
 				<p>运费</p>
-				<view class="time-red">￥{{goodsData[0].freightAmount}}</view>
+				<view class="time-red">￥{{FtAmount}}</view>
 			</view>
 			
 			<view class="buy-all"> <p class="all-g">共1件</p> <p>共计：</p> <p class="all-r">￥{{totalMoney}}</p> </view>
@@ -157,7 +157,7 @@
 
 <script>
 	import hTimeAlert from "@/components/h-time-alert/h-time-alert.vue";
-	import { pointList,addressList,couponListTwo,orderAdd } from '@/api/page/index.js'
+	import { pointList,addressList,couponListTwo,getFreightAmount,orderAdd } from '@/api/page/index.js'
 	export default {
 		components: {
 			hTimeAlert
@@ -175,7 +175,7 @@
 				addrList1:[],	//到店服务获取到的代收点数据
 				addrList2:[],	//上门服务获取到的代收点数据
 				couponParam:{
-					amount:59,
+					amount:null,
 					pageNo:1,
 					pageSize:10,
 					type:1
@@ -192,25 +192,31 @@
 				yyTime:'请选择时间',
 				timeShow:false,
 				yhqAct:0,
+				FtAmount:0, //运费
 							
 				remark:'',
-				imageValue:[{url:"https://file.yuedongxixie.com/file/84da4960-9cdd-4f01-8fcc-e1f9cad88334.jpg"}],
+				imageValue:[],
 			}
 		},
 		onLoad(option) {
 			this.goodsData = JSON.parse(option.goodsData);
 			
-			this.couponParam.amount = this.goodsData.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0);
+			const goodsNum = this.goodsData.reduce((acc, item) => {
+			  this.couponParam.amount1 += item.goodsNowPrice * item.goodsNum;
+			  return acc + item.goodsNum;
+			}, 0);
+			
 			this.getLocation() //获取当前位置
 			this.getAddr()	//获取用户地址
 			this.getCoupon(2)	//获取用户不可用优惠券
 			this.getCoupon(1)	//获取用户优惠券
+			this.getYunFei(goodsNum)
 		},
 		computed: {
 			totalMoney() {
 				if(Object.keys(this.goodsData).length == 0) return 0;
 				let tot = this.goodsData.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0) - this.couMon
-				return this.tabNum == 0 ? tot : (tot + this.goodsData[0].freightAmount)
+				return this.tabNum == 0 ? tot.toFixed(2) : (tot + this.FtAmount).toFixed(2)
 			}
 		},
 		onShow() {
@@ -227,14 +233,29 @@
 		},
 		
 		methods: {
-			subOrder(){
+			subOrder(){		
+				if(this.addrList.length == 0){
+					uni.showToast({title:"附近暂无代收点,请重新选择地址",icon:'none'})
+					return;
+				}
+				
+				if(this.yyTime == '请选择时间'){
+					uni.showToast({title:"地址不能为空",icon:'none'})
+					return;
+				}
+				
+				if(this.imageValue.length==0){
+					uni.showToast({title:"'图片上传'不能为空",icon:'none'})
+					return;
+				}
+				
 				let param = {
 					type: this.tabNum,
 					goodsTotalAmount: this.totalMoney + this.couMon,
 					reservationTime: this.yyTime,
 					goodsInfo: JSON.stringify(this.goodsData),
 					couponId: this.couponId,
-					freightAmount: this.goodsData[0].freightAmount,
+					freightAmount: this.FtAmount,
 					payAmount: this.totalMoney,
 					remark: this.remark,
 					pics: this.imageValue.map(item => item.url).join(','),
@@ -256,25 +277,11 @@
 						param.district = this.userAddr.district
 						param.e = this.userAddr.e
 						param.n = this.userAddr.n
-						param.goodsTotalAmount -= this.goodsData[0].freightAmount;
+						param.goodsTotalAmount -= this.FtAmount;
 					}else{
 						uni.showToast({title:"地址不能为空",icon:'none'})
 						return;
 					}
-				}
-				if(this.addrList.length == 0){
-					uni.showToast({title:"附近暂无代收点,请重新选择地址",icon:'none'})
-					return;
-				}
-				
-				if(this.yyTime == '请选择时间'){
-					uni.showToast({title:"地址不能为空",icon:'none'})
-					return;
-				}
-				
-				if(this.imageValue.length==0){
-					uni.showToast({title:"'图片上传'不能为空",icon:'none'})
-					return;
 				}
 				
 				orderAdd(param).then((res) => {
@@ -294,6 +301,7 @@
 				// 	timeStamp: "1697026273"
 				// }
 				
+				let _that = this;
 				uni.requestPayment({
 				    provider: 'wxpay',
 					timeStamp: data.timeStamp,
@@ -303,6 +311,9 @@
 					paySign: data.paySign,
 					success: function (res) {
 						console.log('支付成功:' + JSON.stringify(res));
+						uni.redirectTo({
+							url: '/pages/buyOk/buyOk?totalMoney=' + _that.totalMoney
+						});
 					},
 					fail: function (err) {
 						console.log('支付失败:' + JSON.stringify(err));
@@ -378,6 +389,15 @@
 						this.addrList = res.data
 						if(this.tabNum==0) this.addrList1 = res.data
 						else this.addrList2 = res.data
+					}
+				});
+			},
+			
+			//获取商品运费
+			getYunFei(goodsNum){
+				getFreightAmount({ goodsNum }).then((res) => {
+					if(res.code == 200){
+						this.FtAmount = res.data;
 					}
 				});
 			},
@@ -484,19 +504,20 @@
 			
 			// 获取上传状态
 			select(e){
-				const imgUrl = e.tempFilePaths[0]
-				uni.uploadFile({
-					url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
-					filePath: imgUrl,
-					name: 'file',
-					header:{"Content-Type": "multipart/form-data"},
-					success: (res) => {
-						this.imageValue.push({
-							url:JSON.parse(res.data).data,
-						})
-						console.log('imageValue',this.imageValue)
-					}
-				});
+				e.tempFilePaths.forEach((item)=>{
+					const imgUrl = item
+					uni.uploadFile({
+						url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
+						filePath: imgUrl,
+						name: 'file',
+						header:{"Content-Type": "multipart/form-data"},
+						success: (res) => {
+							this.imageValue.push({
+								url:JSON.parse(res.data).data,
+							})
+						}
+					});
+				})	
 			},
 			// 图片删除
 			deletea(e){

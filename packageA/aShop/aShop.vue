@@ -7,6 +7,7 @@
 					v-model="inputTxt" 
 					@confirm="searchOrder" 
 					@input="onKeyInput"
+					confirm-type="search"
 					placeholder-style="color:#999;fontSize:28rpx" 
 					class="searchInput"/>
 				<image v-if="iptClose" class="lt-right" @click="removeInput" :src="FILE_BASE_URL + '/2c34c18c-7b4c-498a-83e2-e03bcd59b07d.jpg'"></image>
@@ -115,7 +116,8 @@
 		onShow() {
 			var _that = this;
 			uni.$once('addOk',function(data){
-				_that.mumeClick(1)
+				let obj = { id: 1}
+				_that.mumeClick(obj)
 			})
 		},
 		methods: {
@@ -163,6 +165,14 @@
 			removeInput(){
 				this.inputTxt = "";
 				this.iptClose = false;
+				this.searchOrder()
+			},
+			//搜索事件
+			searchOrder(){
+				this.listQuery.goodsName = this.inputTxt;
+				this.listQuery.pageNo = 1;
+				this.list = [];
+				this.initData(); 
 			},
 			
 			mumeClick(obj){
@@ -170,7 +180,10 @@
 				this.list = [];
 				this.listQuery.pageNo = 1;
 				this.listQuery.status = obj.id;
-				this.initData();
+				this.$nextTick(()=>{
+					this.initData();
+				})
+				
 			},
 			
 			moreClick(index){

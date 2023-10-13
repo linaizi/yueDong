@@ -92,7 +92,7 @@
 		},
 		onShow(){
 			uni.hideTabBar({ //隐藏系统自动的底部导航
-					animation: false
+				animation: false
 			})
 		},
 		methods: {
@@ -190,7 +190,21 @@
 					this.scrollTop = 0
 				});
 			},
-		}
+		},
+		
+		//下拉刷新
+		onPullDownRefresh() {
+			this.list = [];
+			this.recommendArr = [];
+			this.listQuery.pageNo = 1;
+			this.actNum = 0;
+			this.getList()
+			
+			setTimeout(function () {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
+		
 	}
 </script>
 

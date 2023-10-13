@@ -184,9 +184,9 @@
 	}
 
 	.uni-numbox__value {
-		margin: 0 2px;
+		margin: 0 6px;
 		background-color: $bg;
-		width: 40px;
+		width: 34px;
 		height: $box-height;
 		text-align: center;
 		font-size: 14px;
@@ -209,7 +209,7 @@
 		// fix nvue
 		line-height: 20px;
 
-		font-size: 20px;
+		font-size: 22px;
 		font-weight: 300;
 		color: $color;
 	}

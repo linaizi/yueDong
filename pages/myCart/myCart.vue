@@ -2,33 +2,23 @@
 	<view class="allBg flexBox">
 		<uni-nav-bar statusBar="true" backgroundColor="#fff" title="购物车" fixed></uni-nav-bar>
 		
-		 <view class="myCart-top">商品库存有限，请尽快下单  <p v-if="!noDataShow" @click="editClick">{{showJs?"编辑":"完成"}}</p></view>
+		 <view class="myCart-top">商品库存有限，请尽快下单  <p v-if="!noDataShow" @click="editClick(showJs)">{{showJs?"编辑":"完成"}}</p></view>
 		 
-		<scroll-view scroll-y="true" lower-threshold="50"
-			@scrolltolower="scrollLower" 
-		 	@scroll='fromTop' 
-		 	:scroll-top="scrollTop"
-		 	class="boxScroll scrollView"
-		 	:refresher-enabled="isOpenRefresh"
-		 	:refresher-triggered="triggered"
-		 	@refresherpulling="onPulling"
-		 	@refresherrefresh="onRefresh"
-		 	@refresherrestore="onRestore"
-		 	@refresherabort="onAbort" >
+		<scroll-view scroll-y="true" lower-threshold="50" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop" class="boxScroll scrollView" >
 			
 				<view class="myCartList">
 					<view class="myCartItem" v-for="(item,index) in list" :key="index">
 						<view :class="['circle',{'circle-red':item.check}]" @click="goodsClick(index)"></view>
 						<view class="itemRt">
-							<image :src="item.goodsInfoDto.goodsPic" class="rt-Img"></image>
+							<image :src="item.goodsInfoDto.goodsPic" class="rt-Img" @click="goProductDetails(item)"></image>
 							<view class="rt-mid">
-								<view class="mid-name overflow2">{{item.goodsInfoDto.goodsName}}</view>
-								<view class="mid-gz">规格：默认</view>
+								<view class="mid-name overflow2" @click="goProductDetails(item)">{{item.goodsInfoDto.goodsName}}</view>
+								<view class="mid-gz" @click="goProductDetails(item)">规格：默认</view>
 								<view class="mid-price">
-									{{item.goodsInfoDto.goodsNowPrice}}
+									￥{{item.goodsInfoDto.goodsNowPrice}}
 									<uni-number-box 
 										v-model="item.goodsNum" 
-										@minus="minClick(index)" 
+										@minus.s="minClick(index)" 
 										@plus="plusClick(index)" 
 										@change="chgClick($event,index)"
 										@focus="fcClick"
@@ -51,7 +41,7 @@
 				<p>购物车还是空的哦</p>
 		 </view>
 		 
-		 <view class="myCart-foot">
+		 <view class="myCart-foot" v-if="list.length>0">
 				<view class="foot-lt" @click="allCkClick">
 					<view :class="['circle',{'circle-red':allCheck}]"></view>
 					<span class="lt-span">全选</span>
@@ -102,19 +92,19 @@
 				isLoadMore:false,  //是否加载中
 				scrollTop:0,
 				oldScrollTop:0,
-				isOpenRefresh: true, // 是否开启下拉
-				triggered: false,  //当前下拉刷新状态
-				_freshing: false,  
 				ysNum:1, //修改商品数量前的值
 			}
 		},
-		onLoad(option) {
+ 		onShow(){
+			this.listQuery.pageNo = 1;
+			this.list = []
 			this.initData()
-		},
-		onShow(){
 			uni.hideTabBar({ //隐藏系统自动的底部导航
-					animation: false
+				animation: false
 			})
+		},
+		onHide() { //隐藏页面后初始化页面
+			this.editClick(false)
 		},
 		methods: {
 			initData(){
@@ -131,6 +121,8 @@
 						}else{
 							if(this.listQuery.pageNo == 1){
 								this.isLoadMore=false;
+								this.showJs = true;
+								this.allCheck = false;
 							}else{
 								this.isLoadMore=true
 								this.loadStatus='nomore'
@@ -146,8 +138,8 @@
 			},
 			
 			//编辑事件
-			editClick(){
-				this.showJs = !this.showJs;
+			editClick(showJs){
+				this.showJs = !showJs;
 				this.list.forEach((item) => {
 					item.check = false;
 				});
@@ -213,6 +205,13 @@
 				});
 			},
 			
+			// 跳转商品详情
+			goProductDetails(i){
+				 uni.navigateTo({
+					url: '/pages/productDetails/productDetails?goodsId=' + i.goodsId 
+				 })
+			},
+			
 			//点击结算事件
 			jieSuan(){
 				if(this.totalMoney<=0) return;
@@ -252,32 +251,6 @@
 					this.initData()
 				}
 			},
-			// 自定义下拉刷新控件被下拉
-			onPulling(e) {
-				if (e.detail.dy < 0) return  // 防止上滑页面也触发下拉
-				this.triggered = true;
-			},
-			// 自定义下拉刷新被触发
-			onRefresh() {
-				if (this._freshing) return;
-				this._freshing = true;
-				setTimeout(() => {
-					this.triggered = false;
-					this._freshing = false;
-					this.listQuery.pageNo = 1
-					this.list = []
-					this.initData()
-				}, 500);
-			},
-			// 自定义下拉刷新被复位
-			onRestore() {
-				console.log("onRestore");
-				this.triggered = false //重置
-			},
-			// 自定义下拉刷新被中止
-			onAbort() {
-				console.log("onAbort-被中止");
-			},
 			fromTop(e){  // 监听页面滚动
 				if (e.detail.scrollTop > 150) { //当距离大于50时显示回到顶部按钮
 						this.flag = true
@@ -293,7 +266,18 @@
 					this.scrollTop = 0
 				});
 			},
-		}
+		},
+		
+		//下拉刷新
+		onPullDownRefresh() {
+			this.listQuery.pageNo = 1;
+			this.list = []
+			this.initData()
+			setTimeout(function () {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
+		
 	}
 </script>
 

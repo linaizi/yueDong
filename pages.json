@@ -3,6 +3,7 @@
 		{
 			"path": "pages/index/index",
 			"style": {
+				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "跃动洗涤",
 				"navigationStyle":"custom",   //新版小程序支持
 				"app-plus":{
@@ -13,6 +14,7 @@
 		{
 			"path": "pages/sort/sort",
 			"style": {
+				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "商品分类",
 				"navigationStyle":"custom",  
 				"app-plus":{
@@ -23,6 +25,7 @@
 		{
 			"path": "pages/myCart/myCart",
 			"style": {
+				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "购物车",
 				"navigationStyle":"custom",  
 				"app-plus":{
@@ -33,8 +36,8 @@
 		{
 			"path": "pages/mine/mine",
 			"style": {
-				"navigationBarTitleText": "我的",
 				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "我的",
 				"navigationStyle":"custom",  
 				"app-plus":{
 					"titleView":false 
@@ -82,6 +85,7 @@
 		{
 		 	"path": "pages/allEvaluations/allEvaluations",
 		 	"style" : {
+				"enablePullDownRefresh": true,
 		 		"navigationBarTitleText": "全部评价",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"navigationBarTextStyle": "black",
@@ -101,6 +105,15 @@
 		 	"path": "pages/buy/buy",
 		 	"style" : {
 		 		"navigationBarTitleText": "结算",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
+		},
+		{
+		 	"path": "pages/buyOk/buyOk",
+		 	"style" : {
+		 		"navigationBarTitleText": "提交完成",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"navigationBarTextStyle": "black",
 				"backgroundColor": "#ffffff"

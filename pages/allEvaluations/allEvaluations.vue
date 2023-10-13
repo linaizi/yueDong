@@ -4,17 +4,7 @@
 			 <span v-for="i in topArr" :key="i.num" :class="{'top-red':i.num==listQuery.type}" @click="topClick(i.num)">{{i.name}}({{numArr[i.n]}})</span>
 		 </view>
 		 
-		 <scroll-view scroll-y="true" lower-threshold="50"
-		 	@scrolltolower="scrollLower" 
-		 	@scroll='fromTop' 
-		 	:scroll-top="scrollTop"
-		 	class="boxScroll scrollView"
-		 	:refresher-enabled="isOpenRefresh"
-		 	:refresher-triggered="triggered"
-		 	@refresherpulling="onPulling"
-		 	@refresherrefresh="onRefresh"
-		 	@refresherrestore="onRestore"
-		 	@refresherabort="onAbort" >
+		 <scroll-view scroll-y="true" lower-threshold="50" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop" class="boxScroll " >
 				
 				<view class="aetBox">
 					<view class="pjItem" v-for="(item,index) in list" :key="index">
@@ -37,6 +27,10 @@
 				</view>
 		 </scroll-view>
 		 
+		 <view class="noGood" v-if='noDataShow'>
+		 	<image :src="FILE_BASE_URL + '/3ee934e5-e364-4dad-9417-88a4776bfd87.png'" mode="widthFix" class="noGood-img"></image>
+		 	<p>暂无数据~</p>
+		 </view>
 		 <view class="goTop" @click="toTop" v-if="flag">
 		 		<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		 </view>
@@ -65,9 +59,9 @@
 					pageNo:1,
 					type:0,
 				},
+				noDataShow:false,
 				
 				flag:false,
-				page:1,
 				contentText:{
 					contentdown: "上拉显示更多",
 					contentrefresh: "加载中...",
@@ -77,9 +71,6 @@
 				isLoadMore:false,  //是否加载中
 				scrollTop:0,
 				oldScrollTop:0,
-				isOpenRefresh: true, // 是否开启下拉
-				triggered: false,  //当前下拉刷新状态
-				_freshing: false,  
 			}
 		},
 		onLoad(option) {
@@ -94,22 +85,24 @@
 				});
 			},
 			
-			initGoods(goodsId,type){
-				if(this.page == this.listQuery.pageNo){
-					this.list = [];				
-					this.listQuery.pageNo = 1
-				}
-				
+			initGoods(){
 				infoComments(this.listQuery).then((res) => {
 					if(res.code == 200){
 						if(this.listQuery.pageNo<=res.data.totalPages){
+							this.noDataShow = false;
 							this.list.push(...res.data.data);
-							this.isLoadMore=false
-							this.loadStatus='loading'
-							this.page = this.listQuery.pageNo;
+							
+							if(this.listQuery.pageNo==res.data.totalPages){  
+								this.isLoadMore=true                                             
+								this.loadStatus='nomore'
+							}else{
+								this.isLoadMore=false
+								this.loadStatus='loading'
+							}
 						}else{
 							if(this.listQuery.pageNo == 1){
 								this.isLoadMore=false;
+								this.noDataShow = true;
 							}else{
 								this.isLoadMore=true
 								this.loadStatus='nomore'
@@ -118,9 +111,6 @@
 					}
 				}).catch(e=>{
 					this.isLoadMore=false
-					if(this.page>1){
-						this.page-=1
-					}
 				});
 			},
 			
@@ -138,32 +128,6 @@
 					this.initGoods()
 				}
 			},
-			// 自定义下拉刷新控件被下拉
-			onPulling(e) {
-				if (e.detail.dy < 0) return  // 防止上滑页面也触发下拉
-				this.triggered = true;
-			},
-			// 自定义下拉刷新被触发
-			onRefresh() {
-				if (this._freshing) return;
-				this._freshing = true;
-				setTimeout(() => {
-					this.triggered = false;
-					this._freshing = false;
-					this.listQuery.pageNo = 1
-					this.list = []
-					this.initData()
-				}, 500);
-			},
-			// 自定义下拉刷新被复位
-			onRestore() {
-				console.log("onRestore");
-				this.triggered = false //重置
-			},
-			// 自定义下拉刷新被中止
-			onAbort() {
-				console.log("onAbort-被中止");
-			},
 			fromTop(e){  // 监听页面滚动
 				if (e.detail.scrollTop > 150) { //当距离大于50时显示回到顶部按钮
 						this.flag = true
@@ -179,7 +143,17 @@
 					this.scrollTop = 0
 				});
 			},
-		}
+		},
+		
+		//下拉刷新
+		onPullDownRefresh() {
+			this.list = [];
+			this.listQuery.pageNo = 1
+			this.initGoods();
+			setTimeout(function () {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
 	}
 </script>
 

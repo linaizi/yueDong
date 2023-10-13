@@ -49,7 +49,7 @@
 		
 		<view class="noGood" v-if='noDataShow'>
 			<image :src="FILE_BASE_URL + '/3ee934e5-e364-4dad-9417-88a4776bfd87.png'" mode="widthFix" class="noGood-img"></image>
-			<p>暂无订单</p>
+			<p>暂无数据~</p>
 		</view>
 			
 		<view class="goTop" @click="toTop" v-if="flag">

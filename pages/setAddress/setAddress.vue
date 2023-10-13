@@ -19,7 +19,7 @@
 				</view>
 				<view class="m-item">
 					<view class="item-lt">门牌号</view>
-					<view class="item-rt"><input type="number" v-model.trim="param.houseNumber" class="rt-input" placeholder="请输入具体门牌号以便配送" /></view>
+					<view class="item-rt"><input v-model.trim="param.houseNumber" class="rt-input" placeholder="请输入具体门牌号以便配送" /></view>
 				</view>
 			</view>
 			<view class="sad-btn" @click="saveAddr">保存地址</view>

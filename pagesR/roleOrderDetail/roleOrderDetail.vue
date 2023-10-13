@@ -198,18 +198,20 @@
 			
 			// 获取上传状态
 			select(e){
-				const imgUrl = e.tempFilePaths[0]
-				uni.uploadFile({
-					url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
-					filePath: imgUrl,
-					name: 'file',
-					header:{"Content-Type": "multipart/form-data"},
-					success: (res) => {
-						this.imageValue.push({
-							url:JSON.parse(res.data).data,
-						})
-					}
-				});
+				e.tempFilePaths.forEach((item)=>{
+					const imgUrl = item
+					uni.uploadFile({
+						url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
+						filePath: imgUrl,
+						name: 'file',
+						header:{"Content-Type": "multipart/form-data"},
+						success: (res) => {
+							this.imageValue.push({
+								url:JSON.parse(res.data).data,
+							})
+						}
+					});
+				})	
 			},
 			// 图片删除
 			deletea(e){

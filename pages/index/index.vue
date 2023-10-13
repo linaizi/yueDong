@@ -3,9 +3,7 @@
 		<uni-nav-bar statusBar="true" backgroundColor="#fff" title="跃动洗鞋" fixed></uni-nav-bar>
 		
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop"
-			class="boxScroll indexScroll"
-			:refresher-enabled="isOpenRefresh" :refresher-triggered="triggered" @refresherpulling="onPulling"
-			@refresherrefresh="onRefresh"	@refresherrestore="onRestore" @refresherabort="onAbort" > 
+			class="boxScroll indexScroll"> 
 			
 			<view class="swiperBox"> <Swiper :dataInfo="swpArr"></Swiper></view>
 			
@@ -110,9 +108,6 @@
 				isLoadMore:false,  //是否加载中
 				scrollTop:0,
 				oldScrollTop:0,
-				isOpenRefresh: true, // 是否开启下拉
-				triggered: false,  //当前下拉刷新状态
-				_freshing: false,  
 				
 				ppCarData:{},
 			}
@@ -120,9 +115,9 @@
 		onLoad(option) {
 			this.initGoods()
 			
-			// wx.setEnableDebug({ //开发环境打开调试
-			// 	enableDebug: true
-			// })
+			wx.setEnableDebug({ //开发环境打开调试
+				enableDebug: true
+			})
 		},
 		onShow(){
 			uni.hideTabBar({ //隐藏系统自动的底部导航
@@ -173,9 +168,7 @@
 					});
 				}
 			},			
-			
-		
-			
+				
 			goSort(){
 				uni.switchTab({
 				   url: '/pages/sort/sort',
@@ -215,32 +208,6 @@
 					this.initGoods()
 				}
 			},
-			// 自定义下拉刷新控件被下拉
-			onPulling(e) {
-				if (e.detail.dy < 0) return  // 防止上滑页面也触发下拉
-				this.triggered = true;
-			},
-			// 自定义下拉刷新被触发
-			onRefresh() {
-				if (this._freshing) return;
-				this._freshing = true;
-				setTimeout(() => {
-					this.triggered = false;
-					this._freshing = false;
-					this.goodParams.pageNo = 1
-					this.recommendArr = []
-					this.initGoods()
-				}, 500);
-			},
-			// 自定义下拉刷新被复位
-			onRestore() {
-				console.log("onRestore");
-				this.triggered = false //重置
-			},
-			// 自定义下拉刷新被中止
-			onAbort() {
-				console.log("onAbort-被中止");
-			},
 			fromTop(e){  // 监听页面滚动
 				if (e.detail.scrollTop > 150) { //当距离大于50时显示回到顶部按钮
 						this.flag = true
@@ -256,7 +223,18 @@
 					this.scrollTop = 0
 				});
 			},
-		}
+		},
+		
+		//下拉刷新
+		onPullDownRefresh() {
+			this.goodParams.pageNo = 1;
+			this.recommendArr = []
+			this.initGoods()
+			setTimeout(function () {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
+		
 	}
 </script>
 

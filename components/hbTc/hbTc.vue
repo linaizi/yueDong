@@ -5,30 +5,6 @@
 				<view class="hbBox">
 					<image src="../../static/img/share-close1.png" class="hb-close" @click="hbClose">	
 					<image :src="poster" :show-menu-by-longpress="true" class="can-img" mode="widthFix">
-						
-					<!-- <view id="hbTu" class="hb-tu" ref="hbImg">
-						<image :src="hbData.goodsImgs[0]" class="tu-img">
-						<view class="tu-money">
-							<view class="money-l">
-								<p class="l-p1">到手价</p>
-								<view class="l-pri">
-									<span class="pri-sp1">¥</span>{{hbData.goodsNowPrice}}
-									<span class="pri-sp2">¥{{hbData.goodsPrice}}</span>
-								</view>
-							</view>
-						</view>
-						<view class="tu-title">
-							<view class="title-l overflow3">
-								{{hbData.goodsName}}
-							</view>
-							<view class="title-r">
-								<view class="r-img">
-									<image :src="hbData.ewm" class="w100" mode="widthFix">
-								</view>
-								<p>长按识别领券购买</p>
-							</view>
-						</view>
-					</view> -->
 		
 					<view class="hb-btn">
 						<view class="btn-pub btn-l" @click="preservationImg(0,poster)">保存到相册</view>
@@ -129,9 +105,10 @@
 					
 					 //原价 
 					let price = '¥'+this.hbData.goodsPrice
-					let wsp3 = ctx.measureText(this.hbData.goodsNowPrice).width + 30
+					let nowPrice = '¥'+this.hbData.goodsNowPrice
+					let wsp3 = ctx.measureText(nowPrice).width + 15
 					ctx.setFillStyle("#999999");
-					ctx.setFontSize(24)
+					ctx.setFontSize(21)
 					ctx.fillText(price, wsp3, goodsH+70); 
 					
 					//设置横线
@@ -316,65 +293,6 @@
 				position: absolute;
 				top:-10upx;
 				right: -11upx;
-			}
-			.hb-tu{
-				.tu-img{
-					width: 100%;
-					height: 480upx;
-					border-radius: 16upx;
-				}
-				.tu-money{
-					display: flex;
-					align-items: center;
-					justify-content: space-between;
-					margin: 25upx 0;
-					.money-l{
-						.l-p1{
-							font-size: 24upx;
-							color:#F92E4F;
-						}
-						.l-pri{
-							font-size: 48upx;
-							color:#F92E4F;
-							.pri-sp1{
-								font-size: 24upx;
-							}
-							.pri-sp2{
-								margin-left: 8upx;
-								font-size: 24upx;
-								color:#999999;
-								text-decoration:line-through;
-							}
-						}
-					}
-				}
-				.tu-title{
-					display: flex;
-					justify-content: space-between;
-					.title-l{
-						width: 60%;
-						font-size: 32upx;
-						color:#000;
-						line-height: 1.5;
-						height: 145upx;
-					}
-					.title-r{
-						.r-img{
-							width: 188upx;
-							height: 188upx;
-							background: #FFFFFF;
-							border-radius: 8upx;
-							border: 2upx solid #CECECE;
-							padding: 5upx;
-							box-sizing: border-box;
-							margin-bottom: 12upx;
-						}
-						p{
-							font-size: 24upx;
-							color:#666;
-						}
-					}
-				}
 			}
 			
 			.hb-btn{

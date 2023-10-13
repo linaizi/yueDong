@@ -36,6 +36,11 @@
 				</view>
 		 </scroll-view>
 		 
+		 <view class="noGood" v-if='noDataShow'>
+		 	<image :src="FILE_BASE_URL + '/3ee934e5-e364-4dad-9417-88a4776bfd87.png'" mode="widthFix" class="noGood-img"></image>
+		 	<p>暂无优惠券~</p>
+		 </view>
+		 
 		 <view class="goTop" @click="toTop" v-if="flag">
 		 		<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		 </view>
@@ -64,6 +69,7 @@
 					pageSize:10,
 					type:2
 				},
+				noDataShow:false,
 				flag:false,
 				contentText:{
 					contentdown: "上拉显示更多",
@@ -87,9 +93,10 @@
 				couponList(this.listQuery).then((res) => {
 					if(res.code == 200){
 						if(res.data.length>0){
+							this.noDataShow = false;
 							this.recommendArr.push(...res.data);
 							
-							if(res.data.length<10){  //判断接口返回数据量小于请求数据量，则表示此为最后一页
+							if(res.data.length<this.listQuery.pageSize){  //判断接口返回数据量小于请求数据量，则表示此为最后一页
 								this.isLoadMore=true
 								this.loadStatus='nomore'
 							}else{
@@ -99,6 +106,7 @@
 						}else{
 							if(this.listQuery.pageNo == 1){
 								this.isLoadMore=false;
+								this.noDataShow = true;
 							}else{
 								this.isLoadMore=true
 								this.loadStatus='nomore'

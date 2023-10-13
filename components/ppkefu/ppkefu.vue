@@ -3,9 +3,9 @@
 		<uni-popup ref="kfPopup" type="center">
 			<view class="kf-pp">
 				<view class="kf-title">请联系跃动洗鞋微信</view>
-						<image src="https://file.aikbao.com/20230616101226811" :show-menu-by-longpress="true" class="kf-img" mode="widthFix"></image>
-						<view class="kf-phone" @click="PhoneCall">或点击致电：13411112222</view>
-						<view class="hbtxt" @click="preservationImg(0,'https://file.aikbao.com/20230616101226811')">保存图片</view>
+						<image :src="img" :show-menu-by-longpress="true" class="kf-img" mode="widthFix"></image>
+						<view class="kf-phone" @click="PhoneCall">或点击致电：13113966491</view>
+						<view class="hbtxt" @click="preservationImg(0, img)">保存图片</view>
 						<uni-icons type="close" size="70rpx" color="#fff" @click="closeHb" class="kfClose"></uni-icons>
 			</view>
 		</uni-popup>
@@ -16,6 +16,7 @@
 	export default{
 		data(){
 			return{
+				img:this.$BASE_URLS.FILE_BASE_URL+"/4375b216-c8e4-41a1-887c-7aae5764c479.jpg",
 			}
 		},
 		
@@ -24,7 +25,7 @@
 			
 			PhoneCall(){
 				uni.makePhoneCall({
-					phoneNumber: '13411112222' 
+					phoneNumber: '13113966491' 
 				});
 			},
 			closeHb(){

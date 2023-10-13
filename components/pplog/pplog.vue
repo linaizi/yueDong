@@ -99,7 +99,8 @@
 					success: (f) => {
 						let res = JSON.parse(f.data)
 						if(res.code == 200){
-							console.log(res.data.url)
+							console.log(res.data)
+							this.paramsData.avatar = res.data;
 						}
 					},
 				});
@@ -195,46 +196,82 @@
 </script>
 
 <style lang="scss" scoped>
-	.kf-pp{
-		width: 550upx;
-		border-radius: 12upx;
-		padding: 24upx 28upx 40upx;
-		box-sizing: border-box;
+	.index-popup{
+		text-align: center;
+		.indexPopup-img{
+			width: 64upx;
+			height: 64upx;
+			margin-bottom: 20upx;
+		}
+		.indexPopup-p{
+			font-size: 32upx;
+			color: #333;
+			margin: 0 auto;
+			width: 76%;
+		}
+	}
+		
+	.popup-box{
 		background: #fff;
+		padding: 88upx 40upx 75upx;
+		border-radius: 24upx;
 		position: relative;
-		.kf-title{
-			font-size: 34upx;
-			font-weight: bold;
-			color:#333;
-			text-align: center;
-		}
-		.kf-img{
-			display: block;
-			width: 450upx;
-			margin: 16upx auto;
-		}
-		.kf-phone{
-			font-size: 30upx;
-			color:blue;
-			font-weight: bold;
-			text-align: center;
-			text-decoration: underline;
-		}
-		.hbtxt{
-			@include dflex(center,center);
-			background: #1081f2;
-			width: 250upx;
-			height: 70upx;
-			font-size: 30upx;
-			color:#fff;
-			border-radius: 100upx;
-			margin: 30upx auto 0;
-		}
-		.kfClose{
+		.indexPopup-close{
 			position: absolute;
-			bottom:-80upx;
-			left: 50%;
-			transform: translateX(-50%);
+			right: 10upx;
+			top: 5upx;
+			width: 60upx;
+			height: 60upx;
+			@include dflex(center,center);
+			.close-img{
+				width: 24upx;
+				height: 24upx;
+			}
 		}
+		.indexPopup-p{
+			width: 63%;
+			margin: 0 auto 35upx;
+		}
+		.indexPopup-btn{
+			width: 100%;
+			height: 90upx;
+			text-align: center;
+			line-height: 90upx;
+			background: #1677FF;
+			border-radius: 100upx;
+			font-size: 32upx;
+			color:#F0f0f0;
+			background: linear-gradient(270deg, #FF5000 0%, #FF9000 100%);
+		}
+	}
+		
+	// 登录弹窗
+	.log-pp{
+		background: #fff;
+		border-radius: 20upx 20upx 0 0;
+		padding: 40upx 44upx 50upx;
+		.log-title{
+			font-size: 30upx;
+			color:#333;
+			font-weight: bold;
+		}
+		.log-sj{
+			font-size: 26upx;
+			color:#5A6A94;
+			padding-top: 26upx;
+			margin-bottom: 30upx;
+		}
+		.log-btn{
+			@include dflex(center,center);
+			height:76upx;
+			font-size:28upx;
+			color:#5A6AB0;
+		}
+		.log-yes{
+			background: #EAF0FF;
+			border-radius: 4upx;
+			color:#3358D3;
+		}
+		
 	}
 </style>

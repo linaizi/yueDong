@@ -29,15 +29,15 @@
 					<uni-easyinput v-model="formData.goodsName"  placeholder="请输入商品名称" placeholder-style="font-size:28rpx"/>
 				</uni-forms-item>
 				<uni-forms-item label="商品原价" name="goodsPrice">
-					<uni-easyinput v-model="formData.goodsPrice" type="number" placeholder="请输入商品原价" placeholder-style="font-size:28rpx"/>
+					<uni-easyinput v-model="formData.goodsPrice" placeholder="请输入商品原价" placeholder-style="font-size:28rpx"/>
 					<span class="ml10">元</span>
 				</uni-forms-item>
 				<uni-forms-item label="商品现价" name="goodsNowPrice">
-					<uni-easyinput v-model="formData.goodsNowPrice" type="number" placeholder="请输入商品现价" placeholder-style="font-size:28rpx"/>
+					<uni-easyinput v-model="formData.goodsNowPrice" placeholder="请输入商品现价" placeholder-style="font-size:28rpx"/>
 					<span class="ml10">元</span>
 				</uni-forms-item>
 				<uni-forms-item label="商品库存" name="stockNum">
-					<uni-easyinput v-model="formData.stockNum" type="number" placeholder="请输入商品库存" placeholder-style="font-size:28rpx"/>
+					<uni-easyinput v-model="formData.stockNum" placeholder="请输入商品库存" placeholder-style="font-size:28rpx"/>
 					<span class="ml10">件</span>
 				</uni-forms-item>
 				<uni-forms-item label="商品详情图(≤9张)" name="goodsInfoImas">
@@ -197,19 +197,22 @@
 				if (!this.formData.hasOwnProperty(field)) {
 				  this.$set(this.formData, field, []);
 				}
-					
-				const imgUrl = e.tempFilePaths[0]
-				uni.uploadFile({
-					url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
-					filePath: imgUrl,
-					name: 'file',
-					header:{"Content-Type": "multipart/form-data"},
-					success: (res) => {
-						this.formData[field].push({
-							url:JSON.parse(res.data).data,
-						});
-					}
-				});
+				
+				e.tempFilePaths.forEach((item)=>{
+					const imgUrl = item
+					uni.uploadFile({
+						url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
+						filePath: imgUrl,
+						name: 'file',
+						header:{"Content-Type": "multipart/form-data"},
+						success: (res) => {
+							this.formData[field].push({
+								url:JSON.parse(res.data).data,
+							});
+						}
+					});
+				})	
+				
 			},
 			// 图片删除
 			deletea(e,field){
@@ -227,10 +230,11 @@
 					param.ifSaveAndGrounding = tr;
 					
 					uni.showLoading()
+					let txt = "添加成功"
 					const fetchData = (queryFunction) => {
 						queryFunction(param).then((res) => {
 							if (res.code === 200) {
-							  uni.showToast({ title: `${this.formData.id ?'更新':'添加'}成功`,icon:'success' });
+							  uni.showToast({ title: txt, icon:'success' });
 							  setTimeout(()=>{
 							  	uni.$emit('addOk');
 							  	uni.navigateBack({
@@ -244,9 +248,10 @@
 					};
 					
 					if (this.formData.id) {
+						txt = "更新成功"
 						param.id = this.formData.id;
 						fetchData(goodsEdit);
-					} else if (this.level == 3) {
+					} else{
 						fetchData(goodsAdd);
 					}
 					
