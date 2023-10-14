@@ -10,7 +10,7 @@
 			<view class="od-main">
 				<view class="odBox">
 					<view class="od-adr">
-						<uni-icons type="location" size="56rpx" color="#333333"></uni-icons>
+						<uni-icons type="location" size="56rpx" color="#333333" @click="daoHang(infoData)"></uni-icons>
 						<view class="adr-rt">
 							<view class="rt-name flex">
 							{{infoData.name}} <span>{{infoData.phone}}</span>
@@ -18,7 +18,7 @@
 							 	<uni-icons type="phone" size="30rpx" color="#446DFD"></uni-icons>联系用户
 							 </view>
 						</view>
-							<p>{{infoData.address}} {{infoData.houseNumber}}</p>
+							<p @click="daoHang(infoData)">{{infoData.address}} {{infoData.houseNumber}}</p>
 						</view>
 					</view>
 					<view class="od-title">
@@ -83,11 +83,11 @@
 					</view>
 					
 					<view class="od-price">
-						<p>商品总价<span>￥{{totalMon(infoData.goodsInfo)}}</span></p>
+						<p>商品总价<span>￥{{infoData.goodsTotalAmount}}</span></p>
 						<p>运费  <span>￥{{infoData.freightAmount}}</span></p>
 					</view>
 					
-					<view class="od-allPrice"><span>合计：</span>￥{{totalMon(infoData.goodsInfo)+infoData.freightAmount}}</view>
+					<view class="od-allPrice"><span>合计：</span>￥{{infoData.payAmount}}</view>
 				</view>
 				
 				<template v-if="infoData.status==3 || infoData.status ==8">
@@ -178,12 +178,6 @@
 				return statusDict[id]
 			},
 			
-			totalMon(goodsInfo){
-				if(!goodsInfo) return;
-				goodsInfo = JSON.parse(goodsInfo);
-				return goodsInfo.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0);
-			},
-			
 			//打电话
 			PhoneCall(phone){
 				uni.makePhoneCall({
@@ -255,6 +249,19 @@
 								});
 							}
 						});
+					}
+				});
+			},
+			
+			//导航
+			daoHang(i){
+				uni.openLocation({
+					latitude: i.n,
+					longitude: i.e,
+					name: i.shopName || '',//终点名称
+					address: i.address,//终点详细地址
+					success: function (res) {
+						console.log('success',res);
 					}
 				});
 			},

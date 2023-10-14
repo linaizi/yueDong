@@ -49,7 +49,7 @@
 					</view>
 					<view class="item-btn">
 						<view class="btn" @click="laHeiClick(item.uid,index)">拉黑</view>
-						<view class="btn" @click="xgClick(item.uid)">修改信息</view>
+						<view class="btn" @click="xgClick(item.uid,item.level)">修改信息</view>
 					</view>
 				</view>
 			</view>
@@ -118,6 +118,7 @@
 				djArr:[],
 				djAct:0,
 				xGuid:0,
+				level: 0, //修改信息获取用户等级
 				
 				listQuery:{
 					pageNo:1,
@@ -204,9 +205,10 @@
 			},
 			
 			//修改信息
-			xgClick(id){
+			xgClick(id,level){
 				this.$refs.XGpopup.open();
 				this.xGuid = id;
+				this.level = level;
 			},
 			closeXG(){
 				this.$refs.XGpopup.close();
@@ -214,7 +216,7 @@
 			DJClick(){
 				this.$refs.XGpopup.close();
 				this.$refs.DJPopup.open();
-				this.djArr = this.mumeArr.filter(item => item.id != 0 && item.id != 2)
+				this.djArr = this.mumeArr.filter(item => item.id != 0 && item.id != this.level)
 			},
 			//选择修改后的等级
 			tmClick(n){

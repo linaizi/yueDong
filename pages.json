@@ -163,6 +163,15 @@
 				"navigationBarTextStyle": "black",
 				"backgroundColor": "#ffffff"
 		 	}
+		},
+		{
+		 	"path": "pages/afterSales/afterSales",
+		 	"style" : {
+		 		"navigationBarTitleText": "申请售后",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
 		}
 			
 	],
@@ -360,6 +369,16 @@
 				 	"style" : {
 						"enablePullDownRefresh": true,
 				 		"navigationBarTitleText": "骑手管理",
+						"navigationBarBackgroundColor": "#FFFFFF",
+						"navigationBarTextStyle": "black",
+						"backgroundColor": "#ffffff"
+				 	}
+				},
+				{
+				 	"path": "roleInfo/roleInfo",
+				 	"style" : {
+						"enablePullDownRefresh": true,
+				 		"navigationBarTitleText": "信息管理",
 						"navigationBarBackgroundColor": "#FFFFFF",
 						"navigationBarTextStyle": "black",
 						"backgroundColor": "#ffffff"

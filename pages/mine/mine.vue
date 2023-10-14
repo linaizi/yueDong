@@ -37,6 +37,10 @@
 		<view class="userCenterBox" v-if="isOk&&UserInfo.level!=1&&UserInfo.level!=6">
 			<view class="titleBox">{{UserInfo.levelName}}菜单栏</view>
 			<view class="box flex">
+				<view class="itemBox" @click="roleClick(0)" v-if="UserInfo.level==2||UserInfo.level==3">
+					<image :src="FILE_BASE_URL + '/cb83f150-bd4d-4bcf-945e-6caabcfd8ba1.jpg'" class="itemIcon"></image>
+					<view>信息管理</view>
+				</view>
 				<view class="itemBox" @click="roleClick(1)">
 					<image :src="FILE_BASE_URL + '/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg'" class="itemIcon"></image>
 					<view>订单管理</view>
@@ -85,6 +89,7 @@
 					{imgUrl:this.$BASE_URLS.FILE_BASE_URL+'/e9b08ce8-c807-4799-b0aa-5b84b532f4b9.jpg',tabName:'联系客服', tabId:3},
 				],
 				isOk:false,
+				
 			}
 		},
 		onLoad(option) {
@@ -176,6 +181,9 @@
 			roleClick(n){
 				let url=''
 				switch(n) {
+					case 0:
+						url='/pagesR/roleInfo/roleInfo?level=' + this.UserInfo.level
+						break;
 					case 1:
 						url='/pagesR/roleOrder/roleOrder?level=' + this.UserInfo.level
 						break;

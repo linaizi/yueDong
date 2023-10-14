@@ -233,6 +233,24 @@ export function orderInfo(params) { 	// 查看订单详情
 	})
 }
 
+export function afterAmount(params) { 	// 获取售后金额
+	return request({
+		url: '/elantra/order/after/amount',
+		method: 'GET',
+		params
+	})
+}
+
+export function afterOrder(data) { 	// 申请订单售后
+	return request({
+		url: '/elantra/order/after/order',
+		method: 'POST',
+		data
+	})
+}
+
+
+
 //S:骑手
 export function withdrawMoney(params) { 	// 发起提现
 	return request({
@@ -289,6 +307,22 @@ export function riderPage(data) { 	// 查看骑手列表
 export function editRider(params) { 	// 设置取消骑手
 	return request({
 		url: '/elantra/admin/collection/edit/rider',
+		method: 'GET',
+		params
+	})
+}
+
+export function getriderAmount(params) { 	// 获取骑手佣金金额 返回为百分比
+	return request({
+		url: '/elantra/admin/collection/get/rider/amount',
+		method: 'GET',
+		params
+	})
+}
+
+export function editriderAmount(params) { 	// 设置骑手佣金金额
+	return request({
+		url: '/elantra/admin/collection/edit/rider/amount',
 		method: 'GET',
 		params
 	})

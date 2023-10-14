@@ -40,6 +40,18 @@
 			<view class="p"><view class="p-lt">支付方式:</view><view class="p-rt">微信支付</view></view>
 			<view class="p"><view class="p-lt">发货方式:</view><view class="p-rt">{{infoData.type == 1 ? "上门取送":"到店服务"}}</view></view>
 			<view class="p" v-if="infoData.type == 1"><view class="p-lt">预约上门取鞋时间:</view><view class="p-rt">{{infoData.reservationTime}}</view></view>
+			<view class="od-qt" style="padding-bottom: 0;">
+				<view class="qtBox" v-if="infoData.remark">
+					<view class="qtBox-tt">用户备注：</view>
+					<view class="qtBox-txt">{{infoData.remark}}</view>
+				</view>
+				<view class="qtBox">
+					<view class="qtBox-tt">用户上传的图片：</view>
+					<view class="image-grid">
+					  <image v-for="(i,ind) in infoData.pics" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(infoData.pics,ind)"></image>
+					</view>
+				</view>
+			</view>
 			<template v-if="infoData.orderOperates">
 				<view class="od-qt" style="padding-bottom: 0;" v-for="(oot,ooind) in infoData.orderOperates" :key="ooind">
 					<view class="qtBox" v-if="oot.remarks">
@@ -139,16 +151,16 @@
 			//导航
 			daoHang(i){
 				uni.openLocation({
-					longitude: i.n,// 经度，范围为-180~180，负数表示西经
-					latitude: i.e,// 纬度，范围为-90~90，负数表示南纬
-					scale: 28, // 缩放比例
-					name: i.shopName,//终点名称
+					latitude: i.n,
+					longitude: i.e,
+					name: i.shopName || '',//终点名称
 					address: i.address,//终点详细地址
 					success: function (res) {
-						console.log('success:',res);
+						console.log('success',res);
 					}
 				});
 			},
+			
 			getImgIndex(obj,index) { //图片预览
 				let imgs = obj.map(item => {
 					//只返回图片路径

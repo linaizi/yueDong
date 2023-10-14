@@ -20,7 +20,7 @@
 						</view>
 						<view class="foot-r">
 							<view class="r-item" @click="editClick(item)"><uni-icons type="compose" size="40rpx" color="#999"></uni-icons>编辑</view>
-							<view class="r-item" @click="delClick(item.id)"><uni-icons type="trash" size="40rpx" color="#999"></uni-icons>删除</view>
+							<view v-if="source!=1" class="r-item" @click="delClick(item.id)"><uni-icons type="trash" size="40rpx" color="#999"></uni-icons>删除</view>
 						</view>
 					</view>
 				</view>

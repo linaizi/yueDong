@@ -10,7 +10,7 @@
 			<view class="od-main">
 				<view class="odBox">
 					<view class="od-adr">
-						<uni-icons type="location" size="56rpx" color="#333333"></uni-icons>
+						<uni-icons type="location" size="56rpx" color="#333333" @click="daoHang(infoData)"></uni-icons>
 						<view class="adr-rt">
 							<view class="rt-name flex">
 							{{infoData.name}} <span>{{infoData.phone}}</span>
@@ -18,7 +18,7 @@
 							 	<uni-icons type="phone" size="30rpx" color="#446DFD"></uni-icons>联系用户
 							 </view>
 						</view>
-							<p>{{infoData.address}} {{infoData.houseNumber}}</p>
+							<p @click="daoHang(infoData)">{{infoData.address}} {{infoData.houseNumber}}</p>
 						</view>
 					</view>
 					<view class="od-title">
@@ -91,11 +91,11 @@
 					</view>
 					
 					<view class="od-price">
-						<p>商品总价<span>￥{{totalMon(infoData.goodsInfo)}}</span></p>
+						<p>商品总价<span>￥{{infoData.goodsTotalAmount}}</span></p>
 						<p>运费  <span>￥{{infoData.freightAmount}}</span></p>
 					</view>
 					
-					<view class="od-allPrice"><span>合计：</span>￥{{totalMon(infoData.goodsInfo)+infoData.freightAmount}}</view>
+					<view class="od-allPrice"><span>合计：</span>￥{{infoData.payAmount}}</view>
 				</view>
 				
 				<template v-if="infoData.status==4||infoData.status==6">
@@ -136,10 +136,10 @@
 				<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" class="boxScroll">
 					<view class="stman">
 						<view class="item" v-for="(i,ind) in list" :key="ind" @click="qsClick(i,ind)">
-							<image :src="i.user.avatar" class="img"></image>
+							<image :src="i.userAddress.pic" class="img"></image>
 							<view class="item-mid">
-								<view class="name">{{i.user.nickName}}({{i.user.name}})</view>
-								<view class="item-p">手机号: {{i.user.phone}}</view>
+								<view class="name">{{i.user.nickName}}<span v-if="i.userAddress.name">({{i.userAddress.name}})</span></view>
+								<view class="item-p">手机号: {{i.userAddress.phone}}</view>
 								<view class="item-p">订单数: {{i.orderNum}}</view>
 								<view class="item-p">总收入: ￥{{i.userWalletDto.balance+i.userWalletDto.withdrawAmount}}</view>
 							</view>
@@ -203,8 +203,8 @@
 				uni.showLoading()
 				DSorderInfo(this.param).then((res) => {
 					if(res.code == 200){
-						if(res.data.status>3)
-						this.qsSelect =  `${res.data.ruser.nickName}(${res.data.ruser.name})`
+						if(res.data.status>=3)
+						this.qsSelect =  `${res.data.ruser.name || ''}`
 						this.infoData = res.data;
 					}
 					uni.hideLoading()
@@ -259,7 +259,7 @@
 					title:'温馨提示',
 					cancelText: '取消',
 					confirmText: '确定',
-					content: `确定当前订单分配给:${obj.user.nickName}(${obj.user.name})`,
+					content: `确定当前订单分配给:${obj.user.nickName}(${obj.userAddress.name})`,
 					success: function(res) {
 						if (res.confirm) {
 							obj.check = true;
@@ -302,12 +302,6 @@
 				};
 				
 				return statusDict[id]
-			},
-			
-			totalMon(goodsInfo){
-				if(!goodsInfo) return;
-				goodsInfo = JSON.parse(goodsInfo);
-				return goodsInfo.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0);
 			},
 			
 			//打电话
@@ -376,6 +370,19 @@
 								});
 							}
 						});
+					}
+				});
+			},
+			
+			//导航
+			daoHang(i){
+				uni.openLocation({
+					latitude: i.n,
+					longitude: i.e,
+					name: i.shopName || '',//终点名称
+					address: i.address,//终点详细地址
+					success: function (res) {
+						console.log('success',res);
 					}
 				});
 			},

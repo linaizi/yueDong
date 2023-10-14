@@ -1,8 +1,8 @@
 .asp-top{
 	height: 100upx;
 	background: #fff;
-	@include dflex(space-around,center);
-	padding: 0 40upx;
+	@include dflex(space-between,center);
+	padding: 0 34upx;
 	.top-lt{
 		background: #FEF4F4;
 		border-radius: 100upx;
@@ -22,15 +22,13 @@
 		}
 	}
 	.top-rt{
-		width: 130upx;
-		text-align: center;
-		font-size: 28upx;
-		color:#fff;
-		font-weight: bold;
-		background: #446DFD;
-		height: 58upx;
-		line-height: 58upx;
-		border-radius: 100upx;
+		@include dflex(center,center);
+		.rt-t{
+			margin-left: 6upx;
+			width: 90upx;
+			font-size: 24upx;
+			color:#333;
+		}
 	}
 }
 
@@ -77,5 +75,22 @@
 			}
 		}
 		
+	}
+}
+
+
+
+.pp-iptBox{
+	width: 70%;
+	margin: 0 auto;
+	@include dflex(center,center)
+	.pp-ipt{
+		height: 70upx;
+		padding-left: 20upx;
+		font-size: 28upx;
+		color:#333;
+		border:2upx solid #e2e2e2;
+		border-radius: 12upx;
+		margin-right: 8upx;
 	}
 }

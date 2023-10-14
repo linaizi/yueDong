@@ -27,7 +27,8 @@
 					
 					<view class="main-price">
 						<p class="price-p">
-							<span>合计：</span>￥{{totalMon(item.goodsInfo)}}
+							<span>合计：</span>￥{{item.payAmount}}
+							<span v-if="item.type==1" class="ml10">(运费:￥{{item.freightAmount}})</span>
 						</p>
 					</view>
 					
@@ -197,12 +198,6 @@
 				this.listQuery.pageNo = 1;
 				this.listQuery.status = i;
 				this.initData();
-			},
-			
-			totalMon(goodsInfo){
-				if(!goodsInfo) return;
-				goodsInfo = JSON.parse(goodsInfo);
-				return goodsInfo.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0);
 			},
 			
 			scrollLower(){

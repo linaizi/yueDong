@@ -1,0 +1,80 @@
+.asBox{
+	padding: 1upx 24upx;
+	background: #fff;
+	border-radius: 12upx;
+	margin: 24upx 24upx 0;
+	.ordre-item {
+		.main-rt{
+			font-size: 28upx;
+		}
+	}
+	.as-price{
+		@include dflex(center,flex-end);
+		flex-direction: column;
+		height: 120upx;
+		border-top: 2upx solid #E2E2E2;
+		.as-p{
+			font-size: 28upx;
+			color:#333;
+			margin: 5upx 0;
+			.p-span{
+				margin-left: 14upx;
+				font-size: 26upx;
+				color:#666;
+			}
+		}
+	}
+}
+
+.asBox1{
+	padding: 1upx 24upx;
+	background: #fff;
+	border-radius: 12upx;
+	margin: 24upx 24upx 0;
+	.m-item{
+		@include dflex(null,center);
+		border-bottom: 2upx solid #E2E2E2;
+		height: 100upx;
+		&:last-child{
+			border:none;
+		}
+		.item-lt{
+			width: 150upx;
+			font-size: 28upx;
+			color:#333;
+		}
+		.item-rt{
+			@include dflex(space-between,center);
+			flex:1;
+			.rt-red{ color: #FF3445; }
+			/deep/.uni-select__input-text{
+				font-size: 28upx;
+				color:#333;
+			}
+			/deep/.uni-select__input-placeholder{
+				font-size: 28upx;
+				color:#666;
+			}
+			/deep/.uni-select{
+				border: none;
+			}
+			
+			.rt-input{
+				font-size: 28upx;
+				color:#333;
+				width: 100%;
+			}
+		}
+	}
+}
+
+.sad-btn{
+	@include dflex(center,center);
+	width: 80%;
+	height: 80upx;
+	background: #FD444C;
+	border-radius: 100upx;
+	margin: 150upx auto 0;
+	font-size: 30upx;
+	color:#fff;
+}

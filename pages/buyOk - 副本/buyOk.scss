@@ -1,0 +1,40 @@
+.buyOk{
+	background: #fff;
+	padding: 36upx 0 100upx;
+	text-align: center;
+	.bok-top{
+		.top-img{
+			width: 230upx;
+			height: 150upx;
+		}
+		.top-txt1{
+			font-size: 30upx;
+			font-weight: bold;
+			color:#333;
+		}
+		.top-txt{
+			margin-top: 20upx;
+			font-size: 28upx;
+			color:#666;
+		}
+	}
+	.bok-foot{
+		@include dflex(center,center);
+		margin-top: 60upx;
+		.btn{
+			width: 180upx;
+			height: 60upx;
+			@include dflex(center,center);
+			font-size: 28upx;
+			color:#999;
+			border:2upx solid #E2E2E2;
+			border-radius: 100upx;
+			margin: 0 30upx;
+		}
+		.btn1{
+			color:#FD444C;
+			border-color: #FD444C;
+		}
+	}
+}
+

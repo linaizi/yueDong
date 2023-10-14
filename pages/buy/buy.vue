@@ -46,11 +46,11 @@
 			</view>
 			<view class="dsdBox-no" v-else>当前位置附近暂无代收点</view>
 		
-			<view class="buy-time" @click="setTimeClick" v-if="hasAddr">
+			<view class="buy-time" @click="setTimeClick" v-if="tabNum==1">
 				<p>预约上门取鞋时间</p>
 				<view class="time-red">{{yyTime}}<uni-icons type="right" size="32rpx" color="#999"></uni-icons></view>
 			</view>
-			<view class="dsdBox-no" v-else>请添加联系人 <p>添加配送地址</p></view>
+			<!-- <view class="dsdBox-no" >请添加联系人 <p>添加配送地址</p></view> -->
 			
 			<view class="ordre-item buy-item" v-for="it in goodsData" :key="it.id">
 				<image :src="it.goodsPic" class="main-lt"></image>
@@ -205,9 +205,8 @@
 			  this.couponParam.amount1 += item.goodsNowPrice * item.goodsNum;
 			  return acc + item.goodsNum;
 			}, 0);
-			
+			this.getAddr();	//获取用户地址
 			this.getLocation() //获取当前位置
-			this.getAddr()	//获取用户地址
 			this.getCoupon(2)	//获取用户不可用优惠券
 			this.getCoupon(1)	//获取用户优惠券
 			this.getYunFei(goodsNum)
@@ -228,6 +227,7 @@
 					n: _that.userAddr.n,
 					e: _that.userAddr.e
 				}
+				_that.isHd = false;
 				_that.getList()
 			})
 		},
@@ -238,12 +238,10 @@
 					uni.showToast({title:"附近暂无代收点,请重新选择地址",icon:'none'})
 					return;
 				}
-				
-				if(this.yyTime == '请选择时间'){
-					uni.showToast({title:"地址不能为空",icon:'none'})
+				if(this.yyTime == '请选择时间'&&this.tabNum==1){
+					uni.showToast({title:"预约上门时间不能为空",icon:'none'})
 					return;
 				}
-				
 				if(this.imageValue.length==0){
 					uni.showToast({title:"'图片上传'不能为空",icon:'none'})
 					return;
@@ -252,10 +250,9 @@
 				let param = {
 					type: this.tabNum,
 					goodsTotalAmount: this.totalMoney + this.couMon,
-					reservationTime: this.yyTime,
 					goodsInfo: JSON.stringify(this.goodsData),
 					couponId: this.couponId,
-					freightAmount: this.FtAmount,
+					freightAmount:0,
 					payAmount: this.totalMoney,
 					remark: this.remark,
 					pics: this.imageValue.map(item => item.url).join(','),
@@ -263,9 +260,19 @@
 				};
 				
 				if(this.tabNum == 0){
+					if(!this.formData.name){
+						uni.showToast({title:"姓名不能为空",icon:'none'})
+						return;
+					}
+					if(!this.formData.phone){
+						uni.showToast({title:"手机号不能为空",icon:'none'})
+						return;
+					}
 					param.name = this.formData.name
 					param.phone = this.formData.phone
 				}else{
+					param.reservationTime = this.yyTime
+					param.freightAmount = this.FtAmount
 					if(this.hasAddr){
 						param.name = this.userAddr.name
 						param.phone = this.userAddr.phone
@@ -329,24 +336,10 @@
 					geocode: true,
 					success(response) {
 						console.log(response)
-						// {
-							// address: "广东省深圳市宝安区上星路西星悦豪庭一期对面"
-							// city: "深圳市"
-							// district: "宝安区"
-							// latitude: 22.726897
-							// longitude: 113.83283
-							// name: "星际大厦"
-							// province: "广东省"
-						// }
 						_that.lotn = {
 							n: 22.726897,
 							e: 113.83283
 						}
-						// _that.lotn = {
-						// 	n: response.latitude,
-						// 	e: response.longitude
-						// }
-						
 						_that.getList()
 					},
 					fail() {}
@@ -355,9 +348,15 @@
 			
 			getAddr(){
 				addressList({ addressType:1 }).then((res) => {
-					if(res.code == 200&&res.data.length>0){
-						this.hasAddr = true;
+					if(res.code == 200){
 						this.userAddr = res.data[0];
+						if(res.data.length>0){
+							this.hasAddr = true;
+						}else{
+							this.hasAddr = false;
+							this.addrList2 = [];
+							this.addrList = [];
+						}
 					}
 				});
 			},
@@ -404,16 +403,20 @@
 			
 			tabClick(n){
 				this.tabNum = n;
-				if(n==1&&this.addrList2.length==0){
-					if(Object.keys(this.userAddr).length>0){
+				if(n==1){
+					if(this.userAddr === undefined || Object.keys(this.userAddr).length === 0){
+						this.addrList = []
+					}else if(this.addrList2.length>0){
+						this.addrList = this.addrList2
+					}else{
 						this.lotn = {
 							n: this.userAddr.n,
 							e: this.userAddr.e
 						}
 						this.getList()
-					}else{
-						this.addrList = []
 					}
+				}else{
+					this.addrList = this.addrList1
 				}
 			},
 			
@@ -446,11 +449,11 @@
 				tomorrow.setHours(0, 0, 0, 0);
 				
 				let prefix = '';	// 根据日期比较确定前缀
-				if (date.getTime() === today.getTime()) {
-				  prefix = '今天';
-				} else if (date.getTime() === tomorrow.getTime()) {
-				  prefix = '明天';
-				}
+				// if (date.getTime() === today.getTime()) {
+				//   prefix = '今天';
+				// } else if (date.getTime() === tomorrow.getTime()) {
+				//   prefix = '明天';
+				// }
 				if(prefix){
 					this.yyTime = `${prefix}(${dayOfWeek}) ${timePart}`;
 				}else{

@@ -63,11 +63,15 @@
 					</view>
 					
 					<view class="od-price">
-						<p>商品总价<span>￥{{totalMon(infoData.goodsInfo)}}</span></p>
-						<p>运费  <span>￥{{infoData.freightAmount}}</span></p>
+						<p>商品总价: <span>￥{{infoData.goodsTotalAmount}}</span></p>
+						<p>运费: <span>￥{{infoData.freightAmount}}</span></p>
 					</view>
 					
-					<view class="od-allPrice"><span>合计：</span>￥{{totalMon(infoData.goodsInfo)+infoData.freightAmount}}</view>
+					<view class="od-allPrice"><span>合计: </span>￥{{infoData.payAmount}}</view>
+					<view class="od-sh">
+						<view class="sh-btn" v-if="isShowSH(infoData.status)" @click="goSH">申请售后</view>
+						<!-- <view class="sh-btn">售后详情</view> -->
+					</view>
 				</view>
 				
 				<view class="odBox">
@@ -77,12 +81,12 @@
 					<view class="od-qt">
 						<view class="qtBox">
 							<view class="qtBox-tt">备注：</view>
-							<view class="qtBox-txt">啥打法十分大是的发送到发按时发顺丰司法送到发生大师傅撒地方阿发送到发发送到发斯蒂芬</view>
+							<view class="qtBox-txt">{{infoData.remark}}</view>
 						</view>
 						<view class="qtBox">
 							<view class="qtBox-tt"><span class="tt-red">*</span>图片上传：</view>
 							<view class="image-grid">
-							  <image v-for="(i,ind) in imgArr" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(imgArr,ind)"></image>
+							  <image v-for="(i,ind) in infoData.pics" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(infoData.pics,ind)"></image>
 							</view>
 						</view>
 					</view>
@@ -116,6 +120,9 @@
 		onLoad(option) {
 			this.listQuery.orderId = option.orderId;
 			this.listQuery.orderNo = option.orderNo;
+			
+		},
+		onShow() {
 			this.initData();
 		},
 		methods: {
@@ -156,10 +163,20 @@
 				return statusDict[id]
 			},
 			
-			totalMon(goodsInfo){
-				if(!goodsInfo) return;
-				goodsInfo = JSON.parse(goodsInfo);
-				return goodsInfo.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0);
+			isShowSH(sta){
+				return [2].includes(sta);
+			},
+			goSH(){
+				let arr = {
+					orderNo: this.infoData.orderNo,
+					goodsInfo: this.infoData.goodsInfo,
+					goodsTotalAmount: this.infoData.goodsTotalAmount,
+					freightAmount: this.infoData.freightAmount,
+					payAmount: this.infoData.payAmount
+				}
+				uni.navigateTo({
+				    url: '/pages/afterSales/afterSales?arr=' + JSON.stringify(arr)
+				});
 			},
 			
 			//倒计时回调事件

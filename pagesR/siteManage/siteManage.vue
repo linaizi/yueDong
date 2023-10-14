@@ -4,6 +4,7 @@
 			<view class="top-lt">
 				<input type="number" 
 					placeholder="请输入手机号" 
+					confirm-type="search"
 					v-model="phone" 
 					@confirm="searchPhone" 
 					@input="onKeyInput"
@@ -12,7 +13,10 @@
 					class="searchInput"/>
 				<image v-if="iptClose" class="lt-right" @click="removeInput" :src="FILE_BASE_URL + '/2c34c18c-7b4c-498a-83e2-e03bcd59b07d.jpg'"></image>
 			</view>
-			<view class="top-rt" @click="searchPhone">搜索</view>
+			<view class="top-rt" @click="setBL">
+				<uni-icons type="gear" size="46rpx" color="#666"></uni-icons>
+				<view class="rt-t">骑手佣金比例</view>
+			</view>
 		</view>
 		
 		<template v-if="Object.keys(schData).length > 0">
@@ -34,10 +38,10 @@
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop" class="boxScroll">
 				<view class="stman">
 					<view class="item" v-for="(i,ind) in list" :key="ind">
-						<image :src="i.user.avatar" class="img"></image>
+						<image :src="i.userAddress.pic" class="img"></image>
 						<view class="item-mid">
-							<view class="name">{{i.user.nickName}}({{i.user.name}})</view>
-							<view class="item-p">手机号: {{i.user.phone}}</view>
+							<view class="name">{{i.user.nickName}}<span v-if="i.userAddress.name">({{i.userAddress.name}})</span></view>
+							<view class="item-p">手机号: {{i.userAddress.phone}}</view>
 							<view class="item-p">订单数: {{i.orderNum}}</view>
 							<view class="item-p">总收入: ￥{{i.userWalletDto.balance+i.userWalletDto.withdrawAmount}}</view>
 						</view>
@@ -56,11 +60,27 @@
 			<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		</view>
 		
+		<!-- 设置骑手佣金比例 -->
+		<uni-popup ref="BLpopup" type="center">
+			 <view class="timePpBox">
+				 <view class="pp-title">骑手佣金比例</view>
+				 <view class="pp-tm">
+					 <view class="pp-iptBox">
+					 	<input type="number" v-model="amountRate1" placeholder="请输入佣金比例" class="pp-ipt"> %
+					 </view>
+				 </view>
+				 <view class="pp-btn">
+					 <view class="btn1" @click="staClose">取消</view>
+					 <view class="btn1 blue" @click="staYes">确认</view>
+				 </view>
+			 </view>
+		 </uni-popup>
+		
 	</view>
 </template>
 
 <script>
-	import { riderPage,editRider } from '@/api/page/index.js'
+	import { riderPage,editRider,amount,getriderAmount,editriderAmount } from '@/api/page/index.js'
 	import { isValidPhoneNumber } from '@/common/tool.js'
 	export default {
 		data() {
@@ -69,6 +89,8 @@
 				iptClose:false,
 				phone:'',
 				schData:{},
+				amountRate:0, //骑手佣金比例
+				amountRate1:0, //骑手佣金比例
 				listQuery:{
 					pageNo:1,
 					pageSize:10,
@@ -92,6 +114,7 @@
 		},
 		onLoad(option) {
 			this.initData();
+			this.getRiderAmt()
 		},
 		methods: {
 			initData(){
@@ -119,6 +142,15 @@
 					}
 				}).catch(e=>{
 					this.isLoadMore=false
+				})
+			},
+			
+			// 获取骑手佣金金额
+			getRiderAmt(){
+				getriderAmount().then((res) => {
+					if(res.code==200){
+						this.amountRate =  res.data;
+					}
 				})
 			},
 			
@@ -154,6 +186,30 @@
 				}
 			},
 			isValidPhoneNumber,
+			
+			// 设置骑手佣金比例
+			setBL(){
+				this.amountRate1 = this.amountRate;
+				this.$refs.BLpopup.open();
+			},
+			staClose(val){
+				this.$refs.BLpopup.close()
+			},
+			staYes(){
+				this.amountRate1 -= 0;
+				
+				if(Number.isInteger(this.amountRate1)&&this.amountRate1 <= 100) {
+				    editriderAmount({ amountRate: this.amountRate1 }).then((res) => {
+				    	if(res.code==200){
+				    		uni.showToast({title: '修改成功', icon:'success'});
+				    		this.staClose()
+							this.getRiderAmt()
+				    	}
+				    })
+				}else{
+					uni.showToast({title: '值为整数且不能超过100', icon:'none'});
+				}
+			},
 			
 			// 设置取消骑手
 			setRemoveQs(item,type){
