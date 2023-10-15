@@ -1,6 +1,6 @@
 <template>
    <!-- 底部导航 -->
-   <view class="tabbar" :style="{'padding-bottom': paddingBottomHeight + 'upx'}">
+   <view class="tabbar" :style="{'padding-bottom': paddingBottomHeight + 'rpx'}">
       <view class="tabbar-item" v-for="item in list" :key="item.id" @click="tabbarChange(item)">
          <image class="item-img" :src="tabid == item.id ? item.img2 : item.img1" mode="heightFix"></image>
 				 <view :class="['item-txt',{'item-txt-act':tabid == item.id}]">{{item.name}}</view>
@@ -49,6 +49,7 @@
 			  let model = ['X', 'XR', 'XS', '11', '12', '13', '14', '15'];
 			  model.forEach(item => {
 				 //适配iphoneX以上的底部，给tabbar一定高度的padding-bottom
+				 console.log(res.model.indexOf(item) != -1 && res.model.indexOf('iPhone') != -1)
 				 if (res.model.indexOf(item) != -1 && res.model.indexOf('iPhone') != -1) {
 					that.paddingBottomHeight = 40;
 				 }

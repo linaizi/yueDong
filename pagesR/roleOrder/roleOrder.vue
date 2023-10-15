@@ -25,7 +25,7 @@
 					
 					<view class="main-price">
 						<p class="price-p">
-							<span>合计：</span>￥{{totalMon(item.goodsInfo)}}
+							<span>合计：</span>￥{{item.payAmount}}<span v-if="item.freightAmount">(含运费￥{{item.freightAmount}})</span>
 						</p>
 						<p class="price-p" v-if="level==2">
 							<span>预估收入：</span>￥{{item.commission}}

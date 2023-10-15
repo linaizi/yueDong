@@ -24,6 +24,7 @@
 			<view class="box flex">
 				<view class="itemBox" v-for="item in tabArr" :key="item.tabId" @click="jumpToSonPage(item.tabId)">
 					<!-- <button type="default" open-type="share" v-if="item.tabId==1&&mid" class="itemBox-btn"></button> -->
+					
 					<image :src="item.imgUrl" class="itemIcon"></image>
 					<view>{{item.tabName}}</view>
 				</view>
@@ -55,6 +56,10 @@
 				</view>
 			</view>
 		</view>
+		
+		<button class="leftBox" type="default" plain="true" open-type="contact" @contact="contact">
+		    打开客服会话
+		</button>
 		
 		<br><br><br>
 		

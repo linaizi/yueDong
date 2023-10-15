@@ -118,7 +118,13 @@
 			wx.setEnableDebug({ //开发环境打开调试
 				enableDebug: true
 			})
+			
+			wx.showShareMenu({
+				withShareTicket:true,
+				menus:["shareAppMessage","shareTimeline"]//设置Menus菜单，才能够让发送给朋友与分享到朋友圈两个按钮可以点击
+			})
 		},
+		
 		onShow(){
 			uni.hideTabBar({ //隐藏系统自动的底部导航
 					animation: false

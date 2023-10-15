@@ -16,13 +16,6 @@
 			</view>
 		</view>
 		
-		<!-- <uni-file-picker
-			limit="9" 
-			v-model="imageValue" 
-			@select="select"  
-			@delete="deletea">
-		</uni-file-picker> -->
-		
 		<view class="perBtn" @click="updClick">确 定</view>
 	</view>
 </template>
@@ -45,19 +38,18 @@
 		methods: {
 			onChooseAvatar(e) {
 				const { avatarUrl } = e.detail 
-				
 				uni.uploadFile({
 					url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
 					filePath: avatarUrl,
 					name: 'file',
+					formData: {
+						'user': 'test'
+					},
 					success: (f) => {
 						let res = JSON.parse(f.data)
 						if(res.code == 200){
-							// console.log(res.data)
+							this.UserInfo.avatar = res.data;
 						}
-					},
-					fail: (e) => {
-						console.log('err:',e)
 					},
 				});
 			},
@@ -74,26 +66,6 @@
 							uni.navigateBack()
 						}, 1200);
 				});
-			},
-			
-			// 获取上传状态
-			select(e){
-				const imgUrl = e.tempFilePaths[0]
-				uni.uploadFile({
-					url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
-					filePath: imgUrl,
-					name: 'file',
-					header:{"Content-Type": "multipart/form-data"},
-					success: (res) => {
-						console.log(JSON.parse(res.data).data)
-					}
-				});
-			},
-			
-			// 图片删除
-			deletea(e){
-				const num = this.imageValue.findIndex(v => v.url === e.tempFilePath);
-				this.imageValue.splice(num, 1);
 			},
 		}
 	}

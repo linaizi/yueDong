@@ -29,7 +29,7 @@
 						<view class="title-lt">预约上门取鞋时间</view>
 						<view class="title-rt">{{infoData.reservationTime}}</view>
 					</view>
-					<view class="od-title" v-if="infoData.type == 1" @click="openQsSel">
+					<view class="od-title" v-if="infoData.type == 1&&(infoData.status==2 || infoData.status==7)" @click="openQsSel">
 						<view class="title-lt">分配骑手</view>
 						<view class="title-rt">
 							{{qsSelect}}
@@ -247,7 +247,7 @@
 					uni.showToast({title: '暂无骑手,请先添加！', icon:'none'});
 					return;
 				}
-				if((this.infoData.status==2 || this.infoData.status==7) && !this.isCheckQS) this.$refs.qsPopup.open()
+				if(!this.isCheckQS) this.$refs.qsPopup.open()
 			},
 			closeQS(){
 				this.$refs.qsPopup.close()

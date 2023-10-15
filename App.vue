@@ -13,6 +13,7 @@
 			}
 		},
 		onLaunch: function() {
+			let _self = this;
 			uni.getSystemInfo({
 				success: (e) => {
 					console.log('小程序客户端基础库版本:',e.hostSDKVersion)
