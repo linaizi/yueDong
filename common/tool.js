@@ -137,6 +137,29 @@ function openInstall() {
 	});
 }
 
+//返回订单状态
+export function rtStatus(id){
+	const statusDict = {
+		  1: '待付款',
+		  2: '已付款',
+		  3: '骑手未取货',
+		  4: '骑手已取货',
+		  5: '厂家未取货',
+		  6: '厂家已取货',
+		  7: '代收点已收货',
+		  8: '送货骑手未取货',
+		  9: '送货骑手已取货',
+		  10: '骑手已送达',
+		  11: '已完成',
+		  12:'售后中' ,
+		  13:'退款拒绝' ,
+		  14:'退款成功' ,
+		  15:'退款失败' ,
+		  16:'已关闭'
+	};
+	
+	return statusDict[id]
+}
 
 //判断小程序有没有定位权限
 export function JudgeAuthorize(){

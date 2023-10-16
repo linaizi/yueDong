@@ -249,6 +249,30 @@ export function afterOrder(data) { 	// 申请订单售后
 	})
 }
 
+export function orderComplete(data) { 	// 完成订单
+	return request({
+		url: '/elantra/order/complete',
+		method: 'POST',
+		data
+	})
+}
+
+export function orderClose(data) { 	// 取消订单
+	return request({
+		url: '/elantra/order/close',
+		method: 'POST',
+		data
+	})
+}
+
+export function orderPay(data) { 	// 支付订单
+	return request({
+		url: '/elantra/order/pay',
+		method: 'POST',
+		data
+	})
+}
+
 
 
 //S:骑手

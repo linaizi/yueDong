@@ -55,6 +55,7 @@
 					</view>
 					<view class="cz-rt">
 						<view class="rt-btn" @click.stop="openSta(item)">修改订单状态</view>
+						<view class="rt-btn" v-if="item.status==12" @click.stop="TKSHclick(item)">退款审核</view>
 						<!-- <view class="rt-btn" @click="bzClick">备注</view> -->
 						<!-- <view class="rt-btn rt-btn1">发货</view> -->
 					</view>
@@ -75,6 +76,26 @@
 			<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		</view>
 		
+		<!-- 退款审核弹窗 -->
+		<uni-popup ref="TKpopup" type="center">
+			 <view class="timePpBox">
+				 <view class="pp-title">售后理由</view>
+				 <view class="pp-tk">
+					<view class="tk-item">
+						<span class="tk-span">退款原因：</span> {{TKdata.afterReason}}
+					</view>
+					<view class="tk-item" v-if="TKdata.afterRemark">
+						<span class="tk-span">退款备注：</span> {{TKdata.afterRemark}}
+					</view>
+					<input type="text" v-model="afterRefuseReason" placeholder="请输入拒绝理由(若同意则不需要)" class="tk-ipt">
+				 </view>
+				 <view class="pp-btn">
+					 <view class="btn1" @click="TKno">拒绝</view>
+					 <view class="btn1 blue" @click="TKyes">同意</view>
+				 </view>
+			 </view>
+		 </uni-popup>
+					
 		<!-- 备注输入框 -->
 		<uni-popup ref="inputDialog" type="dialog">
 			<uni-popup-dialog ref="inputClose"  mode="input" title="备注" 
@@ -121,7 +142,8 @@
 
 <script>
 	import Pgtab from "../components/pgtab/pgtab.vue"
-	import { AorderPage,AorderEdit } from '@/api/page/manage.js'
+	import { AorderPage,AorderEdit,AorderOperate } from '@/api/page/manage.js'
+	import { rtStatus } from '@/common/tool.js'
 	export default {
 		components: {
 			Pgtab
@@ -157,6 +179,11 @@
 				staArr:[],
 				staId:0,
 				staObj:{},
+				TKdata:{//退款数据
+					afterReason:'',
+					afterRemark:''
+				}, 
+				afterRefuseReason:'', //拒绝退款原因
 				
 				listQuery:{
 					pageNo:1,
@@ -273,6 +300,41 @@
 				this.initData();
 			},
 			
+			//退款审核事件
+			TKSHclick(item){
+				this.$refs.TKpopup.open();
+				this.TKdata.afterReason = item.afterReason || '';
+				this.TKdata.afterRemark = item.afterRemark || '';
+			},
+			TKyes(){
+				let param = {
+					status: 1
+				}
+				this.TKOperate(param)
+			},
+			TKno(){
+				let param = {
+					status: 2,
+					afterRefuseReason: this.afterRefuseReason
+				}
+				this.TKOperate(param)
+			},
+			TKOperate(param){
+				var _that = this;
+				AorderOperate(param).then((res) => {
+					if(res.code == 200){
+						uni.showToast({title: '操作成功', icon:'success'});
+						_that.$refs.TKpopup.close();
+						setTimeout(()=>{
+							const currentPages = getCurrentPages();
+							uni.redirectTo({
+							  url: `/${currentPages[currentPages.length - 1].route}`
+							});
+						},1000)
+					}
+				})
+			},
+			
 			//修订订单状态事件
 			openSta(s){
 				this.staObj = s;
@@ -357,25 +419,8 @@
 				});
 			},		
 				
-			rtStatus(id){
-				const statusDict = {
-					  1: '待付款',
-					  2: '已付款',
-					  3: '骑手未取货',
-					  4: '骑手已取货',
-					  5: '厂家未取货',
-					  6: '厂家已取货',
-					  7: '代收点已收货',
-					  8: '送货骑手未取货',
-					  9: '送货骑手已取货',
-					  10: '骑手已送达',
-					  11: '已完成',
-					  12: '申请售后(待审核)',
-					  13: '售后成功已关闭',
-				};
-				
-				return statusDict[id]
-			},
+			//返回订单状态
+			rtStatus,
 			
 			totalMon(goodsInfo){
 				if(!goodsInfo) return;

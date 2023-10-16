@@ -111,6 +111,14 @@ export function AorderEdit(data) { // 修改订单状态
 	})
 }
 
+export function AorderOperate(data) { // 后台审核订单
+	return request({
+		url: '/elantra/admin/order/after/order/operate',
+		method: 'POST',
+		data
+	})
+}
+
 
 
 

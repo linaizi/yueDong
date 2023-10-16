@@ -31,6 +31,28 @@
 					</view>
 				</view>
 				
+				<view class="odBox" v-if="infoData.goodsInfo">
+					<view class="od-title">
+						<view class="title-lt">商品信息</view>
+					</view>
+					<view class="ordre-item" v-for="(i,ind) in JSON.parse(infoData.goodsInfo)" :key="ind">
+						<image :src="i.goodsPic" class="main-lt"></image>
+						<view class="item-mid">
+							<p class="mid-p overflow1">{{i.goodsName}}</p>
+							<p>规格：默认</p>
+							<p>x{{i.goodsNum}}</p>
+						</view>
+						<view class="main-rt">￥{{i.goodsNowPrice}}</view>
+					</view>
+					
+					<view class="od-price">
+						<p>商品总价<span>￥{{infoData.goodsTotalAmount}}</span></p>
+						<p>运费  <span>￥{{infoData.freightAmount}}</span></p>
+					</view>
+					
+					<view class="od-allPrice"><span>合计：</span>￥{{infoData.payAmount}}</view>
+				</view>
+				
 				<view class="odBox">
 					<view class="od-title">
 						<view class="title-lt">订单信息</view>
@@ -67,29 +89,7 @@
 						</template>
 					</view>
 				</view>
-				
-				<view class="odBox" v-if="infoData.goodsInfo">
-					<view class="od-title">
-						<view class="title-lt">商品信息</view>
-					</view>
-					<view class="ordre-item" v-for="(i,ind) in JSON.parse(infoData.goodsInfo)" :key="ind">
-						<image :src="i.goodsPic" class="main-lt"></image>
-						<view class="item-mid">
-							<p class="mid-p overflow1">{{i.goodsName}}</p>
-							<p>规格：默认</p>
-							<p>x{{i.goodsNum}}</p>
-						</view>
-						<view class="main-rt">￥{{i.goodsNowPrice}}</view>
-					</view>
-					
-					<view class="od-price">
-						<p>商品总价<span>￥{{infoData.goodsTotalAmount}}</span></p>
-						<p>运费  <span>￥{{infoData.freightAmount}}</span></p>
-					</view>
-					
-					<view class="od-allPrice"><span>合计：</span>￥{{infoData.payAmount}}</view>
-				</view>
-				
+			
 				<template v-if="infoData.status==3 || infoData.status ==8">
 					<view class="odBox">
 						<view class="od-title">
@@ -127,6 +127,7 @@
 
 <script>
 	import { orderInfo,orderEdit } from '@/api/page/index.js'
+	import { rtStatus } from '@/common/tool.js'
 	export default {
 		data() {
 			return {
@@ -160,23 +161,8 @@
 				})
 			},
 			
-			rtStatus(id){
-				const statusDict = {
-				      1: '待付款',
-				      2: '已付款',
-				      3: '骑手未取货',
-				      4: '骑手已取货',
-				      5: '厂家未取货',
-				      6: '厂家已取货',
-				      7: '代收点已收货',
-				      8: '送货骑手未取货',
-				      9: '送货骑手已取货',
-				      10: '骑手已送达',
-				      11: '已完成',
-				};
-				
-				return statusDict[id]
-			},
+			//返回订单状态
+			rtStatus,
 			
 			//打电话
 			PhoneCall(phone){

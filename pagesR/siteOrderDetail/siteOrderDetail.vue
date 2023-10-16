@@ -30,19 +30,41 @@
 						<view class="title-rt">{{infoData.reservationTime}}</view>
 					</view>
 					<view class="od-title" v-if="infoData.type == 1&&infoData.status>=2" @click="openQsSel(infoData.status==2)">
-						<view class="title-lt">分配取货骑手</view>
+						<view class="title-lt">取货骑手</view>
 						<view class="title-rt">
-							{{qsSelect}}
+							{{quHuoQS}}
 							<uni-icons type="forward" size="32rpx" color="#666" v-if="infoData.status == 2"></uni-icons>
 						</view>
 					</view>
 					<view class="od-title" v-if="infoData.type == 1&&infoData.status>=7" @click="openQsSel(infoData.status==7)">
-						<view class="title-lt">分配送货骑手</view>
+						<view class="title-lt">送货骑手</view>
 						<view class="title-rt">
-							{{qsSelect}}
+							{{songHuoQS}}
 							<uni-icons type="forward" size="32rpx" color="#666" v-if="infoData.status == 7"></uni-icons>
 						</view>
 					</view>
+				</view>
+				
+				<view class="odBox" v-if="infoData.goodsInfo">
+					<view class="od-title">
+						<view class="title-lt">商品信息</view>
+					</view>
+					<view class="ordre-item" v-for="(i,ind) in JSON.parse(infoData.goodsInfo)" :key="ind">
+						<image :src="i.goodsPic" class="main-lt"></image>
+						<view class="item-mid">
+							<p class="mid-p overflow1">{{i.goodsName}}</p>
+							<p>规格：默认</p>
+							<p>x{{i.goodsNum}}</p>
+						</view>
+						<view class="main-rt">￥{{i.goodsNowPrice}}</view>
+					</view>
+					
+					<view class="od-price">
+						<p>商品总价<span>￥{{infoData.goodsTotalAmount}}</span></p>
+						<p>运费  <span>￥{{infoData.freightAmount}}</span></p>
+					</view>
+					
+					<view class="od-allPrice"><span>合计：</span>￥{{infoData.payAmount}}</view>
 				</view>
 				
 				<view class="odBox">
@@ -83,28 +105,6 @@
 					</view>
 				</view>
 				
-				<view class="odBox" v-if="infoData.goodsInfo">
-					<view class="od-title">
-						<view class="title-lt">商品信息</view>
-					</view>
-					<view class="ordre-item" v-for="(i,ind) in JSON.parse(infoData.goodsInfo)" :key="ind">
-						<image :src="i.goodsPic" class="main-lt"></image>
-						<view class="item-mid">
-							<p class="mid-p overflow1">{{i.goodsName}}</p>
-							<p>规格：默认</p>
-							<p>x{{i.goodsNum}}</p>
-						</view>
-						<view class="main-rt">￥{{i.goodsNowPrice}}</view>
-					</view>
-					
-					<view class="od-price">
-						<p>商品总价<span>￥{{infoData.goodsTotalAmount}}</span></p>
-						<p>运费  <span>￥{{infoData.freightAmount}}</span></p>
-					</view>
-					
-					<view class="od-allPrice"><span>合计：</span>￥{{infoData.payAmount}}</view>
-				</view>
-				
 				<template v-if="infoData.status==4||infoData.status==6">
 					<view class="odBox">
 						<view class="od-title">
@@ -142,18 +142,21 @@
 				</view>
 				<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" class="boxScroll">
 					<view class="stman">
-						<view class="item" v-for="(i,ind) in list" :key="ind" @click="qsClick(i,ind)">
-							<image  :src="retHandle(i.userAddress,'pic',i.user.avatar)" class="img"></image>
-							<view class="item-mid">
-								<view class="name">{{i.user.nickName}}<span v-if="i.userAddress&&i.userAddress.name">({{i.userAddress.name}})</span></view>
-								<view class="item-p">手机号: {{retHandle(i.userAddress,'phone',i.user.phone)}}</view>
-								<view class="item-p">订单数: {{i.orderNum}}</view>
-								<view class="item-p">总收入: ￥{{i.userWalletDto.balance+i.userWalletDto.withdrawAmount}}</view>
+						<template v-for="(i,ind) in list" >
+							<view class="item" :key="ind" @click="qsClick(i,ind)" v-if="i.userAddress">
+								<image  :src="i.userAddress.pic" class="img"></image>
+								<view class="item-mid">
+									<view class="name">{{i.user.nickName}}<span v-if="i.userAddress.name">({{i.userAddress.name}})</span></view>
+									<view class="item-p">手机号: {{i.userAddress.phone}}</view>
+									<view class="item-p">订单数: {{i.orderNum}}</view>
+									<view class="item-p">总收入: ￥{{i.userWalletDto.balance+i.userWalletDto.withdrawAmount}}</view>
+								</view>
+								<view class="item-rt">
+									<view :class="['circle',{'circle-red':i.check}]"></view>
+								</view>
 							</view>
-							<view class="item-rt"  @click="setRemoveQs(i,2)">
-								<view :class="['circle',{'circle-red':i.check}]"></view>
-							</view>
-						</view>
+						</template>
+						
 					</view>
 					
 					<view v-show="isLoadMore" class="more_loading">
@@ -168,6 +171,7 @@
 
 <script>
 	import { DSorderInfo,DSorderEdit,riderPage,DSallocationRider } from '@/api/page/index.js'
+	import { rtStatus } from '@/common/tool.js'
 	export default {
 		data() {
 			return {
@@ -180,7 +184,8 @@
 				infoData:{},
 				imageValue:[],
 				
-				qsSelect:'请选择骑手',
+				quHuoQS:'请选择骑手',
+				songHuoQS:'请选择骑手',
 				isCheckQS:false,
 				
 				listQuery:{
@@ -210,8 +215,11 @@
 				uni.showLoading()
 				DSorderInfo(this.param).then((res) => {
 					if(res.code == 200){
-						if(res.data.status>=3)
-						this.qsSelect =  `${res.data.ruser.name || ''}`
+						if(res.data.status>2)
+							this.quHuoQS =  `${res.data.ruser.name || ''}`
+						if(res.data.status>7)
+							this.songHuoQS =  `${res.data.returnRUser.name || ''}`
+							
 						this.infoData = res.data;
 					}
 					uni.hideLoading()
@@ -249,12 +257,6 @@
 				})
 			},
 			
-			retHandle(userAddress,name,userName){
-				if(userAddress){
-					return userAddress[name] || userName;
-				}
-				return userName
-			},
 			openQsSel(n){
 				if(this.list.length==0){
 					uni.showToast({title: '暂无骑手,请先添加！', icon:'none'});
@@ -277,7 +279,10 @@
 						if (res.confirm) {
 							obj.check = true;
 							_that.isCheckQS = true;
-							_that.qsSelect = `${obj.user.nickName}(${obj.user.name})`
+							if(_that.infoData.status == 2)
+								_that.quHuoQS = `${obj.user.nickName}(${obj.userAddress.name})`
+							else
+								_that.songHuoQS = `${obj.user.nickName}(${obj.userAddress.name})`
 							_that.$refs.qsPopup.close();
 							
 							let param = {
@@ -299,23 +304,8 @@
 				
 			},
 			
-			rtStatus(id){
-				const statusDict = {
-				      1: '待付款',
-				      2: '已付款',
-				      3: '骑手未取货',
-				      4: '骑手已取货',
-				      5: '厂家未取货',
-				      6: '厂家已取货',
-				      7: '代收点已收货',
-				      8: '送货骑手未取货',
-				      9: '送货骑手已取货',
-				      10: '骑手已送达',
-				      11: '已完成',
-				};
-				
-				return statusDict[id]
-			},
+			//返回订单状态
+			rtStatus,
 			
 			//打电话
 			PhoneCall(phone){

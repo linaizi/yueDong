@@ -50,6 +50,7 @@
 
 <script>
 	import { couponList } from '@/api/page/index.js'
+	import { throttle } from "@/common/throttle.js"; 
 	export default {
 		data() {
 			return {
@@ -119,13 +120,13 @@
 			},
 			
 			//tab切换
-			topClick(i){
+			topClick: throttle(function(i){
 				this.topId = i;
 				this.listQuery.pageNo = 1;
 				this.listQuery.type = i;
 				this.recommendArr = [];
 				this.initGoods()
-			},
+			}),
 			
 			goSort(){
 				if(this.topId!==2) return;

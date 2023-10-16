@@ -1,6 +1,6 @@
 // 防抖  在指定时间内只执行一次回调函数,如果在指定的时间内又触发了该事件，则回调函数的执行时间会基于此刻重新开始计算
 export function debounce(fn, delay) {
-    var delay = delay || 200;
+    var delay = delay || 300;
     var timer;
     return function () {
         var th = this;
@@ -18,7 +18,7 @@ export function debounce(fn, delay) {
 export function throttle(fn, interval) {
     var last;
     var timer;
-    var interval = interval || 200;
+    var interval = interval || 300;
     return function () {
         var th = this;
         var args = arguments;

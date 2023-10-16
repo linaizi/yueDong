@@ -33,7 +33,7 @@
 			</view>	
 		</template>
 		
-		<view class="stman-title">骑手列表 <span>骑手未添加骑手信息，不得分配订单</span></view>
+		<view class="stman-title">骑手列表 <span class="t-span" v-if="isNo">骑手未添加骑手信息，不得分配订单</span></view>
 		
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop" class="boxScroll">
 				<view class="stman">
@@ -89,6 +89,7 @@
 				iptClose:false,
 				phone:'',
 				schData:{},
+				isNo:false,
 				amountRate:0, //骑手佣金比例
 				amountRate1:0, //骑手佣金比例
 				listQuery:{
@@ -121,8 +122,10 @@
 				riderPage(this.listQuery).then((res) => {
 					if(res.code == 200){
 						if(this.listQuery.pageNo<=res.data.totalPages){
+							this.isNo = res.data.data.some((item)=> !item.userAddress)
+							
 							this.list.push(...res.data.data);
-								
+							
 							if(this.listQuery.pageNo==res.data.totalPages){  //判断接口返回数据量小于请求数据量，则表示此为最后一页
 								this.isLoadMore=true                                             
 								this.loadStatus='nomore'
@@ -213,6 +216,8 @@
 			
 			// 设置取消骑手
 			setRemoveQs(item,type){
+				var _that = this;
+				
 				uni.showModal({
 					title:'温馨提示',
 					cancelText: '取消',
@@ -228,6 +233,7 @@
 								if(res.code = 200){
 									uni.showToast({title: '修改成功', icon:'success'});
 									setTimeout(()=>{
+										_that.isNo = false;
 										const currentPages = getCurrentPages();
 										uni.redirectTo({
 										  url: `/${currentPages[currentPages.length - 1].route}`

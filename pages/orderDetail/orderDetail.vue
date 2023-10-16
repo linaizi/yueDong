@@ -100,6 +100,7 @@
 
 <script>
 	import { orderInfo } from '@/api/page/index.js'
+	import { rtStatus } from '@/common/tool.js'
 	export default {
 		data() {
 			return {
@@ -132,7 +133,7 @@
 						this.infoData = res.data;
 						
 						if(res.data.status==1){
-							const createTime = new Date(res.data.createTimeStr);
+							const createTime = new Date();
 							const endTime = new Date(res.data.closeTime);
 							const timeDifference = endTime - createTime;
 							
@@ -145,23 +146,8 @@
 				})
 			},
 			
-			rtStatus(id){
-				const statusDict = {
-				      1: '待付款',
-				      2: '已付款',
-				      3: '骑手未取货',
-				      4: '骑手已取货',
-				      5: '厂家未取货',
-				      6: '厂家已取货',
-				      7: '代收点已收货',
-				      8: '送货骑手未取货',
-				      9: '送货骑手已取货',
-				      10: '骑手已送达',
-				      11: '已完成',
-				};
-				
-				return statusDict[id]
-			},
+			//返回订单状态
+			rtStatus,
 			
 			isShowSH(sta){
 				return [2].includes(sta);

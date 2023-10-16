@@ -299,15 +299,6 @@
 			},
 			
 			wxPay(data){
-				// data: {
-				// 	appId: "wx31ee3d4bafea0aa1"
-				// 	nonceStr: "Rnfc3C6nwfkrluWh2lgxXXygD2Uj0kAu"
-				// 	packAge: "prepay_id=wx11201113259642530c6266e7a923740000"
-				// 	paySign: "l7r0W4E8nGzkAcqumhTnwiQV37MZBGRQfq9JR02Zi6W4kLkUSwzI8SN1JwODCJPyQpL/BkhJeGCCJonBhE5NRRVeEiuF7urqjzS5KyuhOU/uAE9BR7q0CqTeYRAR9/f/Rh2UdSdZkfzUzmPw8EHfMvmHkJ1XXGrGpmpS7fExa+fZth6JpjFYgADAmB+xH+jVVhc8MJIMp9oWW7eq6Ek2OOj8bREtGZc2RP/u3RwWqLhj6TbtGc6fOKUw0ajT9rvXrer4WwpU63N4az2b4Au5tu+3EXbiXY5k1MMxHrQA3rYgTSwFN+szxK1w9uSeFqphoBKDoXvsZhKm9imyib9/Ug=="
-				// 	signType: "RSA"
-				// 	timeStamp: "1697026273"
-				// }
-				
 				let _that = this;
 				uni.requestPayment({
 				    provider: 'wxpay',
@@ -324,6 +315,9 @@
 					},
 					fail: function (err) {
 						console.log('支付失败:' + JSON.stringify(err));
+						uni.redirectTo({
+							url: '/pages/myOrder/myOrder' 
+						});
 					}
 				});
 			},

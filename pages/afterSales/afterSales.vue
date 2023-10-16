@@ -66,7 +66,10 @@
 			}
 		},
 		onLoad(option) {
-			this.infoData = JSON.parse(option.arr)
+			const { arr } = option
+			if(arr){
+				this.infoData = JSON.parse(arr)
+			}
 			this.getMon()
 		},
 		
@@ -85,6 +88,7 @@
 				    uni.showToast({ title: `请选择退款原因`, icon: 'none' });
 				    return; 
 				}
+				this.param.orderNo = this.infoData.orderNo;
 				
 				afterOrder(this.param).then((res) => {
 					if(res.code == 200){

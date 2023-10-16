@@ -9,7 +9,7 @@
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop" class="boxScroll">
 				<view class="ordre-main" v-for="item in list" :key="item.orderId" @click="toOrderDetail(item)">
 					<view class="main-top">
-						<view class="top-lt">订单号：{{item.orderNo}}</view>
+						<view class="top-lt">订单号:{{item.orderNo}}</view>
 						<view class="top-rt">{{rtStatus(item.status)}}</view>
 					</view>
 					
@@ -52,6 +52,8 @@
 
 <script>	
 	import { RorderPage,DSorderPage,GCorderPage } from '@/api/page/index.js'
+	import { throttle } from "@/common/throttle.js"; 
+	import { rtStatus } from '@/common/tool.js'
 	export default {
 		data() {
 			return {
@@ -111,14 +113,14 @@
 		  },
 		
 		methods: {
-			mumeClick(id){
+			mumeClick: throttle(function(id){
 				this.list = [];
 				this.mumeAct = id;
 				this.loadStatus = 'loading'
 				this.listQuery.pageNo = 1;
 				this.listQuery.status = id;
 				this.initData();
-			},
+			}),
 			
 			initData() {
 				const fetchData = (queryFunction) => {
@@ -160,23 +162,8 @@
 				}
 			},
 			
-			rtStatus(id){
-				const statusDict = {
-				      1: '待付款',
-				      2: '已付款',
-				      3: '骑手未取货',
-				      4: '骑手已取货',
-				      5: '厂家未取货',
-				      6: '厂家已取货',
-				      7: '代收点已收货',
-				      8: '送货骑手未取货',
-				      9: '送货骑手已取货',
-				      10: '骑手已送达',
-				      11: '已完成',
-				};
-				
-				return statusDict[id]
-			},
+			//返回订单状态
+			rtStatus,
 			
 			totalMon(goodsInfo){
 				if(!goodsInfo) return;

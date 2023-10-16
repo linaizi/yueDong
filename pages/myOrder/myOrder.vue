@@ -33,8 +33,12 @@
 					</view>
 					
 					<view class="mian-pay" v-if="item.status==1">
-						<view class="pay-btn">取消</view>
-						<view class="pay-btn pay-fk">付款</view>
+						<view class="pay-btn" @click.stop="closeOrder(item.orderNo)">取消</view>
+						<view class="pay-btn pay-fk" @click.stop="payClick(item.orderNo)">付款</view>
+					</view>
+					
+					<view class="mian-pay" v-if="item.status==10">
+						<view class="pay-btn" @click.stop="yesSH(item.orderNo)">确认收货</view>
 					</view>
 				</view>
 				
@@ -56,7 +60,9 @@
 </template>
 
 <script>
-	import { orderPage } from '@/api/page/index.js'
+	import { orderPage,orderComplete,orderClose,orderPay } from '@/api/page/index.js'
+	import { throttle } from "@/common/throttle.js"; 
+	import { rtStatus } from '@/common/tool.js'
 	export default {
 		data() {
 			return {
@@ -160,26 +166,11 @@
 				});
 			},
 			
-			rtStatus(id){
-				const statusDict = {
-				      1: '待付款',
-				      2: '已付款',
-				      3: '骑手未取货',
-				      4: '骑手已取货',
-				      5: '厂家未取货',
-				      6: '厂家已取货',
-				      7: '代收点已收货',
-				      8: '送货骑手未取货',
-				      9: '送货骑手已取货',
-				      10: '骑手已送达',
-				      11: '已完成',
-				};
-				
-				return statusDict[id]
-			},
+			//返回订单状态
+			rtStatus,
 			
 			//tab切换
-			listClick(i){
+			listClick: throttle(function(i){
 				if (i === this.activeIndex) return 	//重复点击不生效
 				
 				this.$set(this.showCard,this.activeIndex,false);	// 将上一张卡片隐藏
@@ -198,6 +189,92 @@
 				this.listQuery.pageNo = 1;
 				this.listQuery.status = i;
 				this.initData();
+			}),
+			
+			//取消订单
+			closeOrder(orderNo){
+				uni.showModal({
+					title:"温馨提示",
+					content:"是否确定取消订单?",
+					confirmText:"确定",
+					success: (res)=> {
+						if (res.confirm) {
+							orderClose({ orderNo }).then((res) => {
+								if(res.code == 200){
+									uni.showToast({title: '取消成功', icon:'success'});
+									setTimeout(()=>{
+										const currentPages = getCurrentPages();
+										uni.redirectTo({
+										  url: `/${currentPages[currentPages.length - 1].route}`
+										});
+									},1000)
+								}
+							})
+						} else if (res.cancel) {}
+					}
+				});
+			},
+			
+			payClick(orderNo){
+				orderPay({ orderNo }).then((res) => {
+					if(res.code == 200){
+						this.wxPay(res.data)
+					}
+				})
+			},
+			
+			wxPay(data){
+				let _that = this;
+				uni.requestPayment({
+				    provider: 'wxpay',
+					timeStamp: data.timeStamp,
+					nonceStr: data.nonceStr,
+					package: data.packAge,
+					signType: data.signType,
+					paySign: data.paySign,
+					success: function (res) {
+						uni.showToast({title: '支付成功', icon:'success'});
+						setTimeout(()=>{
+							const currentPages = getCurrentPages();
+							uni.redirectTo({
+							  url: `/${currentPages[currentPages.length - 1].route}`
+							});
+						},1000)
+					},
+					fail: function (err) {
+						uni.showToast({title: '支付失败', icon:'none'});
+						setTimeout(()=>{
+							const currentPages = getCurrentPages();
+							uni.redirectTo({
+							  url: `/${currentPages[currentPages.length - 1].route}`
+							});
+						},1000)
+					}
+				});
+			},
+			
+			//确认收货
+			yesSH(orderNo){
+				uni.showModal({
+					title:"温馨提示",
+					content:"是否确定收货?",
+					confirmText:"确定",
+					success: (res)=> {
+						if (res.confirm) {
+							orderComplete({ orderNo }).then((res) => {
+								if(res.code == 200){
+									uni.showToast({title: '提交成功', icon:'success'});
+									setTimeout(()=>{
+										const currentPages = getCurrentPages();
+										uni.redirectTo({
+										  url: `/${currentPages[currentPages.length - 1].route}`
+										});
+									},1000)
+								}
+							})
+						} else if (res.cancel) {}
+					}
+				});
 			},
 			
 			scrollLower(){

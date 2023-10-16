@@ -460,26 +460,6 @@ page{
 		
 	}
 	
-	.mian-pay{
-		@include dflex(flex-end,null);
-		margin-top: 30upx;
-		.pay-btn{
-			@include dflex(center,center);
-			width: 120upx;
-			height: 60upx;
-			font-size: 28upx;
-			color:#333;
-			border:2upx solid #E2E2E2;
-			border-radius: 100upx;
-			margin-left: 20upx;
-			box-sizing: border-box;
-		}
-		.pay-fk{
-			background: linear-gradient(270deg, #FF3445 0%, #FD4903 100%);
-			color:#fff;
-		}
-	}
-	
 	.mian-cz{
 		margin-top: 36upx;
 		@include dflex(space-between,center);

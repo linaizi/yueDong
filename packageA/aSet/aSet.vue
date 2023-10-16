@@ -17,8 +17,8 @@
 				<view class="item-rt" @click="setClick(index)">
 					<view class="rt-l">{{item.remark}}</view>
 					<view class="rt-r">{{item.value}}
-					 <span v-if="index==0">天</span> 
-					 <span v-else-if="index==1">分钟</span> 
+					 <span v-if="index==0">分钟</span> 
+					 <span v-else-if="index==1">天</span> 
 					 <span v-else-if="index==2">元</span> 
 					 <span v-else>%</span> 
 					 <uni-icons color="#999" type="right" size="28rpx"></uni-icons></view>
@@ -31,8 +31,8 @@
 				 <view class="set-title">{{list[setNum].remark}}</view>
 				 <view class="set-tm">
 					 <view class="tm-ipt"><input type="text" v-model="iptVal" class="set-ipt"></view>
-					 <span v-if="setNum==0">天</span>
-					 <span v-else-if="setNum==1">分钟</span> 
+					 <span v-if="setNum==0">分钟</span>
+					 <span v-else-if="setNum==1">天</span> 
 					 <span v-else-if="setNum==2">元</span> 
 					 <span v-else>%</span>
 				 </view>

@@ -98,6 +98,7 @@
 
 <script>
 	import { AorderPage,AorderEdit } from '@/api/page/manage.js'
+	import { rtStatus } from '@/common/tool.js'
 	export default {
 		data() {
 			return {
@@ -252,25 +253,8 @@
 				this.isLoadMore = false
 			},
 			
-			rtStatus(id){
-				const statusDict = {
-					  1: '待付款',
-					  2: '已付款',
-					  3: '骑手未取货',
-					  4: '骑手已取货',
-					  5: '厂家未取货',
-					  6: '厂家已取货',
-					  7: '代收点已收货',
-					  8: '送货骑手未取货',
-					  9: '送货骑手已取货',
-					  10: '骑手已送达',
-					  11: '已完成',
-					  12: '申请售后(待审核)',
-					  13: '售后成功已关闭',
-				};
-				
-				return statusDict[id]
-			},
+			//返回订单状态
+			rtStatus,
 			
 			totalMon(goodsInfo){
 				if(!goodsInfo) return;
