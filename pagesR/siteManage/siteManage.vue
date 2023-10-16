@@ -33,15 +33,15 @@
 			</view>	
 		</template>
 		
-		<view class="stman-title">骑手列表</view>
+		<view class="stman-title">骑手列表 <span>骑手未添加骑手信息，不得分配订单</span></view>
 		
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop" class="boxScroll">
 				<view class="stman">
 					<view class="item" v-for="(i,ind) in list" :key="ind">
-						<image :src="i.userAddress.pic" class="img"></image>
+						<image :src="retHandle(i.userAddress,'pic',i.user.avatar)" class="img"></image>
 						<view class="item-mid">
-							<view class="name">{{i.user.nickName}}<span v-if="i.userAddress.name">({{i.userAddress.name}})</span></view>
-							<view class="item-p">手机号: {{i.userAddress.phone}}</view>
+							<view class="name">{{i.user.nickName}}<span v-if="i.userAddress&&i.userAddress.name">({{i.userAddress.name}})</span></view>
+							<view class="item-p">手机号: {{retHandle(i.userAddress,'phone',i.user.phone)}}</view>
 							<view class="item-p">订单数: {{i.orderNum}}</view>
 							<view class="item-p">总收入: ￥{{i.userWalletDto.balance+i.userWalletDto.withdrawAmount}}</view>
 						</view>
@@ -228,7 +228,7 @@
 								if(res.code = 200){
 									uni.showToast({title: '修改成功', icon:'success'});
 									setTimeout(()=>{
-										 const currentPages = getCurrentPages();
+										const currentPages = getCurrentPages();
 										uni.redirectTo({
 										  url: `/${currentPages[currentPages.length - 1].route}`
 										});
@@ -240,6 +240,13 @@
 						}
 					}
 				});
+			},
+			
+			retHandle(userAddress,name,userName){
+				if(userAddress){
+					return userAddress[name] || userName;
+				}
+				return userName
 			},
 			
 			scrollLower(){

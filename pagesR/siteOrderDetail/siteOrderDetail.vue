@@ -29,11 +29,18 @@
 						<view class="title-lt">预约上门取鞋时间</view>
 						<view class="title-rt">{{infoData.reservationTime}}</view>
 					</view>
-					<view class="od-title" v-if="infoData.type == 1&&(infoData.status==2 || infoData.status==7)" @click="openQsSel">
-						<view class="title-lt">分配骑手</view>
+					<view class="od-title" v-if="infoData.type == 1&&infoData.status>=2" @click="openQsSel(infoData.status==2)">
+						<view class="title-lt">分配取货骑手</view>
 						<view class="title-rt">
 							{{qsSelect}}
-							<uni-icons type="forward" size="32rpx" color="#666" v-if="infoData.status == 2 || infoData.status == 7"></uni-icons>
+							<uni-icons type="forward" size="32rpx" color="#666" v-if="infoData.status == 2"></uni-icons>
+						</view>
+					</view>
+					<view class="od-title" v-if="infoData.type == 1&&infoData.status>=7" @click="openQsSel(infoData.status==7)">
+						<view class="title-lt">分配送货骑手</view>
+						<view class="title-rt">
+							{{qsSelect}}
+							<uni-icons type="forward" size="32rpx" color="#666" v-if="infoData.status == 7"></uni-icons>
 						</view>
 					</view>
 				</view>
@@ -136,10 +143,10 @@
 				<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" class="boxScroll">
 					<view class="stman">
 						<view class="item" v-for="(i,ind) in list" :key="ind" @click="qsClick(i,ind)">
-							<image :src="i.userAddress.pic" class="img"></image>
+							<image  :src="retHandle(i.userAddress,'pic',i.user.avatar)" class="img"></image>
 							<view class="item-mid">
-								<view class="name">{{i.user.nickName}}<span v-if="i.userAddress.name">({{i.userAddress.name}})</span></view>
-								<view class="item-p">手机号: {{i.userAddress.phone}}</view>
+								<view class="name">{{i.user.nickName}}<span v-if="i.userAddress&&i.userAddress.name">({{i.userAddress.name}})</span></view>
+								<view class="item-p">手机号: {{retHandle(i.userAddress,'phone',i.user.phone)}}</view>
 								<view class="item-p">订单数: {{i.orderNum}}</view>
 								<view class="item-p">总收入: ￥{{i.userWalletDto.balance+i.userWalletDto.withdrawAmount}}</view>
 							</view>
@@ -242,12 +249,18 @@
 				})
 			},
 			
-			openQsSel(){
+			retHandle(userAddress,name,userName){
+				if(userAddress){
+					return userAddress[name] || userName;
+				}
+				return userName
+			},
+			openQsSel(n){
 				if(this.list.length==0){
 					uni.showToast({title: '暂无骑手,请先添加！', icon:'none'});
 					return;
 				}
-				if(!this.isCheckQS) this.$refs.qsPopup.open()
+				if(!this.isCheckQS&&n) this.$refs.qsPopup.open()
 			},
 			closeQS(){
 				this.$refs.qsPopup.close()

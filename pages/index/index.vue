@@ -9,7 +9,8 @@
 			
 				<view class="containBox">
 					<view class="menu">
-						<view class="item" v-for="(item,index) in menuArr" :key="index" @click="menuClick(index)">
+						<view class="item" v-for="item in menuArr" :key="item.id" @click="menuClick(item.id)">
+							<button  v-if="item.id==3" class="menu-btn" type="default" plain="true" open-type="contact" @contact="contact"></button>
 							<image :src="item.img" mode="widthFix" class="itemImg"></image>
 							{{item.name}}
 						</view>
@@ -85,10 +86,10 @@
 					this.$BASE_URLS.FILE_BASE_URL+'/33b724a9-1515-478c-afe8-f82e36198d64.png',
 				],
 				menuArr: [
-					{name:"门店列表", img:this.$BASE_URLS.FILE_BASE_URL+"/438c369d-80a9-41ce-a2d8-6b43b04780eb.png"},
-					{name:"使用帮助", img:this.$BASE_URLS.FILE_BASE_URL+"/14862a4b-1145-4f76-8265-d9492207f9a8.png"},
-					{name:"关于我们", img:this.$BASE_URLS.FILE_BASE_URL+"/cc6c1f69-e610-42de-b359-25cad1b889a4.png"},
-					{name:"联系客服", img:this.$BASE_URLS.FILE_BASE_URL+"/233bda21-5ade-4c7a-ad7c-11c88dbb695d.png"},
+					{name:"门店列表", id:0, img:this.$BASE_URLS.FILE_BASE_URL+"/438c369d-80a9-41ce-a2d8-6b43b04780eb.png"},
+					{name:"使用帮助", id:1, img:this.$BASE_URLS.FILE_BASE_URL+"/14862a4b-1145-4f76-8265-d9492207f9a8.png"},
+					{name:"关于我们", id:2, img:this.$BASE_URLS.FILE_BASE_URL+"/cc6c1f69-e610-42de-b359-25cad1b889a4.png"},
+					{name:"联系客服", id:3, img:this.$BASE_URLS.FILE_BASE_URL+"/233bda21-5ade-4c7a-ad7c-11c88dbb695d.png"},
 				],
 				
 				goodParams:{
@@ -163,9 +164,6 @@
 						break;
 					case 2:
 					  url='/pages/about/about'
-					  break;
-					case 3:
-					  this.$refs.kfchild.$refs.kfPopup.open();
 					  break;
 				} 		
 				if(idx!=3){

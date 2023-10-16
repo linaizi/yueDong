@@ -23,8 +23,7 @@
 			<view class="titleBox">用户中心</view>
 			<view class="box flex">
 				<view class="itemBox" v-for="item in tabArr" :key="item.tabId" @click="jumpToSonPage(item.tabId)">
-					<!-- <button type="default" open-type="share" v-if="item.tabId==1&&mid" class="itemBox-btn"></button> -->
-					
+					<button type="default" open-type="share" v-if="item.tabId==3&&mid" class="itemBox-btn"></button>
 					<image :src="item.imgUrl" class="itemIcon"></image>
 					<view>{{item.tabName}}</view>
 				</view>
@@ -57,10 +56,6 @@
 			</view>
 		</view>
 		
-		<button class="leftBox" type="default" plain="true" open-type="contact" @contact="contact">
-		    打开客服会话
-		</button>
-		
 		<br><br><br>
 		
 		<Tabbar :tabid="4"></Tabbar>
@@ -91,7 +86,8 @@
 					{imgUrl:this.$BASE_URLS.FILE_BASE_URL+'/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg',tabName:'我的订单', tabId:0},
 					{imgUrl:this.$BASE_URLS.FILE_BASE_URL+'/179e5927-3eb7-44e3-81b8-2561ecc129a5.jpg',tabName:'我的优惠券', tabId:1},
 					{imgUrl:this.$BASE_URLS.FILE_BASE_URL+'/3b194d4b-1412-44c2-bfe6-1effcc5ff5b7.jpg',tabName:'关于我们', tabId:2},
-					{imgUrl:this.$BASE_URLS.FILE_BASE_URL+'/e9b08ce8-c807-4799-b0aa-5b84b532f4b9.jpg',tabName:'联系客服', tabId:3},
+					// {imgUrl:this.$BASE_URLS.FILE_BASE_URL+'/e9b08ce8-c807-4799-b0aa-5b84b532f4b9.jpg',tabName:'联系客服', tabId:3},
+					{imgUrl:this.$BASE_URLS.FILE_BASE_URL+'/cb83f150-bd4d-4bcf-945e-6caabcfd8ba1.jpg',tabName:'邀请好友', tabId:3},
 				],
 				isOk:false,
 				
@@ -136,6 +132,21 @@
 				if(!this.mid) this.$refs.logchild.$refs.logPopup.open();
 			},
 			
+			// 分享给好友
+			onShareAppMessage(options){
+				var that = this;
+				var shareObj = {
+					title:'紫荆洗鞋:专业洗鞋 修鞋 干洗衣服',        
+					path: '/pages/index/index',        // 默认是当前页面，必须是以‘/’开头的完整路径
+					imageUrl: `${this.$BASE_URLS.FILE_BASE_URL}/a22373d4-fbb0-4fd5-bf45-f3d47e29f93f.jpg`, // 图片封面，本地文件路径、网络图片路，支持PNG及JPG，默认当前页面截图，显示图片长宽比是 5:4。
+				}
+				// 来自页面内的按钮的转发
+				if( options.from == 'button' ){
+					// 返回shareObj
+					return shareObj;
+				}
+			},
+			
 			goSort(){
 				uni.switchTab({
 				   url: '/pages/sort/sort',
@@ -164,9 +175,6 @@
 						break;
 					case 2:
 						url='/pages/about/about'
-						break;
-					case 3:
-						this.$refs.kfchild.$refs.kfPopup.open();
 						break;
 					case 4:
 						url='/packageA/aIndex/aIndex'
