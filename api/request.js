@@ -39,6 +39,11 @@ $axios.interceptors.response.use(
 			if(res.data['code'] && ![200,5001,5002].includes(res.data.code)){
 				uni.showToast({ title: res.data.message||res.data.msg, icon:'none' })
 			}
+			if(res.data['code'] && res.data.code==500 && res.data.msg == "该用户无权限"){
+				uni.switchTab({
+				    url: '/pages/index/index'
+				});
+			}
 		}
 		
 		if (!res.data) {

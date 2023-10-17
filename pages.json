@@ -102,6 +102,15 @@
 		 	}
 		},
 		{
+		 	"path": "pages/pingLun/pingLun",
+		 	"style" : {
+		 		"navigationBarTitleText": "评价",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
+		},
+		{
 		 	"path": "pages/buy/buy",
 		 	"style" : {
 		 		"navigationBarTitleText": "结算",
