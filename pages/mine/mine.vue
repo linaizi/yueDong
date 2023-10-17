@@ -56,6 +56,7 @@
 			</view>
 		</view>
 		
+		<view class="a" @click="dingyue">订阅信息</view>
 		<br><br><br>
 		
 		<Tabbar :tabid="4"></Tabbar>
@@ -109,6 +110,15 @@
 		},
 	
 		methods: {
+			dingyue(){
+				uni.requestSubscribeMessage({
+				  tmplIds: ['r1S4KuPYFc93YPoEohorub5RFq6317nLFt3SQhWqQkw'],
+				  success (res) { 
+					  console.log(res)
+				  }
+				})
+			},
+			
 			getUserData(wcode){
 				myDetail().then((res) => {
 					if(res.code == 200){

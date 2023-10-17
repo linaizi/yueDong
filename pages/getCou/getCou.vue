@@ -10,13 +10,22 @@
 </template>
 
 <script>
+	import { couponInfo } from '@/api/page/index.js'
 	import { Mcaptcha  } from '@/common/mcaptcha.js'
 	export default {
 		data() {
 			return {
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
-				graphicVerifyCode:''
+				graphicVerifyCode:'',
+				couponId:0,
+				couInfo:{},
 			}
+		},
+		onLoad(option) {
+			console.log(option)
+			// this.couponId = option.id
+			this.couponId = option.id
+			this.initData()
 		},
 		onReady() {
 		   this.mcaptcha = new Mcaptcha({
@@ -28,6 +37,18 @@
 		 },
 	
 		methods: {
+			initData(){
+				couponInfo({ couponId:this.couponId }).then((res) => {
+					if(res.code == 200){
+						this.couInfo = res.data;
+						// 是否删除 ifDel =true  提示优惠券已下架
+						// 是否领完 ifStock=true 提示优惠券已领完
+						// 是否领取 ifUse=true 提示优惠券已领过
+						// 全为false才能领取
+					}
+				})
+			},
+			
 			updateImageCode() {
 			  this.mcaptcha.refresh()
 			},
@@ -49,5 +70,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'buyOk.scss'
+	@import 'getCou.scss'
 </style>

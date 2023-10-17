@@ -23,10 +23,10 @@
 						<view class="md-p1">{{item.possessStartTime}} - {{item.possessEndTime}}</view>
 						<view class="md-p">优惠券使用时间</view>
 						<view class="md-p1">{{item.useStartTime}} - {{item.useEndTime}}</view>
-					
 					</view>
-					<view class="item-rt" @click="delClick(item.id,index)">
-						<uni-icons type="trash" size="36rpx" color="#fff"></uni-icons><p>删除</p>
+					<view class="item-rt">
+						<view class="rt-del" @click="delClick(item.id,index)"><uni-icons type="trash" size="36rpx" color="#fff"></uni-icons><p>删除</p></view>
+						<view class="rt-share" @click="openShare(item.id)">分享</view>
 					</view>
 				</view>
 			</view>
@@ -49,6 +49,50 @@
 			<view class="btn" @click="toAddCou">新增优惠券</view>
 		</view>
 		
+		<!--  -->
+		<uni-popup ref="sharePopup" type="center">
+			 <view class="timePpBox">
+				 <view class="share-main">
+					<view class="tk-item">
+						<span class="tk-span">分享标题：</span>
+						<input type="text" v-model="shareCou.title" placeholder="请输入分享标题" class="tk-ipt">
+					</view>
+					<view class="tk-item" >
+						<span class="tk-span">分享图片：</span>
+						<textarea  @blur="bindTextAreaBlur($event,'imgs')" v-model="shareCou.img" auto-height placeholder="请输入分享图片地址" class="tk-ipt"/>
+					</view>
+					<view class="tk-img" >
+						<uni-file-picker
+							limit="1" 
+							v-model="shareCou.imgs" 
+							@select="select($event,'imgs','img')"  
+							@delete="deletea($event,'imgs','img')">
+						</uni-file-picker>
+					</view>
+					<view class="tk-item" >
+						<span class="tk-span">页面背景图：</span>
+						<textarea  @blur="bindTextAreaBlur($event,'bgImgs')" v-model="shareCou.bgImg" auto-height placeholder="请输入页面背景图地址" class="tk-ipt"/>
+					</view>
+					<view class="tk-img" >
+						<uni-file-picker
+							limit="1" 
+							v-model="shareCou.bgImgs" 
+							@select="select($event,'bgImgs','bgImg')"  
+							@delete="deletea($event,'bgImgs','bgImg')">
+						</uni-file-picker>
+					</view>
+					
+				 </view>
+				 <view class="pp-btn">
+					 <view class="btn1" @click="shareClose">取消</view>
+					 <view class="btn1 blue">
+						 <button type="default" open-type="share" class="itemBox-btn"></button>
+						 分享
+					</view>
+				 </view>
+			 </view>
+		 </uni-popup>
+		 
 	</view>
 </template>
 
@@ -63,6 +107,12 @@
 					{name:'活动中', id:2 },
 					{name:'已结束', id:3 },
 				],
+				shareCou:{	//分享优惠券数据
+					imgs: [],
+					img:'',
+					bgImgs: [],
+					bgImg:'',
+				},
 				
 				listQuery:{
 					pageNo:1,
@@ -169,6 +219,64 @@
 				.catch((e) => {
 					this.isLoadMore = false;
 				});
+			},
+			
+			bindTextAreaBlur(e,fl){
+				this.shareCou[fl] = [];
+				this.shareCou[fl].push({
+					url:e.detail.value
+				})
+			},
+			openShare(id){
+				this.shareCou.id = id;
+				this.$refs.sharePopup.open()
+			},
+			shareClose(){
+				this.$refs.sharePopup.close();
+				this.shareCou = {	
+					imgs: [],
+					img:'',
+					bgImgs: [],
+					bgImg:''
+				}
+			},
+			// 分享给好友
+			onShareAppMessage(options){
+				var that = this;
+				var shareObj = {
+					title: this.shareCou.title || '紫荆洗鞋:专业洗鞋 修鞋 干洗衣服',        
+					path: '/pages/getCou/getCou?id=' + this.shareCou.id + '&url=' + this.shareCou.bgImg,        // 默认是当前页面，必须是以‘/’开头的完整路径
+					imageUrl: this.shareCou.img || `${this.$BASE_URLS.FILE_BASE_URL}/a22373d4-fbb0-4fd5-bf45-f3d47e29f93f.jpg`, // 图片封面，本地文件路径、网络图片路，支持PNG及JPG，默认当前页面截图，显示图片长宽比是 5:4。
+				}
+				// 来自页面内的按钮的转发
+				if( options.from == 'button' ){
+					// 返回shareObj
+					return shareObj;
+				}
+			},
+			// 获取上传状态
+			select(e,imgs,img){
+				e.tempFilePaths.forEach((item)=>{
+					const imgUrl = item
+					uni.uploadFile({
+						url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
+						filePath: imgUrl,
+						name: 'file',
+						header:{"Content-Type": "multipart/form-data"},
+						success: (res) => {
+							this.shareCou[img] = JSON.parse(res.data).data
+							this.shareCou[imgs].push({
+								url:JSON.parse(res.data).data,
+							})
+						}
+					});
+				})	
+			},
+			// 图片删除
+			deletea(e,fls,fl){
+				const num = this.shareCou[fls].findIndex(v => v.url === e.tempFilePath);
+				this.shareCou[fls].splice(num, 1);
+				this.shareCou[fl] = ''
 			},
 			
 			scrollLower(){

@@ -201,6 +201,14 @@ export function couponListTwo(params) { 	// 结算查询用户优惠券
 	})
 }
 
+export function couponInfo(params) { 	// 查询优惠券信息
+	return request({
+		url: '/elantra/user/coupon/info',
+		method: 'GET',
+		params
+	})
+}
+
 export function getFreightAmount(params) { 	// 获取运费
 	return request({
 		url: '/elantra/order/get/freightAmount',

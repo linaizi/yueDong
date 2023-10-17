@@ -172,6 +172,15 @@
 				"navigationBarTextStyle": "black",
 				"backgroundColor": "#ffffff"
 		 	}
+		},
+		{
+		 	"path": "pages/getCou/getCou",
+		 	"style" : {
+		 		"navigationBarTitleText": "领取优惠券",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
 		}
 			
 	],

@@ -55,7 +55,8 @@
 					</view>
 					<view class="cz-rt">
 						<view class="rt-btn" @click.stop="openSta(item)">修改订单状态</view>
-						<view class="rt-btn" v-if="item.status==12" @click.stop="TKSHclick(item)">退款审核</view>
+						<view class="rt-btn" v-if="item.status==12" @click.stop="TKSHclick(item,1)">同意</view>
+						<view class="rt-btn rt-btn1" v-if="item.status==12" @click.stop="TKSHclick(item,2)">拒绝</view>
 						<!-- <view class="rt-btn" @click="bzClick">备注</view> -->
 						<!-- <view class="rt-btn rt-btn1">发货</view> -->
 					</view>
@@ -87,11 +88,11 @@
 					<view class="tk-item" v-if="TKdata.afterRemark">
 						<span class="tk-span">退款备注：</span> {{TKdata.afterRemark}}
 					</view>
-					<input type="text" v-model="afterRefuseReason" placeholder="请输入拒绝理由(若同意则不需要)" class="tk-ipt">
+					<input type="text" v-if="TKdata.status == 2" v-model="TKdata.afterRefuseReason" placeholder="请输入拒绝理由" class="tk-ipt">
 				 </view>
 				 <view class="pp-btn">
-					 <view class="btn1" @click="TKno">拒绝</view>
-					 <view class="btn1 blue" @click="TKyes">同意</view>
+					 <view class="btn1" @click="TKno">取消</view>
+					 <view class="btn1 blue" @click="TKyes"> {{TKdata.status === 2 ? '拒绝' : '同意'}}</view>
 				 </view>
 			 </view>
 		 </uni-popup>
@@ -165,8 +166,8 @@
 					{name:'送货骑手未取货', id:8 },
 					{name:'送货骑手已取货', id:9 },
 					{name:'骑手已送达', id:10 },
-					{name:'申请售后(待审核)', id:12 },
-					{name:'售后成功已关闭', id:13 },
+					{name:'售后(待审核)', id:12 },
+					{name:'已关闭', id:16 },
 				],
 				mumeMone:'更多状态',
 				moneShow:false,
@@ -181,9 +182,10 @@
 				staObj:{},
 				TKdata:{//退款数据
 					afterReason:'',
-					afterRemark:''
+					afterRemark:'',
+					afterRefuseReason:'',
+					status:'',
 				}, 
-				afterRefuseReason:'', //拒绝退款原因
 				
 				listQuery:{
 					pageNo:1,
@@ -215,10 +217,8 @@
 		},
 		watch: {
 			datetimerange(newval) {
-				console.log("范围选:", this.datetimerange);
 				this.listQuery.beginTime = this.datetimerange[0]
 				this.listQuery.endTime = this.datetimerange[1]
-				
 			},
 		},
 		methods: {
@@ -301,25 +301,21 @@
 			},
 			
 			//退款审核事件
-			TKSHclick(item){
+			TKSHclick(item, n){
 				this.$refs.TKpopup.open();
+				this.TKdata.orderNo = item.orderNo;
 				this.TKdata.afterReason = item.afterReason || '';
 				this.TKdata.afterRemark = item.afterRemark || '';
+				this.TKdata.afterRefuseReason = ''
+				this.TKdata.status = n;
 			},
 			TKyes(){
 				let param = {
-					status: 1
+					orderNo: this.TKdata.orderNo,
+					status: this.TKdata.status,
+					afterRefuseReason: this.TKdata.afterRefuseReason
 				}
-				this.TKOperate(param)
-			},
-			TKno(){
-				let param = {
-					status: 2,
-					afterRefuseReason: this.afterRefuseReason
-				}
-				this.TKOperate(param)
-			},
-			TKOperate(param){
+				
 				var _that = this;
 				AorderOperate(param).then((res) => {
 					if(res.code == 200){
@@ -334,7 +330,10 @@
 					}
 				})
 			},
-			
+			TKno(){
+				this.$refs.TKpopup.close();
+			},
+		
 			//修订订单状态事件
 			openSta(s){
 				this.staObj = s;
