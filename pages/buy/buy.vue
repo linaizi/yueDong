@@ -258,7 +258,7 @@
 					pics: this.imageValue.map(item => item.url).join(','),
 					collectionId: this.addrList[0].cid
 				};
-				
+				 
 				if(this.tabNum == 0){
 					if(!this.formData.name){
 						uni.showToast({title:"姓名不能为空",icon:'none'})
@@ -291,6 +291,7 @@
 					}
 				}
 				
+				param.goodsTotalAmount = param.goodsTotalAmount.toFixed(2)
 				orderAdd(param).then((res) => {
 					if(res.code == 200){
 						this.wxPay(res.data)

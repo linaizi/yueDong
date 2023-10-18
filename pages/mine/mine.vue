@@ -68,6 +68,7 @@
 	import Tabbar from "@/components/tabbar/tabbar.vue"
 	import { myDetail } from '@/api/page/index.js'
 	import Pplog from "@/components/pplog/pplog.vue"
+	import { debounce } from "@/common/throttle.js"; 
 		
 	export default {
 		components: {
@@ -106,10 +107,6 @@
 		},
 	
 		methods: {
-			dingyue(){
-				
-			},
-		
 			
 			getUserData(wcode){
 				myDetail().then((res) => {
@@ -166,7 +163,7 @@
 				});
 			},
 			
-			jumpToSonPage(idx){//跳转到子页面
+			jumpToSonPage: debounce(function(idx){//跳转到子页面
 				let url=''
 				switch(idx) {
 					case 0:
@@ -202,7 +199,7 @@
 						});
 					}
 				}
-			},
+			}),
 			
 			roleClick(n){
 				let url=''
@@ -223,30 +220,32 @@
 				});
 			},
 			
-			roleOrderClick(){
+			roleOrderClick: debounce(function(i){
 				// 新订单通知：5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo  代收点，工厂，管理员
 				// 新分配骑手通知：5yk2srMqW6gZAVO2wQwC-cjjP2fhbuI2bGlwIIW53oo	骑手
 				// 申请退款通知：SuJgC4tQwMrMtiMAx_7dzBi4vr2k455JyQQuzhmiQTI		管理员
 				// 订单取消通知：95puLzzFORw95GC0ulCbheFflU2p5vpxchP_DqojXEs		代收点，工厂
-				
+				let arr = []
 				if(this.UserInfo.level==2){
-					let arr = ['5yk2srMqW6gZAVO2wQwC-cjjP2fhbuI2bGlwIIW53oo']
+					arr = ['5yk2srMqW6gZAVO2wQwC-cjjP2fhbuI2bGlwIIW53oo']
 				}else if(this.UserInfo.level==3){
-					let arr = ['5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo', '95puLzzFORw95GC0ulCbheFflU2p5vpxchP_DqojXEs']
+					arr = ['5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo', '95puLzzFORw95GC0ulCbheFflU2p5vpxchP_DqojXEs']
 				}else if(this.UserInfo.level==5){
-					let arr = ['5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo']
+					arr = ['5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo']
 				}
+				let _that = this;
 				
 				uni.requestSubscribeMessage({
 				  tmplIds: arr,
 				  complete(res){
 						console.log(res)
 						uni.navigateTo({
-							url: '/pagesR/roleOrder/roleOrder?level=' + this.UserInfo.level
+							url: '/pagesR/roleOrder/roleOrder?level=' + _that.UserInfo.level
 						});
 				  }
 				})
-			}
+			})
+			
 		},
 		
 		//下拉刷新
