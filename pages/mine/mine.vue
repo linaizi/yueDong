@@ -41,7 +41,7 @@
 					<image :src="FILE_BASE_URL + '/cb83f150-bd4d-4bcf-945e-6caabcfd8ba1.jpg'" class="itemIcon"></image>
 					<view>信息管理</view>
 				</view>
-				<view class="itemBox" @click="roleClick(1)">
+				<view class="itemBox" @click="roleOrderClick">
 					<image :src="FILE_BASE_URL + '/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg'" class="itemIcon"></image>
 					<view>订单管理</view>
 				</view>
@@ -56,11 +56,9 @@
 			</view>
 		</view>
 		
-		<view class="a" @click="dingyue">订阅信息</view>
 		<br><br><br>
 		
 		<Tabbar :tabid="4"></Tabbar>
-		<Ppkefu ref="kfchild"></Ppkefu>
 		<Pplog ref="logchild" :mid.sync="mid"  @getData='getUserData'></Pplog>
 		
 	</view>
@@ -68,14 +66,12 @@
 
 <script>
 	import Tabbar from "@/components/tabbar/tabbar.vue"
-	import Ppkefu from "@/components/ppkefu/ppkefu.vue"
 	import { myDetail } from '@/api/page/index.js'
 	import Pplog from "@/components/pplog/pplog.vue"
 		
 	export default {
 		components: {
 			Tabbar,
-			Ppkefu,
 			Pplog,
 		},
 		data() {
@@ -111,13 +107,9 @@
 	
 		methods: {
 			dingyue(){
-				uni.requestSubscribeMessage({
-				  tmplIds: ['r1S4KuPYFc93YPoEohorub5RFq6317nLFt3SQhWqQkw'],
-				  success (res) { 
-					  console.log(res)
-				  }
-				})
+				
 			},
+		
 			
 			getUserData(wcode){
 				myDetail().then((res) => {
@@ -187,7 +179,18 @@
 						url='/pages/about/about'
 						break;
 					case 4:
-						url='/packageA/aIndex/aIndex'
+						uni.requestSubscribeMessage({
+							tmplIds: [
+								'5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo',
+								'SuJgC4tQwMrMtiMAx_7dzBi4vr2k455JyQQuzhmiQTI'
+							],
+							complete(res){
+								console.log(res)
+								uni.navigateTo({
+									url: '/packageA/aIndex/aIndex' 
+								});
+							}
+						})
 						break;
 				} 	
 				if(idx!=3){
@@ -207,9 +210,6 @@
 					case 0:
 						url='/pagesR/roleInfo/roleInfo?level=' + this.UserInfo.level
 						break;
-					case 1:
-						url='/pagesR/roleOrder/roleOrder?level=' + this.UserInfo.level
-						break;
 					case 2:
 						url='/pagesR/roleMoney/roleMoney?level=' + this.UserInfo.level
 						break;
@@ -223,6 +223,30 @@
 				});
 			},
 			
+			roleOrderClick(){
+				// 新订单通知：5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo  代收点，工厂，管理员
+				// 新分配骑手通知：5yk2srMqW6gZAVO2wQwC-cjjP2fhbuI2bGlwIIW53oo	骑手
+				// 申请退款通知：SuJgC4tQwMrMtiMAx_7dzBi4vr2k455JyQQuzhmiQTI		管理员
+				// 订单取消通知：95puLzzFORw95GC0ulCbheFflU2p5vpxchP_DqojXEs		代收点，工厂
+				
+				if(this.UserInfo.level==2){
+					let arr = ['5yk2srMqW6gZAVO2wQwC-cjjP2fhbuI2bGlwIIW53oo']
+				}else if(this.UserInfo.level==3){
+					let arr = ['5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo', '95puLzzFORw95GC0ulCbheFflU2p5vpxchP_DqojXEs']
+				}else if(this.UserInfo.level==5){
+					let arr = ['5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo']
+				}
+				
+				uni.requestSubscribeMessage({
+				  tmplIds: arr,
+				  complete(res){
+						console.log(res)
+						uni.navigateTo({
+							url: '/pagesR/roleOrder/roleOrder?level=' + this.UserInfo.level
+						});
+				  }
+				})
+			}
 		},
 		
 		//下拉刷新

@@ -70,7 +70,7 @@
 					<view class="od-allPrice"><span>合计: </span>￥{{infoData.payAmount}}</view>
 					<view class="od-sh">
 						<view class="sh-btn" v-if="isShowSH(infoData.status)" @click="goSH">申请售后</view>
-						<!-- <view class="sh-btn">售后详情</view> -->
+						<view class="sh-btn" v-if="infoData.afterRefuseReason" @click="goSHXQ">售后详情</view>
 					</view>
 				</view>
 				
@@ -162,6 +162,23 @@
 				}
 				uni.navigateTo({
 				    url: '/pages/afterSales/afterSales?arr=' + JSON.stringify(arr)
+				});
+			},
+			goSHXQ(){
+				let arr = {
+					orderNo: this.infoData.orderNo,
+					goodsInfo: this.infoData.goodsInfo,
+					goodsTotalAmount: this.infoData.goodsTotalAmount,
+					freightAmount: this.infoData.freightAmount,
+					payAmount: this.infoData.payAmount,
+					afterAmount: this.infoData.afterAmount,
+					afterReason: this.infoData.afterReason,
+					afterRemark: this.infoData.afterRemark,
+					afterRefuseReason: this.infoData.afterRefuseReason,
+					status:this.infoData.status,
+				}
+				uni.navigateTo({
+				    url: '/pages/afterSalesDetails/afterSalesDetails?arr=' + JSON.stringify(arr)
 				});
 			},
 			

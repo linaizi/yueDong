@@ -1,0 +1,42 @@
+.asBox{
+	padding: 1upx 24upx;
+	background: #fff;
+	border-radius: 12upx;
+	margin: 24upx 24upx 0;
+	.ordre-item {
+		.main-rt{
+			font-size: 28upx;
+		}
+	}
+	.as-price{
+		@include dflex(center,flex-end);
+		flex-direction: column;
+		height: 120upx;
+		border-top: 2upx solid #E2E2E2;
+		.as-p{
+			font-size: 28upx;
+			color:#333;
+			margin: 5upx 0;
+			.p-span{
+				margin-left: 14upx;
+				font-size: 26upx;
+				color:#666;
+			}
+		}
+	}
+}
+
+
+.asdBox{
+	background: #fff;
+	padding: 40upx 24upx 20upx;
+	margin: 24upx 24upx 0;
+	.asd-item{
+		font-size: 28upx;
+		color:#333;
+		margin-bottom: 20upx;
+		.asd-red{
+			color: #FF3445;
+		}
+	}
+}

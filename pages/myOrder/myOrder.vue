@@ -38,8 +38,11 @@
 					</view>
 					
 					<view class="mian-pay" v-if="item.status==10">
-						<view class="pay-btn" @click.stop="yesSH(item.orderNo)">确认收货</view>
+						<view class="pay-btn" @click.stop="yesSH(item)">确认收货</view>
 					</view>
+					<!-- <view class="mian-pay">
+						<view class="pay-btn" @click.stop="yesSH(item)">确认收货</view>
+					</view> -->
 				</view>
 				
 				<view v-show="isLoadMore" class="more_loading">
@@ -110,6 +113,12 @@
 		onReady() {
 			this.getScrollW();
 			this.initData();
+		},
+		onShow() {
+			let _that = this;
+			uni.$once('PingLun',function(data){
+				_that.listClick(6)
+			})
 		},
 		methods: {
 			// 获取标题区域宽度，和每个子元素节点的宽度以及元素距离左边栏的距离
@@ -254,20 +263,24 @@
 			},
 			
 			//确认收货
-			yesSH(orderNo){
+			yesSH(item){
+				// uni.navigateTo({
+				//     url: '/pages/pingLun/pingLun?goodsInfo=' + item.goodsInfo
+				// });
+				// return;
+				
 				uni.showModal({
 					title:"温馨提示",
 					content:"是否确定收货?",
 					confirmText:"确定",
 					success: (res)=> {
 						if (res.confirm) {
-							orderComplete({ orderNo }).then((res) => {
+							orderComplete({ orderNo:item.orderNo }).then((res) => {
 								if(res.code == 200){
 									uni.showToast({title: '提交成功', icon:'success'});
 									setTimeout(()=>{
-										const currentPages = getCurrentPages();
-										uni.redirectTo({
-										  url: `/${currentPages[currentPages.length - 1].route}`
+										uni.navigateTo({
+										    url: '/pages/pingLun/pingLun?goodsInfo=' + item.goodsInfo
 										});
 									},1000)
 								}

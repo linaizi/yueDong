@@ -183,6 +183,15 @@
 		 	}
 		},
 		{
+		 	"path": "pages/afterSalesDetails/afterSalesDetails",
+		 	"style" : {
+		 		"navigationBarTitleText": "售后详情",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#ffffff"
+		 	}
+		},
+		{
 		 	"path": "pages/getCou/getCou",
 		 	"style" : {
 		 		"navigationBarTitleText": "领取优惠券",

@@ -310,6 +310,10 @@
 				this.TKdata.status = n;
 			},
 			TKyes(){
+				if(TKdata.status === 2&&!this.TKdata.afterRefuseReason){
+					uni.showToast({title: '拒绝理由不能为空', icon:'none'});
+					return;
+				}
 				let param = {
 					orderNo: this.TKdata.orderNo,
 					status: this.TKdata.status,

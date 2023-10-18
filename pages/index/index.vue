@@ -88,7 +88,8 @@
 				menuArr: [
 					{name:"门店列表", id:0, img:this.$BASE_URLS.FILE_BASE_URL+"/438c369d-80a9-41ce-a2d8-6b43b04780eb.png"},
 					{name:"使用帮助", id:1, img:this.$BASE_URLS.FILE_BASE_URL+"/14862a4b-1145-4f76-8265-d9492207f9a8.png"},
-					{name:"关于我们", id:2, img:this.$BASE_URLS.FILE_BASE_URL+"/cc6c1f69-e610-42de-b359-25cad1b889a4.png"},
+					// {name:"关于我们", id:2, img:this.$BASE_URLS.FILE_BASE_URL+"/cc6c1f69-e610-42de-b359-25cad1b889a4.png"},
+					{name:"客服微信", id:4, img:this.$BASE_URLS.FILE_BASE_URL+"/233bda21-5ade-4c7a-ad7c-11c88dbb695d.png"},
 					{name:"联系客服", id:3, img:this.$BASE_URLS.FILE_BASE_URL+"/233bda21-5ade-4c7a-ad7c-11c88dbb695d.png"},
 				],
 				
@@ -156,21 +157,26 @@
 			menuClick(idx){
 				let url=''
 				switch(idx) {
-				  case 0:
-						url = '/pages/storeList/storeList'
+					case 0:
+						uni.navigateTo({
+							url: '/pages/storeList/storeList'
+						});
 				    break;
 					case 1:
-						url='/pages/help/help'
+						uni.navigateTo({
+							url: '/pages/help/help'
+						});
 						break;
 					case 2:
-					  url='/pages/about/about'
-					  break;
+						uni.navigateTo({
+							url: '/pages/about/about'
+						});
+						break;
+					case 4:
+						this.$refs.kfchild.$refs.kfPopup.open()
+						break;
 				} 		
-				if(idx!=3){
-					uni.navigateTo({
-					    url: url
-					});
-				}
+				
 			},			
 				
 			goSort(){

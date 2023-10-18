@@ -209,6 +209,14 @@ export function couponInfo(params) { 	// 查询优惠券信息
 	})
 }
 
+export function limitCoupon(params) { 	// 领取券
+	return request({
+		url: '/elantra/user/coupon/limit/coupon',
+		method: 'GET',
+		params
+	})
+}
+
 export function getFreightAmount(params) { 	// 获取运费
 	return request({
 		url: '/elantra/order/get/freightAmount',
@@ -276,6 +284,14 @@ export function orderClose(data) { 	// 取消订单
 export function orderPay(data) { 	// 支付订单
 	return request({
 		url: '/elantra/order/pay',
+		method: 'POST',
+		data
+	})
+}
+
+export function commentAdd(data) { 	// 支付订单
+	return request({
+		url: '/elantra/comment/add',
 		method: 'POST',
 		data
 	})

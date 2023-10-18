@@ -49,7 +49,7 @@
 			<view class="btn" @click="toAddCou">新增优惠券</view>
 		</view>
 		
-		<!--  -->
+		<!-- 分享弹窗 -->
 		<uni-popup ref="sharePopup" type="center">
 			 <view class="timePpBox">
 				 <view class="share-main">
