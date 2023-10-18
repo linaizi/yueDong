@@ -3,12 +3,9 @@ $FILE_BASE_URL:'https://file.yuedongxixie.com/file';
 //分页，下拉刷新，按aOrder userMan/roleMoney的来做
 //siteManage 刷新当前页  
 //pingLun.vue   使用 Promise.all 来等待多个异步请求完成后执行后续操作
+//getCou.vue  从url获取背景图，等图片渲染完再显示页面数据
 
-//微信支付：https://uniapp.dcloud.net.cn/tutorial/app-payment-weixin.html# 
-//购物车禁止输入
 
-// iphone开发者账号注册：https://blog.csdn.net/handsome0916/article/details/130267123
- 
 //暂无数据图片：
 // https://file.yuedongxixie.com/file/f426289f-7fe0-4431-ab45-78262049c918.jpg
 // https://file.yuedongxixie.com/file/3ee934e5-e364-4dad-9417-88a4776bfd87.png
@@ -24,12 +21,6 @@ $FILE_BASE_URL:'https://file.yuedongxixie.com/file';
 //   </div>
 // </template>
 
-// <!-- 
-// 操作路径：
-// 官微中心 - 设置 - 通知提醒 - 提醒用户，在列表中根据需求开启“公众号通知、小程序通知”，并且点击“设置模板”设置下通知信息模板。具体配置教程如下：
-// 微信小程序通知配置教程：https://help.saaas.com/article/5161873096035032
-// 公众号通知配置教程：http://help.saaas.com/article/5182346375528704 
-// -->
 
 //公用样式
 page{

@@ -1,6 +1,5 @@
 .gcBg{
 	overflow: hidden;
-	position: relative;
 }
 .gc-bgimg{
 	position: absolute;
@@ -12,4 +11,23 @@
 .ge-main{
 	position: absolute;
 	z-index: 2;
+}
+
+.gc-btn{
+	width: 300upx;
+	height: 120upx;
+	text-align: center;
+	line-height: 120upx;
+	font-size: 36upx;
+	color: #fff;
+	background: linear-gradient(290deg, #FF1B38 0%, #FF5900 100%);
+	border-radius: 20upx;
+	letter-spacing: 4upx;
+	position: absolute;
+	left: 330upx;
+	top:83%;
+	z-index: 2;
+}
+.gc-btnGray{
+	background: #999;
 }
