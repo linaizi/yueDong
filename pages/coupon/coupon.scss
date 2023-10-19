@@ -33,9 +33,10 @@
 		border:2upx solid #E9BACA;
 		background: #FEEEF1;
 		@include dflex(center,center);
+		padding: 0 20upx;
 		.item-lt{
 			border-right: 2upx solid #B39A8B;
-			padding-right: 35upx;
+			padding-right: 4%;
 			p{
 				font-size: 22upx;
 				color:#333;

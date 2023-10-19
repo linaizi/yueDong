@@ -434,8 +434,11 @@
 				// 获取日期的月、日和星期
 				const month = (date.getMonth() + 1).toString(); // 添加 +1 并转换为字符串
 				const day = date.getDate().toString()+'日'; // 转换为字符串
-				const dayOfWeek = date.toLocaleDateString('default', { weekday: 'short' }); // 使用 'short' 格式
 				
+				let days = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+				let weekday = date.getDay();
+				const dayOfWeek = days[weekday]; 
+			
 				const today = new Date();		// 获取今天的日期
 				today.setHours(0, 0, 0, 0); // 将时间部分设置为零，只比较日期部分
 				

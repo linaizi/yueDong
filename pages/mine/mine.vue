@@ -27,7 +27,7 @@
 					<image :src="item.imgUrl" class="itemIcon"></image>
 					<view>{{item.tabName}}</view>
 				</view>
-				<view class="itemBox" @click="jumpToSonPage(4)" v-if="isOk&&UserInfo.level==6">
+				<view class="itemBox" @click="jgoSonPage" v-if="isOk&&UserInfo.level==6">
 					<image :src="FILE_BASE_URL + '/cb83f150-bd4d-4bcf-945e-6caabcfd8ba1.jpg'" class="itemIcon"></image>
 					<view>商城管理</view>
 				</view>
@@ -41,10 +41,11 @@
 					<image :src="FILE_BASE_URL + '/cb83f150-bd4d-4bcf-945e-6caabcfd8ba1.jpg'" class="itemIcon"></image>
 					<view>信息管理</view>
 				</view>
-				<view class="itemBox" @click="roleOrderClick">
+				<view class="itemBox" @click="roleOrderClick" v-if="UserInfo.level==2||UserInfo.level==3||UserInfo.level==5">
 					<image :src="FILE_BASE_URL + '/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg'" class="itemIcon"></image>
 					<view>订单管理</view>
 				</view>
+				
 				<view class="itemBox" @click="roleClick(2)"  v-if="UserInfo.level!=5">
 					<image :src="FILE_BASE_URL + '/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg'" class="itemIcon"></image>
 					<view>金额管理</view>
@@ -106,8 +107,7 @@
 			}
 		},
 	
-		methods: {
-			
+		methods: {		
 			getUserData(wcode){
 				myDetail().then((res) => {
 					if(res.code == 200){
@@ -175,31 +175,30 @@
 					case 2:
 						url='/pages/about/about'
 						break;
-					case 4:
-						uni.requestSubscribeMessage({
-							tmplIds: [
-								'5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo',
-								'SuJgC4tQwMrMtiMAx_7dzBi4vr2k455JyQQuzhmiQTI'
-							],
-							complete(res){
-								console.log(res)
-								uni.navigateTo({
-									url: '/packageA/aIndex/aIndex' 
-								});
-							}
-						})
-						break;
 				} 	
-				if(idx!=3){
-					if((idx==0||idx==1)&&!this.mid){
-						uni.showToast({title: '请先登录', icon:'none'});
-					}else{
-						uni.navigateTo({
-						    url
-						});
-					}
+				if((idx==0||idx==1)&&!this.mid){
+					uni.showToast({title: '请先登录', icon:'none'});
+				}else{
+					uni.navigateTo({
+						url
+					});
 				}
 			}),
+			
+			jgoSonPage(){
+				uni.requestSubscribeMessage({
+					tmplIds: [
+						'5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo',
+						'SuJgC4tQwMrMtiMAx_7dzBi4vr2k455JyQQuzhmiQTI'
+					],
+					complete(res){
+						console.log(res)
+						uni.navigateTo({
+							url: '/packageA/aIndex/aIndex' 
+						});
+					}
+				})
+			},
 			
 			roleClick(n){
 				let url=''
@@ -220,11 +219,11 @@
 				});
 			},
 			
-			roleOrderClick: debounce(function(i){
-				// 新订单通知：5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo  代收点，工厂，管理员
-				// 新分配骑手通知：5yk2srMqW6gZAVO2wQwC-cjjP2fhbuI2bGlwIIW53oo	骑手
-				// 申请退款通知：SuJgC4tQwMrMtiMAx_7dzBi4vr2k455JyQQuzhmiQTI		管理员
-				// 订单取消通知：95puLzzFORw95GC0ulCbheFflU2p5vpxchP_DqojXEs		代收点，工厂
+			// 新订单通知：5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo  代收点，工厂，管理员
+			// 新分配骑手通知：5yk2srMqW6gZAVO2wQwC-cjjP2fhbuI2bGlwIIW53oo	骑手
+			// 申请退款通知：SuJgC4tQwMrMtiMAx_7dzBi4vr2k455JyQQuzhmiQTI		管理员
+			// 订单取消通知：95puLzzFORw95GC0ulCbheFflU2p5vpxchP_DqojXEs		代收点，工厂
+			roleOrderClick(){
 				let arr = []
 				if(this.UserInfo.level==2){
 					arr = ['5yk2srMqW6gZAVO2wQwC-cjjP2fhbuI2bGlwIIW53oo']
@@ -244,7 +243,7 @@
 						});
 				  }
 				})
-			})
+			}
 			
 		},
 		

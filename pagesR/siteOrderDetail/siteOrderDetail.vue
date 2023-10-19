@@ -29,14 +29,14 @@
 						<view class="title-lt">预约上门取鞋时间</view>
 						<view class="title-rt">{{infoData.reservationTime}}</view>
 					</view>
-					<view class="od-title" v-if="infoData.type == 1&&infoData.status>=2" @click="openQsSel(infoData.status==2)">
+					<view class="od-title" v-if="infoData.type == 1&&infoData.status>=2&&quHuoQS!=='请选择骑手'" @click="openQsSel(infoData.status==2)">
 						<view class="title-lt">取货骑手</view>
 						<view class="title-rt">
 							{{quHuoQS}}
 							<uni-icons type="forward" size="32rpx" color="#666" v-if="infoData.status == 2"></uni-icons>
 						</view>
 					</view>
-					<view class="od-title" v-if="infoData.type == 1&&infoData.status>=7" @click="openQsSel(infoData.status==7)">
+					<view class="od-title" v-if="infoData.type == 1&&infoData.status>=7&&songHuoQS!=='请选择骑手'" @click="openQsSel(infoData.status==7)">
 						<view class="title-lt">送货骑手</view>
 						<view class="title-rt">
 							{{songHuoQS}}
@@ -117,12 +117,22 @@
 							</view>
 							<view class="qtBox">
 								<view class="qtBox-tt"><span class="tt-red">*</span>图片上传：</view>
-								<uni-file-picker
+								<!-- <uni-file-picker
 									limit="9" 
 									v-model="imageValue" 
 									@select="select"  
 									@delete="deletea">
-								</uni-file-picker>
+								</uni-file-picker> -->
+						
+								<div v-for="(i, index) in fArr" :key="index">
+									<uni-file-picker
+									       limit="9"
+									       v-model="imageValue[index]"
+									       @select="select($event,index)"
+									       @delete="deletea($event,index)"
+									></uni-file-picker>
+								</div>
+									
 							</view>
 						</view>
 					</view>
@@ -176,13 +186,14 @@
 		data() {
 			return {
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
-				imgArr:[],
 				param:{
 					orderId:0,
 					orderNo:0,
 				},
 				infoData:{},
-				imageValue:[],
+				imageValue:[[]],
+				// imageValue:[],
+				fArr: 1,
 				
 				quHuoQS:'请选择骑手',
 				songHuoQS:'请选择骑手',
@@ -215,9 +226,9 @@
 				uni.showLoading()
 				DSorderInfo(this.param).then((res) => {
 					if(res.code == 200){
-						if(res.data.status>2)
+						if(res.data.status>2&&res.data.ruser)
 							this.quHuoQS =  `${res.data.ruser.name || ''}`
-						if(res.data.status>7)
+						if(res.data.status>7&&res.data.returnRUser)
 							this.songHuoQS =  `${res.data.returnRUser.name || ''}`
 							
 						this.infoData = res.data;
@@ -315,29 +326,74 @@
 			},
 			
 			// 获取上传状态
-			select(e){
+			select(e,i){
 				e.tempFilePaths.forEach((item)=>{
 					const imgUrl = item
+						
 					uni.uploadFile({
 						url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
 						filePath: imgUrl,
 						name: 'file',
 						header:{"Content-Type": "multipart/form-data"},
 						success: (res) => {
-							this.imageValue.push({
+							this.imageValue[i].push({
 								url:JSON.parse(res.data).data,
 							})
+							
+							if(this.imageValue[this.fArr-1].length == 9){
+								this.imageValue.push([])
+								this.fArr++
+							}
 						}
 					});
 				})	
 			},
-			// 图片删除
-			deletea(e){
-				const num = this.imageValue.findIndex(v => v.url === e.tempFilePath);
-				this.imageValue.splice(num, 1);
+			deletea(e,i){
+				const num = this.imageValue[i].findIndex(v => v.url === e.tempFilePath);
+				this.imageValue[i].splice(num, 1);
+				
+				if(this.imageValue[this.fArr-1].length===0){
+					this.imageValue.pop()
+					this.fArr--
+				}
+				
+				let index = 0;
+				while (index < this.imageValue.length) {
+				  if (this.imageValue[index].length === 0) {
+				    this.imageValue.splice(index, 1);
+				    this.fArr--; // 减一
+				  } else {
+				    index++;
+				  }
+				}
 			},
 			
+			// select(e,i){
+			// 	e.tempFilePaths.forEach((item)=>{
+			// 		const imgUrl = item
+						
+			// 		uni.uploadFile({
+			// 			url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
+			// 			filePath: imgUrl,
+			// 			name: 'file',
+			// 			header:{"Content-Type": "multipart/form-data"},
+			// 			success: (res) => {
+			// 				this.imageValue.push({
+			// 					url:JSON.parse(res.data).data,
+			// 				})
+			// 			}
+			// 		});
+			// 	})	
+			// },
+			// 图片删除
+			// deletea(e){
+			// 	const num = this.imageValue.findIndex(v => v.url === e.tempFilePath);
+			// 	this.imageValue.splice(num, 1);
+			// },
+			
+			
 			subClick(){
+				
 				if(this.imageValue.length==0){
 					uni.showToast({title: '图片上传不能为空', icon:'none'});
 					return;
@@ -347,7 +403,15 @@
 					6: 2,
 				};
 				this.param.status = statusMapping[this.infoData.status];
-				this.param.pics = this.imageValue.map(item => item.url).join(',');
+				// this.param.pics = this.imageValue.map(item => item.url).join(',');
+				
+				let result = [];
+				for (let i = 0; i < this.imageValue.length; i++) {
+				  for (let j = 0; j < this.imageValue[i].length; j++) {
+				    result.push(this.imageValue[i][j].url);
+				  }
+				}
+				this.param.pics = result.join(',');
 				
 				DSorderEdit(this.param).then((res) => {
 					if(res.code == 200){
