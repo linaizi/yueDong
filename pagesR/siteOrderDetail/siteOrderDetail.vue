@@ -105,7 +105,8 @@
 					</view>
 				</view>
 				
-				<template v-if="infoData.status==4||infoData.status==6">
+				<!-- <template v-if="infoData.status==4||infoData.status==6"> -->
+				<template>
 					<view class="odBox">
 						<view class="od-title">
 							<view class="title-lt">操作</view>
@@ -124,14 +125,14 @@
 									@delete="deletea">
 								</uni-file-picker> -->
 						
-								<div v-for="(i, index) in fArr" :key="index">
+								<view v-for="(i, index) in fArr" :key="index" class="mt20">
 									<uni-file-picker
 									       limit="9"
 									       v-model="imageValue[index]"
 									       @select="select($event,index)"
 									       @delete="deletea($event,index)"
 									></uni-file-picker>
-								</div>
+								</view>
 									
 							</view>
 						</view>
@@ -219,6 +220,7 @@
 			this.param.orderNo = option.orderNo;
 			this.getInfo();
 			this.initData();
+			
 		},
 		
 		methods: {
@@ -327,77 +329,62 @@
 			
 			// 获取上传状态
 			select(e,i){
-				e.tempFilePaths.forEach((item)=>{
-					const imgUrl = item
-						
-					uni.uploadFile({
-						url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
-						filePath: imgUrl,
-						name: 'file',
-						header:{"Content-Type": "multipart/form-data"},
-						success: (res) => {
-							this.imageValue[i].push({
-								url:JSON.parse(res.data).data,
-							})
+				e.tempFilePaths.forEach((imgUrl)=>{
+					this.imageValue[i].push({
+						url:imgUrl,
+					})
+					
+					if(this.imageValue[this.fArr-1].length == 9){
+						this.imageValue.push([])
+						this.fArr++
+					}
+					
+					// uni.uploadFile({
+					// 	url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
+					// 	filePath: imgUrl,
+					// 	name: 'file',
+					// 	header:{"Content-Type": "multipart/form-data"},
+					// 	success: (res) => {
+					// 		this.imageValue[i].push({
+					// 			url:JSON.parse(res.data).data,
+					// 		})
 							
-							if(this.imageValue[this.fArr-1].length == 9){
-								this.imageValue.push([])
-								this.fArr++
-							}
-						}
-					});
+					// 		if(this.imageValue[this.fArr-1].length == 9){
+					// 			this.imageValue.push([])
+					// 			this.fArr++
+					// 		}
+					// 	}
+					// });
 				})	
 			},
 			deletea(e,i){
 				const num = this.imageValue[i].findIndex(v => v.url === e.tempFilePath);
 				this.imageValue[i].splice(num, 1);
 				
-				if(this.imageValue[this.fArr-1].length===0){
+				let fArrNum = this.fArr;
+				if(this.imageValue[fArrNum-1].length===0&&fArrNum!==1){
+					console.log('del')
 					this.imageValue.pop()
-					this.fArr--
+					fArrNum--
 				}
 				
-				let index = 0;
-				while (index < this.imageValue.length) {
-				  if (this.imageValue[index].length === 0) {
-				    this.imageValue.splice(index, 1);
-				    this.fArr--; // 减一
-				  } else {
-				    index++;
-				  }
-				}
+				this.imageValue.forEach((item,index)=>{
+					if(item.length === 0&&fArrNum!==1){
+						this.imageValue.splice(index, 1);
+						fArrNum--; // 减一
+					}
+				})
+				
+				this.fArr = fArrNum;
 			},
 			
-			// select(e,i){
-			// 	e.tempFilePaths.forEach((item)=>{
-			// 		const imgUrl = item
-						
-			// 		uni.uploadFile({
-			// 			url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
-			// 			filePath: imgUrl,
-			// 			name: 'file',
-			// 			header:{"Content-Type": "multipart/form-data"},
-			// 			success: (res) => {
-			// 				this.imageValue.push({
-			// 					url:JSON.parse(res.data).data,
-			// 				})
-			// 			}
-			// 		});
-			// 	})	
-			// },
-			// 图片删除
-			// deletea(e){
-			// 	const num = this.imageValue.findIndex(v => v.url === e.tempFilePath);
-			// 	this.imageValue.splice(num, 1);
-			// },
-			
-			
 			subClick(){
-				
+				console.log(this.imageValue)
 				if(this.imageValue.length==0){
 					uni.showToast({title: '图片上传不能为空', icon:'none'});
 					return;
 				}
+				return;
 				const statusMapping = {
 					4: 1,
 					6: 2,
