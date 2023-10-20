@@ -144,7 +144,7 @@
 							</view>
 						</view>
 						<view class="item-foot">
-							<p class="foot-p">有效日期：<span class="p-span">{{cu.possessTime}}-{{cu.expireTime}}</span></p>
+							<p class="foot-p">有效期至：<span class="p-span">{{cu.expireTime.split(' ')[0]}}</span></p>
 							<p class="foot-p">适用商品：所有商品</p>
 						</view>
 					</view>
@@ -202,7 +202,7 @@
 			this.goodsData = JSON.parse(option.goodsData);
 			
 			const goodsNum = this.goodsData.reduce((acc, item) => {
-			  this.couponParam.amount1 += item.goodsNowPrice * item.goodsNum;
+			  this.couponParam.amount += item.goodsNowPrice * item.goodsNum;
 			  return acc + item.goodsNum;
 			}, 0);
 			this.getAddr();	//获取用户地址

@@ -135,6 +135,7 @@
 				this.amount = '';
 			},
 			yesTc(){
+				if(!this.amount) return;
 				const txAPI = (queryFunction) => {
 					queryFunction({ amount: this.amount}).then((res) => {
 						if(res.code == 200){

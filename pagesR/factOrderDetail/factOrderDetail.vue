@@ -102,12 +102,15 @@
 							</view>
 							<view class="qtBox">
 								<view class="qtBox-tt">图片上传：</view>
-								<uni-file-picker
-									limit="9" 
-									v-model="imageValue" 
-									@select="select"  
-									@delete="deletea">
-								</uni-file-picker>
+								
+								<view v-for="(i, index) in fArr" :key="index" class="mt20">
+									<uni-file-picker
+									       limit="9"
+									       v-model="imageValue[index]"
+									       @select="select($event,index)"
+									       @delete="deletea($event,index)"
+									></uni-file-picker>
+								</view>
 							</view>
 						</view>
 					</view>
@@ -134,7 +137,8 @@
 					orderNo:0
 				},
 				infoData:{},
-				imageValue:[],
+				imageValue:[[]],
+				fArr: 1,
 			
 			}
 		},
@@ -184,30 +188,55 @@
 			},
 			
 			// 获取上传状态
-			select(e){
-				e.tempFilePaths.forEach((item)=>{
-					const imgUrl = item
+			select(e,i){
+				e.tempFilePaths.forEach((imgUrl)=>{
 					uni.uploadFile({
 						url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
 						filePath: imgUrl,
 						name: 'file',
 						header:{"Content-Type": "multipart/form-data"},
 						success: (res) => {
-							this.imageValue.push({
+							this.imageValue[i].push({
 								url:JSON.parse(res.data).data,
 							})
+							
+							if(this.imageValue[this.fArr-1].length == 9){
+								this.imageValue.push([])
+								this.fArr++
+							}
 						}
 					});
 				})	
 			},
-			// 图片删除
-			deletea(e){
-				const num = this.imageValue.findIndex(v => v.url === e.tempFilePath);
-				this.imageValue.splice(num, 1);
+			deletea(e,i){
+				const num = this.imageValue[i].findIndex(v => v.url === e.tempFilePath);
+				this.imageValue[i].splice(num, 1);
+				
+				let fArrNum = this.fArr;
+				if(this.imageValue[fArrNum-1].length===0&&fArrNum!==1){
+					this.imageValue.pop()
+					fArrNum--
+				}
+				
+				this.imageValue.forEach((item,index)=>{
+					if(item.length === 0&&fArrNum!==1){
+						this.imageValue.splice(index, 1);
+						fArrNum--; // 减一
+					}
+				})
+				
+				this.fArr = fArrNum;
 			},
 			
 			subClick(){
-				this.listQuery.pics = this.imageValue.map(item => item.url).join(',');
+				let result = [];
+				for (let i = 0; i < this.imageValue.length; i++) {
+				  for (let j = 0; j < this.imageValue[i].length; j++) {
+				    result.push(this.imageValue[i][j].url);
+				  }
+				}
+				this.listQuery.pics = result.join(',');
+				
 				
 				GCorderEdit(this.listQuery).then((res) => {
 					if(res.code == 200){

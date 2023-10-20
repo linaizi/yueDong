@@ -105,8 +105,7 @@
 					</view>
 				</view>
 				
-				<!-- <template v-if="infoData.status==4||infoData.status==6"> -->
-				<template>
+				<template v-if="infoData.status==4||infoData.status==6">
 					<view class="odBox">
 						<view class="od-title">
 							<view class="title-lt">操作</view>
@@ -118,12 +117,6 @@
 							</view>
 							<view class="qtBox">
 								<view class="qtBox-tt"><span class="tt-red">*</span>图片上传：</view>
-								<!-- <uni-file-picker
-									limit="9" 
-									v-model="imageValue" 
-									@select="select"  
-									@delete="deletea">
-								</uni-file-picker> -->
 						
 								<view v-for="(i, index) in fArr" :key="index" class="mt20">
 									<uni-file-picker
@@ -133,7 +126,7 @@
 									       @delete="deletea($event,index)"
 									></uni-file-picker>
 								</view>
-									
+								
 							</view>
 						</view>
 					</view>
@@ -193,7 +186,6 @@
 				},
 				infoData:{},
 				imageValue:[[]],
-				// imageValue:[],
 				fArr: 1,
 				
 				quHuoQS:'请选择骑手',
@@ -330,31 +322,22 @@
 			// 获取上传状态
 			select(e,i){
 				e.tempFilePaths.forEach((imgUrl)=>{
-					this.imageValue[i].push({
-						url:imgUrl,
-					})
-					
-					if(this.imageValue[this.fArr-1].length == 9){
-						this.imageValue.push([])
-						this.fArr++
-					}
-					
-					// uni.uploadFile({
-					// 	url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
-					// 	filePath: imgUrl,
-					// 	name: 'file',
-					// 	header:{"Content-Type": "multipart/form-data"},
-					// 	success: (res) => {
-					// 		this.imageValue[i].push({
-					// 			url:JSON.parse(res.data).data,
-					// 		})
+					uni.uploadFile({
+						url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
+						filePath: imgUrl,
+						name: 'file',
+						header:{"Content-Type": "multipart/form-data"},
+						success: (res) => {
+							this.imageValue[i].push({
+								url:JSON.parse(res.data).data,
+							})
 							
-					// 		if(this.imageValue[this.fArr-1].length == 9){
-					// 			this.imageValue.push([])
-					// 			this.fArr++
-					// 		}
-					// 	}
-					// });
+							if(this.imageValue[this.fArr-1].length == 9){
+								this.imageValue.push([])
+								this.fArr++
+							}
+						}
+					});
 				})	
 			},
 			deletea(e,i){
@@ -363,7 +346,6 @@
 				
 				let fArrNum = this.fArr;
 				if(this.imageValue[fArrNum-1].length===0&&fArrNum!==1){
-					console.log('del')
 					this.imageValue.pop()
 					fArrNum--
 				}
@@ -379,8 +361,7 @@
 			},
 			
 			subClick(){
-				console.log(this.imageValue)
-				if(this.imageValue.length==0){
+				if(this.imageValue[0].length==0){
 					uni.showToast({title: '图片上传不能为空', icon:'none'});
 					return;
 				}

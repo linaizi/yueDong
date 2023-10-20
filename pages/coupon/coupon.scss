@@ -32,42 +32,44 @@
 		margin-top: 24upx;
 		border:2upx solid #E9BACA;
 		background: #FEEEF1;
-		@include dflex(center,center);
+		@include dflex(space-between,center);
 		padding: 0 20upx;
 		.item-lt{
 			border-right: 2upx solid #B39A8B;
-			padding-right: 4%;
-			p{
-				font-size: 22upx;
+			padding-right: 5%;
+			.lt-p1{
+				font-size: 26upx;
 				color:#333;
 				text-align: center;
+				font-weight: bold;
 			}
 			.lt-p{
 				font-weight: bold;
 				font-size: 40upx;
 				span{
-					font-size: 54upx;
+					font-size: 56upx;
 				}
 			}
 		}
 		.item-md{
 			margin: 0 22upx;
+			flex: 1;
 			.md-t{
-				font-size: 30upx;
+				font-size: 34upx;
 				font-weight: bold;
 				color:#622740;
 				span{
 					background: #FD7492;
 					padding: 3upx 12upx 4upx;
 					font-weight: normal;
-					font-size: 20upx;
+					font-size: 22upx;
 					color:#fff;
 					border-radius: 100upx;
 					margin-left: 10upx;
 				}
 			}
 			.md-p{
-				font-size: 22upx;
+				font-size: 24upx;
 				color:#622740;
 				margin-top: 10upx;
 			}

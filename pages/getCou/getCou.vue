@@ -1,11 +1,7 @@
 <template>
 	<view class="allBg gcBg" :style="bgStyle">
-		<!-- https://file.yuedongxixie.com/file/d19d89ee-9d85-4345-8994-1b991cdbdffe.jpg -->
-		<!-- https://file.yuedongxixie.com/file/551c702f-e753-4cd1-bb22-03d674a88b47.jpg -->
 		<template v-if="isImageLoaded">
-			<view class="ge-main">
-				<!-- <image src="../../static/img/1.png" mode="" class="main-quan"></image> -->
-				
+				<!-- <image src="https://file.yuedongxixie.com/file/ea8aac4e-172e-4298-aee2-3cbd774c4c4e.png" mode="" class="main-quan"></image> -->
 				<!-- <image src="../../static/img/51.png" mode=""></image> -->
 				<!-- <view class="lt-top">
 					<p class="top-mon">券面额:￥<span class="mon-b">{{couInfo.amount}}</span> </p>
@@ -15,9 +11,16 @@
 				<view class="md-p1">{{couInfo.possessStartTime}} - {{couInfo.possessEndTime}}</view>
 				<view class="md-p">优惠券使用时间</view>
 				<view class="md-p1">{{couInfo.useStartTime}} - {{couInfo.useEndTime}}</view> -->
-			</view>
 			
 			<view :class="['gc-btn',{'gc-btnGray':btnNo}]" @click="subClick">{{btnTxt}}</view>
+			
+			<view class="txt-foot">
+				<view class="foot-top">优惠券使用说明:</view>
+				<p class="foot-p">1.此优惠券满<span>{{couInfo.conditionAmount}}元</span>即可使用,出示该优惠卷即可立减<span>{{couInfo.amount}}元</span></p>
+				<p class="foot-p">2.此优惠券不可与店内其他优惠一同使用</p>
+				<p class="foot-p">3.此券限活动期限内使用</p>
+				<p class="foot-p">4.此券最终解释权归本店所有</p>
+			</view>
 		</template>
 		
 		<Pplog ref="logchild" :mid.sync="mid"  @getData='getUserData'></Pplog>	
@@ -45,8 +48,9 @@
 			}
 		},
 		onLoad(option) {
+			console.log(option)
 			this.couponId = option.id;
-			this.imgUrl = 'https://file.yuedongxixie.com/file/551c702f-e753-4cd1-bb22-03d674a88b47.jpg'
+			this.imgUrl = option.imgUrl || this.$BASE_URLS.FILE_BASE_URL+'/15c8097c-e242-41f4-9900-fbe1cdd04330.png'
 			uni.showLoading({
 				title: '加载中...',
 				mask:true,

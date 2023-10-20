@@ -91,6 +91,7 @@
 						</view>
 					</view>
 				</view>
+				
 			</view>
 			
 		</view>
@@ -115,7 +116,7 @@
 					Hour:0,
 					Minute:10,
 					Second:10,
-				}
+				},
 			}
 		},
 		onLoad(option) {

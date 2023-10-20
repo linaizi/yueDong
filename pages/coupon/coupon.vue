@@ -19,13 +19,13 @@
 				<view :class="['cponBox',{'cponItem-no':topId !== 2}]" >
 					<view class="cponItem" v-for="(item,index) in recommendArr" :key="index">
 						<view class="item-lt">
-							<p class="lt-p">￥<span>{{item.couponDto.amount}}</span> </p>
-							<p>满{{item.couponDto.conditionAmount}}元可用</p>
+							<p class="lt-p">￥<span>{{item.couponDto.amount.toFixed(1)}}</span> </p>
+							<p class="lt-p1">满{{item.couponDto.conditionAmount}}元可用</p>
 						</view>
 						<view class="item-md">
 							<view class="md-t">{{item.couponDto.amount}}元券 <span>{{item.couponDto.type == 1 ? '新人' : '满减'}}券</span></view>
 							<view class="md-p">适用商品：所有商品</view>
-							<view class="md-p">有效期至：{{item.expireTime}}</view>
+							<view class="md-p">有效期至：{{item.expireTime.split(' ')[0]}}</view>
 						</view>
 						<view class="item-rt" @click="goSort">{{txtArr[topId]}}</view>
 					</view>
@@ -130,7 +130,7 @@
 			
 			goSort(){
 				if(this.topId!==2) return;
-				uni.navigateTo({
+				uni.switchTab({
 					url: "/pages/sort/sort",
 				})
 			},
