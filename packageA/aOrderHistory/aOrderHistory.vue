@@ -370,5 +370,6 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'aOrderHistory.scss'
+	@import 'aOrderHistory.scss';
+	@import '../pageA.scss'
 </style>

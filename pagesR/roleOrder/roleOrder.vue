@@ -225,5 +225,6 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'roleOrder.scss'
+	@import 'roleOrder.scss';
+	@import '@/packageA/pageA.scss';
 </style>

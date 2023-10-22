@@ -253,5 +253,6 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'tiXian.scss'
+	@import 'tiXian.scss';
+	@import '../pageA.scss';
 </style>

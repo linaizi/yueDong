@@ -17,10 +17,10 @@
 					<span class="ml10" style="flex-shrink: 0;">元内可用</span>
 				</uni-forms-item>
 				<uni-forms-item label="券领取时间" name="lqTime">
-					 <uni-datetime-picker v-model="formData.lqTime" type="datetimerange" rangeSeparator="至" />
+					 <Datetime-Picker v-model="formData.lqTime" type="datetimerange" rangeSeparator="至" />
 				</uni-forms-item>
 				<uni-forms-item label="券使用时间" name="syTime">
-					 <uni-datetime-picker v-model="formData.syTime" type="datetimerange" rangeSeparator="至" />
+					 <Datetime-Picker v-model="formData.syTime" type="datetimerange" rangeSeparator="至" />
 				</uni-forms-item>
 				<uni-forms-item label="券数量" name="totalNum">
 					<uni-easyinput v-model="formData.totalNum" placeholder="请输入券数量" placeholder-style="font-size:28rpx"/>
@@ -38,7 +38,12 @@
 
 <script>
 	import { AcouponAdd } from '@/api/page/manage.js'
+	import DatetimePicker from "@/packageA/uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker.vue"
+	
 	export default {
+		components: {
+			DatetimePicker,
+		},
 		data() {
 			return {
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
@@ -158,5 +163,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'addCoupon.scss'
+	@import 'addCoupon.scss';
 </style>

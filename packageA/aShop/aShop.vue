@@ -278,5 +278,6 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'aShop.scss'
+	@import 'aShop.scss';
+	@import '../pageA.scss';
 </style>

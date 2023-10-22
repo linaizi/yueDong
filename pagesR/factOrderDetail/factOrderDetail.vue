@@ -102,15 +102,11 @@
 							</view>
 							<view class="qtBox">
 								<view class="qtBox-tt">图片上传：</view>
-								
-								<view v-for="(i, index) in fArr" :key="index" class="mt20">
-									<uni-file-picker
-									       limit="9"
-									       v-model="imageValue[index]"
-									       @select="select($event,index)"
-									       @delete="deletea($event,index)"
-									></uni-file-picker>
-								</view>
+								<izUploaderImg
+									v-model="izUpImgs"  
+									:number="99"  
+									@change="change">
+								</izUploaderImg>
 							</view>
 						</view>
 					</view>
@@ -137,8 +133,7 @@
 					orderNo:0
 				},
 				infoData:{},
-				imageValue:[[]],
-				fArr: 1,
+				izUpImgs:[],
 			
 			}
 		},
@@ -187,56 +182,12 @@
 				this.initData();
 			},
 			
-			// 获取上传状态
-			select(e,i){
-				e.tempFilePaths.forEach((imgUrl)=>{
-					uni.uploadFile({
-						url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
-						filePath: imgUrl,
-						name: 'file',
-						header:{"Content-Type": "multipart/form-data"},
-						success: (res) => {
-							this.imageValue[i].push({
-								url:JSON.parse(res.data).data,
-							})
-							
-							if(this.imageValue[this.fArr-1].length == 9){
-								this.imageValue.push([])
-								this.fArr++
-							}
-						}
-					});
-				})	
-			},
-			deletea(e,i){
-				const num = this.imageValue[i].findIndex(v => v.url === e.tempFilePath);
-				this.imageValue[i].splice(num, 1);
-				
-				let fArrNum = this.fArr;
-				if(this.imageValue[fArrNum-1].length===0&&fArrNum!==1){
-					this.imageValue.pop()
-					fArrNum--
-				}
-				
-				this.imageValue.forEach((item,index)=>{
-					if(item.length === 0&&fArrNum!==1){
-						this.imageValue.splice(index, 1);
-						fArrNum--; // 减一
-					}
-				})
-				
-				this.fArr = fArrNum;
+			change(e,name){
+				this.izUpImgs = e.urls
 			},
 			
 			subClick(){
-				let result = [];
-				for (let i = 0; i < this.imageValue.length; i++) {
-				  for (let j = 0; j < this.imageValue[i].length; j++) {
-				    result.push(this.imageValue[i][j].url);
-				  }
-				}
-				this.listQuery.pics = result.join(',');
-				
+				this.listQuery.pics = this.izUpImgs.join(',');
 				
 				GCorderEdit(this.listQuery).then((res) => {
 					if(res.code == 200){

@@ -26,7 +26,7 @@
 							<template v-if="item.type==1">
 								<uni-icons type="hand-up-filled" size="56rpx" color="#FF5C5C"></uni-icons>好评
 							</template>
-							<template v-else-if="item.type==2	">
+							<template v-else-if="item.type==2">
 								<uni-icons type="hand-up" size="56rpx" color="#FF5C5C"></uni-icons>中评
 							</template>
 							<template v-else>
@@ -233,5 +233,6 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'aPingLun.scss'
+	@import 'aPingLun.scss';
+	@import '../pageA.scss';
 </style>

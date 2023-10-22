@@ -107,7 +107,7 @@
 			}
 		},
 	
-		methods: {		
+		methods: {	
 			getUserData(wcode){
 				myDetail().then((res) => {
 					if(res.code == 200){

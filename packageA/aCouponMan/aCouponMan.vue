@@ -26,7 +26,7 @@
 					</view>
 					<view class="item-rt">
 						<view class="rt-del" @click="delClick(item.id,index)"><uni-icons type="trash" size="36rpx" color="#fff"></uni-icons><p>删除</p></view>
-						<view class="rt-share" v-if="!item.ifStock" @click="openShare(item.id)">分享</view>
+						<view class="rt-share" v-if="listQuery.status==2&&!item.ifStock" @click="openShare(item.id)">分享</view>
 					</view>
 				</view>
 			</view>
@@ -318,5 +318,6 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'aCouponMan.scss'
+	@import 'aCouponMan.scss';
+	@import '../pageA.scss';
 </style>

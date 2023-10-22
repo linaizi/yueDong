@@ -292,5 +292,6 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'siteManage.scss'
+	@import 'siteManage.scss';
+	@import '@/packageA/pageA.scss'
 </style>

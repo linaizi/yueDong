@@ -10,20 +10,23 @@
 					></uni-data-select>
 				</uni-forms-item>
 				<uni-forms-item label="商品主图(1张)" name="goodsPic">
-					<uni-file-picker
-						limit="1" 
-						v-model="formData.goodsPic" 
-						@select="select($event,'goodsPic')"  
-						@delete="deletea($event,'goodsPic')">
-					</uni-file-picker>
+					<view style="width: 100%; height: 100%;">
+						<izUploaderImg
+							ref="izUpImg1" 
+							v-model="formData.goodsPic"  
+							:number="1"  
+							@change="change($event,'goodsPic')">
+						</izUploaderImg>
+					</view>
 				</uni-forms-item>
 				<uni-forms-item label="商品轮播图(≤9张)" name="goodsImgs">
-					<uni-file-picker
-						limit="9" 
-						v-model="formData.goodsImgs" 
-						@select="select($event,'goodsImgs')"  
-						@delete="deletea($event,'goodsImgs')">
-					</uni-file-picker>
+					<view style="width: 100%; height: 100%;">
+						<izUploaderImg
+							ref="izUpImg2" 
+							v-model="formData.goodsImgs"  							
+							@change="change($event,'goodsImgs')">
+						</izUploaderImg>
+					</view>
 				</uni-forms-item>
 				<uni-forms-item label="商品名称" name="goodsName">
 					<uni-easyinput v-model="formData.goodsName"  placeholder="请输入商品名称" placeholder-style="font-size:28rpx"/>
@@ -39,16 +42,18 @@
 				<uni-forms-item label="商品库存" name="stockNum">
 					<uni-easyinput v-model="formData.stockNum" placeholder="请输入商品库存" placeholder-style="font-size:28rpx"/>
 					<span class="ml10">件</span>
-				</uni-forms-item>
+				</uni-forms-item>			
 				<uni-forms-item label="商品详情图(≤9张)" name="goodsInfoImas">
-					<uni-file-picker
-						limit="9" 
-						v-model="formData.goodsInfoImas" 
-						@select="select($event,'goodsInfoImas')"  
-						@delete="deletea($event,'goodsInfoImas')">
-					</uni-file-picker>
+					<view style="width: 100%; height: 100%;">
+						<izUploaderImg
+							ref="izUpImg3" 
+							v-model="formData.goodsInfoImas"  
+							:number="9"  
+							@change="change($event,'goodsInfoImas')">
+						</izUploaderImg>
+					</view>
 				</uni-forms-item>
-			
+				
 			</uni-forms>
 		</view>
 		
@@ -57,16 +62,21 @@
 			<view class="btn btn1" @click="submitForm(true)">上 架</view> 
 		</view>
 		
-		
 	</view>
 </template>
 
 <script>
 	import { categoryList } from '@/api/page/index.js'
 	import { goodsAdd,goodsEdit } from '@/api/page/manage.js'
+	import izUploaderImg from '@/components/iz-uploader-img/iz-uploader-img.vue'
+	
 	export default {
+		components: {
+			izUploaderImg
+		},
 		data() {
 			return {
+				isEdit:false,
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				cateData:[],
 				formData: {
@@ -142,6 +152,13 @@
 							}
 						]
 					},
+					imaa: {
+						rules: [{
+								required: true,
+								errorMessage: '图片不能为空',
+							}
+						]
+					},
 				}
 			}
 		},
@@ -150,25 +167,34 @@
 			if(option.item) {
 				let arr = JSON.parse(option.item)
 				arr.goodsImgs = mapUrlsToObjects(arr.goodsImgs);
-				arr.goodsPic = [{url:arr.goodsPic}];
+				arr.goodsPic = [{ src: arr.goodsPic, url:arr.goodsPic}];
 				arr.goodsInfoImas = mapUrlsToObjects(arr.goodsInfoImas);
 				
 				this.formData = arr;
+				this.isEdit = true;
 			}
 			
 			function mapUrlsToObjects(array) {
 			  return array.map(function(imgUrl) {
-			    return { url: imgUrl };
+			    return { src: imgUrl, url: imgUrl };
 			  });
 			}
 			
 		},
 		onReady() {
 			// 需要在onReady中设置规则
-			this.$refs.baseForm.setRules(this.rules)
+			this.$refs.baseForm.setRules(this.rules)	
+			if(this.isEdit){
+				setTimeout(()=>{
+					this.$refs.izUpImg1.init(this.formData.goodsPic)
+					this.$refs.izUpImg2.init(this.formData.goodsImgs)  
+					this.$refs.izUpImg3.init(this.formData.goodsInfoImas)  
+				},1200)
+			}
+			
 		},
 		
-		methods: {
+		methods: {	
 			getCateList(){
 				categoryList().then((res) => {
 					if(res.code == 200){
@@ -191,42 +217,17 @@
 				this.$refs.baseForm.setValue(name,value)
 			},
 			
-			// 获取上传状态
-			select(e,field){
-				// 如果formData中不存在field属性，初始化为空数组
-				if (!this.formData.hasOwnProperty(field)) {
-				  this.$set(this.formData, field, []);
-				}
-				
-				e.tempFilePaths.forEach((item)=>{
-					const imgUrl = item
-					uni.uploadFile({
-						url: this.$BASE_URLS.FILE_upload_URL+'/elantra/img/file-upload', 
-						filePath: imgUrl,
-						name: 'file',
-						header:{"Content-Type": "multipart/form-data"},
-						success: (res) => {
-							this.formData[field].push({
-								url:JSON.parse(res.data).data,
-							});
-						}
-					});
-				})	
-				
-			},
-			// 图片删除
-			deletea(e,field){
-				const num = this.formData[field].findIndex(v => v.url === e.tempFilePath);
-				this.formData[field].splice(num, 1);
+			change(e,name){
+				this.$set(this.formData,name,e.urls)
 			},
 			
 			submitForm(tr) {
 				this.$refs.baseForm.validate().then(res=>{
 					console.log('表单数据信息：', res);
 					let param = { ...res };
-					param.goodsImgs = res.goodsImgs.map(item => item.url).join(',');
-					param.goodsInfoImas = res.goodsInfoImas.map(item => item.url).join(',');
-					param.goodsPic = res.goodsPic.map(item => item.url).join(',');
+					param.goodsImgs = res.goodsImgs.join(',');
+					param.goodsInfoImas = res.goodsInfoImas.join(',');
+					param.goodsPic = res.goodsPic.join(',');
 					param.ifSaveAndGrounding = tr;
 					
 					uni.showLoading()

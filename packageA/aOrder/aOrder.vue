@@ -109,10 +109,10 @@
 			 <view class="timePpBox">
 				 <view class="pp-title">筛选时间</view>
 				 <view class="pp-tm">
-					 <view v-for="(t,i) in tmArr" :key="i" :class="['tm-item',{'tm-item-act':i==listQuery.type}]" @click="tmClick(i)">{{t}}</view>
+					 <view v-for="(t,i) in tmArr" :key="i" :class="['tm-item',{'tm-item-act':i==tmId}]" @click="tmClick(i)">{{t}}</view>
 				 </view>
-				 <view class="pp-timePk" v-if="listQuery.type==4">
-					  <uni-datetime-picker v-model="datetimerange" type="datetimerange" rangeSeparator="至" />
+				 <view class="pp-timePk" v-if="tmId==4">
+					  <Datetime-Picker v-model="datetimerange" type="datetimerange" rangeSeparator="至" />
 				 </view>
 				 <view class="pp-btn">
 					 <view class="btn1" @click="tmClose">取消</view>
@@ -120,8 +120,7 @@
 				 </view>
 			 </view>
 		 </uni-popup>
-		 
-		<!-- 时间筛选弹窗			 -->
+	
 		
 		<!-- 修改订单状态弹窗 -->
 		<uni-popup ref="staPopup" type="center">
@@ -135,9 +134,9 @@
 					 <view class="btn1 blue" @click="staYes">确认</view>
 				 </view>
 			 </view>
-		 </uni-popup>
+		</uni-popup>
 		 
-		 <Pgtab :tabid="2"></Pgtab>
+		<Pgtab :tabid="2"></Pgtab>
 	</view>
 </template>
 
@@ -145,9 +144,12 @@
 	import Pgtab from "../components/pgtab/pgtab.vue"
 	import { AorderPage,AorderEdit,AorderOperate } from '@/api/page/manage.js'
 	import { rtStatus } from '@/common/tool.js'
+	import DatetimePicker from "@/packageA/uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker.vue"
+	
 	export default {
 		components: {
-			Pgtab
+			Pgtab,
+			DatetimePicker
 		},
 		data() {
 			return {
@@ -175,6 +177,7 @@
 				
 				tmArr:['汇总','今日','昨日','7日','自定义'],
 				timeTxt: '汇总',
+				tmId:0,
 				datetimerange:[],
 				visibleIds: [], // 用于跟踪哪些项目的 "lt-more" 可见
 				staArr:[],
@@ -279,16 +282,18 @@
 			
 			//自定义时间事件
 			tmClick(i){
-				this.listQuery.type = i;
+				this.tmId = i;
 			},
 			tmClose(){
 				this.$refs.timePopup.close();
+				 this.tmId = this.listQuery.type;
 			},
 			tmYes(){
 				if(this.listQuery.type != 4){
 					this.listQuery.beginTime = undefined;
 					this.listQuery.endTime = undefined;
 				}
+				this.listQuery.type = this.tmId;
 				this.timeTxt = this.tmArr[this.listQuery.type];
 				this.$refs.timePopup.close();
 				this.fetchData()
@@ -310,7 +315,7 @@
 				this.TKdata.status = n;
 			},
 			TKyes(){
-				if(TKdata.status === 2&&!this.TKdata.afterRefuseReason){
+				if(this.TKdata.status === 2&&!this.TKdata.afterRefuseReason){
 					uni.showToast({title: '拒绝理由不能为空', icon:'none'});
 					return;
 				}
@@ -487,5 +492,6 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'aOrder.scss'
+	@import 'aOrder.scss';
+	@import '../pageA.scss'
 </style>

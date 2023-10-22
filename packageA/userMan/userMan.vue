@@ -339,5 +339,6 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'userMan.scss'
+	@import 'userMan.scss';
+	@import '../pageA.scss';
 </style>
