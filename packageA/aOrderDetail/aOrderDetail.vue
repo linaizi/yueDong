@@ -58,7 +58,7 @@
 						<view class="qtBox-tt">{{typeTxt(oot.type)}}备注：</view>
 						<view class="qtBox-txt">{{oot.remarks}}</view>
 					</view>
-					<view class="qtBox" v-if="oot.pic.length>0">
+					<view class="qtBox" v-if="oot.pic&&oot.pic.length>0">
 						<view class="qtBox-tt">{{typeTxt(oot.type)}}上传的图片：</view>
 						<view class="image-grid">
 						  <image v-for="(i,ind) in oot.pic" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(oot.pic,ind)"></image>

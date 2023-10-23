@@ -29,14 +29,14 @@
 						<view class="title-lt">预约上门取鞋时间</view>
 						<view class="title-rt">{{infoData.reservationTime}}</view>
 					</view>
-					<view class="od-title" v-if="infoData.type == 1&&infoData.status>=2&&quHuoQS!=='请选择骑手'" @click="openQsSel(infoData.status==2)">
+					<view class="od-title" v-if="isQSturn(2)" @click="openQsSel(infoData.status==2)">
 						<view class="title-lt">取货骑手</view>
 						<view class="title-rt">
 							{{quHuoQS}}
 							<uni-icons type="forward" size="32rpx" color="#666" v-if="infoData.status == 2"></uni-icons>
 						</view>
 					</view>
-					<view class="od-title" v-if="infoData.type == 1&&infoData.status>=7&&songHuoQS!=='请选择骑手'" @click="openQsSel(infoData.status==7)">
+					<view class="od-title" v-if="isQSturn(7)" @click="openQsSel(infoData.status==7)">
 						<view class="title-lt">送货骑手</view>
 						<view class="title-rt">
 							{{songHuoQS}}
@@ -271,6 +271,10 @@
 				}).catch(e=>{
 					this.isLoadMore=false
 				})
+			},
+			
+			isQSturn(n){
+				return this.infoData.type == 1&&this.infoData.status>=n &&this.infoData.status<12
 			},
 			
 			openQsSel(n){

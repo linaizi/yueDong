@@ -97,7 +97,11 @@
 			}
 		},
 		onLoad(option) {
-			this.level = option.level
+			let UserInfo = {}
+			if(uni.getStorageSync('UserInfo')){
+				UserInfo = JSON.parse(uni.getStorageSync('UserInfo'))
+			}
+			this.level = option.level || UserInfo.level
 			this.initData()
 		},
 		onShow() {
@@ -153,12 +157,17 @@
 					});
 				};
 				
+				console.log('level',this.level)
 				if (this.level == 2) {
 					fetchData(RorderPage);
 				} else if (this.level == 3) {
 					fetchData(DSorderPage);
 				} else if (this.level == 5) {
 					fetchData(GCorderPage);
+				}else{
+					uni.switchTab({
+					    url: '/pages/index/index'
+					});
 				}
 			},
 			
