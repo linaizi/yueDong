@@ -47,7 +47,7 @@
 			<view class="dsdBox-no" v-else>当前位置附近暂无代收点</view>
 		
 			<view class="buy-time" @click="setTimeClick" v-if="tabNum==1">
-				<p>预约上门取鞋时间</p>
+				<p class="time-lt">预约上门取鞋时间</p>
 				<view class="time-red">{{yyTime}}<uni-icons type="right" size="32rpx" color="#999"></uni-icons></view>
 			</view>
 			<!-- <view class="dsdBox-no" >请添加联系人 <p>添加配送地址</p></view> -->
@@ -78,7 +78,7 @@
 			</view>
 			
 			<view class="buy-time" v-if="tabNum==1">
-				<p>运费</p>
+				<p class="time-lt">运费</p>
 				<view class="time-red">￥{{FtAmount}}</view>
 			</view>
 			
@@ -190,6 +190,7 @@
 				couponId:null,
 				hasAddr:true,
 				yyTime:'请选择时间',
+				yyTimeOld:'',
 				timeShow:false,
 				yhqAct:0,
 				FtAmount:0, //运费
@@ -238,7 +239,7 @@
 					uni.showToast({title:"附近暂无代收点,请重新选择地址",icon:'none'})
 					return;
 				}
-				if(this.yyTime == '请选择时间'&&this.tabNum==1){
+				if(this.yyTimeOld == '请选择时间'&&this.tabNum==1){
 					uni.showToast({title:"预约上门时间不能为空",icon:'none'})
 					return;
 				}
@@ -271,7 +272,7 @@
 					param.name = this.formData.name
 					param.phone = this.formData.phone
 				}else{
-					param.reservationTime = this.yyTime
+					param.reservationTime = this.yyTimeOld
 					param.freightAmount = this.FtAmount
 					if(this.hasAddr){
 						param.name = this.userAddr.name
@@ -428,6 +429,7 @@
 			handelClose(data){  
 				this.timeShow = false; 
 				console.log(data)
+				this.yyTimeOld = data.dateRange;
 				
 				const [datePart, timePart] = data.dateRange.split(' ');
 				const date = new Date(datePart);
@@ -447,11 +449,11 @@
 				tomorrow.setHours(0, 0, 0, 0);
 				
 				let prefix = '';	// 根据日期比较确定前缀
-				// if (date.getTime() === today.getTime()) {
-				//   prefix = '今天';
-				// } else if (date.getTime() === tomorrow.getTime()) {
-				//   prefix = '明天';
-				// }
+				if (date.getTime() === today.getTime()) {
+				  prefix = '今天';
+				} else if (date.getTime() === tomorrow.getTime()) {
+				  prefix = '明天';
+				}
 				if(prefix){
 					this.yyTime = `${prefix}(${dayOfWeek}) ${timePart}`;
 				}else{

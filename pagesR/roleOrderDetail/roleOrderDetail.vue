@@ -27,7 +27,7 @@
 					</view>
 					<view class="od-title" v-if="infoData.type == 1">
 						<view class="title-lt">预约上门取鞋时间</view>
-						<view class="title-rt">{{infoData.reservationTime}}</view>
+						<view class="title-rt">{{handleTime(infoData.reservationTime)}}</view>
 					</view>
 				</view>
 				
@@ -126,7 +126,7 @@
 
 <script>
 	import { orderInfo,orderEdit } from '@/api/page/index.js'
-	import { rtStatus } from '@/common/tool.js'
+	import { rtStatus,handleTime } from '@/common/tool.js'
 	import izUploaderImg from '@/components/iz-uploader-img/iz-uploader-img.vue'
 	export default {
 		components: {
@@ -153,6 +153,8 @@
 			
 		},
 		methods: {
+			handleTime,
+			
 			initData(){
 				uni.showLoading()
 				orderInfo(this.listQuery).then((res) => {

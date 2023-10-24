@@ -1,5 +1,5 @@
 .adBox{
-	padding: 30upx 26upx;
+	padding: 30upx 26upx 140upx;
 }
 
 .ad-ban{
@@ -28,11 +28,11 @@
 	border-radius: 14upx;
 	background: #fff;
 	margin-top: 30upx;
-	padding: 36upx;
-	.title{
-		font-size: 30upx;
-		color:#333;
+	padding-bottom: 1upx;
+	.content{
+		padding: 0 30upx 36upx;
 	}
+	
 	.timeTab{
 		display: grid;
 		grid-template-columns: repeat(4,1fr);
@@ -40,7 +40,7 @@
 		border-radius: 100upx;
 		height: 56upx;
 		overflow: hidden;
-		margin: 30upx 0;
+		margin: 0 0 30upx;
 		.tab{
 			text-align: center;
 			font-size: 26upx;
@@ -50,6 +50,31 @@
 		.tab-act{
 			background: #446DFD;
 			color:#fff;
+		}
+	}
+	
+	.zdTab{
+		.zd-item{
+			@include dflex(null,center);
+			margin-bottom: 18upx;
+			.item-txt{
+				font-size: 28upx;
+				color:#333;
+				width: 17%;
+			}
+			.item-btn{
+				background: #409eff;
+				font-size: 28upx;
+				color:#fff;
+				width: 130upx;
+				height: 60upx;
+				text-align: center;
+				line-height: 60upx;
+				border-radius: 8upx;
+				margin-left: 12upx;
+				margin-left: auto;
+				margin-top: 10upx;
+			}
 		}
 	}
 	

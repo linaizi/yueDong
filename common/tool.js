@@ -274,3 +274,43 @@ export function mapsdk (location){
 		},
 	});
 }
+
+
+//时间选择 关闭事件
+export function handleTime(data){  
+	console.log(data)
+	if (data.includes("周")) {
+		return data;
+	}	
+	
+	const [datePart, timePart] = data.split(' ');
+	const date = new Date(datePart);
+	// 获取日期的月、日和星期
+	const month = (date.getMonth() + 1).toString(); // 添加 +1 并转换为字符串
+	const day = date.getDate().toString()+'日'; // 转换为字符串
+	
+	let days = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+	let weekday = date.getDay();
+	const dayOfWeek = days[weekday]; 
+
+	const today = new Date();		// 获取今天的日期
+	today.setHours(0, 0, 0, 0); // 将时间部分设置为零，只比较日期部分
+	
+	const tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate() + 1);  // 获取明天的日期
+	tomorrow.setHours(0, 0, 0, 0);
+	
+	let prefix = '';	// 根据日期比较确定前缀
+	if (date.getTime() === today.getTime()) {
+	  prefix = '今天';
+	} else if (date.getTime() === tomorrow.getTime()) {
+	  prefix = '明天';
+	}
+	let yyTime = "";
+	if(prefix){
+		yyTime = `${prefix}(${dayOfWeek}) ${timePart}`;
+	}else{
+		yyTime = `${month}月${day}(${dayOfWeek}) ${timePart}`;
+	}
+	return yyTime;
+}

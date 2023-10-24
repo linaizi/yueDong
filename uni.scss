@@ -1,28 +1,5 @@
 $FILE_BASE_URL:'https://file.yuedongxixie.com/file';
 
-//分页，下拉刷新，按aOrder userMan/roleMoney的来做
-//siteManage 刷新当前页  
-//pingLun.vue   使用 Promise.all 来等待多个异步请求完成后执行后续操作
-//getCou.vue  从url获取背景图，等图片渲染完再显示页面数据
-//siteOrderDetail.vue  uni-file-picker不限图片数的用法
-//addShow.vue  izUploaderImg插件 —— 图片选择上传，支持拖动排序、显示上传进度、表单回填编辑
-
-//暂无数据图片：
-// https://file.yuedongxixie.com/file/f426289f-7fe0-4431-ab45-78262049c918.jpg
-// https://file.yuedongxixie.com/file/3ee934e5-e364-4dad-9417-88a4776bfd87.png
-// https://file.yuedongxixie.com/file/4fdba217-1bdf-44bf-a8dc-42bb196b432d.jpg
-
-// <template>
-//   <div>
-//     <Tabbar>
-//       <template v-slot:default>
-//         <view>这里放入父组件中的内容 121211</view>
-//       </template>
-//     </Tabbar>
-//   </div>
-// </template>
-
-
 //公用样式
 page{
 	height: 100%;
@@ -185,7 +162,7 @@ page{
 .uni-nav-bar-text /deep/{
 	font-size: 30upx!important;
 }
-
+		
 //scroll-view自适应页面剩余高度
 .flexBox{
 	display: flex;

@@ -8,6 +8,14 @@ export function operateReport(params) { 	// 经营状况
 	})
 }
 
+export function collectionReport(params) { 	// 站点销售情况
+	return request({
+		url: '/elantra/admin/collection/report',
+		method: 'GET',
+		params
+	})
+}
+
 
 
 export function goodsList(params) { 	// 商品列表
