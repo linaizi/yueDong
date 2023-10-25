@@ -37,28 +37,16 @@
 		<view class="userCenterBox" v-if="isOk&&UserInfo.level!=1&&UserInfo.level!=6">
 			<view class="titleBox">{{UserInfo.levelName}}菜单栏</view>
 			<view class="box flex">
-				<view class="itemBox" @click="roleClick(0)" v-if="UserInfo.level==2||UserInfo.level==3">
-					<image :src="FILE_BASE_URL + '/cb83f150-bd4d-4bcf-945e-6caabcfd8ba1.jpg'" class="itemIcon"></image>
-					<view>信息管理</view>
-				</view>
-				<view class="itemBox" @click="roleOrderClick" v-if="UserInfo.level==2||UserInfo.level==3||UserInfo.level==5">
-					<image :src="FILE_BASE_URL + '/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg'" class="itemIcon"></image>
-					<view>订单管理</view>
-				</view>
-				
-				<view class="itemBox" @click="roleClick(2)"  v-if="UserInfo.level!=5">
-					<image :src="FILE_BASE_URL + '/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg'" class="itemIcon"></image>
-					<view>金额管理</view>
-				</view>
-				<view class="itemBox" @click="roleClick(3)" v-if="UserInfo.level==3">
-					<image :src="FILE_BASE_URL + '/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg'" class="itemIcon"></image>
-					<view>骑手管理</view>
-				</view>
+				<template v-for="r in roleArr">
+					<view class="itemBox" :key="r.id" @click="roleClick(r.id)" v-if="r.has.includes(UserInfo.level)">
+						<image :src="r.icon" class="itemIcon"></image>
+						<view>{{r.name}}</view>
+					</view>
+				</template>
 			</view>
 		</view>
 		
-		<br><br><br>
-		
+		<view style="height: 130rpx;"></view>
 		<Tabbar :tabid="4"></Tabbar>
 		<Pplog ref="logchild" :mid.sync="mid"  @getData='getUserData'></Pplog>
 		
@@ -89,6 +77,39 @@
 					{imgUrl:this.$BASE_URLS.FILE_BASE_URL+'/cb83f150-bd4d-4bcf-945e-6caabcfd8ba1.jpg',tabName:'邀请好友', tabId:3},
 				],
 				isOk:false,
+				
+				roleArr:[
+					{
+						icon:this.$BASE_URLS.FILE_BASE_URL+'/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg',
+						name:'信息管理', 
+						has:[2,3],
+						id:0
+					},
+					{
+						icon:this.$BASE_URLS.FILE_BASE_URL+'/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg',
+						name:'订单管理', 
+						has:[2,3,5],
+						id:1
+					},
+					{
+						icon:this.$BASE_URLS.FILE_BASE_URL+'/2ca190a4-0b8c-4cea-8499-ab1ec68f8931.jpg',
+						name:'金额管理', 
+						has:[2,3],
+						id:2
+					},
+					{
+						icon:this.$BASE_URLS.FILE_BASE_URL+'/cb83f150-bd4d-4bcf-945e-6caabcfd8ba1.jpg',
+						name:'骑手管理', 
+						has:[3],
+						id:3
+					},
+					{
+						icon:this.$BASE_URLS.FILE_BASE_URL+'/cb83f150-bd4d-4bcf-945e-6caabcfd8ba1.jpg',
+						name:'经营状况', 
+						has:[3,4],
+						id:4
+					},
+				]
 				
 			}
 		},
@@ -212,17 +233,25 @@
 					case 3:
 						url='/pagesR/siteManage/siteManage'
 						break;
+					case 4:
+						url='/pagesR/siteIndex/siteIndex'
+						break;
 				} 
 				
-				uni.navigateTo({
-				    url
-				});
+				if(n==1){
+					this.roleOrderClick()
+				}else{
+					uni.navigateTo({
+					    url
+					});
+				}
 			},
 			
 			// 新订单通知：5yk2srMqW6gZAVO2wQwC-Ti_OC_sYYxYC5MLEetuFqo  代收点，工厂，管理员
 			// 新分配骑手通知：5yk2srMqW6gZAVO2wQwC-cjjP2fhbuI2bGlwIIW53oo	骑手
 			// 申请退款通知：SuJgC4tQwMrMtiMAx_7dzBi4vr2k455JyQQuzhmiQTI		管理员
 			// 订单取消通知：95puLzzFORw95GC0ulCbheFflU2p5vpxchP_DqojXEs		代收点，工厂
+			
 			roleOrderClick(){
 				let arr = []
 				if(this.UserInfo.level==2){

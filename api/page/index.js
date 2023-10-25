@@ -432,6 +432,14 @@ export function DSwithdrawPage(params) { 	// 提现记录
 	})
 }
 
+export function DSreport(params) { 	// 销售情况
+	return request({
+		url: '/elantra/admin/collection/collection/report',
+		method: 'GET',
+		params
+	})
+}
+
 
 //S:厂里
 export function GCorderPage(params) { 	// 查看订单列表

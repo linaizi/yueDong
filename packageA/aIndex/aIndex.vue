@@ -38,20 +38,24 @@
 							<view class="zdTab">
 								<view class="zd-item">
 									<view class="item-txt">站点:</view>
-									<uni-data-select
-										placeholder="请选择站点" 
-										v-model="zdParam.cid" 
-										:localdata="cateData">
-									</uni-data-select>
+									<view class="item-rt">
+										<uni-data-select
+											placeholder="请选择站点" 
+											v-model="zdParam.cid" 
+											:localdata="cateData">
+										</uni-data-select>
+									</view>
 								</view>
 								<view class="zd-item">
 									<view class="item-txt">日期:</view>
-									<uni-data-select
-										placeholder="请选择日期" 
-										v-model="zdParam.type" 
-										@change="cateChange"
-										:localdata="timeData">
-									</uni-data-select>
+									<view class="item-rt">
+										<uni-data-select
+											placeholder="请选择日期" 
+											v-model="zdParam.type" 
+											@change="cateChange"
+											:localdata="timeData">
+										</uni-data-select>
+									</view>
 								</view>
 								<view class="zd-item" v-if="zdParam.type==5">
 									<view class="item-txt">自定义:</view>

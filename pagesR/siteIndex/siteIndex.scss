@@ -56,7 +56,7 @@
 	.zdTab{
 		.zd-item{
 			@include dflex(null,center);
-			padding-bottom: 18upx;
+			margin-bottom: 18upx;
 			.item-txt{
 				font-size: 28upx;
 				color:#333;
