@@ -332,9 +332,13 @@
 					geocode: true,
 					success(response) {
 						console.log(response)
+						// _that.lotn = {
+						// 	n: 22.726897,
+						// 	e: 113.83283
+						// }
 						_that.lotn = {
-							n: 22.726897,
-							e: 113.83283
+							n: response.latitude,
+							e: response.longitude
 						}
 						_that.getList()
 					},
@@ -379,8 +383,10 @@
 			
 			//获取附近代收点列表
 			getList(){
+				console.log('lotn:',this.lotn)
 				pointList(this.lotn).then((res) => {
 					if(res.code == 200){
+						console.log('addrList:',res.data)
 						this.addrList = res.data
 						if(this.tabNum==0) this.addrList1 = res.data
 						else this.addrList2 = res.data

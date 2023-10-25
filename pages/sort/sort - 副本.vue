@@ -4,12 +4,12 @@
 		
 		 <view class="sortBox">
 			 <view class="sortLt">
-				 <view v-for="(item,index) in list" :key="index" :class="['ltItem',{ 'active': actNum === index }]" @click="sortChange(index)">{{item.cname}}</view>
+				 <view v-for="(item,index) in memuArr" :key="index" :class="['ltItem',{ 'active': actNum === index }]" @click="sortChange(index)">{{item.cname}}</view>
 			 </view>
 			 <view class="sortRt flexBox">
 				 <scroll-view class="boxScroll" scroll-y="true" lower-threshold="50" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop">
 						<view class="sortGoodBox">
-							<view class="goodsItem" v-for="(item,index) in recommendArr" :key="index" @click="goProductDetails(item)">
+							<view class="goodsItem" v-for="(item,index) in list" :key="index" @click="goProductDetails(item)">
 								<image :src="item.goodsPic" class="goodsImg"></image>
 								<view class="goodsMsg">
 									<view class="goodsMsg-top">
@@ -61,10 +61,9 @@
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				mid: uni.getStorageSync('mid'),
 				ppCarData:{},
-				list:[],
+				memuArr:[],
 				actNum:0,
-				
-				recommendArr:[],
+				list:[],
 				
 				//scroll-view
 				contentText:{
@@ -80,6 +79,7 @@
 				pagesize:10,
 				loadStatus:'loading',  //加载样式：more-加载前样式，loading-加载中样式，nomore-没有数据样式
 				isLoadMore:false,  //是否加载中
+				memuNext:false,
 				
 				//返回顶部
 				scrollTop:0,
@@ -101,7 +101,7 @@
 			getList(){
 				categoryList().then((res) => {
 					if(res.code == 200){
-						this.list = res.data;
+						this.memuArr = res.data;
 						this.listQuery.cid = res.data[0].id;
 						this.initGoods()
 					}
@@ -112,9 +112,23 @@
 				goodsList(this.listQuery).then((res) => {
 					if(res.code == 200){
 						if(this.listQuery.pageNo<=res.data.totalPages){
-							this.recommendArr.push(...res.data.data);
-							this.isLoadMore=false
-							this.loadStatus='loading'
+							this.list.push(...res.data.data);
+							
+							this.memuNext = false;
+							if(this.listQuery.pageNo==res.data.totalPages){  
+								if(this.listQuery.cid == this.memuArr[this.memuArr.length-1].id){
+									this.isLoadMore=true
+									this.loadStatus='nomore'
+								}else{
+									this.isLoadMore=false
+									this.loadStatus='loading'
+									
+									this.memuNext = true;
+								}
+							}else{
+								this.isLoadMore=false
+								this.loadStatus='loading'
+							}
 						}else{
 							if(this.listQuery.pageNo == 1){
 								this.isLoadMore=false;
@@ -140,8 +154,8 @@
 			sortChange(n){
 				if(this.actNum == n) return;
 				this.actNum = n;
-				this.listQuery.cid = this.list[n].id;
-				this.recommendArr = [];
+				this.listQuery.cid = this.memuArr[n].id;
+				this.list = [];
 				this.listQuery.pageNo = 1;
 				this.initGoods()
 			},
@@ -168,6 +182,12 @@
 					
 			scrollLower(){
 				if(!this.isLoadMore){  //此处判断，上锁，防止重复请求
+					if(this.memuNext){
+						this.listQuery.pageNo = 0;
+						this.actNum++;
+						this.listQuery.cid = this.memuArr[this.actNum].id;
+					}
+				
 					this.isLoadMore=true
 					this.listQuery.pageNo++
 					let _that = this
@@ -177,7 +197,15 @@
 				}
 			},
 			fromTop(e){  // 监听页面滚动
-				console.log(111)
+				// console.log(e)
+				 // that.data.productList.forEach(item => {
+				 //      if (e.detail.scrollTop >= (item.offsetTop - 55) && e.detail.scrollTop <= (item.offsetTop - 55 + item.height)){
+				 //        that.setData({
+				 //          selectedLeftMenuItem: item.cateId
+				 //        }) 
+				 //      }
+				 //    })
+					
 				if (e.detail.scrollTop > 500) { //当距离大于50时显示回到顶部按钮
 						this.flag = true
 						this.oldScrollTop = e.detail.scrollTop
@@ -195,8 +223,8 @@
 		
 		//下拉刷新
 		onPullDownRefresh() {
+			this.memuArr = [];
 			this.list = [];
-			this.recommendArr = [];
 			this.listQuery.pageNo = 1;
 			this.actNum = 0;
 			this.getList()

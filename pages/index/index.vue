@@ -1,6 +1,6 @@
 <template>
 	<view class="bgBox flexBox">
-		<uni-nav-bar statusBar="true" backgroundColor="#fff" title="跃动洗鞋" fixed></uni-nav-bar>
+		<uni-nav-bar statusBar="true" backgroundColor="#fff" title="跃动洗涤" fixed></uni-nav-bar>
 		
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop"
 			class="boxScroll indexScroll"> 
