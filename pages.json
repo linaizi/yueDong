@@ -420,6 +420,16 @@
 						"navigationBarTextStyle": "black",
 						"backgroundColor": "#ffffff"
 				 	}
+				},
+				{
+				 	"path": "factIndex/factIndex",
+				 	"style" : {
+						"enablePullDownRefresh": true,
+				 		"navigationBarTitleText": "站点管理",
+						"navigationBarBackgroundColor": "#FFFFFF",
+						"navigationBarTextStyle": "black",
+						"backgroundColor": "#ffffff"
+				 	}
 				}
 			]
 		}

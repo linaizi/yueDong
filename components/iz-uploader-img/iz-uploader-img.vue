@@ -127,7 +127,7 @@ export default {
 	  const query = uni.createSelectorQuery().in(this)
 	  query.select('.area').boundingClientRect(data => {
 		this.colsValue = Math.floor(data.width / this.viewWidth)
-		console.log(' this.colsValue', this.colsValue)
+		// console.log(' this.colsValue', this.colsValue)
 		
 		if(this.cols > 0){
 		  this.colsValue = this.cols
@@ -138,7 +138,7 @@ export default {
   },
   methods: {
 	init(imgs){
-		console.log('init',this.colsValue)
+		// console.log('init',this.colsValue)
 		imgs.forEach((img) => {
 			this.addProperties(img, 6);
 		});

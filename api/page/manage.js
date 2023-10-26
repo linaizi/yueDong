@@ -154,6 +154,14 @@ export function AuserBlock(data) { // 拉黑用户
 	})
 }
 
+export function AeditGroup(data) { // 更改站点到负责人
+	return request({
+		url: '/elantra/admin/user/edit/groupHeader',
+		method: 'POST',
+		data
+	})
+}
+
 
 
 

@@ -36,7 +36,8 @@
 						<view class="top-rt">
 							<view class="rt-name">
 								{{item.nickName}} <span class="n-g">{{item.levelName}}</span> 
-								<span class="n-g" v-if="item.level==2&&item.shopName">({{item.shopName}})</span>
+								<span class="n-g n6" v-if="item.level==2&&item.shopName">({{item.shopName}})</span>
+								<span class="n-g n6" v-if="item.level==3&&item.headName">({{item.headName}})</span>
 							</view>
 							<view class="rt-p">手机号：{{item.phone}}</view>
 							<view class="rt-p">注册时间：{{item.createTime}}</view>
@@ -49,7 +50,7 @@
 					</view>
 					<view class="item-btn">
 						<view class="btn" @click="laHeiClick(item.uid,index)">拉黑</view>
-						<view class="btn" @click="xgClick(item.uid,item.level)">修改信息</view>
+						<view class="btn" @click="xgClick(item)">操 作</view>
 					</view>
 				</view>
 			</view>
@@ -71,8 +72,17 @@
 		<!-- 修改信息弹窗 -->
 		<uni-popup ref="XGpopup" type="bottom">
 			<view class="XGmain">
+				<view class="item" @click="addFzrClick" v-if="level==3">修改代收点负责人</view>
 				<view class="item" @click="DJClick">修改会员等级</view>
 				<view class="item blue" @click="closeXG">取消</view>
+			</view>
+		</uni-popup>
+		<!--修改代收点负责人弹窗 -->
+		<uni-popup ref="FZRpopup" type="bottom">
+			<view class="XGmain">
+				<view class="item" v-for="f in fzrData" :key="f.uid" @click="editFZR(f.uid,false)">{{f.nickName}}</view>
+				<view class="item" @click="editFZR(0,true)">无负责人</view>
+				<view class="item blue" @click="closeFZR">取消</view>
 			</view>
 		</uni-popup>
 		<!-- 修改会员等级弹窗 -->
@@ -94,7 +104,7 @@
 </template>
 
 <script>
-	import { AuserList,AeditLevel,AuserBlock } from '@/api/page/manage.js'
+	import { AuserList,AeditLevel,AuserBlock,AeditGroup } from '@/api/page/manage.js'
 	export default {
 		data() {
 			return {
@@ -119,6 +129,8 @@
 				djAct:0,
 				xGuid:0,
 				level: 0, //修改信息获取用户等级
+				fzrData:[],//负责人数据
+				xGheadName:'', //操作当前站点对应的负责人
 				
 				listQuery:{
 					pageNo:1,
@@ -205,10 +217,11 @@
 			},
 			
 			//修改信息
-			xgClick(id,level){
+			xgClick(item){
 				this.$refs.XGpopup.open();
-				this.xGuid = id;
-				this.level = level;
+				this.xGuid = item.uid;
+				this.xGheadName = item.headName;
+				this.level = item.level;
 			},
 			closeXG(){
 				this.$refs.XGpopup.close();
@@ -217,6 +230,7 @@
 				this.$refs.XGpopup.close();
 				this.$refs.DJPopup.open();
 				this.djArr = this.mumeArr.filter(item => item.id != 0 && item.id != this.level)
+				this.djArr.push({name:'管理员', id:6 })
 			},
 			//选择修改后的等级
 			tmClick(n){
@@ -250,6 +264,41 @@
 					}
 				});
 			},
+			
+			//修改负责人弹窗
+			addFzrClick(){
+				let paran = {
+					pageNo: 1,
+					pageSize: 20,
+					level: 4
+				}
+				AuserList(paran).then((res) => {
+					if (res.code === 200) {
+						this.fzrData = res.data.filter(item => item.nickName != this.xGheadName)
+						this.$refs.XGpopup.close();
+						this.$refs.FZRpopup.open();
+					}
+				})
+			},
+			editFZR(uid,ifCancel){
+				let paran = {
+					cId: this.xGuid,
+				}
+				
+				paran.rId = ifCancel ? 0 : uid;
+				paran.ifCancel = ifCancel
+			
+				AeditGroup(paran).then((res) => {
+					if (res.code === 200) {
+						uni.showToast({title:"修改成功",icon:'success'})
+						this.listQuery.pageNo = 1;
+						this.list = [];
+						this.initData(); 
+						this.closeFZR();
+					}
+				})
+			},
+			closeFZR(){ this.$refs.FZRpopup.close() },
 			
 			laHeiClick(uid){
 				uni.showModal({

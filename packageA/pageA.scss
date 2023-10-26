@@ -94,14 +94,27 @@
 	height: 100upx;
 	border-bottom: 2upx solid #E2E2E2;
 	@include dflex(space-around,center);
-	position: relative;
 	.mume-item{
+		position: relative;
 		span{
 			display: inline-block;
 			font-size: 28upx;
 			color:#333;
 			height: 100%;
 			line-height: 100upx;
+		}
+		.mume-num{
+			min-width: 34upx;
+			height: 34upx;
+			text-align: center;
+			line-height: 34upx;
+			font-size: 16upx;
+			color:#fff;
+			background: #FD444C;
+			border-radius: 17upx;
+			position: absolute;
+			top: 17upx;
+			right: -34upx;
 		}
 	}
 	.mume-item-act{

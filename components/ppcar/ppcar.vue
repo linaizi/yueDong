@@ -18,8 +18,8 @@
 						 </view>
 					 </view>
 					 <view class="ppMid-foot">
-						 <view class="foot-lt">数量 <p>(<span>1</span>件起售)</p></view>
-						 <uni-number-box v-model="goodsData.goodsNum" :min="1" />
+						 <view class="foot-lt">数量 <p>(<span>{{goodsData.fewPayNum}}</span>件起售)</p></view>
+						 <uni-number-box v-model="goodsData.goodsNum" :min="goodsData.fewPayNum" />
 					 </view>
 				 </view>
 				 <view class="ppFoot">
@@ -40,14 +40,14 @@
 		},
 		data(){
 			return{
-				goodsNum:1,
 				goodsData:{}
 			}
 		},
 		watch: {
 		    ppCarData: {
 				handler(newData) {
-					this.goodsData = {goodsNum:1, ...newData}; // 在 ppCarData 变化时执行的操作
+					this.goodsData = {...newData}; // 在 ppCarData 变化时执行的操作
+					this.goodsData.goodsNum = this.goodsData.fewPayNum
 				},
 				deep: true // 深度监听对象属性的变化
 		    }
@@ -79,8 +79,8 @@
 			},
 			
 			closeCar(){ 
+				this.goodsData.goodsNum =this.goodsData.fewPayNum
 				this.$refs.popup.close() 
-				this.goodsData.goodsNum =1;
 			},
 			
 			

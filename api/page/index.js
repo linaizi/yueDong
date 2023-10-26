@@ -440,6 +440,38 @@ export function DSreport(params) { 	// 销售情况
 	})
 }
 
+export function DShandle(params) { 	// 极速处理
+	return request({
+		url: '/elantra/admin/collection/collection/handle',
+		method: 'GET',
+		params
+	})
+}
+
+
+
+
+//S:代收点负责人
+export function FACTcolPage(params) { 	// 全部代收点
+	return request({
+		url: '/elantra/admin/regional-head/collection/page',
+		method: 'GET',
+		params
+	})
+}
+
+export function FACTcolReport(params) { 	// 销售情况
+	return request({
+		url: '/elantra/admin/regional-head/collection/report',
+		method: 'GET',
+		params
+	})
+}
+
+//E:代收点负责人
+
+
+
 
 //S:厂里
 export function GCorderPage(params) { 	// 查看订单列表
@@ -463,6 +495,14 @@ export function GCorderEdit(data) { 	// 修改订单状态
 		url: '/elantra/admin/factory/order/edit',
 		method: 'POST',
 		data
+	})
+}
+
+export function GCcount(params) { 	// 查看订单列表数量
+	return request({
+		url: '/elantra/admin/factory/order/page/count',
+		method: 'GET',
+		params
 	})
 }
 //E:厂里

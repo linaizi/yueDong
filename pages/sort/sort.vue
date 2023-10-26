@@ -113,8 +113,14 @@
 					if(res.code == 200){
 						if(this.listQuery.pageNo<=res.data.totalPages){
 							this.recommendArr.push(...res.data.data);
-							this.isLoadMore=false
-							this.loadStatus='loading'
+							
+							if(this.listQuery.pageNo==res.data.totalPages){  //判断接口返回数据量小于请求数据量，则表示此为最后一页
+								this.isLoadMore=true                                             
+								this.loadStatus='nomore'
+							}else{
+								this.isLoadMore=false
+								this.loadStatus='loading'
+							}
 						}else{
 							if(this.listQuery.pageNo == 1){
 								this.isLoadMore=false;
@@ -148,8 +154,6 @@
 			
 			openCar(i){
 				this.ppCarData = i;
-				this.ppCarData.numberValue=i.qg;
-				this.ppCarData.minSale=i.qg;	
 				this.$refs.child.$refs.popup.open()
 			},
 			
@@ -177,7 +181,6 @@
 				}
 			},
 			fromTop(e){  // 监听页面滚动
-				console.log(111)
 				if (e.detail.scrollTop > 500) { //当距离大于50时显示回到顶部按钮
 						this.flag = true
 						this.oldScrollTop = e.detail.scrollTop

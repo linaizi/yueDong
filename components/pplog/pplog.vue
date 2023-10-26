@@ -3,7 +3,7 @@
 		<!-- 登录弹窗 -->
 		<uni-popup ref="logPopup" type="bottom">
 			<view class="log-pp">
-				<view class="log-title">获取您的昵称、头像</view>
+				<view class="log-title">请填写您的昵称、头像</view>
 				<view class="perItem">
 					<view class="item-lt">头像</view>
 					<view class="item-rt">
@@ -19,9 +19,9 @@
 						<input type="nickname" v-model.trim="paramsData.nickName" class="rt-input" placeholder="请输入昵称" maxlength="8"/>
 					</view>
 				</view>
-				<view class="log-sj" @click="suiJi">随机头像昵称</view>
-				<view class="log-btn log-yes" @click="getWxCode">允许</view>
-				<view class="log-btn log-no" @click="closeLog">拒绝</view>
+				<!-- <view class="log-sj" @click="suiJi">随机头像昵称</view> -->
+				<view class="log-btn log-yes" @click="getWxCode">登录</view>
+				<view class="log-btn log-no" @click="closeLog">取消</view>
 			</view>
 		</uni-popup>
 		
@@ -53,8 +53,8 @@
 			return{
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				paramsData:{
-					avatar: this.$BASE_URLS.FILE_BASE_URL+'/60a219d8-a949-41ec-9ed7-40be2b57d6dd.jpg',
-					nickName:"翱翔的敦敦"
+					avatar: '',
+					nickName:""
 				},
 				WxLoginCode:1,
 				sjArr:[
@@ -259,7 +259,6 @@
 			font-size: 26upx;
 			color:#5A6A94;
 			padding-top: 26upx;
-			margin-bottom: 30upx;
 		}
 		.log-btn{
 			@include dflex(center,center);
@@ -268,6 +267,7 @@
 			color:#5A6AB0;
 		}
 		.log-yes{
+			margin-top: 30upx;
 			background: #EAF0FF;
 			border-radius: 4upx;
 			color:#3358D3;

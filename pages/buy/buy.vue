@@ -33,7 +33,7 @@
 		<view class="buyBox">
 			<view class="title">跃动球鞋洗护</view>
 			
-			<view class="dsd-adr" v-if="addrList.length>0">
+			<view class="dsd-adr" v-if="addrList.length>0" @click="goDSD(1)">
 				<view class="adr-t">
 					<view class="t-l">
 						<uni-icons type="paperplane" size="36rpx" color="#999"></uni-icons>
@@ -44,7 +44,7 @@
 				</view>
 				<view class="adr-b">{{addrList[0].address}} {{addrList[0].houseNumber || ''}}</view>
 			</view>
-			<view class="dsdBox-no" v-else>当前位置附近暂无代收点</view>
+			<view class="dsdBox-no" v-else>当前位置附近暂无代收点 <p v-if="tabNum==0" @click="goDSD(0)">选择代收点</p></view>
 		
 			<view class="buy-time" @click="setTimeClick" v-if="tabNum==1">
 				<p class="time-lt">预约上门取鞋时间</p>
@@ -231,6 +231,11 @@
 				_that.isHd = false;
 				_that.getList()
 			})
+			uni.$once('isSto',function(data){
+				_that.addrList.unshift(JSON.parse(data))
+				console.log(JSON.parse(data))
+				console.log(_that.addrList)
+			})
 		},
 		
 		methods: {
@@ -292,7 +297,7 @@
 					}
 				}
 				
-				param.goodsTotalAmount = param.goodsTotalAmount.toFixed(2)
+				param.goodsTotalAmount = (param.goodsTotalAmount-0).toFixed(2)
 				orderAdd(param).then((res) => {
 					if(res.code == 200){
 						this.wxPay(res.data)
@@ -426,7 +431,17 @@
 				uni.navigateTo({
 					url: '/pages/myAddress/myAddress?source=1'
 				})
+			},
 				
+			//跳转到门店列表页面			
+			goDSD(n){
+				let str = ''
+				if(n){
+					str = '&e=' + this.userAddr.e + '&n=' + this.userAddr.n
+				}
+				uni.navigateTo({
+					url: '/pages/storeList/storeList?source=1'  + str
+				});
 			},
 						
 			setTimeClick(){ this.timeShow = true; },

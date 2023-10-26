@@ -18,12 +18,12 @@
 									￥{{item.goodsInfoDto.goodsNowPrice}}
 									<uni-number-box 
 										v-model="item.goodsNum" 
-										@minus.s="minClick(index)" 
+										@minus="minClick(index)" 
 										@plus="plusClick(index)" 
 										@change="chgClick($event,index)"
 										@focus="fcClick"
 										background="#fff" 
-										:min="1" 
+										:min="item.goodsInfoDto.fewPayNum"
 										class="uniNum" />
 								</view>
 							</view>

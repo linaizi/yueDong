@@ -106,8 +106,14 @@
 					{
 						icon:this.$BASE_URLS.FILE_BASE_URL+'/cb83f150-bd4d-4bcf-945e-6caabcfd8ba1.jpg',
 						name:'经营状况', 
-						has:[3,4],
+						has:[3],
 						id:4
+					},
+					{
+						icon:this.$BASE_URLS.FILE_BASE_URL+'/cb83f150-bd4d-4bcf-945e-6caabcfd8ba1.jpg',
+						name:'经营状况', 
+						has:[4],
+						id:5
 					},
 				]
 				
@@ -235,6 +241,9 @@
 						break;
 					case 4:
 						url='/pagesR/siteIndex/siteIndex'
+						break;
+					case 5:
+						url='/pagesR/factIndex/factIndex'
 						break;
 				} 
 				

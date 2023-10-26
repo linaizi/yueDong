@@ -3,6 +3,7 @@
 		<view class="rod-mume">
 			<view v-for="i in curArr" :key="i.id" :class="['mume-item',{'mume-item-act':i.id==mumeAct}]" @click="mumeClick(i.id)">
 				<span>{{i.name}}</span>
+				<view class="mume-num" v-if="level==5">{{numData[i.od]}}</view>
 			</view>
 		</view>
 		
@@ -51,7 +52,7 @@
 </template>
 
 <script>	
-	import { RorderPage,DSorderPage,GCorderPage } from '@/api/page/index.js'
+	import { RorderPage,DSorderPage,GCorderPage,GCcount } from '@/api/page/index.js'
 	import { throttle } from "@/common/throttle.js"; 
 	import { rtStatus } from '@/common/tool.js'
 	export default {
@@ -60,11 +61,11 @@
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				level:0,
 				mumeArr2:[
-					{name:'全部', id:0 },
-					{name:'未取货', id:1 },
-					{name:'已取货', id:2 },
-					{name:'已完成', id:3 },
-					{name:'已取消', id:4 },
+					{name:'全部', id:0, od:'allNum' },
+					{name:'未取货', id:1, od:'notPickedUpNum' },
+					{name:'已取货', id:2, od:'pickedUpNum' },
+					{name:'已完成', id:3, od:'compoletedNum' },
+					{name:'已取消', id:4, od:'afterNum' },
 				],
 				mumeArr3:[
 					{name:'全部', id:0 },
@@ -73,6 +74,7 @@
 					{name:'已取消', id:3 },
 				],
 				mumeAct:0,
+				numData:{},
 				
 				listQuery:{
 					pageNo:1,
@@ -103,6 +105,10 @@
 			}
 			this.level = option.level || UserInfo.level
 			this.initData()
+			
+			if(this.level==5){ //如果是工厂，要返回订单列表数量
+				this.getCount()
+			}
 		},
 		onShow() {
 			let _that = this;
@@ -169,6 +175,14 @@
 					    url: '/pages/index/index'
 					});
 				}
+			},
+			
+			getCount(){
+				GCcount().then((res) => {
+					if (res.code === 200) {
+						this.numData = res.data;
+					}
+				})
 			},
 			
 			//返回订单状态

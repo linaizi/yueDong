@@ -12,8 +12,8 @@
 			
 			<template v-else>
 				<view class="stl-item" v-for="item in list" :key="item.id" >
-					<image :src="item.pic" mode="" class="item-img"></image>
-					<view class="item-mid">
+					<image :src="item.pic" mode="" class="item-img" @click="retData(item)"></image>
+					<view class="item-mid" @click="retData(item)">
 						<p class="mid-t">{{item.shopName}}</p>
 						<p class="mid-p">电话: {{item.phone}}</p>
 						<p class="mid-p">距离: {{item.distance}}km</p>
@@ -41,10 +41,24 @@
 				lotn:{},
 				addr:'',
 				list:[],
+				source:null,
 			}
 		},
 		onLoad(option) {
+			console.log(option)
+			if(option.source){
+				this.source = option.source;
+			}
+			if(option.e){
+				this.lotn = {
+					e: option.e,
+					n: option.n
+				}
+				this.getList()
+			}else{
 				this.getLocation()
+			}
+			
 		},
 		onShow () {
 			uni.getStorage({
@@ -96,6 +110,16 @@
 						this.list = res.data
 					}
 				});
+			},
+			
+			//把当前站点数据返回给buy.vue页面
+			retData(obj){
+				if(this.source==1) {
+					uni.$emit('isSto', JSON.stringify(obj))
+					uni.navigateBack({
+						delta: 1
+					})
+				}
 			},
 			
 			daoHang(i){

@@ -42,7 +42,7 @@
 				<uni-forms-item label="商品库存" name="stockNum">
 					<uni-easyinput v-model="formData.stockNum" placeholder="请输入商品库存" placeholder-style="font-size:28rpx"/>
 					<span class="ml10">件</span>
-				</uni-forms-item>			
+				</uni-forms-item>		
 				<uni-forms-item label="商品详情图(≤9张)" name="goodsInfoImas">
 					<view style="width: 100%; height: 100%;">
 						<izUploaderImg
@@ -53,7 +53,16 @@
 						</izUploaderImg>
 					</view>
 				</uni-forms-item>
-				
+				<uni-forms-item label="最低起售数量" name="fewPayNum">
+					<uni-easyinput v-model="formData.fewPayNum" placeholder="不填默认为1" placeholder-style="font-size:28rpx"/>
+					<span class="ml10">件</span>
+				</uni-forms-item>	
+				<uni-forms-item label="自定义排序" name="sort">
+					<uni-easyinput v-model="formData.sort" placeholder="商品排序,范围在0-99" placeholder-style="font-size:28rpx"/>
+				</uni-forms-item>
+				<uni-forms-item label="商品销量" name="saleas">
+					<uni-easyinput v-model="formData.saleas" placeholder="请输入商品销量" placeholder-style="font-size:28rpx"/>
+				</uni-forms-item>
 			</uni-forms>
 		</view>
 		

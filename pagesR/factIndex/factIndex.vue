@@ -7,6 +7,16 @@
 						<view class="content">
 							<view class="zdTab">
 								<view class="zd-item">
+									<view class="item-txt">站点:</view>
+									<view class="item-rt">
+										<uni-data-select
+											placeholder="请选择站点" 
+											v-model="zdParam.cid" 
+											:localdata="cateData">
+										</uni-data-select>
+									</view>
+								</view>
+								<view class="zd-item">
 									<view class="item-txt">日期:</view>
 									<view class="item-rt">
 										<uni-data-select
@@ -35,18 +45,6 @@
 					</uni-collapse-item>
 				</uni-collapse>
 			</view>
-			<view class="adWhite">
-				<uni-collapse>
-					<uni-collapse-item title-border="none" :border="false" title="极速处理" :open="true">
-						<view class="content">
-							<view class="numBox">
-								<view class="b-item"><p class="b-n">{{zdData.undistributedNum||0}}</p>未分配数量</view>
-								<view class="b-item"><p class="b-n">{{zdData.notPickedUpNum||0}}</p>未取货数量</view>
-							</view>
-						</view>
-					</uni-collapse-item>
-				</uni-collapse>
-			</view>
 			
 		</view>
 			
@@ -54,7 +52,7 @@
 </template>
 
 <script>
-	import { DSreport,DShandle } from '@/api/page/index.js'
+	import { FACTcolPage,FACTcolReport } from '@/api/page/index.js'
 	import DatetimePicker from "@/pagesR/uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker.vue"
 	
 	export default {
@@ -65,7 +63,8 @@
 			return {
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				zdParam:{
-					type:1
+					type:1,
+					cid:0
 				},
 				timeData:[
 					{
@@ -94,12 +93,12 @@
 				],
 				zdyTime: [],
 				zdData: {},
-				numData: {},
+				cateData: {},
 			}
 		},
 		onReady() {
+			this.getDSD()
 			this.subClick()
-			this.getNum()
 		},
 		methods: {
 			cateChange(){
@@ -107,6 +106,11 @@
 			},
 			
 			subClick(){
+				console.log(this.zdParam)
+				if(!this.zdParam.hasOwnProperty('cid')){
+					uni.showToast({ title: '请选择站点', icon:'none' });
+					return;
+				}
 				if(!this.zdParam.type){
 					uni.showToast({ title: '请选择日期', icon:'none' });
 					return;
@@ -120,17 +124,26 @@
 					[this.zdParam.beginTime, this.zdParam.endTime] = this.zdyTime
 				}
 				
-				DSreport(this.zdParam).then((res) => {
+				FACTcolReport(this.zdParam).then((res) => {
 					if (res.code === 200) {
 						this.zdData = res.data;
 					}
 				})
 			},
 			
-			getNum(){
-				DShandle().then((res) => {
+			getDSD(){
+				let param = {
+					pageNo:1,
+					pageSize:10
+				}
+				FACTcolPage(param).then((res) => {
 					if (res.code === 200) {
-						this.numData = res.data;
+						this.cateData = res.data.map(option => {
+							return {
+								value: option.uid,
+								text: option.nickName,
+							};
+						});
 					}
 				})
 			}
@@ -139,7 +152,7 @@
 		//下拉刷新
 		onPullDownRefresh() {
 			this.subClick()
-			this.getNum()
+			this.getDSD()
 			setTimeout(function () {
 				uni.stopPullDownRefresh();
 			}, 1000);
@@ -149,5 +162,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'siteIndex.scss'
+	@import 'factIndex.scss'
 </style>
