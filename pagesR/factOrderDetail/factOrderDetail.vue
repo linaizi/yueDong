@@ -18,7 +18,7 @@
 							 	<uni-icons type="phone" size="30rpx" color="#446DFD"></uni-icons>联系用户
 							 </view>
 						</view>
-							<p>{{infoData.address}} {{infoData.houseNumber}} </p>
+							<p v-if="infoData.address">{{infoData.address}} {{infoData.houseNumber}} </p>
 						</view>
 					</view>
 					<view class="od-title">

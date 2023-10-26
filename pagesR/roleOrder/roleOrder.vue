@@ -114,11 +114,14 @@
 			let _that = this;
 			uni.$once('ERoleOdDetail',function(data){
 				_that.mumeClick(0)
+				if(_that.level==5){
+					_that.getCount()
+				}
 			})
 		},
 		 computed: {
 			curArr() {
-		      return this.level == 3 ? this.mumeArr3 : this.mumeArr2;
+				return this.level == 3 ? this.mumeArr3 : this.mumeArr2;
 		    },
 		  },
 		
@@ -239,6 +242,9 @@
 			this.list = [];
 			this.listQuery.pageNo = 1
 			this.initData();
+			if(this.level==5){
+				this.getCount()
+			}
 			setTimeout(function () {
 				uni.stopPullDownRefresh();
 			}, 1000);

@@ -18,7 +18,7 @@
 							 	<uni-icons type="phone" size="30rpx" color="#446DFD"></uni-icons>联系用户
 							 </view>
 						</view>
-							<p @click="daoHang(infoData)">{{infoData.address}} {{infoData.houseNumber}}</p>
+							<p @click="daoHang(infoData)" v-if="infoData.address">{{infoData.address}} {{infoData.houseNumber}}</p>
 						</view>
 					</view>
 					<view class="od-title">

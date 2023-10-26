@@ -18,7 +18,7 @@
 							 	<uni-icons type="phone" size="30rpx" color="#446DFD"></uni-icons>联系用户
 							 </view>
 						</view>
-							<p @click="daoHang(infoData)">{{infoData.address}} {{infoData.houseNumber}}</p>
+							<p @click="daoHang(infoData)" v-if="infoData.address">{{infoData.address}} {{infoData.houseNumber}}</p>
 						</view>
 					</view>
 					<view class="od-title">
@@ -90,11 +90,11 @@
 						<template v-if="infoData.status>3">
 							<view class="od-qt" style="padding-bottom: 0;" v-for="(oot,ooind) in infoData.orderOperates" :key="ooind">
 								<view class="qtBox" v-if="oot.remarks">
-									<view class="qtBox-tt">{{oot.type==1 ?'取货' : '送货'}}骑手备注：</view>
+									<view class="qtBox-tt">{{retType(oot.type)}}备注：</view>
 									<view class="qtBox-txt">{{oot.remarks}}</view>
 								</view>
 								<view class="qtBox">
-									<view class="qtBox-tt">{{oot.type==1 ?'取货' : '送货'}}骑手上传的图片：</view>
+									<view class="qtBox-tt">{{retType(oot.type)}}上传的图片：</view>
 									<view class="image-grid">
 									  <image v-for="(i,ind) in oot.pic" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(oot.pic,ind)"></image>
 									</view>
@@ -105,7 +105,7 @@
 					</view>
 				</view>
 				
-				<template v-if="infoData.status==4||infoData.status==6">
+				<template v-if="retCaoZuo()">
 					<view class="odBox">
 						<view class="od-title">
 							<view class="title-lt">操作</view>
@@ -138,8 +138,7 @@
 					<view class="od-btn" @click="subClick">提 交</view>
 				</template>
 				
-			</view>
-			
+			</view>	
 		</view>
 		
 		<!-- 骑手列表弹窗 -->
@@ -279,6 +278,14 @@
 				return this.infoData.type == 1&&this.infoData.status>=n &&this.infoData.status<12
 			},
 			
+			retCaoZuo(){
+				if(this.infoData.type==1){
+					return this.infoData.status==4|| this.infoData.status==6
+				}else{
+					return this.infoData.status==2||this.infoData.status==6
+				}
+			},
+			
 			openQsSel(n){
 				if(this.list.length==0){
 					uni.showToast({title: '暂无骑手,请先添加！', icon:'none'});
@@ -329,6 +336,25 @@
 			//返回订单状态
 			rtStatus,
 			
+			retType(type){
+				let txt = '';
+				switch(type){
+					case 1:
+						txt = '取货骑手'
+						break;
+					case 2:
+						txt = '送货骑手'
+						break;
+					case 3:
+						txt = '代收点'
+						break;
+					case 4:
+						txt = '厂家'
+						break;
+				}
+				return txt;
+			},
+			
 			//打电话
 			PhoneCall(phone){
 				uni.makePhoneCall({
@@ -352,6 +378,7 @@
 				// }
 				
 				const statusMapping = {
+					2: 1,
 					4: 1,
 					6: 2,
 				};

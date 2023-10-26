@@ -37,7 +37,7 @@
 						<view class="pay-btn pay-fk" @click.stop="payClick(item.orderNo)">付款</view>
 					</view>
 					
-					<view class="mian-pay" v-if="item.status==10">
+					<view class="mian-pay" v-if="item.status==10||(item.type==0&&item.status==7)">
 						<view class="pay-btn" @click.stop="yesSH(item)">确认收货</view>
 					</view>
 					<!-- <view class="mian-pay">

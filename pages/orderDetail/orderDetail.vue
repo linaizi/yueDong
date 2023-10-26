@@ -24,12 +24,16 @@
 						<uni-icons type="location" size="56rpx" color="#333333"></uni-icons>
 						<view class="adr-rt">
 							<view class="rt-name">{{infoData.name}} <span>{{infoData.phone}}</span></view>
-							<p>{{infoData.address}} {{infoData.houseNumber}}</p>
+							<p v-if="infoData.address">{{infoData.address}} {{infoData.houseNumber}}</p>
 						</view>
 					</view>
 					<view class="od-title">
 						<view class="title-lt">发货方式</view>
 						<view class="title-rt">{{infoData.type == 1 ? "上门取送" : "到店服务"}}</view>
+					</view>
+					<view class="od-title" v-if="infoData.type == 0">
+						<view class="title-lt">代收点</view>
+						<view class="title-rt">{{infoData.caddress.shopName}}</view>
 					</view>
 					<view class="od-title" v-if="infoData.type == 1">
 						<view class="title-lt">预约上门取鞋时间</view>
