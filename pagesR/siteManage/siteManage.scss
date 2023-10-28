@@ -9,7 +9,7 @@
 		width: 480upx;
 		height: 64upx;
 		@include dflex(space-between,center);
-		padding: 0 24upx;
+		padding-left: 24upx;
 		box-sizing: border-box;
 		.searchInput{
 			font-size: 28upx;
@@ -17,6 +17,7 @@
 			width: 430upx;
 		}
 		.lt-right{
+			padding:0 20upx;
 			width: 36upx;
 			height: 36upx;
 		}

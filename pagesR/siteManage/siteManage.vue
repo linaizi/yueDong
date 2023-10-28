@@ -2,10 +2,10 @@
 	<view class="allBg flexBox">
 		<view class="asp-top">
 			<view class="top-lt">
-				<input type="number" 
+				<input type="text" 
 					placeholder="请输入手机号" 
 					confirm-type="search"
-					v-model="phone" 
+					v-model.number="phone" 
 					@confirm="searchPhone" 
 					@input="onKeyInput"
 					placeholder-style="color:#999;fontSize:28rpx" 
