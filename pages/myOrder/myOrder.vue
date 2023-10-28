@@ -59,6 +59,7 @@
 			<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		</view>
 		
+		<Pplog ref="logchild" :mid.sync="mid"  @getData='getUserData'></Pplog>
 	</view>
 </template>
 
@@ -66,7 +67,11 @@
 	import { orderPage,orderComplete,orderClose,orderPay } from '@/api/page/index.js'
 	import { throttle } from "@/common/throttle.js"; 
 	import { rtStatus } from '@/common/tool.js'
+	import Pplog from "@/components/pplog/pplog.vue"
 	export default {
+		components: {
+			Pplog,
+		},
 		data() {
 			return {
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
@@ -162,7 +167,8 @@
 								this.loadStatus='nomore'
 							}
 						}
-						
+					}else if(res.code == 5011){
+						this.$refs.logchild.$refs.logPopup.open()
 					}
 				}).catch(e=>{
 					this.isLoadMore=false
@@ -288,6 +294,16 @@
 						} else if (res.cancel) {}
 					}
 				});
+			},
+			
+			//pplog组件回调
+			getUserData(wcode){
+				if(wcode==200) {
+					this.$refs.logchild.$refs.logPopup.close();
+					uni.showToast({title: '登录成功', icon:'success'});
+					this.getScrollW();
+					this.initData();
+				}
 			},
 			
 			scrollLower(){

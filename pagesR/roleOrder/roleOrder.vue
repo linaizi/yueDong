@@ -3,7 +3,7 @@
 		<view class="rod-mume">
 			<view v-for="i in curArr" :key="i.id" :class="['mume-item',{'mume-item-act':i.id==mumeAct}]" @click="mumeClick(i.id)">
 				<span>{{i.name}}</span>
-				<view class="mume-num" v-if="level==5">{{numData[i.od]}}</view>
+				<view class="mume-num" v-if="retNum(i.id)">{{notPickedUpNum}}</view>
 			</view>
 		</view>
 		
@@ -52,7 +52,7 @@
 </template>
 
 <script>	
-	import { RorderPage,DSorderPage,GCorderPage,GCcount } from '@/api/page/index.js'
+	import { RorderPage,DSorderPage,GCorderPage,GCcount,QScount } from '@/api/page/index.js'
 	import { throttle } from "@/common/throttle.js"; 
 	import { rtStatus } from '@/common/tool.js'
 	export default {
@@ -61,11 +61,11 @@
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				level:0,
 				mumeArr2:[
-					{name:'全部', id:0, od:'allNum' },
-					{name:'未取货', id:1, od:'notPickedUpNum' },
-					{name:'已取货', id:2, od:'pickedUpNum' },
-					{name:'已完成', id:3, od:'compoletedNum' },
-					{name:'已取消', id:4, od:'afterNum' },
+					{name:'全部', id:0,  },
+					{name:'未取货', id:1, },
+					{name:'已取货', id:2, },
+					{name:'已完成', id:3, },
+					{name:'已取消', id:4, },
 				],
 				mumeArr3:[
 					{name:'全部', id:0 },
@@ -74,7 +74,7 @@
 					{name:'已取消', id:3 },
 				],
 				mumeAct:0,
-				numData:{},
+				notPickedUpNum:'',
 				
 				listQuery:{
 					pageNo:1,
@@ -103,12 +103,14 @@
 			if(uni.getStorageSync('UserInfo')){
 				UserInfo = JSON.parse(uni.getStorageSync('UserInfo'))
 			}
-			this.level = option.level || UserInfo.level
-			this.initData()
 			
-			if(this.level==5){ //如果是工厂，要返回订单列表数量
-				this.getCount()
-			}
+			this.level = option.level || UserInfo.level
+			if(option.level)
+				this.initData()
+			else
+				this.mumeClick(1)
+			
+			this.getCount() //如果是工厂或者，要返回订单列表数量
 		},
 		onShow() {
 			let _that = this;
@@ -119,11 +121,11 @@
 				}
 			})
 		},
-		 computed: {
+		computed: {
 			curArr() {
 				return this.level == 3 ? this.mumeArr3 : this.mumeArr2;
 		    },
-		  },
+		},
 		
 		methods: {
 			mumeClick: throttle(function(id){
@@ -181,15 +183,28 @@
 			},
 			
 			getCount(){
-				GCcount().then((res) => {
-					if (res.code === 200) {
-						this.numData = res.data;
-					}
-				})
+				const fetchData = (queryFunction) => {
+					queryFunction().then((res) => {
+						if (res.code === 200) {
+						 this.notPickedUpNum = res.data.notPickedUpNum;
+						}
+					})
+				};
+				
+				if (this.level == 2) {
+					fetchData(QScount);
+				} else if (this.level == 5) {
+					fetchData(GCcount);
+				}
 			},
 			
 			//返回订单状态
 			rtStatus,
+			
+			//判断是否显示工厂统计数量
+			retNum(i){
+				return (this.level==5||this.level==2)&&i==1&&this.notPickedUpNum!=0;
+			},			
 			
 			totalMon(goodsInfo){
 				if(!goodsInfo) return;

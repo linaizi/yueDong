@@ -339,6 +339,14 @@ export function orderEdit(data) { 	// 修改订单状态
 		data
 	})
 }
+
+export function QScount(params) { 	// 查看订单列表数量
+	return request({
+		url: '/elantra/admin/rider/order/page/count',
+		method: 'GET',
+		params
+	})
+}
 //E:骑手
 
 
