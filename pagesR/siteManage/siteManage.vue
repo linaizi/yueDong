@@ -5,7 +5,7 @@
 				<input type="text" 
 					placeholder="请输入手机号" 
 					confirm-type="search"
-					v-model.number="phone" 
+					v-model="phone" 
 					@confirm="searchPhone" 
 					@input="onKeyInput"
 					placeholder-style="color:#999;fontSize:28rpx" 
