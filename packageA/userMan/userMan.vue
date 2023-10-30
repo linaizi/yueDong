@@ -42,6 +42,11 @@
 							<view class="rt-p">手机号：{{item.phone}}</view>
 							<view class="rt-p">注册时间：{{item.createTime}}</view>
 						</view>
+						
+						<view class="top-zd" v-if="item.level==4" @click="zdClick(item.uid)">
+							<uni-icons type="staff" size="56rpx" color="#777"></uni-icons>
+							<p class="zd-p">站点</p>
+						</view>
 					</view>
 					<view class="item-list">
 						<view class="item-it"><span class="it-s">交易额</span>￥{{item.payAmount}}</view>
@@ -82,7 +87,14 @@
 			<view class="XGmain">
 				<view class="item" v-for="f in fzrData" :key="f.uid" @click="editFZR(f.uid,false)">{{f.nickName}}</view>
 				<view class="item" @click="editFZR(0,true)">无负责人</view>
-				<view class="item blue" @click="closeFZR">取消</view>
+				<view class="item blue" @click="closeFZR">取 消</view>
+			</view>
+		</uni-popup>
+		<!--负责任人名下站点弹窗 -->
+		<uni-popup ref="ZDpopup" type="bottom">
+			<view class="XGmain">
+				<view class="item" v-for="f in zdData" :key="f.cid" >{{f.shopName}}</view>
+				<view class="item blue" @click="closeZD">关 闭</view>
 			</view>
 		</uni-popup>
 		<!-- 修改会员等级弹窗 -->
@@ -104,7 +116,7 @@
 </template>
 
 <script>
-	import { AuserList,AeditLevel,AuserBlock,AeditGroup } from '@/api/page/manage.js'
+	import { AuserList,AeditLevel,AuserBlock,AeditGroup,AuserFindCol } from '@/api/page/manage.js'
 	export default {
 		data() {
 			return {
@@ -131,6 +143,7 @@
 				level: 0, //修改信息获取用户等级
 				fzrData:[],//负责人数据
 				xGheadName:'', //操作当前站点对应的负责人
+				zdData:[],//负责人名下站点数据
 				
 				listQuery:{
 					pageNo:1,
@@ -299,6 +312,26 @@
 				})
 			},
 			closeFZR(){ this.$refs.FZRpopup.close() },
+			
+			//负责人名下站点弹窗
+			zdClick(uid){
+				let param = {
+					pageNo:1,
+					pageSize:20,
+					rId:uid
+				}
+				AuserFindCol(param).then((res) => {
+					if (res.code === 200) {
+						if(res.data.length==0){
+							uni.showToast({title: '当前用户暂无代收点~', icon:'none'});
+						}else{
+							this.$refs.ZDpopup.open();
+							this.zdData = res.data;
+						}
+					}
+				})
+			},
+			closeZD(){ this.$refs.ZDpopup.close() },
 			
 			laHeiClick(uid){
 				uni.showModal({

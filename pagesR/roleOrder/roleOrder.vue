@@ -257,9 +257,7 @@
 			this.list = [];
 			this.listQuery.pageNo = 1
 			this.initData();
-			if(this.level==5){
-				this.getCount()
-			}
+			this.getCount()
 			setTimeout(function () {
 				uni.stopPullDownRefresh();
 			}, 1000);

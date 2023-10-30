@@ -180,7 +180,12 @@
 						}
 						riderPage(param).then((res) => {
 							if(res.code = 200){
-								this.schData = res.data.data[0];
+								if(res.data.data.length==0){
+									 uni.showToast({title: '暂无当前用户', icon:'none'});
+								}else{
+									this.schData = res.data.data[0];
+								}
+								
 							}
 						})
 					} else {

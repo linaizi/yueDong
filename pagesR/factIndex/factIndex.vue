@@ -140,8 +140,8 @@
 					if (res.code === 200) {
 						this.cateData = res.data.map(option => {
 							return {
-								value: option.uid,
-								text: option.nickName,
+								value: option.cid,
+								text: option.shopName,
 							};
 						});
 					}

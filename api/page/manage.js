@@ -162,6 +162,14 @@ export function AeditGroup(data) { // 更改站点到负责人
 	})
 }
 
+export function AuserFindCol(data) { // 查询负责人下的所有站点
+	return request({
+		url: '/elantra/admin/user/findCollection',
+		method: 'POST',
+		data
+	})
+}
+
 
 
 

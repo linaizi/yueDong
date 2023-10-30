@@ -68,7 +68,8 @@
 				height: 100upx;
 			}
 			.top-rt{
-				margin-left: 30upx;
+				margin-left: 20upx;
+				flex: 1;
 				.rt-name{
 					font-size: 28upx;
 					color:#333;
@@ -83,6 +84,15 @@
 					}
 				}
 				.rt-p{
+					font-size: 26upx;
+					color:#666;
+				}
+			}
+			.top-zd{
+				text-align: center;
+				align-self: center;
+				padding: 20upx 0 20upx 10upx;
+				.zd-p{
 					font-size: 26upx;
 					color:#666;
 				}
