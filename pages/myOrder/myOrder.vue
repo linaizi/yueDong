@@ -75,6 +75,7 @@
 		data() {
 			return {
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
+				mid: uni.getStorageSync('mid'),
 				listArr:[
 					{title:"全部", catid:0},
 					{title:"待付款", catid:1},
