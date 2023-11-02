@@ -40,8 +40,8 @@
 					<uni-collapse-item title-border="none" :border="false" title="极速处理" :open="true">
 						<view class="content">
 							<view class="numBox">
-								<view class="b-item" @click="goOrder"><p class="b-n">{{zdData.undistributedNum||0}}</p>未分配数量</view>
-								<view class="b-item" @click="goOrder"><p class="b-n">{{zdData.notPickedUpNum||0}}</p>未取货数量</view>
+								<view class="b-item" @click="goOrder"><p class="b-n">{{numData.undistributedNum||0}}</p>未分配数量</view>
+								<view class="b-item" @click="goOrder"><p class="b-n">{{numData.notPickedUpNum||0}}</p>未取货数量</view>
 							</view>
 						</view>
 					</uni-collapse-item>
