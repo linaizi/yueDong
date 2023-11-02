@@ -4,7 +4,7 @@
 		
 		 <view class="sortBox">
 			 <view class="sortLt">
-				 <view v-for="(item,index) in list" :key="index" :class="['ltItem',{ 'active': actNum === index }]" @click="sortChange(index)">{{item.cname}}</view>
+				 <view v-for="item in list" :key="item.id" :class="['ltItem',{ 'active': actNum === item.id }]" @click="sortChange(item.id)">{{item.cname}}</view>
 			 </view>
 			 <view class="sortRt flexBox">
 				 <scroll-view class="boxScroll" scroll-y="true" lower-threshold="50" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop">
@@ -62,7 +62,7 @@
 				mid: uni.getStorageSync('mid'),
 				ppCarData:{},
 				list:[],
-				actNum:0,
+				actNum:-1,
 				
 				recommendArr:[],
 				
@@ -87,10 +87,8 @@
 				flag:false,
 			}
 		},
-		onReady() {
-			this.getList()
-		},
 		onShow(){
+			this.getList()
 			uni.hideTabBar({ //隐藏系统自动的底部导航
 				animation: false
 			})
@@ -102,8 +100,17 @@
 				categoryList().then((res) => {
 					if(res.code == 200){
 						this.list = res.data;
-						this.listQuery.cid = res.data[0].id;
-						this.initGoods()
+						let sortId = uni.getStorageSync('sortId')
+						if(sortId){
+							this.sortChange(sortId)
+							setTimeout(()=>{
+								uni.removeStorageSync('sortId')
+							},300)
+							
+						}else{
+							this.sortChange(res.data[0].id)
+						}
+						
 					}
 				});
 			},
@@ -143,10 +150,10 @@
 			},
 			
 			//tab切换
-			sortChange(n){
-				if(this.actNum == n) return;
-				this.actNum = n;
-				this.listQuery.cid = this.list[n].id;
+			sortChange(id){
+				if(this.actNum == id) return;
+				this.actNum = id;
+				this.listQuery.cid = id;
 				this.recommendArr = [];
 				this.listQuery.pageNo = 1;
 				this.initGoods()

@@ -32,6 +32,12 @@
 		}
 	}
 	
+	.index-sort{
+		@include dflex(null,null);
+		flex-wrap: wrap;
+		.sort-img{ width: 50%; }
+	}
+	
 	.tZan{
 			color:#333333;
 			font-size: 34upx;

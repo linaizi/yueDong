@@ -18,9 +18,13 @@
 					
 					<image :src="FILE_BASE_URL + '/5680d7d6-630a-4dbb-809f-f9aec3137e5e.png'" mode="widthFix" class="wh180" @click="goSort"></image>
 					
+					<view class="index-sort">
+						<image v-for="(i,index) in sortList" :key="i.id" :src="i.icon" mode="widthFix" @click="goSort(i.id)" class="sort-img"></image>
+					</view>					
+					
 					<view class="tZan">
 						<image class="icon" :src="FILE_BASE_URL + '/c87c082b-4819-4fec-a4fd-ab944e6fcceb.png'"></image>
-						<view>热门推荐</view>
+						<view>特惠活动</view>
 					</view>
 					
 					<view class="goodsList">
@@ -66,7 +70,7 @@
 	import Ppcar from "@/components/ppcar/ppcar.vue"
 	import Ppkefu from "@/components/ppkefu/ppkefu.vue"
 	import { priceHander } from '@/common/tool.js'
-	import { goodsList } from '@/api/page/index.js'
+	import { goodsList, categoryList } from '@/api/page/index.js'
 	import Pplog from "@/components/pplog/pplog.vue"
 	export default {
 		components: {
@@ -96,9 +100,10 @@
 				goodParams:{
 					pageNo:1,
 					pageSize:10,
-					cid:0
+					cid:7
 				},
 				recommendArr:[],
+				sortList:[],
 				
 				flag:false,
 				contentText:{
@@ -116,6 +121,7 @@
 		},
 		onLoad(option) {
 			this.initGoods()
+			this.getList(); //获取分类
 			
 			wx.setEnableDebug({ //开发环境打开调试
 				enableDebug: true
@@ -133,6 +139,14 @@
 			})
 		},
 		methods: {
+			getList(){
+				categoryList().then((res) => {
+					if(res.code == 200){
+						this.sortList = res.data.slice(1);
+					}
+				});
+			},
+			
 			initGoods(){
 				goodsList(this.goodParams).then((res) => {
 					if(res.code == 200){
@@ -179,7 +193,8 @@
 				
 			},			
 				
-			goSort(){
+			goSort(id){
+				if(id) uni.setStorageSync('sortId', id)
 				uni.switchTab({
 				   url: '/pages/sort/sort',
 				})
