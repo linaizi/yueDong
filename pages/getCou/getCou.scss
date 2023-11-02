@@ -1,5 +1,9 @@
 .gcBg{
-	overflow: hidden;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
 }
 
 .gc-btn{
@@ -17,6 +21,7 @@
 	left: 50%;
 	top:60%;
 	transform: translate(-50%,-50%);
+	z-index: 1;
 }
 .gc-btnGray{
 	background: #999;
@@ -25,7 +30,9 @@
 
 .txt-foot{
 	position: fixed;
-	left: 0;bottom: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 1;
 	width: 100%;
 	padding: 40upx 30upx;
 	box-sizing: border-box;

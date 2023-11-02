@@ -1,17 +1,7 @@
 <template>
-	<view class="allBg gcBg" :style="bgStyle">
+	<view class="allBg" >
+		<image :src="imgUrl" mode="" @load="preloadImage" class="gcBg"></image>
 		<template v-if="isImageLoaded">
-				<!-- <image src="https://file.yuedongxixie.com/file/ea8aac4e-172e-4298-aee2-3cbd774c4c4e.png" mode="" class="main-quan"></image> -->
-				<!-- <image src="../../static/img/51.png" mode=""></image> -->
-				<!-- <view class="lt-top">
-					<p class="top-mon">券面额:￥<span class="mon-b">{{couInfo.amount}}</span> </p>
-					<p class="top-p">(满{{couInfo.conditionAmount}}元可用)</p>
-				</view>
-				<view class="md-p">优惠券领取时间：</view>
-				<view class="md-p1">{{couInfo.possessStartTime}} - {{couInfo.possessEndTime}}</view>
-				<view class="md-p">优惠券使用时间</view>
-				<view class="md-p1">{{couInfo.useStartTime}} - {{couInfo.useEndTime}}</view> -->
-			
 			<view :class="['gc-btn',{'gc-btnGray':btnNo}]" @click="subClick">{{btnTxt}}</view>
 			
 			<view class="txt-foot">
@@ -48,26 +38,15 @@
 			}
 		},
 		onLoad(option) {
-			console.log(option)
 			this.couponId = option.id;
 			this.imgUrl = option.imgUrl || this.$BASE_URLS.FILE_BASE_URL+'/15c8097c-e242-41f4-9900-fbe1cdd04330.png'
 			uni.showLoading({
 				title: '加载中...',
 				mask:true,
 			});
-			this.preloadImage(this.imgUrl);
 		},
 		onShow(){
 			this.initData()
-		},
-		computed: {
-		    bgStyle() {
-		      return {
-		        background: `url(${this.imgUrl}) no-repeat`,
-		        display: this.isImageLoaded ? "block" : "none",
-				backgroundSize: "100% 100%",
-		      };
-		    },
 		},
 	
 		methods: {
@@ -93,13 +72,9 @@
 				})
 			},
 			
-			preloadImage(url) {
-				const img = new Image();
-				img.onload = () => {
-					this.isImageLoaded = true;
-					uni.hideLoading()
-				};
-				img.src = url;
+			preloadImage() {
+				this.isImageLoaded = true;
+				uni.hideLoading()
 			},
 			
 			//pplog组件回调
