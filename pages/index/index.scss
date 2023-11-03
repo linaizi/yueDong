@@ -3,13 +3,13 @@
 }
 	
 .containBox{
-	padding: 24upx 24upx 0;
+	// padding: 24upx 24upx 0;
 	.menu{
 		@include dflex(space-around,center);
 		background: #FFD3C9;
 		padding: 20upx 0;
-		margin-bottom: 20upx;
-		border-radius: 12upx;
+		// margin-bottom: 20upx;
+		// border-radius: 12upx;
 		.item{
 			@include dflex(center,center);
 			flex-direction: column;
@@ -39,20 +39,38 @@
 	}
 	
 	.tZan{
+		background: #FFD3C9;
+		line-height: 90upx;
+		@include dflex(center,center);
+		margin: 0 0 20upx;
+		.icon{
+			width: 38upx;
+			height: 36upx;
+			margin-right: 12upx;
+		}
+		.tZan-txt{
 			color:#333333;
-			font-size: 34upx;
-			font-weight: bold;
-			@include dflex(center,center);
-			margin: 20upx 0 35upx;
-			.icon{
-				width: 38upx;
-				height: 36upx;
-				margin-right: 12upx;
+			font-size: 38upx;
+			position: relative;
+			&:before, &::after {
+				content: '';
+				background: #76ebea;
+				width: 90upx;
+				height: 4upx;
+				position: absolute;
+				top: 50%;
 			}
+			&:before{
+				left: -110upx;
+			}
+			&::after{
+				right: -110upx;
+			}
+		}
 	}
 	
 	.goodsList{
-		padding-bottom: 30upx;
+		padding:0 24upx 30upx;
 	}
 	
 }

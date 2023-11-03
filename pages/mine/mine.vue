@@ -17,7 +17,7 @@
 			</view>
 		</view>
 		
-		<image :src="FILE_BASE_URL + '/5680d7d6-630a-4dbb-809f-f9aec3137e5e.png'" mode="widthFix" class="wh180" @click="goSort"></image>
+		<!-- <image :src="FILE_BASE_URL + '/5680d7d6-630a-4dbb-809f-f9aec3137e5e.png'" mode="widthFix" class="wh180" @click="goSort"></image> -->
 		
 		<view class="userCenterBox">
 			<view class="titleBox">用户中心</view>
