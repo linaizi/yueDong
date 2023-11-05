@@ -1,6 +1,6 @@
 <template>
-	<view class="allBg flexBox">
-		<uni-nav-bar statusBar="true" backgroundColor="#fff" title="购物车" fixed></uni-nav-bar>
+	<view class="allBg flexBox indexBg">
+		<uni-nav-bar statusBar="true" backgroundColor="rgba(0,0,0,0)" title="购物车" fixed></uni-nav-bar>
 		
 		 <view class="myCart-top">商品库存有限，请尽快下单  <p v-if="!noDataShow" @click="editClick(showJs)">{{showJs?"编辑":"完成"}}</p></view>
 		 

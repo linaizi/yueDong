@@ -3,13 +3,11 @@
 }
 	
 .containBox{
-	// padding: 24upx 24upx 0;
 	.menu{
 		@include dflex(space-around,center);
-		background: #FFD3C9;
-		padding: 20upx 0;
-		// margin-bottom: 20upx;
-		// border-radius: 12upx;
+		// background: #FFD3C9;
+		// padding: 20upx 0;
+		padding: 36upx 0 26upx;
 		.item{
 			@include dflex(center,center);
 			flex-direction: column;
@@ -17,8 +15,9 @@
 			color: #3e3e3e;
 			position: relative;
 			.itemImg{
-				width: 80upx;
-				height: 80upx;
+				// width: 80upx;
+				width: 90upx;
+				height: 90upx;
 				margin-bottom: 10upx;
 			}
 			.menu-btn{
@@ -34,12 +33,13 @@
 	
 	.index-sort{
 		@include dflex(null,null);
+		background-color: #fff;
 		flex-wrap: wrap;
 		.sort-img{ width: 50%; }
 	}
 	
 	.tZan{
-		background: #FFD3C9;
+		// background: #FFD3C9;
 		line-height: 90upx;
 		@include dflex(center,center);
 		margin: 0 0 20upx;

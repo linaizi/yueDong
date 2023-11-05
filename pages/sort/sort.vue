@@ -1,6 +1,6 @@
 <template>
-	<view class="bgBox">
-		<uni-nav-bar statusBar="true" backgroundColor="#fff" title="分类" fixed></uni-nav-bar>
+	<view class="bgBox indexBg">
+		<uni-nav-bar statusBar="true" backgroundColor="rgba(0,0,0,0)" title="分类" fixed></uni-nav-bar>
 		
 		 <view class="sortBox">
 			 <view class="sortLt">
@@ -75,7 +75,8 @@
 				listQuery:{
 					pageNo:1,
 					pageSize:10,
-					cid:1
+					cid:1,
+					sort:0
 				},
 				pagesize:10,
 				loadStatus:'loading',  //加载样式：more-加载前样式，loading-加载中样式，nomore-没有数据样式

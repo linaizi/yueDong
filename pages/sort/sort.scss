@@ -2,7 +2,7 @@
 	@include dflex(null,null);
 	height:85%;
 	.sortLt{
-		background: #F7F7F7;
+		// background: #F7F7F7;
 		height:100%;
 		.ltItem{
 			height: 96upx;
@@ -20,7 +20,6 @@
 	}
 	
 	.sortRt{
-		background: #fff;
 		flex: 1;
 		.sortGoodBox{
 			margin: 0 26upx;

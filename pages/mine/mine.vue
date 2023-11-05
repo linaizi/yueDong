@@ -1,5 +1,5 @@
 <template>
-	<view class="mineBox">
+	<view class="mineBox indexBg">
 		<uni-nav-bar statusBar="true" backgroundColor="rgba(0,0,0,0)" title="我的"></uni-nav-bar>
 		
 		<view class="top">

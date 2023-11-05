@@ -45,3 +45,7 @@
 		color:#fff;
 	}
 }
+
+/deep/.uni-select__selector{
+	z-index: 32;
+}

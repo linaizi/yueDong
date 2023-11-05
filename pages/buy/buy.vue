@@ -282,7 +282,7 @@
 					if(this.hasAddr){
 						param.name = this.userAddr.name
 						param.phone = this.userAddr.phone
-						param.address = this.userAddr.address + this.userAddr.houseNumber
+						param.address = this.userAddr.address
 						param.houseNumber = this.userAddr.houseNumber
 						param.addressId = this.userAddr.id
 						param.province = this.userAddr.province

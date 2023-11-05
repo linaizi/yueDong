@@ -1,6 +1,6 @@
 <template>
-	<view class="bgBox flexBox">
-		<uni-nav-bar statusBar="true" backgroundColor="#fff" title="跃动洗涤" fixed></uni-nav-bar>
+	<view class="bgBox flexBox indexBg">
+		<uni-nav-bar statusBar="true" backgroundColor="rgba(0,0,0,0)" title="跃动洗涤" fixed></uni-nav-bar>
 		
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop"
 			class="boxScroll indexScroll"> 
@@ -12,7 +12,7 @@
 						<view class="item" v-for="item in menuArr" :key="item.id" @click="menuClick(item.id)">
 							<button  v-if="item.id==3" class="menu-btn" type="default" plain="true" open-type="contact" @contact="contact"></button>
 							<image :src="item.img" mode="widthFix" class="itemImg"></image>
-							{{item.name}}
+							<!-- {{item.name}} -->
 						</view>
 					</view>
 					
@@ -90,17 +90,17 @@
 					this.$BASE_URLS.FILE_BASE_URL+'/33b724a9-1515-478c-afe8-f82e36198d64.png',
 				],
 				menuArr: [
-					{name:"门店列表", id:0, img:this.$BASE_URLS.FILE_BASE_URL+"/438c369d-80a9-41ce-a2d8-6b43b04780eb.png"},
-					{name:"使用帮助", id:1, img:this.$BASE_URLS.FILE_BASE_URL+"/14862a4b-1145-4f76-8265-d9492207f9a8.png"},
-					// {name:"关于我们", id:2, img:this.$BASE_URLS.FILE_BASE_URL+"/cc6c1f69-e610-42de-b359-25cad1b889a4.png"},
-					{name:"客服微信", id:4, img:this.$BASE_URLS.FILE_BASE_URL+"/233bda21-5ade-4c7a-ad7c-11c88dbb695d.png"},
-					{name:"联系客服", id:3, img:this.$BASE_URLS.FILE_BASE_URL+"/233bda21-5ade-4c7a-ad7c-11c88dbb695d.png"},
+					{name:"门店列表", id:0, img:this.$BASE_URLS.FILE_BASE_URL+"/fde2f01b-553a-427f-a535-95635cd5f63c.png"},
+					{name:"使用帮助", id:1, img:this.$BASE_URLS.FILE_BASE_URL+"/d8a64f7a-6817-4022-bf18-189ee8e927a9.png"},
+					{name:"客服微信", id:4, img:this.$BASE_URLS.FILE_BASE_URL+"/fbbc8b8b-ab6b-4df6-a284-535a10efd107.png"},
+					{name:"联系客服", id:3, img:this.$BASE_URLS.FILE_BASE_URL+"/e77c29cd-f43b-4b32-bdbd-e856042aa2d3.png"},
 				],
 				
 				goodParams:{
 					pageNo:1,
 					pageSize:10,
-					cid:7
+					cid:7,
+					sort:0
 				},
 				recommendArr:[],
 				sortList:[],
