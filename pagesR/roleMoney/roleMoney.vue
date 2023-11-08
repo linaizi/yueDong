@@ -43,6 +43,7 @@
 		<uni-popup ref="txPopup" type="center">
 			<view class="pp-tx">
 				<view class="tx-title">提现</view>
+				<input class="tx-input" type="text" v-model="realName" placeholder="请输入你的真实姓名" style="margin-bottom: 20rpx;" />
 				<input class="tx-input" type="number" v-model="amount" :placeholder="'请输入提现金额≤'+balance" @input="onKeyInput" />
 				<view class="tx-btn">
 					<view class="btn" @click="closeTc">取消</view>
@@ -60,6 +61,7 @@
 			return {
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				amount:'',
+				realName:'',
 				level:0,
 				listQuery:{
 					pageNo:1,
@@ -133,15 +135,29 @@
 			closeTc(){
 				this.$refs.txPopup.close();
 				this.amount = '';
+				this.realName = '';
 			},
 			yesTc(){
-				if(!this.amount) return;
+				if(!this.amount) {
+					uni.showToast({title: '请输入金额', icon:'none'});
+					return;
+				}
+				if(!this.realName) {
+					uni.showToast({title: '请输入您的真实姓名', icon:'none'});
+					return;
+				}
+				
+				let params = {
+					amount: this.amount,
+					realName: this.realName,
+				}
 				const txAPI = (queryFunction) => {
-					queryFunction({ amount: this.amount}).then((res) => {
+					queryFunction(params).then((res) => {
 						if(res.code == 200){
 							uni.showToast({title: '提现成功', icon:'success'});
 							this.$refs.txPopup.close();
 							this.amount='';
+							this.realName='';
 							this.list = [];
 							this.listQuery.pageNo = 1
 							this.initData()
