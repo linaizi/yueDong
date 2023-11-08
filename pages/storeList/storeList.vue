@@ -45,7 +45,7 @@
 			}
 		},
 		onLoad(option) {
-			console.log(option)
+			console.log('option',option)
 			if(option.source){
 				this.source = option.source;
 			}
@@ -123,14 +123,14 @@
 			},
 			
 			daoHang(i){
+				console.log('i',i)
 				uni.openLocation({
-					longitude: i.n,// 经度，范围为-180~180，负数表示西经
-					latitude: i.e,// 纬度，范围为-90~90，负数表示南纬
-					scale: 28, // 缩放比例
-					name: i.shopName,//终点名称
+					latitude: i.n,
+					longitude: i.e,
+					name: i.shopName || '',//终点名称
 					address: i.address,//终点详细地址
 					success: function (res) {
-						console.log('success:',res);
+						console.log('success',res);
 					}
 				});
 			},

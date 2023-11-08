@@ -436,7 +436,9 @@
 			//跳转到门店列表页面			
 			goDSD(n){
 				let str = ''
-				if(n){
+				if(n==0||(n==1&&this.tabNum == 0)){
+					str = '&e=' + this.lotn.e + '&n=' + this.lotn.n
+				}else{
 					str = '&e=' + this.userAddr.e + '&n=' + this.userAddr.n
 				}
 				uni.navigateTo({

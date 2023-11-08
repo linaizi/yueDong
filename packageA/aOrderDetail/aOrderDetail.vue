@@ -39,9 +39,9 @@
 			<view class="p" @click="copy(infoData.orderNo)"><view class="p-lt">订单号:</view><view class="p-rt">{{infoData.orderNo}}</view></view>			
 			<view class="p"><view class="p-lt">发货方式:</view><view class="p-rt">{{infoData.type == 1 ? "上门取送":"到店服务"}}</view></view>
 			<view class="p" v-if="infoData.type == 1"><view class="p-lt">预约上门取鞋时间:</view><view class="p-rt">{{infoData.reservationTime}}</view></view>
-			<view class="p" v-if="Object.keys(infoData.ruser).length>0"><view class="p-lt">取货骑手:</view><view class="p-rt">{{infoData.ruser.name}}</view></view>
-			<view class="p" v-if="Object.keys(infoData.caddress).length>0"><view class="p-lt">代收点:</view><view class="p-rt">{{infoData.caddress.shopName}}</view></view>
-			<view class="p" v-if="Object.keys(infoData.returnRUser).length>0"><view class="p-lt">送货骑手:</view><view class="p-rt">{{infoData.returnRUser.name}}</view></view>
+			<view class="p" v-if="infoData.ruser&&Object.keys(infoData.ruser).length>0"><view class="p-lt">取货骑手:</view><view class="p-rt">{{infoData.ruser.name}}</view></view>
+			<view class="p" v-if="infoData.caddress&&Object.keys(infoData.caddress).length>0"><view class="p-lt">代收点:</view><view class="p-rt">{{infoData.caddress.shopName}}</view></view>
+			<view class="p" v-if="infoData.returnRUser&&Object.keys(infoData.returnRUser).length>0"><view class="p-lt">送货骑手:</view><view class="p-rt">{{infoData.returnRUser.name}}</view></view>
 			
 			<view class="od-qt" style="padding-bottom: 0;">
 				<view class="qtBox" v-if="infoData.remark">
@@ -69,6 +69,7 @@
 					</view>
 				</view>
 			</template>
+		
 		</view>
 		
 	</view>
@@ -131,9 +132,9 @@
 				});
 			},
 			//打电话
-			PhoneCall(){
+			PhoneCall(phone){
 				uni.makePhoneCall({
-					phoneNumber: '13411112222' 
+					phoneNumber: phone 
 				});
 			},
 			
