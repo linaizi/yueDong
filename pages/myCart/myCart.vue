@@ -15,7 +15,7 @@
 								<view class="mid-name overflow2" @click="goProductDetails(item)">{{item.goodsInfoDto.goodsName}}</view>
 								<view class="mid-gz" @click="goProductDetails(item)">规格：默认</view>
 								<view class="mid-price">
-									￥{{item.goodsInfoDto.goodsNowPrice}}
+									<p class="price-p">￥{{item.goodsInfoDto.goodsNowPrice}}<span class="price-span">/双</span></p>
 									<uni-number-box 
 										v-model="item.goodsNum" 
 										@minus="minClick(index)" 

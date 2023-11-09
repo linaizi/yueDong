@@ -27,7 +27,7 @@
 		},
 		data(){
 			return{
-				indicatorDots: true,
+				indicatorDots: false,
 				autoplay: true,
 				interval: 3000,
 				duration: 500,

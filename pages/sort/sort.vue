@@ -18,8 +18,8 @@
 									</view>
 									<view class="goodsMsg-foot">
 										<view class="foot-lf">
-												<p>￥<span class="big">{{priceHander(item.goodsNowPrice,1)}}</span>{{priceHander(item.goodsNowPrice,2)}}</p>
-												<p class="gray">￥{{item.goodsPrice}}</p>
+												<p>￥<span class="big">{{priceHander(item.goodsNowPrice,1)}}</span>{{priceHander(item.goodsNowPrice,2)}}/双</p>
+												<p class="gray">￥{{item.goodsPrice}}/双</p>
 										</view>
 										<image class="foot-rf" :src="FILE_BASE_URL + '/4cde96e1-9e5c-44dc-b616-b50eac17ef2d.jpg'" @click.stop="openCar(item)"></image>
 									</view>

@@ -22,7 +22,7 @@
 		</view>
 		
 		<view class="pdBox">
-			<view class="pd-price">￥<span class="big">{{infoData.goodsNowPrice}}</span> <span class="gray">￥{{infoData.goodsPrice}}</span></view>
+			<view class="pd-price">￥<span class="big">{{infoData.goodsNowPrice}}</span>/双 <span class="gray">￥{{infoData.goodsPrice}}/双</span></view>
 			<view class="pd-title">{{infoData.goodsName}}</view>
 			<view class="pd-sale">
 				<view class="sale-v1">已售{{infoData.saleas}}件</view>

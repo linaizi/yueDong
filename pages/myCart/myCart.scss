@@ -53,7 +53,12 @@
 				.mid-price{
 					@include dflex(space-between,center);
 					padding-right:28upx;
-					
+					.price-p{
+						font-size: 28upx;
+					}
+					.price-span{
+						font-size: 20upx;
+					}
 				}
 			}
 		}

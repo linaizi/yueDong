@@ -1,6 +1,6 @@
 <template>
 	<view class="bgBox flexBox indexBg">
-		<uni-nav-bar statusBar="true" backgroundColor="rgba(0,0,0,0)" title="跃动洗涤" fixed></uni-nav-bar>
+		<view :style="{ height: iStatusBarHeight + 'px'}"></view>
 		
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop"
 			class="boxScroll indexScroll"> 
@@ -12,14 +12,14 @@
 						<view class="item" v-for="item in menuArr" :key="item.id" @click="menuClick(item.id)">
 							<button  v-if="item.id==3" class="menu-btn" type="default" plain="true" open-type="contact" @contact="contact"></button>
 							<image :src="item.img" mode="widthFix" class="itemImg"></image>
-							<!-- {{item.name}} -->
+							{{item.name}}
 						</view>
 					</view>
 					
 					<!-- <image :src="FILE_BASE_URL + '/5680d7d6-630a-4dbb-809f-f9aec3137e5e.png'" mode="widthFix" class="wh180" @click="goSort"></image> -->
 					
 					<view class="index-sort">
-						<image v-for="(i,index) in sortList" :key="i.id" :src="i.icon" mode="widthFix" @click="goSort(i.id)" class="sort-img"></image>
+						<image v-for="(i,index) in sortList" :key="i.id" :src="i.icon" @click="goSort(i.id)" class="sort-img"></image>
 					</view>					
 					
 					<view class="tZan">
@@ -37,8 +37,8 @@
 								</view>
 								<view class="goodsMsg-foot">
 									<view class="foot-lf">
-											<p>￥<span class="big">{{priceHander(item.goodsNowPrice,1)}}</span>{{priceHander(item.goodsNowPrice,2)}}</p>
-											<p class="gray">￥{{item.goodsPrice}}</p>
+											<p>￥<span class="big">{{priceHander(item.goodsNowPrice,1)}}</span>{{priceHander(item.goodsNowPrice,2)}}/双</p>
+											<p class="gray">￥{{item.goodsPrice}}/双</p>
 									</view>
 									<image class="foot-rf" :src="FILE_BASE_URL + '/4cde96e1-9e5c-44dc-b616-b50eac17ef2d.jpg'" @click.stop="openCar(item)"></image>
 								</view>
@@ -85,15 +85,16 @@
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				mid: uni.getStorageSync('mid'),
 				swpArr: [
-					this.$BASE_URLS.FILE_BASE_URL+'/44710a9b-f090-4a86-a6b8-d0ab9d053c86.jpg',
-					this.$BASE_URLS.FILE_BASE_URL+'/a22373d4-fbb0-4fd5-bf45-f3d47e29f93f.jpg',
-					this.$BASE_URLS.FILE_BASE_URL+'/33b724a9-1515-478c-afe8-f82e36198d64.png',
+					// this.$BASE_URLS.FILE_BASE_URL+'/44710a9b-f090-4a86-a6b8-d0ab9d053c86.jpg',
+					// this.$BASE_URLS.FILE_BASE_URL+'/a22373d4-fbb0-4fd5-bf45-f3d47e29f93f.jpg',
+					// this.$BASE_URLS.FILE_BASE_URL+'/33b724a9-1515-478c-afe8-f82e36198d64.png',
+					this.$BASE_URLS.FILE_BASE_URL+'/b7c4e52a-9c62-410c-929b-be22971c6d7e.jpg',
 				],
 				menuArr: [
-					{name:"门店列表", id:0, img:this.$BASE_URLS.FILE_BASE_URL+"/fde2f01b-553a-427f-a535-95635cd5f63c.png"},
-					{name:"使用帮助", id:1, img:this.$BASE_URLS.FILE_BASE_URL+"/d8a64f7a-6817-4022-bf18-189ee8e927a9.png"},
-					{name:"客服微信", id:4, img:this.$BASE_URLS.FILE_BASE_URL+"/fbbc8b8b-ab6b-4df6-a284-535a10efd107.png"},
-					{name:"联系客服", id:3, img:this.$BASE_URLS.FILE_BASE_URL+"/e77c29cd-f43b-4b32-bdbd-e856042aa2d3.png"},
+					{name:"门店列表", id:0, img:this.$BASE_URLS.FILE_BASE_URL+"/c8d70c4c-0aac-490d-ac99-f67e105b2a81.png"},
+					{name:"使用帮助", id:1, img:this.$BASE_URLS.FILE_BASE_URL+"/a46eb486-bce0-42a2-add2-dfc0a4275824.png"},
+					{name:"客服微信", id:4, img:this.$BASE_URLS.FILE_BASE_URL+"/24d00cec-9b41-414f-ac8a-4623cef92e55.png"},
+					{name:"联系客服", id:3, img:this.$BASE_URLS.FILE_BASE_URL+"/db163cb0-39a9-44e0-bf95-bdb4bcf73558.png"},
 				],
 				
 				goodParams:{
@@ -117,11 +118,14 @@
 				oldScrollTop:0,
 				
 				ppCarData:{},
+				iStatusBarHeight: 0,
 			}
 		},
 		onLoad(option) {
 			this.initGoods()
 			this.getList(); //获取分类
+			const { statusBarHeight } = uni.getSystemInfoSync()
+			this.iStatusBarHeight = statusBarHeight
 			
 			wx.setEnableDebug({ //开发环境打开调试
 				enableDebug: true
