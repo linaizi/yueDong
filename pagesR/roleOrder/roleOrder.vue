@@ -19,7 +19,8 @@
 						<view class="item-mid">
 							<p class="mid-p overflow1">{{i.goodsName}}</p>
 							<p>规格：默认</p>
-							<p>x{{i.goodsNum}}</p>
+							<p>数量：{{i.goodsNum}}</p>
+							<p>发货方式：{{i.type == 1 ? "上门取送" : "到店服务"}}</p>
 						</view>
 						<view class="main-rt">￥{{i.goodsNowPrice}}</view>
 					</view>

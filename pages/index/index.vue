@@ -89,6 +89,7 @@
 					// this.$BASE_URLS.FILE_BASE_URL+'/a22373d4-fbb0-4fd5-bf45-f3d47e29f93f.jpg',
 					// this.$BASE_URLS.FILE_BASE_URL+'/33b724a9-1515-478c-afe8-f82e36198d64.png',
 					this.$BASE_URLS.FILE_BASE_URL+'/b7c4e52a-9c62-410c-929b-be22971c6d7e.jpg',
+					this.$BASE_URLS.FILE_BASE_URL+'/4f994c2a-b39a-483a-b694-1b2c06d7d0b8.jpg',
 				],
 				menuArr: [
 					{name:"门店列表", id:0, img:this.$BASE_URLS.FILE_BASE_URL+"/c8d70c4c-0aac-490d-ac99-f67e105b2a81.png"},

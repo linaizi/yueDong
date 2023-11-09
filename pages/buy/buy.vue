@@ -119,8 +119,8 @@
 			title="预约上门取鞋时间" 
 			:isShow="timeShow" 
 			rangeDay="5" 
-			rangeStartTime="9:30:00"
-			rangeEndTime="20:30:00"
+			rangeStartTime="9:00:00"
+			rangeEndTime="19:00:00"
 			:rangeType="true"
 			:isNow="true"
 			@closeAlert="handelClose">
