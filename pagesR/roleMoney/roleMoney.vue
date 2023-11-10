@@ -48,7 +48,6 @@
 				<input class="tx-input" type="number" v-model="amount" :placeholder="'请输入提现金额≤'+balance" @input="onKeyInput" />
 				<view class="tx-sm">
 					<p class="sm-p">提现说明</p>
-					<p class="sm-p"><span class="red">*</span>每天可申请一次提现</p>
 					<p class="sm-p"><span class="red">*</span>每次最低1元起提</p>
 					<p class="sm-p"><span class="red">*</span>申请提现后1-3个工作日内到账</p>
 					<p class="sm-g">如：张三在3月4日申请提现，最快3月5日即可到账，最晚3月7日到账，非工作日不计算在内</p>

@@ -10,12 +10,12 @@
 				<view class="main-item" v-for="(item, index) in list" :key="index">
 					<view class="item-lf">
 						<h3 class="lf-h">{{item.statusText}}</h3>
-						<p class="lf-p" v-if="item.tradeSn">提现单号：{{item.tradeSn}}</p>
+						<p class="lf-p overflow1" v-if="item.tradeSn">提现单号：{{item.tradeSn}}</p>
 						<p class="lf-p" v-if="item.remark">失败原因：{{item.remark}}</p>
 					</view>
 					<view class="item-rf">
 						<p class="rf-p">￥{{item.amount}}</p>
-						<p class="rf-p2">{{item.createTime}}</p>
+						<p class="rf-p2">{{item.createTime.split(' ')[0]}}</p>
 					</view>
 				</view>
 			</view>
