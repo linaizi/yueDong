@@ -9,8 +9,9 @@
 			<view class="rmn-main">
 				<view class="main-item" v-for="(item, index) in list" :key="index">
 					<view class="item-lf">
-						<h3>{{item.statusText}}</h3>
-						<p>提现单号：{{item.tradeSn}}</p>
+						<h3 class="lf-h">{{item.statusText}}</h3>
+						<p class="lf-p" v-if="item.tradeSn">提现单号：{{item.tradeSn}}</p>
+						<p class="lf-p" v-if="item.remark">失败原因：{{item.remark}}</p>
 					</view>
 					<view class="item-rf">
 						<p class="rf-p">￥{{item.amount}}</p>

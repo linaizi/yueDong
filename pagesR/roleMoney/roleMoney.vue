@@ -20,11 +20,12 @@
 				<view class="rmn-main">
 					<view class="main-item" v-for="(item, index) in list" :key="index">
 						<view class="item-lf">
-							<h3>{{item.remark}}</h3>
+							<h3>{{codeTxt(item.balanceCode)}}</h3>
 							<p>操作时间：{{item.createTime}}</p>
+							<p>备注：{{item.remark}}</p>
 						</view>
 						<view class="item-rf">
-							<p :class="[item.balanceCode == 'commission' ?'rf-p3':'rf-p1']">{{item.balanceCode == 'commission' ?'+':'-'}}{{item.money.toFixed(2)}}</p>
+							<p :class="[item.balanceCode == 'withdraw' ?'rf-p1':'rf-p3']">{{item.balanceCode == 'withdraw' ?'-':'+'}}{{item.money.toFixed(2)}}</p>
 							<p class="rf-p2">余额:￥{{item.leaveMoney}}</p>
 						</view>
 					</view>
@@ -45,6 +46,13 @@
 				<view class="tx-title">提现</view>
 				<input class="tx-input" type="text" v-model="realName" placeholder="请输入你的真实姓名" style="margin-bottom: 20rpx;" />
 				<input class="tx-input" type="number" v-model="amount" :placeholder="'请输入提现金额≤'+balance" @input="onKeyInput" />
+				<view class="tx-sm">
+					<p class="sm-p">提现说明</p>
+					<p class="sm-p"><span class="red">*</span>每天可申请一次提现</p>
+					<p class="sm-p"><span class="red">*</span>每次最低1元起提</p>
+					<p class="sm-p"><span class="red">*</span>申请提现后1-3个工作日内到账</p>
+					<p class="sm-g">如：张三在3月4日申请提现，最快3月5日即可到账，最晚3月7日到账，非工作日不计算在内</p>
+				</view>
 				<view class="tx-btn">
 					<view class="btn" @click="closeTc">取消</view>
 					<view class="btn btn1" @click="yesTc">确定</view>
@@ -180,6 +188,16 @@
 				uni.navigateTo({
 				    url: '/pagesR/roleTiXian/roleTiXian?level=' + this.level
 				});
+			},
+			
+			codeTxt(code){
+				const codeArr = {
+					'withdraw' : "用户提现",
+					"commission" : "跑腿佣金结算",
+					"withdraw_reject" : "提现驳回",
+					"withdraw_fail" : "提现失败返款"
+				}
+				return codeArr[code]
 			},
 			
 			scrollLower(){

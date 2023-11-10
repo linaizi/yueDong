@@ -8,6 +8,7 @@
 				<view class="lt-r" v-if="mid">
 					<view class="r-name">{{UserInfo.nickName}}</view>
 					<view class="r-phone">手机号：{{UserInfo.phone}}</view>
+					<view class="r-phone">用户ID：{{UserInfo.uid}}</view>
 				</view>
 				<p class="lt-p" v-else>立即登录</p>
 			</view>

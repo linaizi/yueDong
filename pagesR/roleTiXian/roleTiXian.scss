@@ -17,16 +17,17 @@
 	margin-bottom: 24upx;
 	@include dflex(space-between,null);
 	.item-lf {
-		h3 {
+		.lf-h {
 			font-size: 32upx;
 			font-weight: normal;
 			color: #000;
 			margin-bottom: 10upx;
 		}
-		p {
+		.lf-p {
 			font-size: 24upx;
 			color: #333333;
 			line-height: 1.7;
+			word-break: break-all;
 		}
 	}
 	.item-rf {

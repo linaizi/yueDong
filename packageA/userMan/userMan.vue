@@ -40,6 +40,7 @@
 								<span class="n-g n6" v-if="item.level==3&&item.headName">({{item.headName}})</span>
 							</view>
 							<view class="rt-p">手机号：{{item.phone}}</view>
+							<view class="rt-p">用户ID：{{item.uid}}</view>
 							<view class="rt-p">注册时间：{{item.createTime}}</view>
 						</view>
 						

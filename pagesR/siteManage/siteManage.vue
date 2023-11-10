@@ -41,6 +41,7 @@
 						<image :src="retHandle(i.userAddress,'pic',i.user.avatar)" class="img"></image>
 						<view class="item-mid">
 							<view class="name">{{i.user.nickName}}<span v-if="i.userAddress&&i.userAddress.name">({{i.userAddress.name}})</span></view>
+							<view class="item-p">用户ID: {{i.user.id}}</view>
 							<view class="item-p">手机号: {{retHandle(i.userAddress,'phone',i.user.phone)}}</view>
 							<view class="item-p">订单数: {{i.orderNum}}</view>
 							<view class="item-p">总收入: ￥{{i.userWalletDto.balance+i.userWalletDto.withdrawAmount}}</view>

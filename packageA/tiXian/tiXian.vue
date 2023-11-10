@@ -30,11 +30,11 @@
 								<span class="n-g" v-if="item.adminUserDto.level==2&&item.adminUserDto.shopName">({{item.adminUserDto.shopName}})</span>
 							</view>
 							<view class="mid-p">手机号：{{item.adminUserDto.phone}}</view>
-							<view class="mid-p overflow1" v-if="item.status!=1||item.status!=3">提现单号:<span>{{item.tradeSn}}</span></view>
+							<view class="mid-p overflow1" v-if="item.tradeSn&&(item.status!=1||item.status!=3)">提现单号:<span>{{item.tradeSn}}</span></view>
 							<view class="mid-p">申请时间:<span>{{item.createTime}}</span></view>
 						</view>
 						<view class="top-rt">
-							<view :class="['rt-gray',{'rt-red':[2,3,4].includes(item.status)},{'rt-blue':item.status==5}]">{{item.statusText}}</view>
+							<view :class="['rt-gray',{'rt-red':[2,3,4].includes(item.status)},{'rt-blue':item.status==5}]">{{retTxt(item.status)}}</view>
 							<view class="rt-mon">-<span>￥</span>{{item.amount}}</view>
 						</view>
 						
@@ -152,6 +152,18 @@
 			},
 			iptConfirm(val){
 				this.toOperate(this.id,2,val)
+			},
+			
+			retTxt(id){
+				const statusDict = {
+					  1: '待审核',
+					  2: '转账中',
+					  3: '提现驳回',
+					  4: '转账失败',
+					  5: '转账成功',
+				};
+				
+				return statusDict[id]
 			},
 			
 			yesClick(id){

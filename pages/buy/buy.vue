@@ -18,8 +18,8 @@
 			<view class="tab-form" v-else>
 				<view class="form-adr" v-if="hasAddr">
 					<view class="adr-lt" @click="goMyaddr">
-						<view class="lt-t">{{userAddr.name}} <span>{{userAddr.phone}}</span><p v-if="false">配送范围内</p></view>
-						<view class="lt-b overflow2">{{userAddr.address}} {{userAddr.houseNumber}}</view>
+						<view class="lt-t">{{userAddr.name||''}} <span>{{userAddr.phone||''}}</span><p v-if="false">配送范围内</p></view>
+						<view class="lt-b overflow2">{{userAddr.address||''}} {{userAddr.houseNumber||''}}</view>
 					</view>
 					<uni-icons type="forward" size="40rpx" color="#666" style="margin-top: -38upx;"></uni-icons>
 				</view>
@@ -122,7 +122,7 @@
 			rangeStartTime="9:00:00"
 			rangeEndTime="19:00:00"
 			:rangeType="true"
-			:isNow="true"
+			:intervalTime="300"
 			@closeAlert="handelClose">
 		</hTimeAlert>
 		
