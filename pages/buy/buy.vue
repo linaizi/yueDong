@@ -2,10 +2,10 @@
 	<view class="allBg">
 		<view class="topBox">
 			<view class="tab-t">
-				<view :class="['t-item',{'t-item-lt':tabNum==0}]" @click="tabClick(0)"><image :src="FILE_BASE_URL + '/2dcf36c4-bdad-4c47-851b-c545b2c17684.png'" v-if="tabNum==0" class="t-img1"></image>到店服务</view>
+				<view :class="['t-item',{'t-item-lt':tabNum==2}]" @click="tabClick(2)"><image :src="FILE_BASE_URL + '/2dcf36c4-bdad-4c47-851b-c545b2c17684.png'" v-if="tabNum==2" class="t-img1"></image>到店服务</view>
 				<view :class="['t-item',{'t-item-rt':tabNum==1}]" @click="tabClick(1)"><image :src="FILE_BASE_URL + '/05564c5d-5f46-4901-91ae-bb664f4ba272.png'" v-if="tabNum==1" class="t-img2"></image>上门取送</view>
 			</view>
-			<view class="tab-form" v-if="tabNum==0">
+			<view class="tab-form" v-if="tabNum==2">
 				<uni-forms :model="formData" border class="aa">
 					<uni-forms-item label="姓名" name="name">
 						<input type="text" v-model="formData.name" placeholder="请输入姓名" maxlength="10" class="tab-ipt" />
@@ -44,7 +44,7 @@
 				</view>
 				<view class="adr-b">{{addrList[0].address}} {{addrList[0].houseNumber || ''}}</view>
 			</view>
-			<view class="dsdBox-no" v-else>当前位置附近暂无代收点 <p v-if="tabNum==0" @click="goDSD(0)">选择代收点</p></view>
+			<view class="dsdBox-no" v-else>当前位置附近暂无代收点 <p v-if="tabNum==2" @click="goDSD(0)">选择代收点</p></view>
 		
 			<view class="buy-time" @click="setTimeClick" v-if="tabNum==1">
 				<p class="time-lt">预约上门取鞋时间</p>
@@ -169,7 +169,7 @@
 				formData:{},
 				goodsData:{},
 				lotn:{},	//当前定位
-				tabNum:0,
+				tabNum:2,
 				userAddr:{},	//用户地址
 				addrList:[],	//页面显示的代收点
 				addrList1:[],	//到店服务获取到的代收点数据
@@ -216,7 +216,7 @@
 			totalMoney() {
 				if(Object.keys(this.goodsData).length == 0) return 0;
 				let tot = this.goodsData.reduce((total, item) => total + item.goodsNowPrice * item.goodsNum, 0) - this.couMon
-				return this.tabNum == 0 ? tot.toFixed(2) : (tot + this.FtAmount).toFixed(2)
+				return this.tabNum == 2 ? tot.toFixed(2) : (tot + this.FtAmount).toFixed(2)
 			}
 		},
 		onShow() {
@@ -265,7 +265,7 @@
 					collectionId: this.addrList[0].cid
 				};
 				 
-				if(this.tabNum == 0){
+				if(this.tabNum == 2){
 					if(!this.formData.name){
 						uni.showToast({title:"姓名不能为空",icon:'none'})
 						return;
@@ -393,7 +393,7 @@
 					if(res.code == 200){
 						console.log('addrList:',res.data)
 						this.addrList = res.data
-						if(this.tabNum==0) this.addrList1 = res.data
+						if(this.tabNum==2) this.addrList1 = res.data
 						else this.addrList2 = res.data
 					}
 				});
@@ -436,7 +436,7 @@
 			//跳转到门店列表页面			
 			goDSD(n){
 				let str = ''
-				if(n==0||(n==1&&this.tabNum == 0)){
+				if(n==0||(n==1&&this.tabNum == 2)){
 					str = '&e=' + this.lotn.e + '&n=' + this.lotn.n
 				}else{
 					str = '&e=' + this.userAddr.e + '&n=' + this.userAddr.n

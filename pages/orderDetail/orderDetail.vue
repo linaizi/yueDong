@@ -23,7 +23,7 @@
 					<view class="od-adr">
 						<uni-icons type="location" size="56rpx" color="#333333"></uni-icons>
 						<view class="adr-rt">
-							<view class="rt-name">{{infoData.name}} <span>{{infoData.phone}}</span></view>
+							<view class="rt-name">{{infoData.name||''}} <span>{{infoData.phone||''}}</span></view>
 							<p v-if="infoData.address">{{infoData.address}} {{infoData.houseNumber}}</p>
 						</view>
 					</view>
@@ -46,8 +46,8 @@
 						<view class="title-lt">订单信息</view>
 					</view>
 					<view class="od-info">
-						<p class="info-p">订单编号：{{infoData.orderNo}} <span @click.stop="copy(infoData.orderNo)">复制</span></p>
-						<p>下单时间：{{infoData.createTime}}</p>
+						<p class="info-p">订单编号：{{infoData.orderNo||''}} <span @click.stop="copy(infoData.orderNo)">复制</span></p>
+						<p>下单时间：{{infoData.createTime||''}}</p>
 						<p>支付方式：{{infoData.status==1 ? "未付款" : "微信支付"}}</p>
 					</view>
 				</view>

@@ -1,6 +1,6 @@
 <template>
 	<view class="bgBox flexBox indexBg">
-		<view :style="{ height: iStatusBarHeight + 'px'}"></view>
+		<!-- <view :style="{ height: iStatusBarHeight + 'px'}"></view> -->
 		
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop"
 			class="boxScroll indexScroll"> 
@@ -128,9 +128,9 @@
 			const { statusBarHeight } = uni.getSystemInfoSync()
 			this.iStatusBarHeight = statusBarHeight
 			
-			wx.setEnableDebug({ //开发环境打开调试
-				enableDebug: true
-			})
+			// wx.setEnableDebug({ //开发环境打开调试
+			// 	enableDebug: true
+			// })
 			
 			wx.showShareMenu({
 				withShareTicket:true,
