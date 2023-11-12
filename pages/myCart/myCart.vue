@@ -41,7 +41,7 @@
 				<p>购物车还是空的哦</p>
 		 </view>
 		 
-		 <view class="myCart-foot" v-if="list.length>0">
+		 <view class="myCart-foot" :style="{'bottom': paddingBottomHeight + 'rpx'}" v-if="list.length>0">
 				<view class="foot-lt" @click="allCkClick">
 					<view :class="['circle',{'circle-red':allCheck}]"></view>
 					<span class="lt-span">全选</span>
@@ -93,6 +93,8 @@
 				scrollTop:0,
 				oldScrollTop:0,
 				ysNum:1, //修改商品数量前的值
+				
+				paddingBottomHeight: 0, //苹果X以上手机底部适配高度
 			}
 		},
  		onShow(){
@@ -105,6 +107,19 @@
 		},
 		onHide() { //隐藏页面后初始化页面
 			this.editClick(false)
+		},
+		onReady() {
+			let that = this;
+			uni.getSystemInfo({
+			   success: function(res) {
+				  let model = ['X', 'XR', 'XS', '11', '12', '13', '14', '15'];
+				  model.forEach(item => {
+					 if (res.model.indexOf(item) != -1 && res.model.indexOf('iPhone') != -1) {
+						that.paddingBottomHeight = 140;
+					 }
+				  })
+			   }
+			});
 		},
 		methods: {
 			initData(){

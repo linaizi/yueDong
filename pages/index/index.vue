@@ -1,6 +1,6 @@
 <template>
 	<view class="bgBox flexBox indexBg">
-		<!-- <view :style="{ height: iStatusBarHeight + 'px'}"></view> -->
+		<uni-nav-bar statusBar="true" backgroundColor="rgba(0,0,0,0)" title="紫荆洗鞋" fixed></uni-nav-bar>
 		
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop"
 			class="boxScroll indexScroll"> 
@@ -119,18 +119,11 @@
 				oldScrollTop:0,
 				
 				ppCarData:{},
-				iStatusBarHeight: 0,
 			}
 		},
 		onLoad(option) {
 			this.initGoods()
 			this.getList(); //获取分类
-			const { statusBarHeight } = uni.getSystemInfoSync()
-			this.iStatusBarHeight = statusBarHeight
-			
-			// wx.setEnableDebug({ //开发环境打开调试
-			// 	enableDebug: true
-			// })
 			
 			wx.showShareMenu({
 				withShareTicket:true,
@@ -140,7 +133,7 @@
 		
 		onShow(){
 			uni.hideTabBar({ //隐藏系统自动的底部导航
-					animation: false
+				animation: false
 			})
 		},
 		methods: {
