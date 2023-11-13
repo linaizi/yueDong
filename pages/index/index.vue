@@ -125,6 +125,11 @@
 			this.initGoods()
 			this.getList(); //获取分类
 			
+			//调试模式
+			uni.setEnableDebug({
+			    enableDebug: false
+			})
+			
 			wx.showShareMenu({
 				withShareTicket:true,
 				menus:["shareAppMessage","shareTimeline"]//设置Menus菜单，才能够让发送给朋友与分享到朋友圈两个按钮可以点击
