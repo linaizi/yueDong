@@ -13,10 +13,10 @@
 						<uni-icons type="location" size="56rpx" color="#333333" @click="daoHang(infoData)"></uni-icons>
 						<view class="adr-rt">
 							<view class="rt-name flex">
-							{{infoData.name}} <span>{{infoData.phone}}</span>
-							 <view class="name-tell" @click="PhoneCall(infoData.phone)">
-							 	<uni-icons type="phone" size="30rpx" color="#446DFD"></uni-icons>联系用户
-							 </view>
+							{{infoData.name||''}} 
+							<span class="name-span">
+								<uni-icons type="phone" size="30rpx" color="#446DFD"></uni-icons>{{infoData.phone||''}}
+							</span>
 						</view>
 							<p @click="daoHang(infoData)" v-if="infoData.address">{{infoData.address}} {{infoData.houseNumber}}</p>
 						</view>
@@ -58,8 +58,8 @@
 						<view class="title-lt">订单信息</view>
 					</view>
 					<view class="od-info">
-						<p class="info-p">订单编号：{{infoData.orderNo}} <span @click.stop="copy(infoData.orderNo)">复制</span></p>
-						<p>下单时间：{{infoData.createTime}}</p>
+						<p class="info-p">订单编号：{{infoData.orderNo||''}} <span @click.stop="copy(infoData.orderNo)">复制</span></p>
+						<p>下单时间：{{infoData.createTime||''}}</p>
 						<p>支付方式：{{infoData.status==1 ? "未付款" : "微信支付"}}</p>
 						<view class="od-qt" style="padding-bottom: 0;">
 							<view class="qtBox" v-if="infoData.remark">

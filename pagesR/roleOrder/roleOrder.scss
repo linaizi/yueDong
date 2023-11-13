@@ -1,1 +1,52 @@
+.rod-top{
+	height: 100upx;
+	background: #f7f7f7;
+	@include dflex(space-between,center);
+	padding: 0 34upx;
+	.top-lt{
+		background: #fff;
+		border-radius: 100upx;
+		width: 500upx;
+		height: 64upx;
+		@include dflex(space-between,center);
+		padding-left: 24upx;
+		box-sizing: border-box;
+		.searchInput{
+			font-size: 28upx;
+			color:#333;
+			width: 430upx;
+		}
+		.lt-right{
+			padding:0 20upx;
+			width: 36upx;
+			height: 36upx;
+		}
+	}
+	.top-rt{
+		border-radius: 100upx;
+		border:2upx solid #446DFD;
+		font-size: 28upx;
+		color:#446DFD;
+		font-weight: bold;
+		padding: 8upx 36upx;
+	}
+}
+
+.ordre-main{
+	.main-top{
+		height: auto;
+		padding: 20upx 0 14upx;
+		.top-lt{
+			.lt-p{
+				color:#333;
+				font-size: 26upx;
+				margin-bottom: 6upx;
+				.p-span{
+					margin-left: 20upx;
+					color:#446DFD;
+				}
+			}
+		}
+	}
+}
 

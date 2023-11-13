@@ -278,7 +278,6 @@ export function mapsdk (location){
 
 //时间选择 关闭事件
 export function handleTime(data){  
-	console.log(data)
 	if (data.includes("周")) {
 		return data;
 	}	

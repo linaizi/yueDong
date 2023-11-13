@@ -1,5 +1,20 @@
 <template>
 	<view class="allBg flexBox">
+		<view class="rod-top">
+			<view class="top-lt">
+				<input type="text" 
+					placeholder="请输入手机号 || 订单号 || 姓名" 
+					confirm-type="search"
+					v-model="listQuery.content" 
+					@confirm="searchPhone" 
+					@input="onKeyInput"
+					placeholder-style="color:#999;fontSize:28rpx" 
+					class="searchInput"/>
+				<image v-if="iptClose" class="lt-right" @click="removeInput" :src="FILE_BASE_URL + '/2c34c18c-7b4c-498a-83e2-e03bcd59b07d.jpg'"></image>
+			</view>
+			<view class="top-rt" @click="searchPhone"> 搜 索 </view>
+		</view>
+		
 		<view class="rod-mume">
 			<view v-for="i in curArr" :key="i.id" :class="['mume-item',{'mume-item-act':i.id==mumeAct}]" @click="mumeClick(i.id)">
 				<span>{{i.name}}</span>
@@ -10,7 +25,20 @@
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop" class="boxScroll">
 				<view class="ordre-main" v-for="item in list" :key="item.orderId" @click="toOrderDetail(item)">
 					<view class="main-top">
-						<view class="top-lt">订单号:{{item.orderNo}}</view>
+						<view class="top-lt">
+							<p class="lt-p">
+								{{item.name}} 
+								<span class="p-span" @click.stop="PhoneCall(item.phone)">
+									<uni-icons type="phone" size="30rpx" color="#446DFD"></uni-icons>{{item.phone}}
+								</span>
+							</p>
+							<p class="lt-p" v-if="item.type == 1&&item.reservationTime">
+								预约时间: {{handleTime(item.reservationTime)}}
+							</p>
+							<p class="lt-p" v-else>
+								下单时间：{{item.createTime||''}}
+							</p>
+						</view>
 						<view class="top-rt">{{rtStatus(item.status)}}</view>
 					</view>
 					
@@ -55,7 +83,7 @@
 <script>	
 	import { RorderPage,DSorderPage,GCorderPage,GCcount,QScount } from '@/api/page/index.js'
 	import { throttle } from "@/common/throttle.js"; 
-	import { rtStatus } from '@/common/tool.js'
+	import { rtStatus,handleTime } from '@/common/tool.js'
 	export default {
 		data() {
 			return {
@@ -76,11 +104,13 @@
 				],
 				mumeAct:0,
 				notPickedUpNum:'',
+				iptClose:false,
 				
 				listQuery:{
 					pageNo:1,
 					pageSize:10,
-					status:0
+					status:0,
+					content:'',
 				},
 				list:[],
 				noDataShow:false,
@@ -130,6 +160,10 @@
 		
 		methods: {
 			mumeClick: throttle(function(id){
+				if(this.iptClose) {
+					this.listQuery.content = "";
+					this.iptClose = false;
+				}
 				this.list = [];
 				this.mumeAct = id;
 				this.loadStatus = 'loading'
@@ -202,6 +236,15 @@
 			//返回订单状态
 			rtStatus,
 			
+			handleTime,
+			
+			//打电话
+			PhoneCall(phone){
+				uni.makePhoneCall({
+					phoneNumber: phone 
+				});
+			},
+			
 			//判断是否显示工厂统计数量
 			retNum(i){
 				return (this.level==5||this.level==2)&&i==1&&this.notPickedUpNum!=0;
@@ -226,6 +269,26 @@
 					uni.navigateTo({
 					    url: '/pagesR/factOrderDetail/factOrderDetail?orderId=' + item.orderId + "&orderNo=" + item.orderNo
 					});
+				}
+			},
+			
+			//实时获取输入值
+			onKeyInput(event){
+				if(event.target.value)
+					this.iptClose = true
+				else
+					this.iptClose = false
+			},
+			//清空输入框值
+			removeInput(){
+				this.listQuery.content = "";
+				this.iptClose = false;
+				this.mumeClick(0)
+			},
+			//搜索
+			searchPhone(){			
+				if(this.iptClose) {
+					this.mumeClick(0)
 				}
 			},
 			

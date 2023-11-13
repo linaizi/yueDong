@@ -466,13 +466,14 @@ page{
 					color:#333;
 					font-weight: bold;
 					margin-bottom: 10upx;
-					span{
+					.name-span{
 						margin-left: 34upx;
-					}
-					.name-tell{
-						margin-left: 25upx;
 						color:#446DFD;
 					}
+					// .name-tell{
+					// 	margin-left: 25upx;
+					// 	color:#446DFD;
+					// }
 				}
 				p{
 					font-size: 24upx;
