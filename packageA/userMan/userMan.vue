@@ -244,7 +244,6 @@
 				this.$refs.XGpopup.close();
 				this.$refs.DJPopup.open();
 				this.djArr = this.mumeArr.filter(item => item.id != 0 && item.id != this.level && item.id != 2)
-				this.djArr.push({name:'管理员', id:6 })
 			},
 			//选择修改后的等级
 			tmClick(n){

@@ -31,13 +31,11 @@
 								<span class="p-span" @click.stop="PhoneCall(item.phone)">
 									<uni-icons type="phone" size="30rpx" color="#446DFD"></uni-icons>{{item.phone}}
 								</span>
+								<span class="p-gray p-blue" @click="ansPhone(1)">已接</span>
+								<span class="p-gray p-red" @click="ansPhone(2)">未接</span>
 							</p>
-							<p class="lt-p" v-if="item.type == 1&&item.reservationTime">
-								预约时间: {{handleTime(item.reservationTime)}}
-							</p>
-							<p class="lt-p" v-else>
-								下单时间：{{item.createTime||''}}
-							</p>
+							<p class="lt-p" v-if="item.type == 1&&item.reservationTime"> 预约时间: {{handleTime(item.reservationTime)}} </p>
+							<p class="lt-p" v-else> 下单时间：{{item.createTime||''}} </p>
 						</view>
 						<view class="top-rt">{{rtStatus(item.status)}}</view>
 					</view>
@@ -244,6 +242,10 @@
 				uni.makePhoneCall({
 					phoneNumber: phone 
 				});
+			},
+			
+			ansPhone(){
+				
 			},
 			
 			//判断是否显示工厂统计数量

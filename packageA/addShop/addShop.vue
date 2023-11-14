@@ -226,7 +226,7 @@
 				this.$refs.baseForm.setValue(name,value)
 			},
 			
-			change(e,name){
+			change(e,name){				
 				this.$set(this.formData,name,e.urls)
 			},
 			

@@ -375,6 +375,7 @@ export default {
 						img.uploadInfo = res
 					});
 				}).then(res=>{
+					console.log('uploadImg',res)
 					img.progress=100
 					img.status=2
 					img.url=res

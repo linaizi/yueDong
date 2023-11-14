@@ -244,7 +244,8 @@
 					uni.showToast({title:"附近暂无代收点,请重新选择地址",icon:'none'})
 					return;
 				}
-				if(this.yyTimeOld == '请选择时间'&&this.tabNum==1){
+				
+				if(this.yyTimeOld == ''&&this.tabNum==1){
 					uni.showToast({title:"预约上门时间不能为空",icon:'none'})
 					return;
 				}

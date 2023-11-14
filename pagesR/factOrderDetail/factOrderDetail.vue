@@ -189,7 +189,7 @@
 				this.initData();
 			},
 			
-			change(e,name){
+			change(e){
 				this.izUpImgs = e.urls
 			},
 			

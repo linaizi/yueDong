@@ -362,11 +362,13 @@
 				});
 			},
 			
-			change(e,name){
+			change(e){
+				console.log('change',e.urls)
 				this.izUpImgs = e.urls
 			},
 			
 			subClick(){
+				console.log('izUpImgs:',this.izUpImgs)
 				if(this.izUpImgs.length==0){
 					uni.showToast({title: '图片上传不能为空', icon:'none'});
 					return;
