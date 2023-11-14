@@ -3,7 +3,7 @@
 		<view class="rod-top">
 			<view class="top-lt">
 				<input type="text" 
-					placeholder="请输入手机号 || 订单号 || 姓名" 
+					placeholder="请输入手机号 | 订单号 | 姓名" 
 					confirm-type="search"
 					v-model="listQuery.content" 
 					@confirm="searchPhone" 
@@ -105,6 +105,7 @@
 				mumeAct:0,
 				notPickedUpNum:'',
 				iptClose:false,
+				isSerch:false,
 				
 				listQuery:{
 					pageNo:1,
@@ -160,9 +161,8 @@
 		
 		methods: {
 			mumeClick: throttle(function(id){
-				if(this.iptClose) {
+				if(!this.isSerch) {
 					this.listQuery.content = "";
-					this.iptClose = false;
 				}
 				this.list = [];
 				this.mumeAct = id;
@@ -170,6 +170,7 @@
 				this.listQuery.pageNo = 1;
 				this.listQuery.status = id;
 				this.initData();
+				this.isSerch = false;
 			}),
 			
 			initData() {
@@ -281,13 +282,13 @@
 			},
 			//清空输入框值
 			removeInput(){
-				this.listQuery.content = "";
 				this.iptClose = false;
 				this.mumeClick(0)
 			},
 			//搜索
 			searchPhone(){			
 				if(this.iptClose) {
+					this.isSerch = true;
 					this.mumeClick(0)
 				}
 			},
