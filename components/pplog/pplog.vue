@@ -1,7 +1,7 @@
 <template>
 	<view class="">
 		<!-- 登录弹窗 -->
-		<uni-popup ref="logPopup" type="bottom">
+		<uni-popup ref="logPopup" type="bottom" background-color="#fff">
 			<view class="log-pp">
 				<view class="log-title">请填写您的昵称、头像</view>
 				<view class="perItem">

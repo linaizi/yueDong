@@ -94,10 +94,10 @@
 			</view>
 		</uni-popup>
 		
-		<Ppcar :ppCarData="infoData" ref="child" @updClick="handleUpd"></Ppcar>
+		<Ppcar :ppCarData="infoData" ref="child" @updClick="handleUpd" @logClick="logClick"></Ppcar>
 		<Pplog ref="logchild" :mid.sync="mid"  @getData='getUserData'></Pplog>
 		 <!-- 海报弹窗 -->
-		 <hbTc :hbShow.sync="hbShow" :hbData="hbData"></hbTc>
+		<hbTc :hbShow.sync="hbShow" :hbData="hbData"></hbTc>
 		 
 	</view>
 </template>

@@ -3,6 +3,7 @@
 	background: #f7f7f7;
 	@include dflex(space-between,center);
 	padding: 0 34upx;
+	border-bottom: 2upx solid #E2E2E2;
 	.top-lt{
 		background: #fff;
 		border-radius: 100upx;
@@ -29,6 +30,27 @@
 		color:#446DFD;
 		font-weight: bold;
 		padding: 8upx 36upx;
+	}
+}
+
+.tabBox{
+	width: 400upx;
+	border:2upx solid #446DFD;
+	border-radius: 100upx;
+	height: 56upx;
+	margin: 26upx auto;
+	@include dflex(null,null);
+	overflow: hidden;
+	.tab{
+		width: 50%;
+		text-align: center;
+		font-size: 24upx;
+		color:#666666;
+		line-height: 56upx;
+	}
+	.tab-act{
+		background: #446DFD;
+		color:#fff;
 	}
 }
 

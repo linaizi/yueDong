@@ -127,7 +127,7 @@
 		</hTimeAlert>
 		
 		<!-- 优惠券弹窗 -->
-		<uni-popup ref="yhqPopup" type="bottom">
+		<uni-popup ref="yhqPopup" type="bottom" background-color="#fff">
 			<view class="yhq-pp">
 				<view class="yhq-title"><span class="b">优惠券</span><uni-icons type="closeempty" size="52rpx" color="#666" @click="closeYhq"></uni-icons></view>
 				<view class="yhq-tab">

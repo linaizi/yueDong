@@ -76,7 +76,7 @@
 		</view>
 		
 		<!-- 修改信息弹窗 -->
-		<uni-popup ref="XGpopup" type="bottom">
+		<uni-popup ref="XGpopup" type="bottom" background-color="#fff">
 			<view class="XGmain">
 				<view class="item" @click="addFzrClick" v-if="level==3">修改代收点负责人</view>
 				<view class="item" @click="DJClick">修改会员等级</view>
@@ -84,7 +84,7 @@
 			</view>
 		</uni-popup>
 		<!--修改代收点负责人弹窗 -->
-		<uni-popup ref="FZRpopup" type="bottom">
+		<uni-popup ref="FZRpopup" type="bottom" background-color="#fff">
 			<view class="XGmain">
 				<view class="item" v-for="f in fzrData" :key="f.uid" @click="editFZR(f.uid,false)">{{f.nickName}}</view>
 				<view class="item" @click="editFZR(0,true)">无负责人</view>
@@ -92,7 +92,7 @@
 			</view>
 		</uni-popup>
 		<!--负责任人名下站点弹窗 -->
-		<uni-popup ref="ZDpopup" type="bottom">
+		<uni-popup ref="ZDpopup" type="bottom" background-color="#fff">
 			<view class="XGmain">
 				<view class="item" v-for="f in zdData" :key="f.cid" >{{f.shopName}}</view>
 				<view class="item blue" @click="closeZD">关 闭</view>

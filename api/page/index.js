@@ -514,3 +514,28 @@ export function GCcount(params) { 	// 查看订单列表数量
 	})
 }
 //E:厂里
+
+
+//修改联系状态
+//骑手
+export function QSContactEdit(data) { 	
+	return request({
+		url: '/elantra/admin/rider/order/contact/edit',
+		method: 'POST',
+		data
+	})
+}
+export function FACContactEdit(data) { 	
+	return request({
+		url: '/elantra/admin/collection/order/contact/edit',
+		method: 'POST',
+		data
+	})
+}
+export function GCContactEdit(data) { 	
+	return request({
+		url: '/elantra/admin/factory/order/contact/edit',
+		method: 'POST',
+		data
+	})
+}

@@ -142,7 +142,7 @@
 		</view>
 		
 		<!-- 骑手列表弹窗 -->
-		<uni-popup ref="qsPopup" type="bottom">
+		<uni-popup ref="qsPopup" type="bottom" background-color="#fff">
 			<view class="qs-pp flexBox">
 				<view class="qs-title">
 					骑手列表

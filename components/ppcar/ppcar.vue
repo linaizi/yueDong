@@ -1,6 +1,6 @@
 <!-- 首页轮播组件 -->
 <template>
-		<uni-popup ref="popup" type="bottom">
+		<uni-popup ref="popup" type="bottom" background-color="#fff">
 			 <view class="ppBox">
 				 <view class="ppTop">
 						<image :src="goodsData.goodsPic"  class="mid-img"></image>

@@ -15,6 +15,11 @@
 			<view class="top-rt" @click="searchPhone"> 搜 索 </view>
 		</view>
 		
+		<view class="tabBox" v-if="level==3">
+			<view :class="['tab',{'tab-act':listQuery.orderType == 1}]" @click="tabClick(1)">上门订单</view>
+			<view :class="['tab',{'tab-act':listQuery.orderType == 2}]" @click="tabClick(2)">自送订单</view>
+		</view>
+		
 		<view class="rod-mume">
 			<view v-for="i in curArr" :key="i.id" :class="['mume-item',{'mume-item-act':i.id==mumeAct}]" @click="mumeClick(i.id)">
 				<span>{{i.name}}</span>
@@ -28,11 +33,13 @@
 						<view class="top-lt">
 							<p class="lt-p">
 								{{item.name}} 
-								<span class="p-span" @click.stop="PhoneCall(item.phone)">
+								<span class="p-span" @click.stop="PhoneCall(item.phone,item.orderNo,4,item.status)">
 									<uni-icons type="phone" size="30rpx" color="#446DFD"></uni-icons>{{item.phone}}
 								</span>
-								<span class="p-gray p-blue" @click="ansPhone(1)">已接</span>
-								<span class="p-gray p-red" @click="ansPhone(2)">未接</span>
+								<template v-if="retContStatus(item,4)">
+									<span :class="['p-gray',{'p-blue':retContStatus(item,2)}]" @click="editCont(item.orderNo,2,item.status)">已接</span>
+									<span :class="['p-gray',{'p-red':retContStatus(item,3)}]" @click="editCont(item.orderNo,3)">未接</span>
+								</template>
 							</p>
 							<p class="lt-p" v-if="item.type == 1&&item.reservationTime"> 预约时间: {{handleTime(item.reservationTime)}} </p>
 							<p class="lt-p" v-else> 下单时间：{{item.createTime||''}} </p>
@@ -79,7 +86,7 @@
 </template>
 
 <script>	
-	import { RorderPage,DSorderPage,GCorderPage,GCcount,QScount } from '@/api/page/index.js'
+	import { RorderPage,DSorderPage,GCorderPage,GCcount,QScount,QSContactEdit,FACContactEdit,GCContactEdit } from '@/api/page/index.js'
 	import { throttle } from "@/common/throttle.js"; 
 	import { rtStatus,handleTime } from '@/common/tool.js'
 	export default {
@@ -135,6 +142,8 @@
 			}
 			
 			this.level = option.level || UserInfo.level
+			this.listQuery.orderType = this.level == 3 ? 1 : '';
+			
 			if(option.level)
 				this.initData()
 			else
@@ -154,7 +163,7 @@
 		computed: {
 			curArr() {
 				return this.level == 3 ? this.mumeArr3 : this.mumeArr2;
-		    },
+		    },		
 		},
 		
 		methods: {
@@ -232,20 +241,68 @@
 				}
 			},
 			
+			tabClick(n){
+				if(n==this.listQuery.orderType) return;
+				this.list = [];
+				this.loadStatus = 'loading'
+				this.listQuery.pageNo = 1;
+				this.listQuery.orderType = n;
+				this.initData();
+			},
+			
 			//返回订单状态
 			rtStatus,
 			
 			handleTime,
 			
 			//打电话
-			PhoneCall(phone){
+			PhoneCall(phone,orderNo,contactStatus,status){
+				this.editCont(orderNo,contactStatus,status)
+				
 				uni.makePhoneCall({
 					phoneNumber: phone 
 				});
 			},
-			
-			ansPhone(){
+			//修改联系状态
+			editCont(orderNo,contactStatus,status) {
+				const fetchData = (queryFunction) => {
+					queryFunction(param).then((res) => {
+						if (res.code === 200) {
+							this.list = [];
+							this.listQuery.pageNo = 1
+							this.initData();
+						}
+					})
+				};
 				
+				let param = {
+					orderNo,
+					contactStatus
+				}
+				if (this.level == 2) {
+					param.type = status > 7 ? 2 : 1;
+					fetchData(QSContactEdit);
+				} else if (this.level == 3) {
+					fetchData(FACContactEdit);
+				} else if (this.level == 5) {
+					fetchData(GCContactEdit);
+				}
+			},
+			//返回当前联系状态
+			retContStatus(obj, n){
+				 // <DragUploadImg v-model="pushPic" :limit="2"></DragUploadImg>
+				if (this.level == 2) {
+					if(obj.status > 7){
+						console.log(obj.returnRContactstatus,n)
+						return obj.returnRContactstatus == n 
+					}else{
+						return obj.rContactstatus == n 
+					}
+				} else if (this.level == 3) {
+					return obj.ccontactStatus == n 
+				} else if (this.level == 5) {
+					return obj.fcontactStatus == n 
+				}
 			},
 			
 			//判断是否显示工厂统计数量
