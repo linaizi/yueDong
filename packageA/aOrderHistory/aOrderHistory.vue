@@ -64,6 +64,8 @@
 					</view>
 					<view class="cz-rt">
 						<view class="rt-btn" @click.stop="openSta(item)">修改订单状态</view>
+						<view class="rt-btn" v-if="item.status==12" @click.stop="TKSHclick(item,1)">同意</view>
+						<view class="rt-btn rt-btn1" v-if="item.status==12" @click.stop="TKSHclick(item,2)">拒绝</view>
 						<!-- <view class="rt-btn" @click="bzClick">备注</view> -->
 						<!-- <view class="rt-btn rt-btn1">发货</view> -->
 					</view>
@@ -79,6 +81,26 @@
 			<image :src="FILE_BASE_URL + '/72355db4-ef1e-4845-b601-ba7fdd905cd4.png'" mode="aspectFit" class="goTop-img"></image>
 		</view>
 		
+		<!-- 退款审核弹窗 -->
+		<uni-popup ref="TKpopup" type="center">
+			 <view class="timePpBox">
+				 <view class="pp-title">售后理由</view>
+				 <view class="pp-tk">
+					<view class="tk-item">
+						<span class="tk-span">退款原因：</span> {{TKdata.afterReason}}
+					</view>
+					<view class="tk-item" v-if="TKdata.afterRemark">
+						<span class="tk-span">退款备注：</span> {{TKdata.afterRemark}}
+					</view>
+					<input type="text" v-if="TKdata.status == 2" v-model="TKdata.afterRefuseReason" placeholder="请输入拒绝理由" class="tk-ipt">
+				 </view>
+				 <view class="pp-btn">
+					 <view class="btn1" @click="TKno">取消</view>
+					 <view class="btn1 blue" @click="TKyes"> {{TKdata.status === 2 ? '拒绝' : '同意'}}</view>
+				 </view>
+			 </view>
+		 </uni-popup>
+		 
 		<!-- 修改订单状态弹窗 -->
 		<uni-popup ref="staPopup" type="center">
 			 <view class="timePpBox">
@@ -97,7 +119,7 @@
 </template>
 
 <script>
-	import { AorderPage,AorderEdit } from '@/api/page/manage.js'
+	import { AorderPage,AorderEdit,AorderOperate } from '@/api/page/manage.js'
 	import { rtStatus } from '@/common/tool.js'
 	export default {
 		data() {
@@ -127,6 +149,12 @@
 				staArr:[],
 				staId:0,
 				staObj:{},
+				TKdata:{//退款数据
+					afterReason:'',
+					afterRemark:'',
+					afterRefuseReason:'',
+					status:'',
+				}, 
 				
 				listQuery:{
 					pageNo:1,
@@ -255,6 +283,44 @@
 			
 			//返回订单状态
 			rtStatus,
+			
+			//退款审核事件
+			TKSHclick(item, n){
+				this.$refs.TKpopup.open();
+				this.TKdata.orderNo = item.orderNo;
+				this.TKdata.afterReason = item.afterReason || '';
+				this.TKdata.afterRemark = item.afterRemark || '';
+				this.TKdata.afterRefuseReason = ''
+				this.TKdata.status = n;
+			},
+			TKyes(){
+				if(this.TKdata.status === 2&&!this.TKdata.afterRefuseReason){
+					uni.showToast({title: '拒绝理由不能为空', icon:'none'});
+					return;
+				}
+				let param = {
+					orderNo: this.TKdata.orderNo,
+					status: this.TKdata.status,
+					afterRefuseReason: this.TKdata.afterRefuseReason
+				}
+				
+				var _that = this;
+				AorderOperate(param).then((res) => {
+					if(res.code == 200){
+						uni.showToast({title: '操作成功', icon:'success'});
+						_that.$refs.TKpopup.close();
+						setTimeout(()=>{
+							const currentPages = getCurrentPages();
+							uni.redirectTo({
+							  url: `/${currentPages[currentPages.length - 1].route}`
+							});
+						},1000)
+					}
+				})
+			},
+			TKno(){
+				this.$refs.TKpopup.close();
+			},
 			
 			totalMon(goodsInfo){
 				if(!goodsInfo) return;

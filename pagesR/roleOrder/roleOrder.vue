@@ -28,17 +28,17 @@
 		</view>
 		
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop" class="boxScroll">
-				<view class="ordre-main" v-for="item in list" :key="item.orderId" @click="toOrderDetail(item)">
+				<view class="ordre-main" v-for="(item,i) in list" :key="item.orderId" @click="toOrderDetail(item)">
 					<view class="main-top">
 						<view class="top-lt">
 							<p class="lt-p">
 								{{item.name}} 
-								<span class="p-span" @click.stop="PhoneCall(item.phone,item.orderNo,4,item.status)">
+								<span class="p-span" @click.stop="PhoneCall(item.phone,item.orderNo,4,item.status,i)">
 									<uni-icons type="phone" size="30rpx" color="#446DFD"></uni-icons>{{item.phone}}
 								</span>
-								<template v-if="retContStatus(item,4)">
-									<span :class="['p-gray',{'p-blue':retContStatus(item,2)}]" @click="editCont(item.orderNo,2,item.status)">已接</span>
-									<span :class="['p-gray',{'p-red':retContStatus(item,3)}]" @click="editCont(item.orderNo,3)">未接</span>
+								<template v-if="retContStatus(item,1)">
+									<span :class="['p-gray',{'p-blue':retContStatus(item,2)}]" @click.stop="editCont(item.orderNo,2,item.status,i)">已接</span>
+									<span :class="['p-gray',{'p-red':retContStatus(item,3)}]" @click.stop="editCont(item.orderNo,3,item.status,i)">未接</span>
 								</template>
 							</p>
 							<p class="lt-p" v-if="item.type == 1&&item.reservationTime"> 预约时间: {{handleTime(item.reservationTime)}} </p>
@@ -211,7 +211,6 @@
 					});
 				};
 				
-				console.log('level',this.level)
 				if (this.level == 2) {
 					fetchData(RorderPage);
 				} else if (this.level == 3) {
@@ -256,21 +255,29 @@
 			handleTime,
 			
 			//打电话
-			PhoneCall(phone,orderNo,contactStatus,status){
-				this.editCont(orderNo,contactStatus,status)
+			PhoneCall(phone,orderNo,contactStatus,status,i){
+				this.editCont(orderNo,contactStatus,status,i)
 				
 				uni.makePhoneCall({
 					phoneNumber: phone 
 				});
 			},
 			//修改联系状态
-			editCont(orderNo,contactStatus,status) {
+			editCont(orderNo,contactStatus,status,i) {
 				const fetchData = (queryFunction) => {
 					queryFunction(param).then((res) => {
 						if (res.code === 200) {
-							this.list = [];
-							this.listQuery.pageNo = 1
-							this.initData();
+							if (this.level == 2) {
+								if(this.list[i].status > 7){
+									this.$set(this.list[i],'returnRContactStatus',contactStatus)
+								}else{
+									this.$set(this.list[i],'rcontactStatus',contactStatus)
+								}
+							} else if (this.level == 3) {
+								this.$set(this.list[i],'ccontactStatus',contactStatus)
+							} else if (this.level == 5) {
+								this.$set(this.list[i],'fcontactStatus',contactStatus)
+							}
 						}
 					})
 				};
@@ -290,18 +297,16 @@
 			},
 			//返回当前联系状态
 			retContStatus(obj, n){
-				 // <DragUploadImg v-model="pushPic" :limit="2"></DragUploadImg>
 				if (this.level == 2) {
 					if(obj.status > 7){
-						console.log(obj.returnRContactstatus,n)
-						return obj.returnRContactstatus == n 
+						return n == 1 ? !(obj.returnRContactStatus == n) : obj.returnRContactStatus == n
 					}else{
-						return obj.rContactstatus == n 
+						return n == 1 ? !(obj.rcontactStatus == n) : obj.rcontactStatus == n 
 					}
 				} else if (this.level == 3) {
-					return obj.ccontactStatus == n 
+					return n == 1 ? !(obj.ccontactStatus == n) : obj.ccontactStatus == n 
 				} else if (this.level == 5) {
-					return obj.fcontactStatus == n 
+					return n==1 ? !(obj.fcontactStatus == n) : obj.fcontactStatus == n
 				}
 			},
 			

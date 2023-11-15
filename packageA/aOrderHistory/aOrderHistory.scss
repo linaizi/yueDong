@@ -135,4 +135,23 @@
 		margin-top: 16upx;
 	}
 }
-
+.pp-tk{
+	padding: 10upx 26upx;
+	.tk-item{
+		font-size: 30upx;
+		color:#333;
+		margin-bottom: 12upx;
+		.tk-span{
+			color:#666;
+		}
+	}
+	.tk-ipt{
+		margin-top: 30upx;
+		border:2upx solid #e2e2e2;
+		border-radius: 12upx;
+		height: 60upx;
+		padding-left: 20upx;
+		font-size: 28upx;
+		color:#333;
+	}
+}
