@@ -222,7 +222,6 @@
 			this.param.orderNo = option.orderNo;
 			this.getInfo();
 			this.initData();
-			
 		},
 		
 		methods: {

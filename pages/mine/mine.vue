@@ -165,7 +165,7 @@
 				var shareObj = {
 					title:'紫荆洗鞋:专业洗鞋 修鞋 干洗衣服',        
 					path: '/pages/index/index',        // 默认是当前页面，必须是以‘/’开头的完整路径
-					imageUrl: `${this.$BASE_URLS.FILE_BASE_URL}/a22373d4-fbb0-4fd5-bf45-f3d47e29f93f.jpg`, // 图片封面，本地文件路径、网络图片路，支持PNG及JPG，默认当前页面截图，显示图片长宽比是 5:4。
+					imageUrl: `${this.$BASE_URLS.FILE_BASE_URL}/4f994c2a-b39a-483a-b694-1b2c06d7d0b8.jpg`, // 图片封面，本地文件路径、网络图片路，支持PNG及JPG，默认当前页面截图，显示图片长宽比是 5:4。
 				}
 				// 来自页面内的按钮的转发
 				if( options.from == 'button' ){

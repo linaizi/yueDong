@@ -127,7 +127,7 @@
 			
 			//调试模式
 			uni.setEnableDebug({
-			    enableDebug: true
+			    enableDebug: false
 			})
 			
 			wx.showShareMenu({

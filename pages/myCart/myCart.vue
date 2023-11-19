@@ -2,7 +2,7 @@
 	<view class="allBg flexBox indexBg">
 		<uni-nav-bar statusBar="true" backgroundColor="rgba(0,0,0,0)" title="购物车" fixed></uni-nav-bar>
 		
-		 <view class="myCart-top">商品库存有限，请尽快下单  <p v-if="!noDataShow" @click="editClick(showJs)">{{showJs?"编辑":"完成"}}</p></view>
+		 <view class="myCart-top">商品库存有限，请尽快下单 <p v-if="!noDataShow" @click="editClick(showJs)">{{showJs?"编辑":"完成"}}</p></view>
 		 
 		<scroll-view scroll-y="true" lower-threshold="50" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop" class="boxScroll scrollView" >
 			
@@ -40,8 +40,8 @@
 				<image :src="FILE_BASE_URL + '/170c312a-64df-4b04-aa59-7cea333acc60.png'" mode="widthFix" class="noGood-img"></image>
 				<p>购物车还是空的哦</p>
 		 </view>
-		 
-		 <view class="myCart-foot" :style="{'bottom': paddingBottomHeight + 'rpx'}" v-if="list.length>0">
+		
+		 <view class="myCart-foot" v-if="list.length>0" :style="{'bottom': paddingBottomHeight + 'rpx'}">
 				<view class="foot-lt" @click="allCkClick">
 					<view :class="['circle',{'circle-red':allCheck}]"></view>
 					<span class="lt-span">全选</span>
@@ -94,7 +94,7 @@
 				oldScrollTop:0,
 				ysNum:1, //修改商品数量前的值
 				
-				paddingBottomHeight: 0, //苹果X以上手机底部适配高度
+				paddingBottomHeight: 100, //苹果X以上手机底部适配高度
 			}
 		},
  		onShow(){

@@ -23,7 +23,7 @@
 					<view class="od-adr">
 						<uni-icons type="location" size="56rpx" color="#333333"></uni-icons>
 						<view class="adr-rt">
-							<view class="rt-name">{{infoData.name||''}} <span>{{infoData.phone||''}}</span></view>
+							<view class="rt-name">{{infoData.name||''}} <span class="ml10">{{infoData.phone||''}}</span></view>
 							<p v-if="infoData.address">{{infoData.address}} {{infoData.houseNumber}}</p>
 						</view>
 					</view>
@@ -68,6 +68,7 @@
 					
 					<view class="od-price">
 						<p>商品总价: <span>￥{{infoData.goodsTotalAmount}}</span></p>
+						<p v-if="infoData.couponId">优惠券: <span class="p-red">-￥{{infoData.couponDto.amount}}</span></p>
 						<p>运费: <span>￥{{infoData.freightAmount}}</span></p>
 					</view>
 					

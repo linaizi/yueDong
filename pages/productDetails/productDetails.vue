@@ -135,7 +135,7 @@
 				
 				hbShow:false,
 				hbData:{},
-				zuiGao:'414px', //计算获取轮播图的最高高度
+				zuiGao:'380px', //计算获取轮播图的最高高度
 			}
 		},
 		onLoad(option) {

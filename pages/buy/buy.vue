@@ -2,8 +2,14 @@
 	<view class="allBg">
 		<view class="topBox">
 			<view class="tab-t">
-				<view :class="['t-item',{'t-item-lt':tabNum==2}]" @click="tabClick(2)"><image :src="FILE_BASE_URL + '/2dcf36c4-bdad-4c47-851b-c545b2c17684.png'" v-if="tabNum==2" class="t-img1"></image>到店服务</view>
+				<view :class="['t-item','t-item1']" @click="tabClick(2)">
+					<image :src="FILE_BASE_URL + '/2dcf36c4-bdad-4c47-851b-c545b2c17684.png'" v-if="tabNum==2" class="t-img1"></image>
+					到店服务
+				</view>
+				
+			<!-- 	<view :class="['t-item',{'t-item-lt':tabNum==2}]" @click="tabClick(2)"><image :src="FILE_BASE_URL + '/2dcf36c4-bdad-4c47-851b-c545b2c17684.png'" v-if="tabNum==2" class="t-img1"></image>到店服务</view>
 				<view :class="['t-item',{'t-item-rt':tabNum==1}]" @click="tabClick(1)"><image :src="FILE_BASE_URL + '/05564c5d-5f46-4901-91ae-bb664f4ba272.png'" v-if="tabNum==1" class="t-img2"></image>上门取送</view>
+			 -->
 			</view>
 			<view class="tab-form" v-if="tabNum==2">
 				<uni-forms :model="formData" border class="aa">
@@ -211,6 +217,10 @@
 			this.getCoupon(2)	//获取用户不可用优惠券
 			this.getCoupon(1)	//获取用户优惠券
 			this.getYunFei(goodsNum)
+			
+			if(uni.getStorageSync('userAddr')){
+				this.formData = JSON.parse(uni.getStorageSync('userAddr'))
+			}
 		},
 		computed: {
 			totalMoney() {
@@ -256,7 +266,7 @@
 				
 				let param = {
 					type: this.tabNum,
-					goodsTotalAmount: this.totalMoney + this.couMon,
+					goodsTotalAmount: (this.totalMoney-0) + this.couMon,
 					goodsInfo: JSON.stringify(this.goodsData),
 					couponId: this.couponId,
 					freightAmount:0,
@@ -277,6 +287,8 @@
 					}
 					param.name = this.formData.name
 					param.phone = this.formData.phone
+					
+					uni.setStorageSync('userAddr',JSON.stringify(this.formData))
 				}else{
 					param.reservationTime = this.yyTimeOld
 					param.freightAmount = this.FtAmount
@@ -299,6 +311,7 @@
 				}
 				
 				param.goodsTotalAmount = (param.goodsTotalAmount-0).toFixed(2)
+				
 				orderAdd(param).then((res) => {
 					if(res.code == 200){
 						this.wxPay(res.data)
@@ -404,7 +417,7 @@
 			getYunFei(goodsNum){
 				getFreightAmount({ goodsNum }).then((res) => {
 					if(res.code == 200){
-						this.FtAmount = res.data;
+						this.FtAmount = res.data-0;
 					}
 				});
 			},
@@ -515,7 +528,7 @@
 				
 				if(this.couList1[ind].check){
 					this.couCheck = ind;
-					this.couMon = obj.couponDto.amount;
+					this.couMon = obj.couponDto.amount-0;
 					this.couponId = obj.couponId;
 				}else{
 					this.couCheck = -1;

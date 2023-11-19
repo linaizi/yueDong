@@ -530,7 +530,11 @@ page{
 				color:#333;
 				line-height: 1.7;
 				@include dflex(space-between,center);
+				.p-red{
+					color: #ff0000;
+				}
 			}
+			
 		}
 		.od-allPrice{
 			font-size: 30upx;

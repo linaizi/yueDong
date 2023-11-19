@@ -7,7 +7,7 @@
 				<view class="top-lt"><uni-icons type="location" size="58rpx" color="#447FFD" ></uni-icons></view>
 				<view class="top-rt">
 					<p class="rt-p">{{infoData.name}} {{infoData.phone}}</p>
-					<p class="rt-p">{{infoData.address}} {{infoData.houseNumber}}</p>
+					<p class="rt-p">{{infoData.address||''}} {{infoData.houseNumber||''}}</p>
 				</view>
 			</view>
 			<view class="addr-foot">
@@ -28,9 +28,10 @@
 				</view>
 				<view class="main-rt">￥{{i.goodsNowPrice}}</view>
 			</view>
-			<view class="p bet-p"><view class="p-lt">商品总价</view><view class="p-rt">￥{{infoData.goodsTotalAmount}}</view></view>
-			<view class="p bet-p"><view class="p-lt">运费</view><view class="p-rt">￥{{infoData.freightAmount}}</view></view>
-			<view class="p bet-p"><view class="p-lt1">订单总价</view><view class="p-rt1">￥{{infoData.payAmount}}</view></view>
+			<view class="p bet-p"><view class="p-lt">商品总价</view><view class="p-rt">￥{{infoData.goodsTotalAmount||''}}</view></view>
+			<view class="p bet-p" v-if="infoData.couponId"><view class="p-lt">优惠券</view><view class="p-rt p-rt-red">-￥{{infoData.couponDto.amount}}</view></view>
+			<view class="p bet-p"><view class="p-lt">运费</view><view class="p-rt">￥{{infoData.freightAmount||''}}</view></view>
+			<view class="p bet-p"><view class="p-lt1">订单总价</view><view class="p-rt1">￥{{infoData.payAmount||''}}</view></view>
 		</view>	
 		
 		<view class="aodd-whbg">

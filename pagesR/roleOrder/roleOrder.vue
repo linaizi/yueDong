@@ -104,8 +104,10 @@
 				mumeArr3:[
 					{name:'全部', id:0 },
 					{name:'未完成', id:1 },
+					{name:'待收件', id:4 },
+					{name:'待取件', id:5 },
 					{name:'已完成', id:2 },
-					{name:'已取消', id:3 },
+					// {name:'已取消', id:3 },
 				],
 				mumeAct:0,
 				notPickedUpNum:'',
