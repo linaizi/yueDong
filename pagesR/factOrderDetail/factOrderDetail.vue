@@ -29,6 +29,10 @@
 						<view class="title-lt">预约上门取鞋时间</view>
 						<view class="title-rt">{{handleTime(infoData.reservationTime)}}</view>
 					</view>
+					<view class="od-title" v-if="infoData.caddress&&Object.keys(infoData.caddress).length>0">
+						<view class="title-lt">代收点</view>
+						<view class="title-rt">{{infoData.caddress.shopName}}</view>
+					</view>
 				</view>
 				
 				<view class="odBox" v-if="infoData.goodsInfo">
@@ -47,7 +51,7 @@
 					
 					<view class="od-price">
 						<p>商品总价<span>￥{{infoData.goodsTotalAmount}}</span></p>
-						<p>运费  <span>￥{{infoData.freightAmount}}</span></p>
+						<p v-if="infoData.freightAmount&&infoData.freightAmount>0">运费<span>￥{{infoData.freightAmount}}</span></p>
 					</view>
 					
 					<view class="od-allPrice"><span>合计：</span>￥{{infoData.payAmount}}</view>
