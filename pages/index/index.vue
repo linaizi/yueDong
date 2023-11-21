@@ -16,16 +16,11 @@
 						</view>
 					</view>
 					
-					<!-- <image :src="FILE_BASE_URL + '/5680d7d6-630a-4dbb-809f-f9aec3137e5e.png'" mode="widthFix" class="wh180" @click="goSort"></image> -->
-					
 					<view class="index-sort">
 						<image v-for="(i,index) in sortList" :key="i.id" :src="i.icon" @click="goSort(i.id)" class="sort-img"></image>
 					</view>					
 					
-					<view class="tZan">
-						<!-- <image class="icon" :src="FILE_BASE_URL + '/c87c082b-4819-4fec-a4fd-ab944e6fcceb.png'"></image> -->
-						<span class="tZan-txt">特惠活动</span>
-					</view>
+					<view class="tZan"> <span class="tZan-txt">特惠活动</span> </view>
 					
 					<view class="goodsList">
 						<view class="goodsItem" v-for="item in recommendArr" :key="item.id" @click="goProductDetails(item)">

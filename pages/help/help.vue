@@ -8,7 +8,7 @@
 				</view>
 				<view class="main-right">
 					<view class="right-dh">{{item.da}}</view>
-					<image :src="FILE_BASE_URL + '/7688789b-4834-4f91-836f-316c71aa7882.jpg'" class="main-tx">
+					<image :src="FILE_BASE_URL + '/d9d92fba-b826-43c4-a95b-ac12e6ea415b.jpg'" class="main-tx">
 				</view>
 			</view>
 		</view>
