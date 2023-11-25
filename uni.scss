@@ -251,6 +251,7 @@ page{
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 16upx; 
+	grid-auto-rows: minmax(0, 260upx);
 }
 .image {
 	width: 100%;

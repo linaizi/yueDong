@@ -80,11 +80,9 @@
 				FILE_BASE_URL: this.$BASE_URLS.FILE_BASE_URL,
 				mid: uni.getStorageSync('mid'),
 				swpArr: [
-					// this.$BASE_URLS.FILE_BASE_URL+'/44710a9b-f090-4a86-a6b8-d0ab9d053c86.jpg',
-					// this.$BASE_URLS.FILE_BASE_URL+'/a22373d4-fbb0-4fd5-bf45-f3d47e29f93f.jpg',
-					// this.$BASE_URLS.FILE_BASE_URL+'/33b724a9-1515-478c-afe8-f82e36198d64.png',
 					this.$BASE_URLS.FILE_BASE_URL+'/b7c4e52a-9c62-410c-929b-be22971c6d7e.jpg',
 					this.$BASE_URLS.FILE_BASE_URL+'/4f994c2a-b39a-483a-b694-1b2c06d7d0b8.jpg',
+					this.$BASE_URLS.FILE_BASE_URL+'/8010c318-07e3-4a2f-a229-f5f0c8a38e2c.png',
 				],
 				menuArr: [
 					{name:"门店列表", id:0, img:this.$BASE_URLS.FILE_BASE_URL+"/c8d70c4c-0aac-490d-ac99-f67e105b2a81.png"},
@@ -121,9 +119,9 @@
 			this.getList(); //获取分类
 			
 			//调试模式
-			uni.setEnableDebug({
-			    enableDebug: false
-			})
+			// uni.setEnableDebug({
+			//     enableDebug: false
+			// })
 			
 			wx.showShareMenu({
 				withShareTicket:true,

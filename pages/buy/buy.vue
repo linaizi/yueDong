@@ -162,6 +162,7 @@
 </template>
 
 <script>
+	import { debounce } from "@/common/throttle.js";
 	import hTimeAlert from "@/components/h-time-alert/h-time-alert.vue";
 	import { pointList,addressList,couponListTwo,getFreightAmount,orderAdd } from '@/api/page/index.js'
 	export default {
@@ -249,7 +250,7 @@
 		},
 		
 		methods: {
-			subOrder(){		
+			subOrder: debounce(function(){		
 				if(this.addrList.length == 0){
 					uni.showToast({title:"附近暂无代收点,请重新选择地址",icon:'none'})
 					return;
@@ -317,7 +318,7 @@
 						this.wxPay(res.data)
 					}
 				});
-			},
+			},1000),
 			
 			wxPay(data){
 				let _that = this;

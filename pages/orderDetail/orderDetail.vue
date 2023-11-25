@@ -91,7 +91,7 @@
 						<view class="qtBox">
 							<view class="qtBox-tt"><span class="tt-red">*</span>图片上传：</view>
 							<view class="image-grid">
-							  <image v-for="(i,ind) in infoData.pics" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(infoData.pics,ind)"></image>
+							  <image v-for="(i,ind) in infoData.pics" :key="ind" :src="i" mode="aspectFill" class="image" @click="getImgIndex(infoData.pics,ind)"></image>
 							</view>
 						</view>
 					</view>
