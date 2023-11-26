@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>订单</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="referrer" content="no-referrer">
+    <script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+    <script src="https://unpkg.com/vue@3.3.8/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-plus@2.4.2/dist/index.css" />
+    <script src="https://unpkg.com/element-plus@2.4.2/dist/index.full.js"></script>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="r_box">
+            <div class="lt-item">
+                <div class="item_left">订单号：</div>
+                <el-input placeholder="请输入要查询的订单号" v-model.trim="queryData.orderNo"></el-input>
+            </div>
+            <div class="lt-item">
+                <div class="item_left">下单用户名：</div>
+                <el-input placeholder="请输入要查询的下单用户名" v-model.trim="queryData.name"></el-input>
+            </div>
+            <div class="lt-item">
+                <div class="item_left">用户ID：</div>
+                <el-input placeholder="请输入要查询的用户ID" v-model.trim="queryData.uid"></el-input>
+            </div>
+            <div class="lt-item">
+                <div class="item_left">手机号：</div>
+                <el-input placeholder="请输入要查询的手机号" v-model.trim="queryData.phone"></el-input>
+            </div>
+            <div class="lt-item">
+                <div class="item_left">站点ID：</div>
+                <el-select v-model="queryData.collectionId" clearable placeholder="请选择要查询的站点">
+                    <el-option v-for="item in zhanDianList" :key="item.id" :label="item.shopName" :value="item.id"></el-option>
+                </el-select>
+            </div>
+            <div class="lt-item">
+                <div class="item_left">订单状态：</div>
+                <el-select v-model="queryData.status" clearable placeholder="请选择">
+                    <el-option v-for="item in stateList" :key="item.id" :label="item.label" :value="item.id"></el-option>
+                </el-select>
+            </div>
+            <div class="lt-item">
+                <div class="item_left">日期：</div>
+                <el-date-picker v-model="value1" type="daterange" range-separator="To" start-placeholder="开始时间" end-placeholder="结束时间" :size="size"></el-date-picker>
+            </div>
+
+            <div class="search-rt">
+                <el-button type="primary" @click="handleSearch">查询</el-button>
+                <el-button type="primary" @click="handleRest">重置</el-button>
+            </div>
+        </div>
+
+        <div class="s_box">
+            <el-button type="primary" @click="exportExcel">批量导出</el-button>
+        </div>
+
+        <el-table :data="tableData" border style="width: 100%">
+            <el-table-column prop="orderNo" label="订单号" align="center"></el-table-column>
+            <el-table-column prop="name" label="收货人姓名" align="center"></el-table-column>
+            <el-table-column prop="phone" label="收货人手机号" align="center"></el-table-column>
+            <el-table-column prop="address" label="地址" align="center"></el-table-column>
+            <el-table-column label="订单类型" align="center">
+                <template #default="scope"> {{ scope.row.type == 1 ? '上门订单' : '自送订单' }} </template>
+            </el-table-column>
+
+            <el-table-column label="商品信息" align="center">
+                <el-table-column label="商品名称" align="center">
+                    <template #default="scope">
+                        <div v-for="(info, index) in scope.row.goodsInfos" :key="index">
+                            {{info.goodsName}}
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="商品数量" align="center">
+                    <template #default="scope">
+                        <div v-for="(info, index) in scope.row.goodsInfos" :key="index">
+                            {{info.goodsNum}}
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="商品价格" align="center">
+                    <template #default="scope">
+                        <div v-for="(info, index) in scope.row.goodsInfos" :key="index">
+                            {{info.goodsNowPrice}}
+                        </div>
+                    </template>
+                </el-table-column>
+            </el-table-column>
+            <el-table-column prop="goodsTotalAmount" label="商品总价" align="center"></el-table-column>
+            <el-table-column prop="freightAmount" label="运费" align="center"></el-table-column>
+            <el-table-column prop="couponAmount" label="优惠券" align="center"></el-table-column>
+            <el-table-column prop="payAmount" label="实付金额" align="center"></el-table-column>
+            <el-table-column prop="createTime" label="下单时间" align="center"></el-table-column>
+            <el-table-column prop="statusText" label="订单状态" align="center"></el-table-column>
+        </el-table>
+
+    </div>
+
+    <script>
+        var httpApi = "https://www.yuedongxixie.com";
+        window.onload = function () {
+            const app = Vue.createApp({
+                name: 'App',
+                setup() {
+                    const data = {
+                        zhanDianList: Vue.ref([{ id: 0, shopName: '全部' }]),
+                        queryData: Vue.reactive({
+                            pageNo: 1,
+                            pageSize: 20,
+                            collectionId: 0,
+                            name: '',
+                            orderNo: '',
+                            phone: '',
+                            status: '',
+                            uid: '',
+                        }),
+                        tableData: Vue.ref([]),
+                        stateList: [
+                            { id: 0, label: '全部' },
+                            { id: 1, label: '待付款' },
+                            { id: 2, label: '已付款' },
+                            { id: 3, label: '骑手未取货' },
+                            { id: 4, label: '骑手已取货' },
+                            { id: 5, label: '厂家未取货' },
+                            { id: 6, label: '厂家已取货' },
+                            { id: 7, label: '代收点已收货' },
+                            { id: 8, label: '送货骑手未取货' },
+                            { id: 9, label: '送货骑手已取货' },
+                            { id: 10, label: '骑手已送达' },
+                            { id: 11, label: '已完成' },
+                            { id: 12, label: '售后中' },
+                            { id: 13, label: '退款拒绝' },
+                            { id: 14, label: '退款成功' },
+                            { id: 15, label: '退款失败' },
+                            { id: 16, label: '已关闭' },
+                        ]
+                    }
+
+                    const methods = {
+                        initData() {
+                            $.ajax({
+                                type: 'post',
+                                url: httpApi + '/elantra/pc/admin/order/page',
+                                data: data.param,
+                                async: true,
+                            }).done(function (res) {
+                                if (res.code == 200) {
+                                    data.tableData.value = res.data.data
+                                } else {
+                                    ElementPlus.ElMessage.error(res.msg)
+                                }
+                            })
+
+                        },
+
+                        //查询所有站点
+                        getZd() {
+                            let param1 = {
+                                pageNo: 1,
+                                pageSize: 20,
+                                rId: methods.getUrlParam('id')
+                            }
+                            $.ajax({
+                                type: 'post',
+                                url: httpApi + '/elantra/pc/admin/regional-head/findCollection',
+                                data: param1,
+                                async: true,
+                            }).done(function (res) {
+                                if (res.code == 200) {
+                                    data.zhanDianList.value.push(...res.data);
+                                } else {
+                                    ElementPlus.ElMessage.error(res.msg)
+                                }
+                            })
+                        },
+
+                        //获取参数
+                        getUrlParam(name) {
+                            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+                            var paramName = window.location.search.substr(1).match(reg)
+                            if (paramName != null) {
+                                return decodeURIComponent(paramName[2]) //decodeURIComponent 处理中文乱码
+                            }
+                            return null
+                        },
+
+                        exportExcel() {
+                            const data1 = data.tableData.flatMap((item) => {
+                                return item.goodsInfos.map(info => {
+                                    return {
+                                        订单号: item.orderNo,
+                                        商品名称: info.goodsName,
+                                        商品数量: info.goodsNum,
+                                        手机号: item.phone,
+                                    };
+                                });
+                            });
+
+                            const ws = XLSX.utils.json_to_sheet(data1);
+                            const wb = XLSX.utils.book_new();
+                            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                            XLSX.writeFile(wb, '导出数据.xlsx');
+                        },
+
+                    }
+
+                    Vue.onMounted(() => {
+                        methods.initData()
+                        methods.getZd()
+                    });
+
+                    return { ...data, ...methods }
+                },
+            })
+            app.use(ElementPlus)
+
+            app.mount('#app')
+        }
+    </script>
+
+    <style>
+        #app {
+            margin: 20px;
+        }
+
+        .r_box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .lt-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .item_left {
+            flex-shrink: 0;
+        }
+
+        .s_box {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+    </style>
+</body>
+
+</html>
