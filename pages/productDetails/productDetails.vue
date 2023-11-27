@@ -40,7 +40,7 @@
 				</view>
 				<view class="item-txt">{{pi.content}}</view>
 				<view class="image-grid" v-if="pi.pic.length>0">
-				  <image v-for="(i,ind) in pi.pic" :key="ind" :src="i" mode="widthFix" class="image"></image>
+				  <image v-for="(i,ind) in pi.pic" :key="ind" :src="i" mode="aspectFill" class="image"></image>
 				</view>
 				<view class="item-gray">规格：默认</view>
 			</view>

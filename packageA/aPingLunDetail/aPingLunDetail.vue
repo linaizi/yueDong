@@ -23,7 +23,7 @@
 			
 			<p class="apd-p" v-if="infoData.content">{{infoData.content}}</p>
 			<view class="image-grid" v-if="infoData.pic.length>0">
-			  <image v-for="(i,ind) in infoData.pic" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(infoData.pics,ind)"></image>
+			  <image v-for="(i,ind) in infoData.pic" :key="ind" :src="i" mode="aspectFill" class="image" @click="getImgIndex(infoData.pics,ind)"></image>
 			</view>
 		</view>
 		
