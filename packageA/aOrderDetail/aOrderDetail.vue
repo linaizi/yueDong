@@ -30,7 +30,7 @@
 			</view>
 			<view class="p bet-p"><view class="p-lt">商品总价</view><view class="p-rt">￥{{infoData.goodsTotalAmount||''}}</view></view>
 			<view class="p bet-p" v-if="infoData.couponId"><view class="p-lt">优惠券</view><view class="p-rt p-rt-red">-￥{{infoData.couponDto.amount}}</view></view>
-			<view class="p bet-p"><view class="p-lt">运费</view><view class="p-rt">￥{{infoData.freightAmount||''}}</view></view>
+			<view class="p bet-p" v-if="infoData.freightAmount&&infoData.freightAmount>0"><view class="p-lt">运费</view><view class="p-rt">￥{{infoData.freightAmount||''}}</view></view>
 			<view class="p bet-p"><view class="p-lt1">订单总价</view><view class="p-rt1">￥{{infoData.payAmount||''}}</view></view>
 		</view>	
 		

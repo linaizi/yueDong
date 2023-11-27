@@ -244,7 +244,7 @@
 			onShareAppMessage(options){
 				var that = this;
 				var shareObj = {
-					title: this.shareCou.title || '紫荆洗鞋:专业洗鞋 修鞋 干洗衣服',        
+					title: this.shareCou.title || '跃动洗鞋:专业洗鞋 修鞋 干洗衣服',        
 					path: '/pages/getCou/getCou?id=' + this.shareCou.id + '&imgUrl=' + this.shareCou.bgImg,        // 默认是当前页面，必须是以‘/’开头的完整路径
 					imageUrl: this.shareCou.img || `${this.$BASE_URLS.FILE_BASE_URL}/a22373d4-fbb0-4fd5-bf45-f3d47e29f93f.jpg`, // 图片封面，本地文件路径、网络图片路，支持PNG及JPG，默认当前页面截图，显示图片长宽比是 5:4。
 				}
