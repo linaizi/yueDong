@@ -69,7 +69,7 @@
 					<view class="od-price">
 						<p>商品总价: <span>￥{{infoData.goodsTotalAmount}}</span></p>
 						<p v-if="infoData.couponId">优惠券: <span class="p-red">-￥{{infoData.couponDto.amount}}</span></p>
-						<p>运费: <span>￥{{infoData.freightAmount}}</span></p>
+						<p v-if="infoData.freightAmount&&infoData.freightAmount>0">运费: <span>￥{{infoData.freightAmount}}</span></p>
 					</view>
 					
 					<view class="od-allPrice"><span>合计: </span>￥{{infoData.payAmount}}</view>
@@ -91,7 +91,7 @@
 						<view class="qtBox">
 							<view class="qtBox-tt"><span class="tt-red">*</span>图片上传：</view>
 							<view class="image-grid">
-							  <image v-for="(i,ind) in infoData.pics" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(infoData.pics,ind)"></image>
+							  <image v-for="(i,ind) in infoData.pics" :key="ind" :src="i" mode="aspectFill" class="image" @click="getImgIndex(infoData.pics,ind)"></image>
 							</view>
 						</view>
 					</view>

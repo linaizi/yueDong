@@ -53,7 +53,7 @@
 	.swiper{
 		width:100%;
 		overflow: hidden;
-		height: 350upx;
+		height: 420upx;
 	}
 	.swt-img{
 		width: 100%;

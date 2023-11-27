@@ -29,6 +29,10 @@
 						<view class="title-lt">预约上门取鞋时间</view>
 						<view class="title-rt">{{handleTime(infoData.reservationTime)}}</view>
 					</view>
+					<view class="od-title" v-if="infoData.caddress&&Object.keys(infoData.caddress).length>0">
+						<view class="title-lt">代收点</view>
+						<view class="title-rt">{{infoData.caddress.shopName}}</view>
+					</view>
 				</view>
 				
 				<view class="odBox" v-if="infoData.goodsInfo">
@@ -47,7 +51,7 @@
 					
 					<view class="od-price">
 						<p>商品总价<span>￥{{infoData.goodsTotalAmount}}</span></p>
-						<p>运费  <span>￥{{infoData.freightAmount}}</span></p>
+						<p v-if="infoData.freightAmount&&infoData.freightAmount>0">运费<span>￥{{infoData.freightAmount}}</span></p>
 					</view>
 					
 					<view class="od-allPrice"><span>合计：</span>￥{{infoData.payAmount}}</view>
@@ -69,12 +73,12 @@
 							<view class="qtBox">
 								<view class="qtBox-tt">用户上传的图片：</view>
 								<view class="image-grid">
-								  <image v-for="(i,ind) in infoData.pics" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(infoData.pics,ind)"></image>
+								  <image v-for="(i,ind) in infoData.pics" :key="ind" mode="aspectFill" :src="i" class="image" @click="getImgIndex(infoData.pics,ind)"></image>
 								</view>
 							</view>
 						</view>
 						<template v-if="infoData.orderOperates">
-							<view class="od-qt" style="padding-bottom: 0;" v-for="(oot,ooind) in infoData.orderOperates" :key="ooind">
+							<view class="od-qt" style="padding: 0;" v-for="(oot,ooind) in infoData.orderOperates" :key="ooind">
 								<view class="qtBox" v-if="oot.remarks">
 									<view class="qtBox-tt">{{typeTxt(oot.type)}}备注：</view>
 									<view class="qtBox-txt">{{oot.remarks}}</view>
@@ -82,7 +86,7 @@
 								<view class="qtBox" v-if="oot.pic&&oot.pic.length>0">
 									<view class="qtBox-tt">{{typeTxt(oot.type)}}上传的图片：</view>
 									<view class="image-grid">
-									  <image v-for="(i,ind) in oot.pic" :key="ind" :src="i" mode="widthFix" class="image" @click="getImgIndex(oot.pic,ind)"></image>
+									  <image v-for="(i,ind) in oot.pic" :key="ind" :src="i" mode="aspectFill" class="image" @click="getImgIndex(oot.pic,ind)"></image>
 									</view>
 								</view>
 							</view>
@@ -121,6 +125,7 @@
 </template>
 
 <script>
+	import { debounce } from "@/common/throttle.js";
 	import { GCorderInfo,GCorderEdit } from '@/api/page/index.js'
 	import { rtStatus,handleTime } from '@/common/tool.js'
 	import izUploaderImg from '@/components/iz-uploader-img/iz-uploader-img.vue'
@@ -148,7 +153,6 @@
 			this.initData();
 		},
 		onReady() {
-			
 		},
 		methods: {
 			handleTime,
@@ -193,7 +197,7 @@
 				this.izUpImgs = e.urls
 			},
 			
-			subClick(){
+			subClick: debounce(function(){
 				this.listQuery.pics = this.izUpImgs.join(',');
 				
 				GCorderEdit(this.listQuery).then((res) => {
@@ -207,7 +211,7 @@
 						},1000)
 					}
 				})
-			},
+			},1000),
 			
 			copy(value){
 				uni.setClipboardData({
