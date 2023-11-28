@@ -216,6 +216,7 @@
 				},
 				loadStatus:'loading',  //加载样式：more-加载前样式，loading-加载中样式，nomore-没有数据样式
 				isLoadMore:false,  //是否加载中
+				isTJ:false,
 			}
 		},
 		onLoad(option) {
@@ -374,6 +375,12 @@
 					return;
 				}
 				
+				if(this.isTJ) return;
+				uni.showLoading({
+					title: '加载中'
+				});
+				this.isTJ = true;
+				
 				// if(this.imageValue[0].length==0){
 				// 	uni.showToast({title: '图片上传不能为空', icon:'none'});
 				// 	return;
@@ -398,6 +405,8 @@
 				
 				DSorderEdit(this.param).then((res) => {
 					if(res.code == 200){
+						uni.hideLoading()
+						this.isTJ = false;
 						uni.showToast({title: '提交成功', icon:'success'});
 						setTimeout(()=>{
 							uni.$emit('ERoleOdDetail');
@@ -405,7 +414,13 @@
 								delta: 1
 							})
 						},1000)
+					}else{
+						this.isTJ = false;
+						uni.hideLoading()
 					}
+				}).catch((err)=>{
+					this.isTJ = false;
+					uni.hideLoading()
 				})
 			},1000),
 			

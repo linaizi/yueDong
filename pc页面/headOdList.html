@@ -135,6 +135,7 @@
                         tableData: Vue.ref([]),
                         dataTime: Vue.ref(''),
 						loading: Vue.ref(false),
+						isOrder: Vue.ref(false),
                         total: Vue.ref(0),
                         stateList: [
                             { id: 0, label: '全部' },
@@ -246,9 +247,12 @@
                         },
 
                         exportExcel() {
+							if(data.isOrder.value) return;
+							data.isOrder.value = true;
+							
                             $.ajax({
                                 type: 'get',
-                                url: httpApi + '/elantra/pc/admin/order/exportExcel',
+                                url: httpApi + '/elantra/pc/admin/regional-head/order/exportExcel',
                                 data: data.queryData,
                                 async: true,
                             }).done(function (res) {
@@ -280,7 +284,8 @@
                                     const ws = XLSX.utils.json_to_sheet(data1);
                                     const wb = XLSX.utils.book_new();
                                     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-                                    XLSX.writeFile(wb, '导出数据.xlsx');
+                                    XLSX.writeFile(wb, '订单导出.xlsx');
+									data.isOrder.value = false;
                                 } else {
                                     ElementPlus.ElMessage.error(res.msg)
                                 }

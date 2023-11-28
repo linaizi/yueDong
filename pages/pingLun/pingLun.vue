@@ -31,6 +31,7 @@
 </template>
 
 <script>
+	import { debounce } from "@/common/throttle.js";
 	import { commentAdd } from '@/api/page/index.js'
 	export default {
 		
@@ -77,7 +78,7 @@
 				});
 			},
 			
-			subClick(){
+			subClick: debounce(function(){
 				if (this.type === 0) {
 					uni.showToast({ title: '请选择描述相符', icon: 'none' });
 					return;
@@ -113,7 +114,7 @@
 				      console.error('An error occurred:', error);
 				      // 处理请求错误
 				    });
-			},
+			},2000),
 			
 			// 获取上传状态
 			select(e){

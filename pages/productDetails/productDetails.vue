@@ -32,7 +32,7 @@
 		
 		<view class="pdBox" v-if="infoData.commentNum>0">
 			<view class="pd-title">商品评价({{infoData.commentNum}}) <span @click="toPj">查看全部 ></span></view>
-			<view class="pjItem" v-for="(pi,pid) in infoData.comments" :key="pid">
+			<view class="pjItem" v-for="(pi,pid) in infoData.comments.slice(0,3)" :key="pid">
 				<view class="item-top">
 					<image :src="pi.avatar" class="top-img"></image>
 					<p class="top-p">{{pi.nickName}}</p>

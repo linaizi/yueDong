@@ -143,6 +143,7 @@
 				},
 				infoData:{},
 				izUpImgs:[],
+				isTJ:false,
 			}
 		},
 		onLoad(option) {
@@ -193,6 +194,12 @@
 					return;
 				}
 				
+				if(this.isTJ) return;
+				uni.showLoading({
+					title: '加载中'
+				});
+				this.isTJ = true;
+				
 				const statusMapping = {
 					3: 1,
 					8: 2,
@@ -203,6 +210,8 @@
 				
 				orderEdit(this.listQuery).then((res) => {
 					if(res.code == 200){
+						uni.hideLoading()
+						this.isTJ = false;
 						uni.showToast({title: '提交成功', icon:'success'});
 						setTimeout(()=>{
 							uni.$emit('ERoleOdDetail');
@@ -210,7 +219,13 @@
 								delta: 1
 							})
 						},1000)
+					}else{
+						this.isTJ = false;
+						uni.hideLoading()
 					}
+				}).catch((err)=>{
+					this.isTJ = false;
+					uni.hideLoading()
 				})
 			},1000),
 			

@@ -120,6 +120,7 @@
                     const data = {
                         zhanDianList: Vue.ref([{ cid: 0, shopName: '全部' }]),
 						loading: Vue.ref(false),
+						isOrder: Vue.ref(false),
                         queryData: Vue.reactive({
                             pageNo: 1,
                             pageSize: 20,
@@ -234,6 +235,9 @@
                         },
 
                         exportExcel() {
+							if(data.isOrder.value) return;
+							data.isOrder.value = true;
+							
                             $.ajax({
                                 type: 'get',
                                 url: httpApi + '/elantra/pc/admin/order/exportExcel',
@@ -268,7 +272,8 @@
                                     const ws = XLSX.utils.json_to_sheet(data1);
                                     const wb = XLSX.utils.book_new();
                                     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-                                    XLSX.writeFile(wb, '导出数据.xlsx');
+									XLSX.writeFile(wb, '订单导出.xlsx');
+									data.isOrder.value = false;
                                 } else {
                                     ElementPlus.ElMessage.error(res.msg)
                                 }
