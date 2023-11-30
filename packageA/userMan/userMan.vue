@@ -35,7 +35,7 @@
 						<image :src="item.avatar" class="top-img"></image>
 						<view class="top-rt">
 							<view class="rt-name">
-								{{item.nickName}} <span class="n-g">{{item.levelName}}</span> 
+								{{item.level==3&&item.userAddress&&Object.keys(item.userAddress).length>0 ? item.userAddress.shopName : item.nickName}} <span class="n-g">{{item.levelName}}</span> 
 								<span class="n-g n6" v-if="item.level==2&&item.shopName">({{item.shopName}})</span>
 								<span class="n-g n6" v-if="item.level==3&&item.headName">({{item.headName}})</span>
 							</view>

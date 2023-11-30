@@ -11,6 +11,7 @@
 									<view class="item-rt">
 										<uni-data-select
 											placeholder="请选择站点" 
+											@change="change"
 											v-model="zdParam.cid" 
 											:localdata="cateData">
 										</uni-data-select>
@@ -93,7 +94,7 @@
 				],
 				zdyTime: [],
 				zdData: {},
-				cateData: {},
+				cateData: [],
 			}
 		},
 		onReady() {
@@ -101,6 +102,11 @@
 			this.subClick()
 		},
 		methods: {
+			change(e) {
+				if(!e){
+					this.zdParam.cid = 0
+				}
+			},
 			cateChange(){
 				this.zdyTime = []
 			},

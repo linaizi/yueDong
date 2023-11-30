@@ -162,7 +162,7 @@
 						this.cateData = res.data.map(option => {
 							return {
 								value: option.uid,
-								text: option.nickName,
+								text: option.userAddress&&option.userAddress.shopName ? option.userAddress.shopName : option.nickName,
 							};
 						});
 					}

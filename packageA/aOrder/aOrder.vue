@@ -177,8 +177,8 @@
 				moneColor:"#666",
 				
 				tmArr:['汇总','今日','昨日','7日','自定义'],
-				timeTxt: '汇总',
-				tmId:0,
+				timeTxt: '今日',
+				tmId:1,
 				datetimerange:[],
 				visibleIds: [], // 用于跟踪哪些项目的 "lt-more" 可见
 				staArr:[],
@@ -195,7 +195,7 @@
 					pageNo:1,
 					pageSize:10,
 					status:0,
-					type:0
+					type:1
 				},
 				list:[],
 				noDataShow:false,
