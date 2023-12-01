@@ -7,10 +7,10 @@
 		
 		<view class="aod-mume">
 			<view v-for="i in mumeArr.slice(0, 4)" :key="i.id" :class="['mume-item',{'mume-item-act':i.id==listQuery.status}]" @click="mumeClick(i)"> 
-				<span>{{i.name}}</span>
+				<span>{{i.name}}</span><span v-if="i.id==listQuery.status&&total!=0">({{total}})</span>
 			</view>
 			<view :class="['mume-item',{'mume-item-act':isActiveItem(listQuery.status)}]" @click="moneShow=!moneShow">
-				<span>{{mumeMone}}</span> <uni-icons type="bars" size="30rpx" :color="moneColor" ></uni-icons>
+				<span>{{mumeMone}}</span><span v-if="isActiveItem(listQuery.status)&&total!=0">({{total}})</span> <uni-icons type="bars" size="30rpx" :color="moneColor" ></uni-icons>
 			</view>
 			<view class="mone-list" v-if="moneShow">
 				<view class="list" v-for="item in mumeArr.slice(-10)" :key="item.id" @click="mumeClick(item)">{{item.name}}</view>
@@ -55,7 +55,7 @@
 						</view> -->
 					</view>
 					<view class="cz-rt">
-						<view class="rt-btn" @click.stop="openSta(item)">修改订单状态</view>
+						<!-- <view class="rt-btn" @click.stop="openSta(item)">修改订单状态</view> -->
 						<view class="rt-btn" v-if="item.status==12" @click.stop="TKSHclick(item,1)">同意</view>
 						<view class="rt-btn rt-btn1" v-if="item.status==12" @click.stop="TKSHclick(item,2)">拒绝</view>
 						<!-- <view class="rt-btn" @click="bzClick">备注</view> -->
@@ -113,7 +113,7 @@
 					 <view v-for="(t,i) in tmArr" :key="i" :class="['tm-item',{'tm-item-act':i==tmId}]" @click="tmClick(i)">{{t}}</view>
 				 </view>
 				 <view class="pp-timePk" v-if="tmId==4">
-					  <Datetime-Picker v-model="datetimerange" type="datetimerange" rangeSeparator="至" />
+					  <Datetime-Picker v-model="datetimerange" type="daterange" rangeSeparator="至" />
 				 </view>
 				 <view class="pp-btn">
 					 <view class="btn1" @click="tmClose">取消</view>
@@ -198,6 +198,7 @@
 					type:1
 				},
 				list:[],
+				total:0,
 				noDataShow:false,
 				//scroll-view
 				contentText:{
@@ -221,14 +222,16 @@
 		},
 		watch: {
 			datetimerange(newval) {
-				this.listQuery.beginTime = this.datetimerange[0]
-				this.listQuery.endTime = this.datetimerange[1]
+				this.listQuery.beginTime = this.datetimerange[0] + ' 00:00:00'
+				this.listQuery.endTime = this.datetimerange[1] + ' 23:59:59'
+				console.log(this.listQuery)
 			},
 		},
 		methods: {
 			initData(){
 				AorderPage(this.listQuery).then((res) => {
 					if(res.code == 200){
+						this.total = res.data.totalItems;
 						if(this.listQuery.pageNo<=res.data.totalPages){
 							this.noDataShow = false;
 							this.list.push(...res.data.data);
@@ -290,11 +293,11 @@
 				 this.tmId = this.listQuery.type;
 			},
 			tmYes(){
+				this.listQuery.type = this.tmId;
 				if(this.listQuery.type != 4){
 					this.listQuery.beginTime = undefined;
 					this.listQuery.endTime = undefined;
 				}
-				this.listQuery.type = this.tmId;
 				this.timeTxt = this.tmArr[this.listQuery.type];
 				this.$refs.timePopup.close();
 				this.fetchData()

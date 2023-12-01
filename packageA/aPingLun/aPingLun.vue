@@ -2,14 +2,13 @@
 	<view class="allBg flexBox">
 		<view class="rod-mume">
 			<view v-for="i in mumeArr" :key="i.id" :class="['mume-item',{'mume-item-act':i.id==listQuery.type}]" @click="mumeClick(i.id)">
-				<span>{{i.name}}</span>
+				<span>{{i.name}}</span><span v-if="i.id==listQuery.status&&total!=0">({{total}})</span>
 			</view>
 		</view>
 		<view class="tabBox">
 			<view :class="['tab',{'tab-act':listQuery.status == 1}]" @click="tabClick(1)">未回复</view>
 			<view :class="['tab',{'tab-act':listQuery.status == 2}]" @click="tabClick(2)">已回复</view>
 		</view>
-		
 		
 		<scroll-view scroll-y="true" lower-threshold="150" @scrolltolower="scrollLower" @scroll='fromTop' :scroll-top="scrollTop" class="boxScroll">
 			<view class="apl-main">
@@ -78,6 +77,7 @@
 					status:1,
 				},
 				list:[],
+				total:0,
 				noDataShow:false,
 				//scroll-view
 				contentText:{
@@ -166,6 +166,7 @@
 			initData() {
 				commentPage(this.listQuery).then((res) => {
 					if (res.code === 200) {
+						this.total = res.data.totalItems;
 					  if (this.listQuery.pageNo <= res.data.totalPages) {
 						  this.noDataShow = false;
 						this.list.push(...res.data.data);

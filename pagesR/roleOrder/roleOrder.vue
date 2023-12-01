@@ -146,20 +146,17 @@
 			this.level = option.level || UserInfo.level
 			this.listQuery.orderType = this.level == 3 ? 1 : '';
 			
-			if(option.level)
+			if(option.level){
 				this.initData()
+				this.getCount() //如果是工厂或者，要返回订单列表数量
+			}
 			else
 				this.mumeClick(1)
-			
-			this.getCount() //如果是工厂或者，要返回订单列表数量
 		},
 		onShow() {
 			let _that = this;
 			uni.$once('ERoleOdDetail',function(data){
 				_that.mumeClick(0)
-				if(_that.level==5){
-					_that.getCount()
-				}
 			})
 		},
 		computed: {
@@ -180,6 +177,8 @@
 				this.listQuery.status = id;
 				this.initData();
 				this.isSerch = false;
+				
+				this.getCount()
 			}),
 			
 			initData() {

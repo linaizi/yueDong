@@ -2,7 +2,7 @@
 	<view class="allBg flexBox">
 		<view class="rod-mume">
 			<view v-for="i in mumeArr" :key="i.id" :class="['mume-item',{'mume-item-act':i.id==listQuery.status}]" @click="mumeClick(i.id)">
-				<span>{{i.name}}</span>
+				<span>{{i.name}}</span><span v-if="i.id==listQuery.status&&total!=0">({{total}})</span>
 			</view>
 		</view>
 		<view class="tabBox">
@@ -121,6 +121,7 @@
 					type:2,
 				},
 				list:[],
+				total:0,
 				noDataShow:false,
 				//scroll-view
 				contentText:{
@@ -194,6 +195,7 @@
 			initData() {
 				AcouponList(this.listQuery).then((res) => {
 					if (res.code === 200) {
+						this.total = res.data.totalItems;
 					  if (this.listQuery.pageNo <= res.data.totalPages) {
 							this.noDataShow = false;
 							this.list.push(...res.data.data);

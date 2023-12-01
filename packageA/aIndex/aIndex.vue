@@ -106,7 +106,7 @@
 					{name:'今日', id:1},
 					{name:'昨天', id:2},
 					{name:'7日', id:3},
-					{name:'30日', id:4},
+					{name:'本月', id:4},
 				],
 				current: 1,
 				infoData:{},
@@ -143,6 +143,7 @@
 		},
 		onReady() {
 			this.initData()
+			this.getZd()
 		},
 		methods: {
 			initData(){
@@ -151,7 +152,9 @@
 						this.infoData = res.data;						
 					}
 				});
-				
+			},
+			
+			getZd(){
 				let param = {
 					pageNo: 1,
 					pageSize: 50,
