@@ -15,9 +15,14 @@
 				<view class="main-item" v-for="(item,index) in list" :key="index">
 					<view class="item-lt">
 						<view class="lt-top">
-							<p class="top-mon">券面额:￥<span class="mon-b">{{item.amount}}</span> </p>
+							<p class="top-mon">券面额:￥<span class="mon-b">{{item.amount}}</span> </p>		
 							<p class="top-p">(满{{item.conditionAmount}}元可用)</p>
 							<p class="top-r" v-if="item.ifStock">券已领完</p>
+						</view>
+						<view class="md-p2">
+							<span class="p2-span">券ID: {{item.id}}</span>
+							<span class="p2-span">券数量: {{item.totalNum||0}}</span>
+							<span class="p2-span">券已领取数量: {{item.limitNum||0}}</span>
 						</view>
 						<view class="md-p">优惠券领取时间：</view>
 						<view class="md-p1">{{item.possessStartTime}} - {{item.possessEndTime}}</view>
@@ -144,7 +149,8 @@
 		onShow() {
 			var _that = this;
 			uni.$once('addCou',function(data){
-				_that.initData()
+				_that.listQuery.status =  -1;
+				_that.mumeClick(2)
 			})
 		},
 		methods: {
