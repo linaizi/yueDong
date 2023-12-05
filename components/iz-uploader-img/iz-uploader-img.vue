@@ -138,7 +138,6 @@ export default {
   },
   methods: {
 	init(imgs){
-		// console.log('init',this.colsValue)
 		imgs.forEach((img) => {
 			this.addProperties(img, 6);
 		});
@@ -287,18 +286,40 @@ export default {
         this.$emit('addImage')
       } else {
         let checkNumber = this.number - this.imageList.length
-        uni.chooseImage({
-          count: checkNumber,
-		  sizeType:'original',
-          sourceType: ['album', 'camera'],
-          success: res => {
-            let count = checkNumber <= res.tempFilePaths.length ? checkNumber : res.tempFilePaths.length
-            for (let i = 0; i < count; i++) {
-              this.addProperties(res.tempFilePaths[i])
-            }
-			this.upload()
-          }
-        })
+		uni.chooseMedia({
+			count: checkNumber,
+			mediaType: 'image',
+			sourceType: ['album', 'camera'],
+			camera: 'back',
+			success: res => {
+				console.log('chooseMedia_success:',res)
+				let count = checkNumber <= res.tempFiles.length ? checkNumber : res.tempFiles.length
+				for (let i = 0; i < count; i++) {
+				  this.addProperties(res.tempFiles[i].tempFilePath)
+				}
+				this.upload()
+			},
+			fail(err){
+				console.log('chooseMedia_err:',err)
+			}
+		})
+		
+   //      uni.chooseImage({
+			// count: checkNumber,
+			// sizeType:'original',
+			// sourceType: ['album', 'camera'],
+			// success: res => {
+			// 	console.log('chooseMedia_success:',res)
+			// 	let count = checkNumber <= res.tempFilePaths.length ? checkNumber : res.tempFilePaths.length
+			// 	for (let i = 0; i < count; i++) {
+			// 	  this.addProperties(res.tempFilePaths[i])
+			// 	}
+			// 	this.upload()
+			// },
+			// fail(err){
+			// 	console.log('chooseMedia:',err)
+			// }
+   //      })
       }
     },
     addImage(image){

@@ -119,12 +119,12 @@
 			this.getList(); //获取分类
 			
 			//调试模式
-			// uni.setEnableDebug({
-			//     enableDebug: false
-			// })
+			uni.setEnableDebug({
+			    enableDebug: false
+			})
 			// uni.removeStorageSync('mid')
 			// setTimeout(()=>{
-			// 	uni.setStorageSync('mid', '352363557324487766263026736c56777a6a4d4d476c6c74232323237a70627a5a7a21676f322a785e724c5e5a48355e6852535735437457')
+			// 	uni.setStorageSync('mid', '352363557324487766263026736c56777a6a2523476c6c74232323237a70627a5a7a21676f322a785e724c5e5a48355e6852535735437457')
 			// },1000)
 			
 			wx.showShareMenu({

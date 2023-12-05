@@ -364,7 +364,6 @@
 			},
 			
 			change(e){
-				console.log('change',e.urls)
 				this.izUpImgs = e.urls
 			},
 			
