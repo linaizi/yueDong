@@ -204,6 +204,7 @@
 							
 				remark:'',
 				imageValue:[],
+				isTJ:false,
 			}
 		},
 		onLoad(option) {
@@ -313,11 +314,24 @@
 				
 				param.goodsTotalAmount = (param.goodsTotalAmount-0).toFixed(2)
 				
+				if(this.isTJ) return;
+				uni.showLoading({
+					title: '加载中'
+				});
+				this.isTJ = true;
+				
 				orderAdd(param).then((res) => {
 					if(res.code == 200){
 						this.wxPay(res.data)
+						this.isTJ = false;
+					}else{
+						this.isTJ = false;
+						uni.hideLoading()
 					}
-				});
+				}).catch((err)=>{
+					this.isTJ = false;
+					uni.hideLoading()
+				})
 			},1000),
 			
 			wxPay(data){

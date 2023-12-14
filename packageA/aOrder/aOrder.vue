@@ -55,7 +55,7 @@
 						</view> -->
 					</view>
 					<view class="cz-rt">
-						<!-- <view class="rt-btn" @click.stop="openSta(item)">修改订单状态</view> -->
+						<view v-if="item.type==2" class="rt-btn" @click.stop="openSta(item)">修改订单状态</view>
 						<view class="rt-btn" v-if="item.status==12" @click.stop="TKSHclick(item,1)">同意</view>
 						<view class="rt-btn rt-btn1" v-if="item.status==12" @click.stop="TKSHclick(item,2)">拒绝</view>
 						<!-- <view class="rt-btn" @click="bzClick">备注</view> -->
@@ -350,7 +350,19 @@
 			//修订订单状态事件
 			openSta(s){
 				this.staObj = s;
-				this.staArr = this.mumeArr.filter(item => item.id != 0 && item.id != s.status)
+				
+				let mumeArr = [
+					{name:'已付款', id:2 },					
+					{name:'厂家未取货', id:5 },
+					{name:'厂家已取货', id:6 },
+					{name:'代收点已收货', id:7 },
+					{name:'已完成', id:11 },
+					{name:'已关闭', id:16 },
+				];
+				this.staArr = mumeArr.filter(item => item.id != s.status)
+				
+				// this.staArr = this.mumeArr.filter(item => item.id != 0 && item.id != s.status)
+				
 				this.$refs.staPopup.open();
 			},
 			staClick(m){
