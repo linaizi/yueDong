@@ -373,8 +373,6 @@
 				this.$refs.staPopup.close();
 			},
 			staYes(){
-				console.log(this.staObj)
-				return;
 				uni.showModal({
 					title:"温馨提示",
 					content:"确定修改当前订单状态?",
