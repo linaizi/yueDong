@@ -360,9 +360,8 @@
 					{name:'已关闭', id:16 },
 				];
 				this.staArr = mumeArr.filter(item => item.id != s.status)
-				
+				this.staClick(0)
 				// this.staArr = this.mumeArr.filter(item => item.id != 0 && item.id != s.status)
-				
 				this.$refs.staPopup.open();
 			},
 			staClick(m){
@@ -374,6 +373,8 @@
 				this.$refs.staPopup.close();
 			},
 			staYes(){
+				console.log(this.staObj)
+				return;
 				uni.showModal({
 					title:"温馨提示",
 					content:"确定修改当前订单状态?",
