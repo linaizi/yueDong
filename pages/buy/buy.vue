@@ -2,12 +2,16 @@
 	<view class="allBg">
 		<view class="topBox">
 			<view class="tab-t">
-				<view :class="['t-item','t-item1']" @click="tabClick(2)">
+				<!-- <view :class="['t-item','t-item1']" @click="tabClick(2)">
 					<image :src="FILE_BASE_URL + '/2dcf36c4-bdad-4c47-851b-c545b2c17684.png'" v-if="tabNum==2" class="t-img1"></image>
 					到店服务
+				</view> -->
+				<view :class="['t-item','t-item1']" @click="tabClick(1)">
+					<image :src="FILE_BASE_URL + '/05564c5d-5f46-4901-91ae-bb664f4ba272.png'" v-if="tabNum==1" class="t-img1"></image>
+					上门取送
 				</view>
 				
-			<!-- 	<view :class="['t-item',{'t-item-lt':tabNum==2}]" @click="tabClick(2)"><image :src="FILE_BASE_URL + '/2dcf36c4-bdad-4c47-851b-c545b2c17684.png'" v-if="tabNum==2" class="t-img1"></image>到店服务</view>
+				<!-- <view :class="['t-item',{'t-item-lt':tabNum==2}]" @click="tabClick(2)"><image :src="FILE_BASE_URL + '/2dcf36c4-bdad-4c47-851b-c545b2c17684.png'" v-if="tabNum==2" class="t-img1"></image>到店服务</view>
 				<view :class="['t-item',{'t-item-rt':tabNum==1}]" @click="tabClick(1)"><image :src="FILE_BASE_URL + '/05564c5d-5f46-4901-91ae-bb664f4ba272.png'" v-if="tabNum==1" class="t-img2"></image>上门取送</view>
 			 -->
 			</view>
@@ -176,7 +180,7 @@
 				formData:{},
 				goodsData:{},
 				lotn:{},	//当前定位
-				tabNum:2,
+				tabNum:1,
 				userAddr:{},	//用户地址
 				addrList:[],	//页面显示的代收点
 				addrList1:[],	//到店服务获取到的代收点数据
@@ -215,10 +219,9 @@
 			  return acc + item.goodsNum;
 			}, 0);
 			this.getAddr();	//获取用户地址
-			this.getLocation() //获取当前位置
 			this.getCoupon(2)	//获取用户不可用优惠券
 			this.getCoupon(1)	//获取用户优惠券
-			this.getYunFei(goodsNum)
+			this.getYunFei(goodsNum) //获取商品运费
 			
 			if(uni.getStorageSync('userAddr')){
 				this.formData = JSON.parse(uni.getStorageSync('userAddr'))
@@ -245,7 +248,7 @@
 			})
 			uni.$once('isSto',function(data){
 				_that.addrList.unshift(JSON.parse(data))
-				console.log(JSON.parse(data))
+				console.log("isStodata:",JSON.parse(data))
 				console.log(_that.addrList)
 			})
 		},
@@ -386,10 +389,17 @@
 						this.userAddr = res.data[0];
 						if(res.data.length>0){
 							this.hasAddr = true;
+							this.lotn = {
+								n: this.userAddr.n,
+								e: this.userAddr.e
+							}
+							this.getList()
 						}else{
+							console.log(1111)
 							this.hasAddr = false;
 							this.addrList2 = [];
 							this.addrList = [];
+							this.getLocation() //获取当前位置
 						}
 					}
 				});
