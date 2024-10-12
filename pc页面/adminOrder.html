@@ -49,6 +49,10 @@
                     <el-option v-for="item in zhanDianList" :key="item.cid" :label="item.shopName" :value="item.cid"></el-option>
                 </el-select>
             </div>
+			<div class="lt-item">
+			    <div class="item_left">订单来源：</div>
+			    <el-input placeholder="请输入要查询的订单来源" v-model.trim="queryData.customContent"></el-input>
+			</div>
             <div class="lt-item">
                 <div class="item_left">订单状态：</div>
                 <el-select v-model="queryData.status" placeholder="请选择">
@@ -139,6 +143,7 @@
                             uid: '',
                             beginTime: '',
                             endTime: '',
+                            customContent: '',
                         }),
                         tableData: Vue.ref([]),
                         dataTime: Vue.ref(''),
