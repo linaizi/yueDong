@@ -193,7 +193,7 @@
 					case 5:
 						uni.navigateToMiniProgram({
 								appId: "wx43e14bd2e509b8b6",
-								path: 'pages/index/index',
+								path: 'pages/springboard/index',
 								success(res) {
 									console.log(res);
 								},
