@@ -490,6 +490,7 @@
 			//时间选择 关闭事件
 			handelClose(data){  
 				this.timeShow = false; 
+				if(!data) return;
 				console.log(data)
 				this.yyTimeOld = data.dateRange;
 				

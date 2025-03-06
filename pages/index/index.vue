@@ -82,13 +82,14 @@
 				swpArr: [
 					this.$BASE_URLS.FILE_BASE_URL+'/b7c4e52a-9c62-410c-929b-be22971c6d7e.jpg',
 					this.$BASE_URLS.FILE_BASE_URL+'/4f994c2a-b39a-483a-b694-1b2c06d7d0b8.jpg',
-					this.$BASE_URLS.FILE_BASE_URL+'/8010c318-07e3-4a2f-a229-f5f0c8a38e2c.png',
+					this.$BASE_URLS.FILE_BASE_URL+'/32c1f4d6-b9dd-4055-9f3e-45b235746205.jpg',
 				],
 				menuArr: [
 					{name:"门店列表", id:0, img:this.$BASE_URLS.FILE_BASE_URL+"/c8d70c4c-0aac-490d-ac99-f67e105b2a81.png"},
 					{name:"使用帮助", id:1, img:this.$BASE_URLS.FILE_BASE_URL+"/a46eb486-bce0-42a2-add2-dfc0a4275824.png"},
 					{name:"客服微信", id:4, img:this.$BASE_URLS.FILE_BASE_URL+"/24d00cec-9b41-414f-ac8a-4623cef92e55.png"},
 					{name:"联系客服", id:3, img:this.$BASE_URLS.FILE_BASE_URL+"/db163cb0-39a9-44e0-bf95-bdb4bcf73558.png"},
+					{name:"快点星球", id:5, img:this.$BASE_URLS.FILE_BASE_URL+"/25453b1d-0bea-4f6e-9576-e91c2407d768.jpg"},
 				],
 				
 				goodParams:{
@@ -188,6 +189,18 @@
 						break;
 					case 4:
 						this.$refs.kfchild.$refs.kfPopup.open()
+						break;
+					case 5:
+						uni.navigateToMiniProgram({
+								appId: "wx43e14bd2e509b8b6",
+								path: 'pages/index/index',
+								success(res) {
+									console.log(res);
+								},
+								fail: err => {
+									console.log(err);
+								}
+							})
 						break;
 				} 		
 				
