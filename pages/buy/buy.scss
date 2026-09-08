@@ -70,15 +70,15 @@
 		padding: 0 24upx;
 		height: 190upx;
 		border-radius: 0 0 18upx 18upx;
-		/deep/.uni-forms-item--border{
+		::v-deep .uni-forms-item--border{
 			padding: 14upx 0;
 		}
-		/deep/.uni-forms-item__label{
+		::v-deep .uni-forms-item__label{
 			font-size: 30upx;
 			color:#333;
 			padding-left: 16upx;
 		}
-		/deep/.uni-forms-item__content{
+		::v-deep .uni-forms-item__content{
 			@include dflex(center,flex-end);
 		}
 		.tab-ipt{

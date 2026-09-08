@@ -135,10 +135,10 @@ page{
 }
 
 // 导航栏
-.uni-navbar--border /deep/{
+::v-deep .uni-navbar--border {
 	border:none!important;
 }
-.uni-nav-bar-text /deep/{
+::v-deep .uni-nav-bar-text{
 	font-size: 30upx!important;
 }
 		

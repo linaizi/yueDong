@@ -88,7 +88,7 @@
 .pp-iptBox{
 	width: 70%;
 	margin: 0 auto;
-	@include dflex(center,center)
+	@include dflex(center,center);
 	.pp-ipt{
 		height: 70upx;
 		padding-left: 20upx;

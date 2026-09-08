@@ -37,7 +37,7 @@
 				height: 160upx;
 				margin-left: 28upx;
 				flex:1;
-				@include dflex(space-between,null)
+				@include dflex(space-between,null);
 				flex-direction: column;
 				.mid-name{
 					font-size: 28upx;

@@ -82,14 +82,15 @@
 				swpArr: [
 					this.$BASE_URLS.FILE_BASE_URL+'/b7c4e52a-9c62-410c-929b-be22971c6d7e.jpg',
 					this.$BASE_URLS.FILE_BASE_URL+'/4f994c2a-b39a-483a-b694-1b2c06d7d0b8.jpg',
-					this.$BASE_URLS.FILE_BASE_URL+'/32c1f4d6-b9dd-4055-9f3e-45b235746205.jpg',
+					this.$BASE_URLS.FILE_BASE_URL+'/b6f8a101-5490-4e4a-af45-df46dbd4d6e9.png',
+					this.$BASE_URLS.FILE_BASE_URL+'/7a2974e9-31eb-4fac-87ae-3adc94e881a9.png',
 				],
 				menuArr: [
 					{name:"门店列表", id:0, img:this.$BASE_URLS.FILE_BASE_URL+"/c8d70c4c-0aac-490d-ac99-f67e105b2a81.png"},
 					{name:"使用帮助", id:1, img:this.$BASE_URLS.FILE_BASE_URL+"/a46eb486-bce0-42a2-add2-dfc0a4275824.png"},
 					{name:"客服微信", id:4, img:this.$BASE_URLS.FILE_BASE_URL+"/24d00cec-9b41-414f-ac8a-4623cef92e55.png"},
 					{name:"联系客服", id:3, img:this.$BASE_URLS.FILE_BASE_URL+"/db163cb0-39a9-44e0-bf95-bdb4bcf73558.png"},
-					{name:"快点星球", id:5, img:this.$BASE_URLS.FILE_BASE_URL+"/25453b1d-0bea-4f6e-9576-e91c2407d768.jpg"},
+					{name:"快点星球", id:5, img:this.$BASE_URLS.FILE_BASE_URL+"/a34a0a5d-e1e2-4ff4-910b-1a89877ff89c.jpg"},
 				],
 				
 				goodParams:{
@@ -120,9 +121,9 @@
 			this.getList(); //获取分类
 			
 			//调试模式
-			uni.setEnableDebug({
-			    enableDebug: false
-			})
+			// uni.setEnableDebug({
+			//     enableDebug: false
+			// })
 			// uni.removeStorageSync('mid')
 			// setTimeout(()=>{
 			// 	uni.setStorageSync('mid', '352363557324487766263026736c56777a6a2523476c6c74232323237a70627a5a7a21676f322a785e724c5e5a48355e6852535735437457')

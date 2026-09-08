@@ -170,7 +170,7 @@
 				.foot-lt{
 					font-size: 28upx;
 					font-weight: bold;
-					@include dflex(null,null)
+					@include dflex(null,null);
 					p{
 						margin-left: 12upx;
 						font-weight: normal;

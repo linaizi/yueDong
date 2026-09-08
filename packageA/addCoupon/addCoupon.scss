@@ -2,7 +2,7 @@
 .addSp-form{
 	background: #fff;
 	padding: 30upx 28upx;
-	/deep/.uni-forms-item{
+	::v-deep .uni-forms-item{
 		.uni-forms-item__content{
 			@include dflex(null,center);
 		}

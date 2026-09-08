@@ -50,15 +50,15 @@
 			@include dflex(space-between,center);
 			flex:1;
 			.rt-red{ color: #FF3445; }
-			/deep/.uni-select__input-text{
+			::v-deep .uni-select__input-text{
 				font-size: 28upx;
 				color:#333;
 			}
-			/deep/.uni-select__input-placeholder{
+			::v-deep .uni-select__input-placeholder{
 				font-size: 28upx;
 				color:#666;
 			}
-			/deep/.uni-select{
+			::v-deep .uni-select{
 				border: none;
 				width:490upx;
 			}
